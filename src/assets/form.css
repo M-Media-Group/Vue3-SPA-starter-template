@@ -1,0 +1,28 @@
+/* Any invalid form should automatically make the submit button disabled */
+/* form:invalid button[type="submit"] {
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.5;
+} */
+
+/* Any invalid */
+:where(input, select, textarea):not([type=checkbox], [type=radio], [type=date], [type=datetime-local], [type=month], [type=time], [type=week], :placeholder-shown, :focus):invalid {
+  background-image: var(--icon-invalid);
+  padding-right: calc(var(--form-element-spacing-horizontal) + 1.5rem) !important;
+  padding-left: var(--form-element-spacing-horizontal);
+  -webkit-padding-start: var(--form-element-spacing-horizontal) !important;
+  padding-inline-start: var(--form-element-spacing-horizontal) !important;
+  -webkit-padding-end: calc(var(--form-element-spacing-horizontal) + 1.5rem) !important;
+  padding-inline-end: calc(var(--form-element-spacing-horizontal) + 1.5rem) !important;
+  background-position: center right .75rem;
+  background-size: 1rem auto;
+  background-repeat: no-repeat;
+}
+
+:where(input, select, textarea):not(:placeholder-shown, :focus):invalid {
+  --border-color: var(--form-element-invalid-border-color);
+}
+
+:where(input, select, textarea):not(:placeholder-shown, :focus):invalid + small {
+  color: var(--form-element-invalid-border-color);
+}
