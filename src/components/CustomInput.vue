@@ -18,7 +18,6 @@ defineProps<{
         id="email"
         name="email"
         placeholder="Email address"
-        v-model="email"
         required
       />
       <div class="suffix">

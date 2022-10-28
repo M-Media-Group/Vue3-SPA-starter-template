@@ -69,12 +69,6 @@ describe("Base Button", () => {
         },
       },
     });
-
-    // The submit button should not be disabled
-    // @todo, according the the HTML spec the attribute shouldnt even exist on the element
-    expect(wrapper.find("button").attributes("disabled")).toBeFalsy();
-    // expect(wrapper.find("button").attributes("disabled")).toBeUndefined();
-
     // Submit the form
     wrapper.find("form").trigger("submit");
 
@@ -161,5 +155,19 @@ describe("Base Button", () => {
 
     // Expect the submit button to be disabled
     expect(wrapper.find("button").attributes("disabled")).toBeDefined();
+  });
+
+  it("is does not disable the submit button by default", () => {
+    const wrapper = mount(BaseForm, {
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub,
+        },
+      },
+    });
+
+    // Expect the submit button to be disabled
+    // @todo, according the the HTML spec the attribute shouldnt even exist on the element
+    expect(wrapper.find("button").attributes("disabled")).toBeFalsy();
   });
 });
