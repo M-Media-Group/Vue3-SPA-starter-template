@@ -24,12 +24,6 @@ export const useUserStore = defineStore("user", () => {
     ) {
       isAuthenticated.value = true;
       user.value = await response.json();
-      console.log(
-        "Called response ok",
-        response,
-        user.value,
-        isAuthenticated.value
-      );
     }
 
     isLoading.value = false;
