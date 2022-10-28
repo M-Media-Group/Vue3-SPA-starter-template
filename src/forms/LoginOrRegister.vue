@@ -79,7 +79,7 @@ const login = async () => {
   });
 
   if (response.ok) {
-    router.push("/dashboard");
+    router.push("/");
   } else {
     baseForm.value.setInputErrors({
       password: "Invalid email or password",
@@ -155,7 +155,7 @@ const register = async () => {
   } else {
     errorMessage.value = "";
     // Redirect to the dashboard
-    router.push("/dashboard");
+    router.push("/");
   }
 };
 

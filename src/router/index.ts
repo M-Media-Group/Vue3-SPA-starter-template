@@ -17,16 +17,25 @@ const router = createRouter({
       path: "/login",
       name: "login",
       component: LoginView,
+      meta: {
+        middleware: ["guest"],
+      },
     },
     {
       path: "/sign-up",
       name: "sign-up",
       component: LoginView,
+      meta: {
+        middleware: ["guest"],
+      },
     },
     {
       path: "/forgot-password",
       name: "forgot-password",
       component: ResetPasswordVue,
+      meta: {
+        middleware: ["guest"],
+      },
     },
     {
       path: "/confirm-email",
@@ -51,9 +60,12 @@ const router = createRouter({
 router.beforeEach(async (to, from) => {
   // The the to.meta.middleware value so Typescript knows its format
   const middleware = to.meta.middleware as string[] | undefined;
-  // if the route has auth in its middleware array
-  if (middleware && middleware.includes("auth")) {
-    const store = useUserStore();
+  const store = useUserStore();
+
+  if (
+    middleware &&
+    (middleware.includes("auth") || middleware.includes("guest"))
+  ) {
     if (store.isLoading) {
       await new Promise((resolve) => {
         const interval = setInterval(() => {
@@ -67,6 +79,10 @@ router.beforeEach(async (to, from) => {
     if (!store.attemptedToFetchUser) {
       await store.getUser();
     }
+  }
+
+  // if the route has auth in its middleware array
+  if (middleware && middleware.includes("auth")) {
     // if not, redirect to the login page
     if (!store.isAuthenticated) {
       return {
@@ -77,10 +93,8 @@ router.beforeEach(async (to, from) => {
       };
     }
   } else if (middleware && middleware.includes("guest")) {
-    // check if the user is authenticated
-    const isAuthenticated = false;
     // if so, redirect to the home page
-    if (isAuthenticated) {
+    if (store.isAuthenticated) {
       return {
         name: "home",
       };

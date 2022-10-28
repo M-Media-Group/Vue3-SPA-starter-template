@@ -1,3 +1,46 @@
+describe("Guest auth pages redirect to home when logged in", () => {
+  beforeEach(() => {
+    cy.intercept(
+      {
+        method: "GET", // Route all GET requests
+        url: "/api/user", // that have a URL that matches '/users/*'
+      },
+      {
+        body: {
+          id: 1,
+          username: "Michał",
+          name: null,
+          surname: null,
+          email: "hello@test.com",
+          email_verified_at: "2020-04-27 20:23:57",
+          avatar: null,
+          seen_at: "2022-10-27 20:10:14",
+          created_at: "2019-05-18T12:52:32.000000Z",
+          updated_at: "2022-10-27T18:10:14.000000Z",
+          description: "I’m the founder",
+          is_public: false,
+        },
+      }
+    ).as("getUser");
+  });
+
+  it("Redirects home from login if the user is already authenticated", () => {
+    cy.visit("/login");
+    // The path should be just "/"
+    cy.location("pathname").should("eq", "/");
+  });
+  it("Redirects home from register if the user is already authenticated", () => {
+    cy.visit("/sign-up");
+    // The path should be just "/"
+    cy.location("pathname").should("eq", "/");
+  });
+  it("Redirects home from password-reset if the user is already authenticated", () => {
+    cy.visit("/forgot-password");
+    // The path should be just "/"
+    cy.location("pathname").should("eq", "/");
+  });
+});
+
 describe("Login", () => {
   // Before each, we expect a <form> element to exist
   // with a <button> element inside of it.
@@ -752,7 +795,7 @@ describe("Reset password", () => {
   });
 });
 
-describe.only("Confirm email", () => {
+describe("Confirm email", () => {
   it("Redirects to login when unauthenticated", () => {
     cy.visit("/confirm-email");
     cy.url().should("include", "/login");
@@ -817,5 +860,8 @@ describe.only("Confirm email", () => {
     cy.wait("@resendEmail").then((interception) => {
       expect(interception.response?.statusCode).to.equal(202);
     });
+
+    // There should be a success message
+    cy.get(".success").should("be.visible");
   });
 });
