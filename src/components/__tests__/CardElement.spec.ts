@@ -63,4 +63,69 @@ describe("HelloWorld", () => {
     // The footer should contain the text "Footer"
     expect(wrapper.find("footer").text()).toBe("Footer");
   });
+
+  it("shows a card title when one is passed", () => {
+    const wrapper = mount(CardElement, {
+      props: {
+        title: "Hello",
+      },
+    });
+
+    // There should be a title since we pass it into the props. Find the text
+    // inside the header element
+    expect(wrapper.find("header").text()).toContain("Hello");
+  });
+
+  it("shows a card subtitle when one is passed", () => {
+    const wrapper = mount(CardElement, {
+      props: {
+        title: "Hello",
+        subtitle: "subtitle",
+      },
+    });
+
+    // There should be a title since we pass it into the props. Find the text
+    // inside the header element
+    expect(wrapper.find("header").text()).toContain("subtitle");
+  });
+
+  it("shows images when passed", () => {
+    const wrapper = mount(CardElement, {
+      props: {
+        title: "Hello",
+        subtitle: "subtitle",
+        images: [
+          {
+            src: "https://picsum.photos/200/300",
+            alt: "alt",
+          },
+        ],
+      },
+    });
+
+    // There should be an image since we pass it into the props. Find the image
+    // inside the wrapper
+    expect(wrapper.find("img").exists()).toBe(true);
+
+    // The image should have the correct src
+    expect(wrapper.find("img").attributes("src")).toBe(
+      "https://picsum.photos/200/300"
+    );
+  });
+
+  it("shows body content when passed to default slot", () => {
+    const wrapper = mount(CardElement, {
+      props: {
+        title: "Hello",
+        subtitle: "subtitle",
+      },
+      slots: {
+        default: "Body content",
+      },
+    });
+
+    // There should be a body since we pass it into the
+    // default slot. Find the text inside the wrapper
+    expect(wrapper.text()).toContain("Body content");
+  });
 });

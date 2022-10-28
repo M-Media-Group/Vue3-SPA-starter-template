@@ -3,7 +3,7 @@ import { describe, it, expect } from "vitest";
 import { mount, RouterLinkStub } from "@vue/test-utils";
 import BaseForm from "../BaseForm.vue";
 
-describe("Base Button", () => {
+describe("Base Form", () => {
   it("renders a form element", () => {
     const wrapper = mount(BaseForm, {
       global: {
@@ -141,7 +141,7 @@ describe("Base Button", () => {
     expect(wrapper.emitted("submit")).toBeFalsy();
   });
 
-  it("disables the submit button when disabled is passed", () => {
+  it("disables the submit button when the disabled attribute is passed", () => {
     const wrapper = mount(BaseForm, {
       props: {
         disabled: true,

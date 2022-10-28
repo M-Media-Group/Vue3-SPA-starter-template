@@ -5,7 +5,9 @@ const user = useUserStore();
 </script>
 <template>
   <nav>
-    <div class="logo">Scan & Paddle</div>
+    <ul>
+      <li><strong>Scan & Paddle</strong></li>
+    </ul>
     <ul>
       <template v-if="user.isAuthenticated">
         <li>

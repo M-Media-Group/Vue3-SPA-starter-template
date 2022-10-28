@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import BaseButton from "@/components/BaseButton.vue";
 import router from "@/router";
+import { useUserStore } from "@/stores/user";
 import { nextTick, ref } from "vue";
 import BaseForm from "./BaseForm.vue";
+
+const userStore = useUserStore();
 
 // Email, password, and remember me
 const email = ref("");
@@ -25,62 +28,20 @@ const baseForm = ref();
 
 // The check email function
 const checkEmail = async () => {
-  // Check if the email is valid
-  if (!email.value) {
-    errorMessage.value = "Please enter an email";
-    return;
-  }
-
   // Check if the email is already in use
-  const response = await fetch("/email-exists/" + email.value, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await userStore.checkEmail(email.value);
+  isRegistering.value = !response;
 
-  //   The API responds with no content and with either a 200 or 404 status code
-  if (response.ok) {
-    isRegistering.value = false;
-  } else if (response.status === 404) {
-    isRegistering.value = true;
-  } else {
-    alert("Uh oh");
-  }
   errorMessage.value = "";
   checkedEmail.value = true;
 };
 
 // The login function
 const login = async () => {
-  // Check if the email is valid
-  if (!email.value) {
-    errorMessage.value = "Please enter an email";
-    return;
-  }
-
-  // Check if the password is valid
-  if (!password.value) {
-    errorMessage.value = "Please enter a password";
-    return;
-  }
-
   // Check if the email is already in use
-  const response = await fetch("/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      email: email.value,
-      password: password.value,
-      rememberMe: rememberMe.value,
-    }),
-  });
+  const response = await userStore.login(email.value, password.value);
 
-  if (response.ok) {
-    router.push("/");
-  } else {
+  if (response === false) {
     baseForm.value.setInputErrors({
       password: "Invalid email or password",
     });
@@ -92,50 +53,20 @@ const login = async () => {
 
 // The register function
 const register = async () => {
-  // Check if the email is valid
-  if (!email.value) {
-    errorMessage.value = "Please enter an email";
-    return;
-  }
-
-  // Check if the password is valid
-  if (!password.value) {
-    errorMessage.value = "Please enter a password";
-    return;
-  }
-
-  // Check if the name is valid
-  if (!name.value) {
-    errorMessage.value = "Please enter a name";
-    return;
-  }
-
-  // Check if the surname is valid
-  if (!surname.value) {
-    errorMessage.value = "Please enter a surname";
-    return;
-  }
-
   // Check if the email is already in use
-  const response = await fetch("/register", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      email: email.value,
-      password: password.value,
-      name: name.value,
-      surname: surname.value,
-    }),
-  });
+  const response = await userStore.register(
+    email.value,
+    password.value,
+    name.value,
+    surname.value
+  );
 
   // const data = await response.json();
 
-  if (!response.ok) {
+  if (response !== true) {
     // If the response has a body with json
-    if (response.headers.get("Content-Type")?.includes("application/json")) {
-      const data = await response.json();
+    if (response.data) {
+      const data = await response.data;
 
       // If in the data there is errors.email, return to the first screen by setting checkedEmail to false
       if (data.errors.email) {

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import BaseButton from "@/components/BaseButton.vue";
 import router from "@/router";
+import { useUserStore } from "@/stores/user";
 import { nextTick, ref } from "vue";
 import BaseForm from "./BaseForm.vue";
 
@@ -14,24 +15,16 @@ const errorMessage = ref("");
 
 const baseForm = ref();
 
+const userStore = useUserStore();
 // The submit function. If there is just the email, check if the email is valid. If it is not, set the register mode. If it is, set the login mode.
 const submitForm = async () => {
-  // Check if the email is valid
-  if (!email.value) {
-    errorMessage.value = "Please enter an email";
-    return;
+  const response = await userStore.sendPasswordResetEmail(email.value);
+
+  if (!response) {
+    success.value = false;
+    return false;
   }
 
-  // Submit a reset password
-  const response = await fetch("/forgot-password", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      email: email.value,
-    }),
-  });
   success.value = response.ok;
 };
 </script>

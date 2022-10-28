@@ -1,22 +1,19 @@
 <script setup lang="ts">
 import CardElement from "@/components/CardElement.vue";
 import BaseForm from "@/forms/BaseForm.vue";
+import { useUserStore } from "@/stores/user";
 import { ref } from "vue";
 
 const emailSent = ref(false);
 
+const userStore = useUserStore();
+
 const resendEmail = async () => {
   // Check if the email is already in use
-  const response = await fetch("/email/verification-notification", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      email: null,
-    }),
-  });
-
+  const response = await userStore.resendEmailConfirmation();
+  if (!response) {
+    return;
+  }
   if (response.ok) {
     emailSent.value = true;
   } else {

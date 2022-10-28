@@ -18,15 +18,27 @@ const router = createRouter({
       name: "login",
       component: LoginView,
       meta: {
-        middleware: ["guest"],
+        middleware: ["guest", "dontRedirect"],
       },
     },
+    // A logout route that just calls the logout on userStore, then redirects to login
+    {
+      path: "/logout",
+      name: "logout",
+      beforeEnter: async (to, from, next) => {
+        const store = useUserStore();
+        await store.logout();
+        next({ name: "login" });
+      },
+      component: LoginView,
+    },
+
     {
       path: "/sign-up",
       name: "sign-up",
       component: LoginView,
       meta: {
-        middleware: ["guest"],
+        middleware: ["guest", "dontRedirect"],
       },
     },
     {
@@ -41,7 +53,6 @@ const router = createRouter({
       path: "/confirm-email",
       name: "confirm-email",
       component: ConfirmEmailView,
-      // requires auth
       meta: {
         middleware: ["auth"],
       },
@@ -61,10 +72,11 @@ router.beforeEach(async (to, from) => {
   // The the to.meta.middleware value so Typescript knows its format
   const middleware = to.meta.middleware as string[] | undefined;
   const store = useUserStore();
-
   if (
     middleware &&
-    (middleware.includes("auth") || middleware.includes("guest"))
+    (middleware.includes("auth") ||
+      middleware.includes("guest") ||
+      middleware.includes("confirmed-email"))
   ) {
     if (store.isLoading) {
       await new Promise((resolve) => {
@@ -92,16 +104,18 @@ router.beforeEach(async (to, from) => {
         },
       };
     }
-  } else if (middleware && middleware.includes("guest")) {
+  }
+  if (middleware && middleware.includes("guest")) {
     // if so, redirect to the home page
     if (store.isAuthenticated) {
       return {
         name: "home",
       };
     }
-  } else if (middleware && middleware.includes("confirmed-email")) {
+  }
+  if (middleware && middleware.includes("confirmed-email")) {
     // check if the user has confirmed their email
-    const hasConfirmedEmail = false;
+    const hasConfirmedEmail = store.user?.email_verified_at !== null;
     // if not, redirect to the confirm email page
     if (!hasConfirmedEmail) {
       return {
@@ -111,6 +125,15 @@ router.beforeEach(async (to, from) => {
         },
       };
     }
+  }
+  // // Finally, if there is a redirect query param, redirect to that
+  if (
+    to.query.redirect &&
+    !(middleware && middleware.includes("dontRedirect"))
+  ) {
+    return {
+      name: to.query.redirect as string,
+    };
   }
 });
 
