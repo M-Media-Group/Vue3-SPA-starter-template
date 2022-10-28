@@ -1,27 +1,20 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from "vue-router";
-import HelloWorld from "./components/HelloWorld.vue";
+import { RouterView } from "vue-router";
+import NavBar from "./components/NavBar.vue";
+import { useUserStore } from "./stores/user";
+
+// Using the store, attempt to get the current user
+const user = useUserStore();
+if (!user.attemptedToFetchUser) {
+  user.getUser();
+}
+
+// Hook into before route enter to check if the user is authenticated
 </script>
 
 <template>
-  <header>
-    <img
-      alt="Vue logo"
-      class="logo"
-      src="@/assets/logo.svg"
-      width="125"
-      height="125"
-    />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <NavBar />
+  <main>
+    <RouterView />
+  </main>
 </template>

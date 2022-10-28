@@ -1,4 +1,4 @@
-describe("Authentication works", () => {
+describe("Login", () => {
   // Before each, we expect a <form> element to exist
   // with a <button> element inside of it.
   beforeEach(() => {
@@ -33,7 +33,7 @@ describe("Authentication works", () => {
         body: {
           message: "The given data was invalid.",
           errors: {
-            email: ["These credentials do not match our records."],
+            email: ["This email is not formatted correctly."],
           },
         },
       }
@@ -83,6 +83,31 @@ describe("Authentication works", () => {
     // cy.contains("Please enter your email address");
   });
 
+  it("Fail to login with invalid email", () => {
+    // This is actually a valid email when just relying on the type="email" of an input, so we need to add a pattern and here we test for that
+    cy.get("input[type=email]").type("test@invalid");
+
+    // Assert that the input is invalid
+    cy.get("input[type=email]")
+      .invoke("prop", "validity")
+      .should("deep.include", {
+        valueMissing: false,
+        typeMismatch: false,
+        patternMismatch: true,
+        tooLong: false,
+        tooShort: false,
+        rangeUnderflow: false,
+        rangeOverflow: false,
+        stepMismatch: false,
+        badInput: false,
+        customError: false,
+        valid: false,
+      });
+
+    // Assert that the submit button is disabled
+    cy.get("button[type=submit]").should("be.disabled");
+  });
+
   it("Fail to login when email is valid but password is empty", () => {
     // Get the input of type email
     cy.get("input[type=email]").type("success@stripe.com");
@@ -128,6 +153,9 @@ describe("Authentication works", () => {
     // Check that form should only have 1 input (password)
     cy.get("input").should("have.length", 1);
 
+    // The password input should be focused
+    cy.focused().should("have.attr", "name", "password");
+
     // Assert that somehwere on the page there is a Login text
     // cy.contains("Login");
 
@@ -156,6 +184,18 @@ describe("Authentication works", () => {
 
     // Confirm there is a data-cy button back
     cy.get("[data-cy=back]").should("exist");
+  });
+
+  it("Shows a forgot password link on the password screen", () => {
+    cy.get("input[type=email]").type("success@stripe.com");
+    // Click the submit button to advance to the next screen
+    cy.get("button[type=submit]").click();
+
+    // Check that there is a password field
+    cy.get("input[type=password]").should("exist");
+
+    // Check that there is a forgot password
+    cy.contains("Forgot password?").should("exist");
   });
 
   it("Fails login on invalid credentials", () => {
@@ -285,6 +325,104 @@ describe("Authentication works", () => {
     cy.wait("@login");
   });
 
+  it("The back button should be present on second pages and, when navigating back, the original submit should not be disabled", () => {
+    // Get the input of type email
+    cy.get("input[type=email]").type("fail@stripe.com");
+
+    // Assert that the input is valid
+    cy.get("input[type=email]")
+      .invoke("prop", "validity")
+      .should("deep.include", {
+        valueMissing: false,
+        typeMismatch: false,
+        patternMismatch: false,
+        tooLong: false,
+        tooShort: false,
+        rangeUnderflow: false,
+        rangeOverflow: false,
+        stepMismatch: false,
+        badInput: false,
+        customError: false,
+        valid: true,
+      });
+
+    // Assert that the form is valid
+    // cy.get("form").invoke("prop", "validity").should("deep.include", {
+    //   valueMissing: true,
+    //   typeMismatch: false,
+    //   patternMismatch: false,
+    //   tooLong: false,
+    //   tooShort: false,
+    //   rangeUnderflow: false,
+    //   rangeOverflow: false,
+    //   stepMismatch: false,
+    //   badInput: false,
+    //   customError: false,
+    //   valid: false,
+    // });
+
+    // Assert that the submit button is not disabled
+    cy.get("button[type=submit]").should("not.be.disabled");
+
+    // Click the submit button to advance to the next screen
+    cy.get("button[type=submit]").click();
+
+    // Check that the submit button is disabled
+    cy.get("button[type=submit]").should("be.disabled");
+
+    // Confirm there is a data-cy button back
+    cy.get("[data-cy=back]").should("exist").should("not.be.disabled").click();
+
+    // Check that the submit button is disabled
+    cy.get("button[type=submit]").should("not.be.disabled");
+
+    // Check that the email is now focused again
+    cy.focused().should("have.attr", "name", "email");
+  });
+});
+
+describe("Register", () => {
+  // Before each, we expect a <form> element to exist
+  // with a <button> element inside of it.
+  beforeEach(() => {
+    cy.visit("/sign-up");
+    cy.get("form").should("exist");
+    cy.get("button").should("exist");
+
+    // The email input should be focused
+    cy.focused().should("have.attr", "name", "email");
+
+    cy.intercept(
+      {
+        method: "POST", // Route all GET requests
+        url: "/email-exists/success@stripe.com", // that have a URL that matches '/users/*'
+      },
+      { statusCode: 200 }
+    ).as("emailExists");
+    cy.intercept(
+      {
+        method: "POST", // Route all GET requests
+        url: "/email-exists/fail@stripe.com", // that have a URL that matches '/users/*'
+      },
+      { statusCode: 404 }
+    ).as("emailDoesNotExist");
+    cy.intercept(
+      {
+        method: "POST", // Route all GET requests
+        url: "/register", // that have a URL that matches '/users/*'
+      },
+      {
+        statusCode: 422,
+        body: {
+          message: "The given data was invalid.",
+          errors: {
+            email: ["This email is not formatted correctly."],
+          },
+        },
+      }
+    ).as("badRegistrationEmail");
+  });
+
   it("Shows registration when email not found", () => {
     // Get the input of type email
     cy.get("input[type=email]").type("fail@stripe.com");
@@ -339,6 +477,9 @@ describe("Authentication works", () => {
     // Check that there is an input with the name of "name"
     cy.get("input[name=name]").should("exist");
     cy.get("input[name=surname]").should("exist");
+
+    // The password input should be focused
+    cy.focused().should("have.attr", "name", "name");
 
     // Check that the password field is invalid
     cy.get("input[type=password]")
@@ -455,6 +596,91 @@ describe("Authentication works", () => {
     cy.get("input").should("have.length", 3);
   });
 
+  it("Shows custom errors on name, email, and password fields when they are returned from the server", () => {
+    cy.intercept(
+      {
+        method: "POST", // Route all GET requests
+        url: "/register", // that have a URL that matches '/users/*'
+      },
+      {
+        statusCode: 422,
+        body: {
+          message: "The given data was invalid.",
+          errors: {
+            name: "The name is not correct, according to the server",
+            surname: "The surname is not correct, according to the server",
+            password: "The password is not correct, according to the server",
+          },
+        },
+      }
+    ).as("badRegistrationEmail");
+
+    // Get the input of type email
+    cy.get("input[type=email]").type("fail@stripe.com");
+
+    // Click the submit button to advance to the next screen
+    cy.get("button[type=submit]").click();
+
+    // Input the name, surname, and password
+    cy.get("input[name=name]").type("John");
+    cy.get("input[name=surname]").type("Doe");
+    cy.get("input[type=password]").type("password123");
+
+    // Submit the form by pressing enter on the name field
+    cy.get("input[name=name]").type("{enter}");
+
+    // Check that the form has 3 inputs
+    cy.get("input").should("have.length", 3);
+
+    cy.get("input[name=name]")
+      .invoke("prop", "validity")
+      .should("deep.include", {
+        valueMissing: false,
+        typeMismatch: false,
+        patternMismatch: false,
+        tooLong: false,
+        tooShort: false,
+        rangeUnderflow: false,
+        rangeOverflow: false,
+        stepMismatch: false,
+        badInput: false,
+        customError: true,
+        valid: false,
+      });
+
+    cy.get("input[name=surname]")
+      .invoke("prop", "validity")
+      .should("deep.include", {
+        valueMissing: false,
+        typeMismatch: false,
+        patternMismatch: false,
+        tooLong: false,
+        tooShort: false,
+        rangeUnderflow: false,
+        rangeOverflow: false,
+        stepMismatch: false,
+        badInput: false,
+        customError: true,
+        valid: false,
+      });
+
+    cy.get("input[name=password]")
+      .invoke("prop", "validity")
+      .should("deep.include", {
+        valueMissing: false,
+        typeMismatch: false,
+        patternMismatch: false,
+        tooLong: false,
+        tooShort: false,
+        rangeUnderflow: false,
+        rangeOverflow: false,
+        stepMismatch: false,
+        badInput: false,
+        customError: true,
+        valid: false,
+      });
+  });
+
   it("Returns to email screen after submission of registration form with bad email", () => {
     // Get the input of type email
     cy.get("input[type=email]").type("fail@stripe.com");
@@ -470,7 +696,7 @@ describe("Authentication works", () => {
     // Click the submit button to advance to the next screen
     cy.get("button[type=submit]").click();
 
-    // Check that the form has 3 inputs
+    // Check that the form has 1 input
     cy.get("input").should("have.length", 1);
 
     // The email input should be invalid
@@ -495,56 +721,101 @@ describe("Authentication works", () => {
     cy.get("input[type=email]").type("ok@stripe.com");
     cy.get("button[type=submit]").should("not.be.disabled");
   });
+});
 
-  it("The back button should be present on second pages and, when navigating back, the original submit should not be disabled", () => {
+describe("Reset password", () => {
+  beforeEach(() => {
+    cy.visit("/forgot-password");
+  });
+
+  it("Sends an email", () => {
+    cy.intercept(
+      {
+        method: "POST", // Route all GET requests
+        url: "/forgot-password", // that have a URL that matches '/users/*'
+      },
+      {
+        statusCode: 200,
+      }
+    );
     // Get the input of type email
-    cy.get("input[type=email]").type("fail@stripe.com");
-
-    // Assert that the input is valid
-    cy.get("input[type=email]")
-      .invoke("prop", "validity")
-      .should("deep.include", {
-        valueMissing: false,
-        typeMismatch: false,
-        patternMismatch: false,
-        tooLong: false,
-        tooShort: false,
-        rangeUnderflow: false,
-        rangeOverflow: false,
-        stepMismatch: false,
-        badInput: false,
-        customError: false,
-        valid: true,
-      });
-
-    // Assert that the form is valid
-    // cy.get("form").invoke("prop", "validity").should("deep.include", {
-    //   valueMissing: true,
-    //   typeMismatch: false,
-    //   patternMismatch: false,
-    //   tooLong: false,
-    //   tooShort: false,
-    //   rangeUnderflow: false,
-    //   rangeOverflow: false,
-    //   stepMismatch: false,
-    //   badInput: false,
-    //   customError: false,
-    //   valid: false,
-    // });
-
-    // Assert that the submit button is not disabled
-    cy.get("button[type=submit]").should("not.be.disabled");
+    cy.get("input[type=email]").type("test@test.com");
 
     // Click the submit button to advance to the next screen
     cy.get("button[type=submit]").click();
 
-    // Check that the submit button is disabled
+    // Check that a .success message is shown
+    cy.get(".success").should("be.visible");
+
+    // The submit should be disabled
     cy.get("button[type=submit]").should("be.disabled");
+  });
+});
 
-    // Confirm there is a data-cy button back
-    cy.get("[data-cy=back]").should("exist").should("not.be.disabled").click();
+describe.only("Confirm email", () => {
+  it("Redirects to login when unauthenticated", () => {
+    cy.visit("/confirm-email");
+    cy.url().should("include", "/login");
+  });
 
-    // Check that the submit button is disabled
-    cy.get("button[type=submit]").should("not.be.disabled");
+  it("Shows a message requesting email confirmation", () => {
+    // Intercept the call to api/user
+    cy.intercept(
+      {
+        method: "GET", // Route all GET requests
+        url: "/api/user", // that have a URL that matches '/users/*'
+      },
+      {
+        body: {
+          id: 1,
+          username: "Michał",
+          name: null,
+          surname: null,
+          email: "hello@test.com",
+          email_verified_at: "2020-04-27 20:23:57",
+          avatar: null,
+          seen_at: "2022-10-27 20:10:14",
+          created_at: "2019-05-18T12:52:32.000000Z",
+          updated_at: "2022-10-27T18:10:14.000000Z",
+          description: "I’m the founder",
+          is_public: false,
+        },
+      }
+    ).as("getUser");
+
+    cy.visit("/");
+
+    // Wait for the request to finish
+
+    cy.visit("/confirm-email");
+
+    // There should be a "Resend email" button
+    cy.get("button[type=submit]").should("be.visible");
+
+    // The button should have "Resend"
+    cy.get("button[type=submit]").should("contain", "Resend");
+  });
+
+  it("Allows requesting of new verification email", () => {
+    cy.intercept(
+      {
+        method: "POST", // Route all GET requests
+        url: "/email/verification-notification", // that have a URL that matches '/users/*'
+      },
+      {
+        statusCode: 202,
+      }
+    ).as("resendEmail");
+
+    // There should be a "Resend email" button
+    cy.get("button[type=submit]").should("be.visible");
+
+    // Click the button
+    cy.get("button[type=submit]").click();
+
+    // There should be an intercept on resendEmail
+    cy.wait("@resendEmail").then((interception) => {
+      expect(interception.response?.statusCode).to.equal(202);
+    });
   });
 });

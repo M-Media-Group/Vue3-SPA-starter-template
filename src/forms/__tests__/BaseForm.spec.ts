@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import { mount, RouterLinkStub } from "@vue/test-utils";
-import BaseForm from "../../forms/BaseForm.vue";
+import BaseForm from "../BaseForm.vue";
 
 describe("Base Button", () => {
   it("renders a form element", () => {
@@ -145,5 +145,21 @@ describe("Base Button", () => {
 
     // Expect the form to have emitted a submit event
     expect(wrapper.emitted("submit")).toBeFalsy();
+  });
+
+  it("disables the submit button when disabled is passed", () => {
+    const wrapper = mount(BaseForm, {
+      props: {
+        disabled: true,
+      },
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub,
+        },
+      },
+    });
+
+    // Expect the submit button to be disabled
+    expect(wrapper.find("button").attributes("disabled")).toBeDefined();
   });
 });

@@ -144,8 +144,11 @@ const register = async () => {
       await nextTick();
       baseForm.value.setInputErrors(data.errors);
     } else {
+      checkedEmail.value = false;
+      await nextTick();
+
       baseForm.value.setInputErrors({
-        password: "Something went wrong",
+        email: "Something went wrong",
       });
     }
     // handleError(data.errors);
@@ -160,6 +163,7 @@ const register = async () => {
 const submitForm = async () => {
   if (email.value && !checkedEmail.value) {
     await checkEmail();
+    baseForm.value.focusOnFirstInput();
   } else if (isRegistering.value) {
     await register();
   } else {
@@ -169,6 +173,8 @@ const submitForm = async () => {
 
 const goBack = async () => {
   checkedEmail.value = false;
+  await nextTick();
+  baseForm.value.focusOnFirstInput();
 };
 </script>
 
@@ -184,6 +190,8 @@ const goBack = async () => {
         name="email"
         placeholder="Email address"
         v-model="email"
+        pattern="[^@]+@[^@]+\.[^@]+"
+        autofocus
         required
       />
       <small>We'll never share your email with anyone else.</small>
@@ -200,6 +208,7 @@ const goBack = async () => {
         minlength="2"
         pattern=".{2,}"
         title="Please enter Alphabets."
+        autofocus
         required
       />
       <label for="surname">Surname</label>
@@ -236,8 +245,11 @@ const goBack = async () => {
         v-model="password"
         minlength="1"
         pattern=".{1,}"
+        autofocus
         required
       />
+      <!-- Forgot password link -->
+      <RouterLink to="/forgot-password">Forgot password?</RouterLink>
     </fieldset>
     <template v-if="checkedEmail">
       <!-- Show a back button -->

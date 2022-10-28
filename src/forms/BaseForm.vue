@@ -1,13 +1,6 @@
 <script setup lang="ts">
 import BaseButton from "@/components/BaseButton.vue";
-import {
-  ref,
-  useSlots,
-  nextTick,
-  onUpdated,
-  onMounted,
-  type PropType,
-} from "vue";
+import { ref, nextTick, onUpdated, onMounted, type PropType } from "vue";
 
 // Prop of submit text
 defineProps({
@@ -23,9 +16,11 @@ defineProps({
     type: Array as PropType<string[]>,
     default: () => ["password"],
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 });
-
-const slots = useSlots();
 
 const emit = defineEmits(["submit"]);
 
@@ -100,14 +95,17 @@ const setInputErrors = (errors: Record<string, string>) => {
   }
 };
 
-const setErrorOnInput = (input: HTMLInputElement, error: string) => {
+const setErrorOnInput = (
+  input: HTMLInputElement,
+  error: string,
+  report = true
+) => {
   //   Use setValidity to set the error message
   input.setCustomValidity(error);
-
+  if (report) {
+    input.reportValidity();
+  }
   setErrorMessageOnElement(input);
-
-  // Report the validity
-  input.reportValidity();
 };
 
 const resetCustomValidityOnInput = (input: HTMLInputElement) => {
@@ -126,14 +124,9 @@ const isElementInFocus = (element: HTMLInputElement) => {
   return document.activeElement === element;
 };
 
-defineExpose({
-  checkValidity,
-  setInputErrors,
-});
-
+// The updated event happens anytime there is input or the slots change
 onUpdated(async () => {
   await nextTick();
-  // resetCustomValidityOnInputs();
   checkValidity();
 });
 
@@ -149,19 +142,30 @@ const focusOnFirstInput = () => {
     firstInput.focus();
   }
 };
+
+const handleInput = () => {
+  resetCustomValidityOnInputs();
+  checkValidity();
+};
+
+defineExpose({
+  checkValidity,
+  setInputErrors,
+  focusOnFirstInput,
+});
 </script>
 
 <template>
   <form
     ref="formElement"
-    @input="checkValidity"
+    @input="handleInput"
     @keydown.enter.prevent="submit"
     @submit.prevent="submit"
   >
     <slot></slot>
 
     <slot name="submit">
-      <BaseButton type="submit" :disabled="!formIsValid">
+      <BaseButton type="submit" :disabled="!formIsValid || disabled">
         {{ submitText }}
       </BaseButton>
     </slot>
