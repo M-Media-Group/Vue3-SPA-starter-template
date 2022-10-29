@@ -7,7 +7,7 @@ import AccountSettings from "@/forms/AccountSettings.vue";
   <CardElement :title="$t('Settings')">
     <AccountSettings></AccountSettings>
   </CardElement>
-  <CardElement :title="$t('Payment methods')"> </CardElement>
+  <!-- <CardElement :title="$t('Payment methods')"> </CardElement>
   <CardElement :title="$t('Previous rentals')"> </CardElement>
-  <CardElement :title="$t('Get help')"> </CardElement>
+  <CardElement :title="$t('Get help')"> </CardElement> -->
 </template>

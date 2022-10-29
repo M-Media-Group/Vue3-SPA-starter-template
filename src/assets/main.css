@@ -43,14 +43,11 @@ main~footer ul {
   list-style: none;
   display: flex;
   align-items: baseline;
+  justify-content: space-between;
 }
 
 main~footer ul>li {
   list-style: none;
-}
-
-main~footer ul:last-of-type {
-  margin-right: calc(var(--nav-element-spacing-horizontal) * -1);
 }
 
 /* we will explain what these classes do next! */

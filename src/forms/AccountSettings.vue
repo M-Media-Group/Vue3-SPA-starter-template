@@ -93,7 +93,9 @@ const submitForm = async () => {
       autofocus
       required
     />
-    <small>{{ $t("We'll never share your email with anyone else.") }}</small>
+    <small>{{
+      $t("If you change your email address you will have to confirm it again.")
+    }}</small>
     <!-- </TransitionGroup> -->
   </BaseForm>
 </template>

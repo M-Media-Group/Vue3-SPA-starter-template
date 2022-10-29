@@ -66,3 +66,18 @@ npm run test:e2e
 ```sh
 npm run lint
 ```
+
+
+# Custom
+
+Potential tweaks to do:
+- Assumes Fortify and Sanctum are being used in backend
+- Surname field added to user
+
+# Way of working
+
+You should almost never modify existing tests. Any modified tests will require merge approval.
+
+If you find a bug, first write a test that will fail because of the bug. Then fix the bug and make sure the test passes.
+
+If you want to add a new feature, write a test that will fail because of the missing feature. Then add the feature and make sure the test passes. New tests do not require approval.

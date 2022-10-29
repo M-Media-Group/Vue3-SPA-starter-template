@@ -56,7 +56,7 @@ const router = createRouter({
       name: "confirm-email",
       component: ConfirmEmailView,
       meta: {
-        middleware: ["auth", "dontRedirect"],
+        middleware: ["auth", "unconfirmed-email", "dontRedirect"],
       },
     },
     {
@@ -90,11 +90,14 @@ router.beforeEach(async (to, from) => {
   // The the to.meta.middleware value so Typescript knows its format
   const middleware = to.meta.middleware as string[] | undefined;
   const store = useUserStore();
+
+  const shouldRedirect = !(middleware && middleware.includes("dontRedirect"));
   if (
     middleware &&
     (middleware.includes("auth") ||
       middleware.includes("guest") ||
-      middleware.includes("confirmed-email"))
+      middleware.includes("confirmed-email") ||
+      middleware.includes("unconfirmed-email"))
   ) {
     if (store.isLoading) {
       await new Promise((resolve) => {
@@ -144,11 +147,19 @@ router.beforeEach(async (to, from) => {
       };
     }
   }
+
+  if (middleware && middleware.includes("unconfirmed-email")) {
+    // check if the user has confirmed their email
+    const hasConfirmedEmail = store.user?.email_verified_at !== null;
+    // if so, redirect to the home page
+    if (hasConfirmedEmail) {
+      return {
+        name: "home",
+      };
+    }
+  }
   // // Finally, if there is a redirect query param, redirect to that
-  if (
-    to.query.redirect &&
-    !(middleware && middleware.includes("dontRedirect"))
-  ) {
+  if (to.query.redirect && shouldRedirect) {
     return {
       name: to.query.redirect as string,
     };
