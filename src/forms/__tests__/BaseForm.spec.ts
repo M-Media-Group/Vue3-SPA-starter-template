@@ -157,7 +157,7 @@ describe("Base Form", () => {
     expect(wrapper.find("button").attributes("disabled")).toBeDefined();
   });
 
-  it("disables the submit button when the isLoading attribute is passed", () => {
+  it("disables the submit button and sets aria-busy when the isLoading attribute is passed", () => {
     const wrapper = mount(BaseForm, {
       props: {
         isLoading: true,
