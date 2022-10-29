@@ -157,6 +157,25 @@ describe("Base Form", () => {
     expect(wrapper.find("button").attributes("disabled")).toBeDefined();
   });
 
+  it("disables the submit button when the isLoading attribute is passed", () => {
+    const wrapper = mount(BaseForm, {
+      props: {
+        isLoading: true,
+      },
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub,
+        },
+      },
+    });
+
+    // Expect the submit button to be disabled
+    expect(wrapper.find("button").attributes("disabled")).toBeDefined();
+
+    // The aria-busy should be true
+    expect(wrapper.find("button").attributes("aria-busy")).toBe("true");
+  });
+
   it("is does not disable the submit button by default", () => {
     const wrapper = mount(BaseForm, {
       global: {

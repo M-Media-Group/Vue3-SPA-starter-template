@@ -112,7 +112,11 @@ const goBack = async () => {
 </script>
 
 <template>
-  <BaseForm ref="baseForm" @submit="submitForm">
+  <BaseForm
+    ref="baseForm"
+    @submit="submitForm"
+    :isLoading="userStore.isLoading"
+  >
     <!-- The form starts with just the email. The user presses a button and we check if we should show the register or login inputs -->
     <!-- <TransitionGroup> -->
     <fieldset v-if="!checkedEmail">

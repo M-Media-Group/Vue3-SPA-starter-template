@@ -32,6 +32,8 @@ export const useUserStore = defineStore("user", () => {
       return;
     }
 
+    isLoading.value = true;
+
     await getCsrfToken();
 
     // Check if the email is already in use by calling POST "email-exists/" + email with axios. If it returns 404, the email is not in use.
@@ -40,6 +42,8 @@ export const useUserStore = defineStore("user", () => {
       return response.status === 200;
     } catch (error) {
       return false;
+    } finally {
+      isLoading.value = false;
     }
   }
 
@@ -53,6 +57,8 @@ export const useUserStore = defineStore("user", () => {
     if (!password) {
       return false;
     }
+
+    isLoading.value = true;
 
     // Check if the email is already in use
     try {
@@ -75,6 +81,8 @@ export const useUserStore = defineStore("user", () => {
       return true;
     } catch (error) {
       return false;
+    } finally {
+      isLoading.value = false;
     }
   }
 
@@ -104,6 +112,8 @@ export const useUserStore = defineStore("user", () => {
       return;
     }
 
+    isLoading.value = true;
+
     try {
       // Check if the email is already in use
       await axios.post(baseUrl + "register", {
@@ -117,6 +127,8 @@ export const useUserStore = defineStore("user", () => {
     } catch (error: any) {
       console.log(error);
       return error.response;
+    } finally {
+      isLoading.value = false;
     }
   }
 
@@ -124,6 +136,7 @@ export const useUserStore = defineStore("user", () => {
     if (!user.value) {
       return;
     }
+    isLoading.value = true;
     try {
       await axios.post(baseUrl + "email/verification-notification", {
         email: user.value.email,
@@ -131,6 +144,8 @@ export const useUserStore = defineStore("user", () => {
       return true;
     } catch (error) {
       return false;
+    } finally {
+      isLoading.value = false;
     }
   }
 
@@ -138,6 +153,8 @@ export const useUserStore = defineStore("user", () => {
     if (!email) {
       return false;
     }
+
+    isLoading.value = true;
 
     // Submit a reset password
     try {
@@ -147,6 +164,8 @@ export const useUserStore = defineStore("user", () => {
       return true;
     } catch (error) {
       return false;
+    } finally {
+      isLoading.value = false;
     }
   }
 
@@ -162,9 +181,11 @@ export const useUserStore = defineStore("user", () => {
   }
 
   async function logout() {
+    isLoading.value = true;
     await axios.post(baseUrl + "logout");
     isAuthenticated.value = false;
     user.value = null;
+    isLoading.value = false;
   }
 
   return {

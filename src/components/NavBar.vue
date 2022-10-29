@@ -12,7 +12,11 @@ const user = useUserStore();
       <template v-if="user.isAuthenticated">
         <li>
           <details role="list" dir="rtl">
-            <summary aria-haspopup="listbox" role="link">
+            <summary
+              aria-haspopup="listbox"
+              role="link"
+              :aria-busy="user.isLoading"
+            >
               {{ $t("My Account") }}
             </summary>
             <ul role="listbox">
@@ -35,17 +39,6 @@ const user = useUserStore();
         </li>
         <li>
           <router-link to="/sign-up">{{ $t("Sign up") }}</router-link>
-        </li>
-        <li>
-          <select v-model="$i18n.locale">
-            <option
-              v-for="locale in $i18n.availableLocales"
-              :key="`locale-${locale}`"
-              :value="locale"
-            >
-              {{ $t(locale) }}
-            </option>
-          </select>
         </li>
       </template>
     </ul>

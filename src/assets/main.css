@@ -1,8 +1,8 @@
-@import './base.css';
-@import './form.css';
+@import "./base.css";
+@import "./form.css";
 
 .logo {
-  font-family: 'Roboto';
+  font-family: "Roboto";
   font-style: normal;
   font-weight: 700;
   font-size: 17.5px;
@@ -11,11 +11,28 @@
 }
 
 /* Article/cards header and footer children should not have a margin-bottom */
-article > header > *,
-article > footer > * {
+article>header>*,
+article>footer>* {
   margin-bottom: 0px;
 }
 
+main~footer ul {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  align-items: baseline;
+}
+
+main~footer ul>li {
+  list-style: none;
+}
+
+main~footer ul:last-of-type {
+  margin-right: calc(var(--nav-element-spacing-horizontal) * -1);
+}
 
 /* we will explain what these classes do next! */
 .v-enter-active,

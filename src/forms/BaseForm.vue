@@ -20,6 +20,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(["submit"]);
@@ -165,7 +169,11 @@ defineExpose({
     <slot></slot>
 
     <slot name="submit">
-      <BaseButton type="submit" :disabled="!formIsValid || disabled">
+      <BaseButton
+        type="submit"
+        :disabled="!formIsValid || disabled || isLoading"
+        :aria-busy="isLoading"
+      >
         {{ $t(submitText) }}
       </BaseButton>
     </slot>
