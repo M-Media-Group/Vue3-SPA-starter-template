@@ -19,8 +19,12 @@ const userStore = useUserStore();
 // The submit function. If there is just the email, check if the email is valid. If it is not, set the register mode. If it is, set the login mode.
 const submitForm = async () => {
   const response = await userStore.sendPasswordResetEmail(email.value);
-
-  success.value = response;
+  if (response === true) {
+    success.value = response;
+  } else if (typeof response === "object") {
+    console.log("Obj", response);
+    baseForm.value.setInputErrors(response.data.errors);
+  }
   return success.value;
 };
 </script>

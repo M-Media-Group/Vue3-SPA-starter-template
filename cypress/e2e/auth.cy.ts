@@ -781,6 +781,45 @@ describe("Reset password", () => {
   beforeEach(() => {
     cy.visit("/forgot-password");
   });
+  it("Shows errors", () => {
+    cy.intercept(
+      {
+        method: "POST", // Route all GET requests
+        url: "/forgot-password", // that have a URL that matches '/users/*'
+      },
+      {
+        statusCode: 422,
+        body: {
+          message: "Please wait before retrying.",
+          errors: {
+            email: ["Please wait before retrying."],
+          },
+        },
+      }
+    ).as("forgotPassword");
+    // Get the input of type email
+    cy.get("input[type=email]").type("test@test.com");
+
+    // Click the submit button to advance to the next screen
+    cy.get("button[type=submit]").click();
+
+    // Check that a .success message is shown
+    cy.get("input[type=email]")
+      .invoke("prop", "validity")
+      .should("deep.include", {
+        valueMissing: false,
+        typeMismatch: false,
+        patternMismatch: false,
+        tooLong: false,
+        tooShort: false,
+        rangeUnderflow: false,
+        rangeOverflow: false,
+        stepMismatch: false,
+        badInput: false,
+        customError: true,
+        valid: false,
+      });
+  });
 
   it("Sends an email", () => {
     cy.intercept(

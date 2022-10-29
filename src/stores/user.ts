@@ -125,7 +125,6 @@ export const useUserStore = defineStore("user", () => {
       });
       return true;
     } catch (error: any) {
-      console.log(error);
       return error.response;
     } finally {
       isLoading.value = false;
@@ -163,7 +162,7 @@ export const useUserStore = defineStore("user", () => {
       });
       return true;
     } catch (error) {
-      return false;
+      return error.response;
     } finally {
       isLoading.value = false;
     }
