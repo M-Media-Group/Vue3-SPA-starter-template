@@ -193,6 +193,11 @@ describe("Login", () => {
     // Click the submit button to advance to the next screen
     cy.get("button[type=submit]").click();
 
+    // While loading, the button should have an attribute of aria-busy
+    cy.get("button[type=submit]").should("have.attr", "aria-busy", "true");
+    // It should also be disabled
+    cy.get("button[type=submit]").should("be.disabled");
+
     // Check that form should only have 1 input (password)
     cy.get("input").should("have.length", 1);
 
