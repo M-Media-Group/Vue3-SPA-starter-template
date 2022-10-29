@@ -1,5 +1,13 @@
+<script setup lang="ts">
+import CardElement from "@/components/CardElement.vue";
+import AccountSettings from "@/forms/AccountSettings.vue";
+</script>
 <template>
-  <div class="about">
-    <h1>This is the settings page</h1>
-  </div>
+  <h1>{{ $t("My Account") }}</h1>
+  <CardElement :title="$t('Settings')">
+    <AccountSettings></AccountSettings>
+  </CardElement>
+  <CardElement :title="$t('Payment methods')"> </CardElement>
+  <CardElement :title="$t('Previous rentals')"> </CardElement>
+  <CardElement :title="$t('Get help')"> </CardElement>
 </template>

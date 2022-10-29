@@ -1,12 +1,13 @@
-import { ref, computed } from "vue";
+import { ref, computed, type Ref } from "vue";
 import { defineStore } from "pinia";
 import axios from "axios";
+import type { User } from "@/types/user";
 
 export const useUserStore = defineStore("user", () => {
   // the state of the user
   const isAuthenticated = ref(false);
   const isLoading = ref(false);
-  const user = ref(null);
+  const user = ref(null) as Ref<User | null>;
   const attemptedToFetchUser = ref(false);
 
   const baseUrl = "http://localhost/";
@@ -76,8 +77,7 @@ export const useUserStore = defineStore("user", () => {
           withCredentials: true,
         }
       );
-      isAuthenticated.value = true;
-      user.value = response.data;
+      await getUser();
       return true;
     } catch (error) {
       return false;

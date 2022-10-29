@@ -10,6 +10,7 @@ const redirect = () => {
 </script>
 
 <template>
+  <h1>Authenticate</h1>
   <CardElement title="Connect">
     <template #header>
       <h1>Scan & Paddle</h1>

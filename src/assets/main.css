@@ -10,6 +10,25 @@
   /* identical to box height */
 }
 
+main {
+  gap: 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+main>* {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+nav~main {
+  margin-top: 40px;
+}
+
+main~footer {
+  margin-top: 40px;
+}
+
 /* Article/cards header and footer children should not have a margin-bottom */
 article>header>*,
 article>footer>* {
