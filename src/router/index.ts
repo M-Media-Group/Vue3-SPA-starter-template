@@ -4,6 +4,8 @@ import LoginView from "../views/Auth/LoginOrRegisterView.vue";
 import ConfirmEmailView from "../views/Auth/ConfirmEmailView.vue";
 import ResetPasswordVue from "@/forms/ResetPassword.vue";
 import { useUserStore } from "@/stores/user";
+import AboutViewVue from "../views/AboutView.vue";
+import SettingsViewVue from "@/views/Auth/SettingsView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -54,7 +56,23 @@ const router = createRouter({
       name: "confirm-email",
       component: ConfirmEmailView,
       meta: {
+        middleware: ["auth", "dontRedirect"],
+      },
+    },
+    {
+      path: "/settings",
+      name: "settings",
+      component: SettingsViewVue,
+      meta: {
         middleware: ["auth"],
+      },
+    },
+    {
+      path: "/rent",
+      name: "rent",
+      component: AboutViewVue,
+      meta: {
+        middleware: ["auth", "confirmed-email"],
       },
     },
     {

@@ -18,6 +18,7 @@ export const useUserStore = defineStore("user", () => {
       const response = await axios.get(baseUrl + "api/user");
       user.value = response.data;
       isAuthenticated.value = true;
+      await getCsrfToken();
     } catch (error) {
       console.log(error);
     } finally {
@@ -123,36 +124,30 @@ export const useUserStore = defineStore("user", () => {
     if (!user.value) {
       return;
     }
-    const response = await fetch(baseUrl + "email/verification-notification", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    try {
+      await axios.post(baseUrl + "email/verification-notification", {
         email: user.value.email,
-      }),
-    });
-
-    return response;
+      });
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 
   async function sendPasswordResetEmail(email: string) {
     if (!email) {
-      return;
+      return false;
     }
 
     // Submit a reset password
-    const response = await fetch(baseUrl + "forgot-password", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    try {
+      await axios.post(baseUrl + "forgot-password", {
         email: email,
-      }),
-    });
-
-    return response;
+      });
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 
   async function getCsrfToken() {

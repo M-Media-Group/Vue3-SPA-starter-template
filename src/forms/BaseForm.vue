@@ -166,7 +166,7 @@ defineExpose({
 
     <slot name="submit">
       <BaseButton type="submit" :disabled="!formIsValid || disabled">
-        {{ submitText }}
+        {{ $t(submitText) }}
       </BaseButton>
     </slot>
   </form>

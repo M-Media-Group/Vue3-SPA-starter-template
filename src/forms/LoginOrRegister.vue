@@ -26,6 +26,8 @@ const errorMessage = ref("");
 
 const baseForm = ref();
 
+const emit = defineEmits(["authenticated"]);
+
 // The check email function
 const checkEmail = async () => {
   // Check if the email is already in use
@@ -48,6 +50,8 @@ const login = async () => {
     // const data = await response.json();
     // handleError(data.errors);
     password.value = "";
+  } else {
+    emit("authenticated");
   }
 };
 
@@ -84,9 +88,7 @@ const register = async () => {
     }
     // handleError(data.errors);
   } else {
-    errorMessage.value = "";
-    // Redirect to the dashboard
-    router.push("/");
+    emit("authenticated");
   }
 };
 
@@ -114,27 +116,27 @@ const goBack = async () => {
     <!-- The form starts with just the email. The user presses a button and we check if we should show the register or login inputs -->
     <!-- <TransitionGroup> -->
     <fieldset v-if="!checkedEmail">
-      <label for="email">Email address</label>
+      <label for="email">{{ $t("Email") }}</label>
       <input
         type="email"
         id="email"
         name="email"
-        placeholder="Email address"
+        :placeholder="$t('Email')"
         v-model="email"
         pattern="[^@]+@[^@]+\.[^@]+"
         autofocus
         required
       />
-      <small>We'll never share your email with anyone else.</small>
+      <small>{{ $t("We'll never share your email with anyone else.") }}</small>
     </fieldset>
     <fieldset v-else-if="isRegistering">
       <!-- Name, Surname, and new password inputs NOTE THE PATTERN - needed to trigger validity on non-dirty (script added) inputs, see https://stackoverflow.com/a/53261163/7410951 -->
-      <label for="name">Name</label>
+      <label for="name">{{ $t("Name") }}</label>
       <input
         type="text"
         id="name"
         name="name"
-        placeholder="Name"
+        :placeholder="$t('Name')"
         v-model="name"
         minlength="2"
         pattern=".{2,}"
@@ -142,23 +144,23 @@ const goBack = async () => {
         autofocus
         required
       />
-      <label for="surname">Surname</label>
+      <label for="surname">{{ $t("Surname") }}</label>
       <input
         type="text"
         id="surname"
         name="surname"
-        placeholder="Surname"
+        :placeholder="$t('Surname')"
         v-model="surname"
         minlength="2"
         pattern=".{2,}"
         required
       />
-      <label for="password">Password</label>
+      <label for="password">{{ $t("Password") }}</label>
       <input
         type="password"
         id="password"
         name="password"
-        placeholder="Password"
+        :placeholder="$t('Password')"
         v-model="password"
         minlength="5"
         pattern=".{5,}"
@@ -167,12 +169,12 @@ const goBack = async () => {
     </fieldset>
     <fieldset v-else>
       <!-- Password input -->
-      <label for="password">Password</label>
+      <label for="password">{{ $t("Password") }}</label>
       <input
         type="password"
         id="password"
         name="password"
-        placeholder="Password"
+        :placeholder="$t('Password')"
         v-model="password"
         minlength="1"
         pattern=".{1,}"
@@ -180,12 +182,14 @@ const goBack = async () => {
         required
       />
       <!-- Forgot password link -->
-      <RouterLink to="/forgot-password">Forgot password?</RouterLink>
+      <RouterLink to="/forgot-password">{{
+        $t("Forgot password?")
+      }}</RouterLink>
     </fieldset>
     <template v-if="checkedEmail">
       <!-- Show a back button -->
       <BaseButton class="secondary" data-cy="back" @click="goBack()">
-        Back
+        {{ $t("Go back") }}
       </BaseButton>
     </template>
     <!-- </TransitionGroup> -->

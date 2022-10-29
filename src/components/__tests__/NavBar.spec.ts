@@ -51,5 +51,7 @@ describe("NavBar", () => {
     expect(wrapper.text()).toContain("Scan");
     expect(wrapper.text()).toContain("Paddle");
     expect(wrapper.text()).toContain("My Account");
+    expect(wrapper.text()).toContain("Logout");
+    expect(wrapper.text()).toContain("Settings");
   });
 });

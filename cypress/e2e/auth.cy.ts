@@ -369,6 +369,9 @@ describe("Login", () => {
     // cy.wait("@login")
     //   .its("request.headers")
     //   .should("have.property", "X-XSRF-TOKEN", "token");
+
+    // We should be redirected to the dashboard
+    cy.location("pathname").should("eq", "/");
   });
 
   it("The back button should be present on second pages and, when navigating back, the original submit should not be disabled", () => {
@@ -795,11 +798,6 @@ describe("Reset password", () => {
 
     // The submit should be disabled
     cy.get("button[type=submit]").should("be.disabled");
-
-    // Confirm that the login request contained a header with X-XSRF-TOKEN
-    cy.get("@forgotPassword")
-      .its("request.headers")
-      .should("have.property", "X-XSRF-TOKEN");
   });
 });
 
@@ -874,7 +872,7 @@ describe("Confirm email", () => {
   });
 });
 
-describe.only("Logout", () => {
+describe("Logout", () => {
   it("Logs out", () => {
     cy.intercept(
       {

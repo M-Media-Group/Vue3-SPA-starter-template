@@ -8,8 +8,6 @@ const user = useUserStore();
 if (!user.attemptedToFetchUser) {
   user.getUser();
 }
-
-// Hook into before route enter to check if the user is authenticated
 </script>
 
 <template>

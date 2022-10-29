@@ -20,12 +20,8 @@ const userStore = useUserStore();
 const submitForm = async () => {
   const response = await userStore.sendPasswordResetEmail(email.value);
 
-  if (!response) {
-    success.value = false;
-    return false;
-  }
-
-  success.value = response.ok;
+  success.value = response;
+  return success.value;
 };
 </script>
 

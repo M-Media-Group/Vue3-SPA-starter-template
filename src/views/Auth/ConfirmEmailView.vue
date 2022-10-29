@@ -11,10 +11,8 @@ const userStore = useUserStore();
 const resendEmail = async () => {
   // Check if the email is already in use
   const response = await userStore.resendEmailConfirmation();
-  if (!response) {
-    return;
-  }
-  if (response.ok) {
+
+  if (response) {
     emailSent.value = true;
   } else {
     alert("Something went wrong sending you a new email. Please try again");
