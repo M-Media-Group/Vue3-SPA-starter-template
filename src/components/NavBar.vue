@@ -28,7 +28,7 @@ const user = useUserStore();
       </template>
       <template v-else>
         <li>
-          <router-link to="/">{{ $t("My Account") }}</router-link>
+          <router-link to="/">{{ $t("Home") }}</router-link>
         </li>
         <li>
           <router-link to="/login">{{ $t("Login") }}</router-link>
@@ -38,8 +38,12 @@ const user = useUserStore();
         </li>
         <li>
           <select v-model="$i18n.locale">
-            <option v-for="locale in $i18n.availableLocales" :key="locale">
-              {{ locale }}
+            <option
+              v-for="locale in $i18n.availableLocales"
+              :key="`locale-${locale}`"
+              :value="locale"
+            >
+              {{ $t(locale) }}
             </option>
           </select>
         </li>

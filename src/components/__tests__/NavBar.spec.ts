@@ -24,7 +24,7 @@ describe("NavBar", () => {
     expect(wrapper.text()).toContain("Scan");
     expect(wrapper.text()).toContain("Paddle");
     expect(wrapper.text()).toContain("Login");
-    expect(wrapper.text()).toContain("Sign Up");
+    expect(wrapper.text()).toContain("Sign up");
   });
   it("renders properly when logged in", async () => {
     const wrapper = mount(NavBar, {
