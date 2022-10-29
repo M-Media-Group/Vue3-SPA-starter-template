@@ -28,87 +28,8 @@ const baseForm = ref();
 
 const emit = defineEmits(["authenticated"]);
 
-// The check email function
-const checkEmail = async () => {
-  // Check if the email is already in use
-  const response = await userStore.checkEmail(email.value);
-  isRegistering.value = !response;
-
-  errorMessage.value = "";
-  checkedEmail.value = true;
-};
-
-// The login function
-const login = async () => {
-  // Check if the email is already in use
-  const response = await userStore.login(email.value, password.value);
-
-  if (response === false) {
-    baseForm.value.setInputErrors({
-      password: "Invalid email or password",
-    });
-    // const data = await response.json();
-    // handleError(data.errors);
-    password.value = "";
-  } else {
-    emit("authenticated");
-  }
-};
-
-// The register function
-const register = async () => {
-  // Check if the email is already in use
-  const response = await userStore.register(
-    email.value,
-    password.value,
-    name.value,
-    surname.value
-  );
-
-  // const data = await response.json();
-
-  if (response !== true) {
-    // If the response has a body with json
-    if (response.data) {
-      const data = await response.data;
-
-      // If in the data there is errors.email, return to the first screen by setting checkedEmail to false
-      if (data.errors.email) {
-        checkedEmail.value = false;
-      }
-      await nextTick();
-      baseForm.value.setInputErrors(data.errors);
-    } else {
-      checkedEmail.value = false;
-      await nextTick();
-
-      baseForm.value.setInputErrors({
-        email: "Something went wrong",
-      });
-    }
-    // handleError(data.errors);
-  } else {
-    emit("authenticated");
-  }
-};
-
 // The submit function. If there is just the email, check if the email is valid. If it is not, set the register mode. If it is, set the login mode.
-const submitForm = async () => {
-  if (email.value && !checkedEmail.value) {
-    await checkEmail();
-    baseForm.value.focusOnFirstInput();
-  } else if (isRegistering.value) {
-    await register();
-  } else {
-    await login();
-  }
-};
-
-const goBack = async () => {
-  checkedEmail.value = false;
-  await nextTick();
-  baseForm.value.focusOnFirstInput();
-};
+const submitForm = async () => {};
 </script>
 
 <template>

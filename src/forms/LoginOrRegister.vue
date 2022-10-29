@@ -170,6 +170,19 @@ const goBack = async () => {
         pattern=".{5,}"
         required
       />
+
+      <!-- An accept TOC checkbox -->
+      <label for="acceptToc">
+        <input type="checkbox" id="acceptToc" name="acceptToc" required />
+        {{ $t("I accept the") }}
+        <a href="/terms-of-service" target="_blank">
+          {{ $t("Terms of Service") }}
+        </a>
+        {{ $t("and") }}
+        <a href="/privacy-policy" target="_blank">
+          {{ $t("Privacy Policy") }}
+        </a>
+      </label>
     </fieldset>
     <fieldset v-else>
       <!-- Password input -->

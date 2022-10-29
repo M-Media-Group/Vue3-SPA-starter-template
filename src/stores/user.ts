@@ -10,7 +10,7 @@ export const useUserStore = defineStore("user", () => {
   const user = ref(null) as Ref<User | null>;
   const attemptedToFetchUser = ref(false);
 
-  const baseUrl = "http://localhost/";
+  const baseUrl = "http://192.168.10.17/";
 
   async function getUser() {
     isLoading.value = true;
