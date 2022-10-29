@@ -29,7 +29,23 @@ const baseForm = ref();
 const emit = defineEmits(["authenticated"]);
 
 // The submit function. If there is just the email, check if the email is valid. If it is not, set the register mode. If it is, set the login mode.
-const submitForm = async () => {};
+const submitForm = async () => {
+  if (!email.value || !name.value || !surname.value) {
+    return;
+  }
+  const response = await userStore.update(
+    name.value,
+    surname.value,
+    email.value
+  );
+
+  if (response === true) {
+    return;
+  } else if (typeof response === "object") {
+    console.log("Obj", response);
+    baseForm.value.setInputErrors(response.data.errors);
+  }
+};
 </script>
 
 <template>
@@ -66,6 +82,18 @@ const submitForm = async () => {};
       pattern=".{2,}"
       required
     />
+    <label for="email">{{ $t("Email") }}</label>
+    <input
+      type="email"
+      id="email"
+      name="email"
+      :placeholder="$t('Email')"
+      v-model="email"
+      pattern="[^@]+@[^@]+\.[^@]+"
+      autofocus
+      required
+    />
+    <small>{{ $t("We'll never share your email with anyone else.") }}</small>
     <!-- </TransitionGroup> -->
   </BaseForm>
 </template>

@@ -187,6 +187,23 @@ export const useUserStore = defineStore("user", () => {
     isLoading.value = false;
   }
 
+  async function update(name: string, surname: string, email: string) {
+    isLoading.value = true;
+    try {
+      await axios.put(baseUrl + "user/profile-information", {
+        name: name ?? user.value?.name,
+        surname: surname ?? user.value?.surname,
+        email: email ?? user.value?.email,
+      });
+      await getUser();
+      return true;
+    } catch (error) {
+      return error.response;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   return {
     isAuthenticated,
     checkEmail,
@@ -199,5 +216,6 @@ export const useUserStore = defineStore("user", () => {
     resendEmailConfirmation,
     sendPasswordResetEmail,
     logout,
+    update,
   };
 });
