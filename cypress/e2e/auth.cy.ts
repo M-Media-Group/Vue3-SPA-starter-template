@@ -1,26 +1,9 @@
 describe("Guest auth pages redirect to home when logged in", () => {
   beforeEach(() => {
     cy.intercept(
-      {
-        method: "GET", // Route all GET requests
-        url: "/api/user", // that have a URL that matches '/users/*'
-      },
-      {
-        body: {
-          id: 1,
-          username: "Michał",
-          name: null,
-          surname: null,
-          email: "hello@test.com",
-          email_verified_at: "2020-04-27 20:23:57",
-          avatar: null,
-          seen_at: "2022-10-27 20:10:14",
-          created_at: "2019-05-18T12:52:32.000000Z",
-          updated_at: "2022-10-27T18:10:14.000000Z",
-          description: "I’m the founder",
-          is_public: false,
-        },
-      }
+      "GET", // Route all GET requests
+      "/api/user", // that have a URL that matches '/users/*'
+      { fixture: "user" }
     ).as("getUser");
   });
 
@@ -854,26 +837,9 @@ describe("Confirm email", () => {
   it("Shows a message requesting email confirmation", () => {
     // Intercept the call to api/user
     cy.intercept(
-      {
-        method: "GET", // Route all GET requests
-        url: "/api/user", // that have a URL that matches '/users/*'
-      },
-      {
-        body: {
-          id: 1,
-          username: "Michał",
-          name: null,
-          surname: null,
-          email: "hello@test.com",
-          email_verified_at: "2020-04-27 20:23:57",
-          avatar: null,
-          seen_at: "2022-10-27 20:10:14",
-          created_at: "2019-05-18T12:52:32.000000Z",
-          updated_at: "2022-10-27T18:10:14.000000Z",
-          description: "I’m the founder",
-          is_public: false,
-        },
-      }
+      "GET", // Route all GET requests
+      "/api/user", // that have a URL that matches '/users/*'
+      { fixture: "user" }
     ).as("getUser");
 
     cy.visit("/");
@@ -919,26 +885,9 @@ describe("Confirm email", () => {
 describe("Logout", () => {
   it("Logs out", () => {
     cy.intercept(
-      {
-        method: "GET", // Route all GET requests
-        url: "/api/user", // that have a URL that matches '/users/*'
-      },
-      {
-        body: {
-          id: 1,
-          username: "Michał",
-          name: null,
-          surname: null,
-          email: "hello@test.com",
-          email_verified_at: "2020-04-27 20:23:57",
-          avatar: null,
-          seen_at: "2022-10-27 20:10:14",
-          created_at: "2019-05-18T12:52:32.000000Z",
-          updated_at: "2022-10-27T18:10:14.000000Z",
-          description: "I’m the founder",
-          is_public: false,
-        },
-      }
+      "GET", // Route all GET requests
+      "/api/user", // that have a URL that matches '/users/*'
+      { fixture: "user" }
     ).as("getUser");
 
     // Intercept the logout

@@ -70,9 +70,13 @@ npm run lint
 
 # Custom
 
+Assumptions:
+- The backend is powered by Laravel Fortify and Sanctum
+
 Potential tweaks to do:
 - Assumes Fortify and Sanctum are being used in backend
 - Surname field added to user
+- Language files should be lazy loaded
 
 # Way of working
 
@@ -81,3 +85,8 @@ You should almost never modify existing tests. Any modified tests will require m
 If you find a bug, first write a test that will fail because of the bug. Then fix the bug and make sure the test passes.
 
 If you want to add a new feature, write a test that will fail because of the missing feature. Then add the feature and make sure the test passes. New tests do not require approval.
+
+<!-- Show image https://res.cloudinary.com/practicaldev/image/fetch/s--2bUj5oX1--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/26tdj40bmlnmw09fb27h.png -->
+
+## Inputs
+Inputs should use built in browser validation. If you need to add custom validation, set it using the native browser validation.
