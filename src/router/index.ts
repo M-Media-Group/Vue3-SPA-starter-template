@@ -186,7 +186,6 @@ router.beforeEach(async (to, from) => {
       };
     }
   }
-  console.log("Red", from, shouldRedirect);
   // // Finally, if there is a redirect query param, redirect to that
   if (
     from.redirectedFrom &&

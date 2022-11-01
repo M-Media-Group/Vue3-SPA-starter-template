@@ -22,7 +22,6 @@ const submitForm = async () => {
   if (response === true) {
     success.value = response;
   } else if (typeof response === "object") {
-    console.log("Obj", response);
     baseForm.value.setInputErrors(response.data.errors);
   }
   return success.value;

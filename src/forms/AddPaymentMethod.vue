@@ -66,7 +66,6 @@ const addPaymentMethod = () => {
     })
     .then((result: { error: { message: any }; paymentMethod: { id: any } }) => {
       // Handle result.error or result.token
-      console.log(result);
       if (result.error) {
         form.error = result.error.message;
       } else {
