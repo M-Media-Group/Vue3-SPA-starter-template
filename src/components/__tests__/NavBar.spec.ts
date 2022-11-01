@@ -21,8 +21,8 @@ describe("NavBar", () => {
         ],
       },
     });
-    expect(wrapper.text()).toContain("Scan");
-    expect(wrapper.text()).toContain("Paddle");
+
+    expect(wrapper.find("[aria-roledescription='logo']").exists()).toBe(true);
     expect(wrapper.text()).toContain("Login");
     expect(wrapper.text()).toContain("Sign up");
   });
@@ -48,8 +48,7 @@ describe("NavBar", () => {
     // Await the nextTick
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.text()).toContain("Scan");
-    expect(wrapper.text()).toContain("Paddle");
+    expect(wrapper.find("[aria-roledescription='logo']").exists()).toBe(true);
     expect(wrapper.text()).toContain("My Account");
     expect(wrapper.text()).toContain("Logout");
     expect(wrapper.text()).toContain("Settings");

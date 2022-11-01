@@ -32,6 +32,12 @@ describe("Locales", () => {
     cy.get("html").should("have.attr", "lang", "fr");
     // The navbar should contain "Connexion"
     cy.get("nav").should("contain", "Connexion");
+    // The axios default common header should be "fr"
+    cy.window().then((win) => {
+      expect(win.axios.defaults.headers.common["Accept-Language"]).to.equal(
+        "fr"
+      );
+    });
   });
   it("Remembers the language when the page is refreshed", () => {
     cy.visit("/");
