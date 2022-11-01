@@ -927,7 +927,7 @@ describe("Logout", () => {
   });
 });
 
-describe.only("Edit user settings", () => {
+describe("Edit user settings", () => {
   beforeEach(() => {
     cy.intercept(
       "PUT", // Route all GET requests
@@ -943,7 +943,6 @@ describe.only("Edit user settings", () => {
 
     cy.visit("/settings");
   });
-
   it("Shows settings page", () => {
     // There should be a name, surname and email input
     cy.get("input[name=name]").should("be.visible");
