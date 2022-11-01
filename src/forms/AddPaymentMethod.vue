@@ -54,6 +54,7 @@ onBeforeMount(() => {
 });
 
 const addPaymentMethod = () => {
+  form.processing = true;
   // Access instance methods, e.g. createToken()
   // Get stripe element
   const cardElement = card.value.stripeElement;
@@ -72,7 +73,6 @@ const addPaymentMethod = () => {
         if (!userStore.user?.id) {
           return;
         }
-        form.processing = true;
         axios
           .post("/api/users/" + userStore.user.id + "/payment-methods", {
             payment_method: result.paymentMethod.id,
