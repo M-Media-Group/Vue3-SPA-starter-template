@@ -5,7 +5,6 @@ import AddPaymentMethod from "@/forms/AddPaymentMethod.vue";
 import router from "@/router";
 
 const handleUpdate = (event: { email: any }) => {
-  console.log("Got updated event", event);
   // If the email is in the event, redirect to the confirm email page
   if (event.email) {
     router.push({ name: "confirm-email" });
