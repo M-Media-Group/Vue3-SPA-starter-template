@@ -17,7 +17,7 @@ const handleUpdate = (event: { email: any }) => {
   <CardElement :title="$t('Settings')">
     <AccountSettings @updated="handleUpdate"></AccountSettings>
   </CardElement>
-  <CardElement :title="$t('Payments')">
+  <CardElement :title="$t('Payment methods')">
     <AddPaymentMethod />
   </CardElement>
   <!-- <CardElement :title="$t('Payment methods')"> </CardElement>

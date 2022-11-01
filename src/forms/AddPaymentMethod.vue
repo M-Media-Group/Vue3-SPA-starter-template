@@ -11,6 +11,10 @@ const email = ref("");
 
 const success = ref(false);
 
+const elementReady = ref(false);
+
+const paymentInfoComplete = ref(false);
+
 const baseForm = ref();
 
 const userStore = useUserStore();
@@ -23,16 +27,17 @@ const form = reactive({
 
 const emit = defineEmits(["added"]);
 
-// The submit function. If there is just the email, check if the email is valid. If it is not, set the register mode. If it is, set the login mode.
-const submitForm = async () => {
-  const response = await userStore.sendPasswordResetEmail(email.value);
-  if (response === true) {
-    success.value = response;
-  } else if (typeof response === "object") {
-    console.log("Obj", response);
-    baseForm.value.setInputErrors(response.data.errors);
+const handleStripeInput = async (event: any) => {
+  paymentInfoComplete.value = !!event.complete;
+  if (paymentInfoComplete.value === true) {
+    // Scroll to bottom
+    // Wait for next tick
+    nextTick(() => {
+      window.scrollTo(0, document.body.scrollHeight);
+      // Focus on ref="payButton"
+      // payButton.value.focus();
+    });
   }
-  return success.value;
 };
 
 const stripeLoaded = ref(false);
@@ -92,10 +97,13 @@ const addPaymentMethod = () => {
   <BaseForm
     ref="baseForm"
     @submit="addPaymentMethod"
-    :disabled="success || !stripeLoaded"
+    :disabled="
+      success || !stripeLoaded || !elementReady || !paymentInfoComplete
+    "
     :is-loading="form.processing"
   >
     <StripeElements
+      class="input"
       v-if="stripeLoaded"
       v-slot="{ elements }"
       ref="elms"
@@ -112,20 +120,23 @@ const addPaymentMethod = () => {
       <StripeElement
         ref="card"
         :elements="elements"
+        @change="handleStripeInput($event)"
+        @ready="elementReady = $event"
         :options="{
           style: {
             base: {
               iconColor: '#c4f0ff',
               color: '#fff',
-              fontWeight: '500',
+              fontWeight: '400',
               fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
               fontSize: '16px',
+              lineHeight: '24px',
               fontSmoothing: 'antialiased',
               ':-webkit-autofill': {
                 color: '#fce883',
               },
               '::placeholder': {
-                color: '#87BBFD',
+                color: '#73828C',
               },
             },
             invalid: {
