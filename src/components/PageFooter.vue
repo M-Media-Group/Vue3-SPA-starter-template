@@ -5,6 +5,10 @@ const handleLocaleChange = (locale: string) => {
   console.log(locale);
   // Set the document locale
   document.documentElement.lang = locale;
+  // Set the document direction
+  document.documentElement.dir = locale === "ar" ? "rtl" : "ltr";
+  // Set a local storage item
+  localStorage.setItem("locale", locale);
 };
 </script>
 <template>

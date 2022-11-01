@@ -33,4 +33,14 @@ describe("Locales", () => {
     // The navbar should contain "Connexion"
     cy.get("nav").should("contain", "Connexion");
   });
+  it("Remembers the language when the page is refreshed", () => {
+    cy.visit("/");
+    cy.get("select[name=locales]").select("fr");
+    cy.reload();
+    cy.get("footer").contains("Français");
+    // The lang attribute should be "fr"
+    cy.get("html").should("have.attr", "lang", "fr");
+    // The navbar should contain "Connexion"
+    cy.get("nav").should("contain", "Connexion");
+  });
 });

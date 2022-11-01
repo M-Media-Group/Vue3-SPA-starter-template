@@ -16,7 +16,8 @@ import fr from "./locales/fr.json";
 const app = createApp(App);
 
 // Get the current locale from the browser
-let locale = navigator.language.split("-")[0] ?? "en";
+let locale =
+  localStorage.getItem("locale") ?? navigator.language.split("-")[0] ?? "en";
 // If the locale is not supported, fallback to English
 if (!["en", "fr"].includes(locale)) {
   locale = "en";
