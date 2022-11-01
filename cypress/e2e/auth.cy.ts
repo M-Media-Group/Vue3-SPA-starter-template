@@ -926,3 +926,82 @@ describe("Logout", () => {
     cy.url().should("include", "/login");
   });
 });
+
+describe.only("Edit user settings", () => {
+  beforeEach(() => {
+    cy.intercept(
+      "PUT", // Route all GET requests
+      "/user/profile-information", // that have a URL that matches '/users/*'
+      { statusCode: 200 }
+    ).as("getUser");
+
+    cy.intercept(
+      "GET", // Route all GET requests
+      "/api/user", // that have a URL that matches '/users/*'
+      { fixture: "user" }
+    ).as("getUser");
+
+    cy.visit("/settings");
+  });
+
+  it("Shows settings page", () => {
+    // There should be a name, surname and email input
+    cy.get("input[name=name]").should("be.visible");
+    cy.get("input[name=surname]").should("be.visible");
+    cy.get("input[name=email]").should("be.visible");
+
+    // There should be a submit button
+    cy.get("button[type=submit]").should("be.visible");
+  });
+  it("It cannot be submitted if the name is empty", () => {
+    // Clear the name input
+    cy.get("input[name=name]").clear();
+
+    // The submit button should be disabled
+    cy.get("button[type=submit]").should("be.disabled");
+  });
+  it("It cannot be submitted if the surname is empty", () => {
+    // Clear the name input
+    cy.get("input[name=surname]").clear();
+
+    // The submit button should be disabled
+    cy.get("button[type=submit]").should("be.disabled");
+  });
+  it("It cannot be submitted if the email is empty", () => {
+    // Clear the name input
+    cy.get("input[name=email]").clear();
+
+    // The submit button should be disabled
+    cy.get("button[type=submit]").should("be.disabled");
+  });
+  it("Can be submitted", () => {
+    // Set the name, surname and email
+    cy.get("input[name=name]").type("Test");
+    cy.get("input[name=surname]").type("Test");
+
+    // The submit button should not be disabled
+    cy.get("button[type=submit]").should("not.be.disabled");
+
+    // Click the submit button
+    cy.get("button[type=submit]").click();
+  });
+  it("Redirects to email confirm when the email is changed", () => {
+    cy.intercept(
+      "GET", // Route all GET requests
+      "/api/user", // that have a URL that matches '/users/*'
+      { fixture: "userWithUnconfirmedEmail" }
+    ).as("userWithUnconfirmedEmail");
+
+    // Set the name, surname and email
+    cy.get("input[name=name]").type("Test");
+    cy.get("input[name=surname]").type("Test");
+
+    cy.get("input[name=email]").clear();
+    cy.get("input[name=email]").type("changed@test.com");
+
+    cy.get("button[type=submit]").click();
+    // Wait for getUser to finish
+    cy.wait("@getUser");
+    cy.url().should("include", "/confirm-email");
+  });
+});

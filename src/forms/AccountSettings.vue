@@ -1,38 +1,44 @@
 <script setup lang="ts">
-import BaseButton from "@/components/BaseButton.vue";
-import router from "@/router";
 import { useUserStore } from "@/stores/user";
-import { nextTick, ref } from "vue";
+import { ref } from "vue";
 import BaseForm from "./BaseForm.vue";
 
 const userStore = useUserStore();
 
 // Email, password, and remember me
 const email = ref(userStore.user?.email);
-const password = ref("");
-const rememberMe = ref(false);
 
 // Name, Surname
 const name = ref(userStore.user?.name);
 const surname = ref(userStore.user?.surname);
 
-const checkedEmail = ref(false);
-
-// Is the user registering or logging in?
-const isRegistering = ref(false);
-
-// The error message
-const errorMessage = ref("");
-
 const baseForm = ref();
 
-const emit = defineEmits(["authenticated"]);
+const emit = defineEmits(["updated"]);
 
 // The submit function. If there is just the email, check if the email is valid. If it is not, set the register mode. If it is, set the login mode.
 const submitForm = async () => {
   if (!email.value || !name.value || !surname.value) {
     return;
   }
+
+  // Create an object containing only the changed values
+  const changedValues = {} as any;
+  if (userStore.user?.name !== name.value) {
+    changedValues["name"] = name.value;
+  }
+  if (userStore.user?.surname !== surname.value) {
+    changedValues["surname"] = surname.value;
+  }
+  if (userStore.user?.email !== email.value) {
+    changedValues["email"] = email.value;
+  }
+
+  // If there are no changed values, return
+  if (Object.keys(changedValues).length === 0) {
+    return;
+  }
+
   const response = await userStore.update(
     name.value,
     surname.value,
@@ -40,9 +46,10 @@ const submitForm = async () => {
   );
 
   if (response === true) {
+    // Emit the updated event with the changed fields
+    emit("updated", changedValues);
     return;
   } else if (typeof response === "object") {
-    console.log("Obj", response);
     baseForm.value.setInputErrors(response.data.errors);
   }
 };
