@@ -190,7 +190,8 @@ router.beforeEach(async (to, from) => {
   if (
     from.redirectedFrom &&
     shouldRedirect &&
-    from.redirectedFrom.path !== to.path
+    from.redirectedFrom.path !== to.path &&
+    from.redirectedFrom.name !== "logout"
   ) {
     return {
       name: from.redirectedFrom.name,

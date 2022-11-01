@@ -348,7 +348,7 @@ describe("Login", () => {
   });
 
   it("Logs in and redirects when a redirect is supplied", () => {
-    cy.visit("/rent");
+    cy.visit("/settings");
 
     // Get the input of type email
     cy.get("input[type=email]").type("success@stripe.com");
@@ -379,7 +379,7 @@ describe("Login", () => {
     cy.get("button[type=submit]").click();
 
     // We should be redirected to the dashboard
-    cy.location("pathname").should("eq", "/rent");
+    cy.location("pathname").should("eq", "/settings");
   });
 
   it("The back button should be present on second pages and, when navigating back, the original submit should not be disabled", () => {
@@ -982,6 +982,97 @@ describe("Logout", () => {
 
     // The user should be redirected to the login page
     cy.url().should("include", "/login");
+  });
+  it("Can log back in after logout", () => {
+    cy.intercept(
+      "GET", // Route all GET requests
+      "/api/user", // that have a URL that matches '/users/*'
+      { fixture: "user" }
+    ).as("getUser");
+
+    // Intercept the logout
+    cy.intercept(
+      {
+        method: "POST", // Route all GET requests
+        url: "/logout", // that have a URL that matches '/users/*'
+      },
+      {
+        statusCode: 204,
+      }
+    );
+
+    cy.visit("/logout");
+
+    // The user should be redirected to the login page
+    cy.url().should("include", "/login");
+
+    cy.intercept(
+      {
+        method: "POST", // Route all GET requests
+        url: "/email-exists/success@stripe.com", // that have a URL that matches '/users/*'
+      },
+      { statusCode: 200 }
+    ).as("emailExists");
+
+    // Get the input of type email
+    cy.get("input[type=email]").type("success@stripe.com");
+
+    // Click the submit button to advance to the next screen
+    cy.get("button[type=submit]").click();
+
+    // Check that form should only have 1 input (password)
+    cy.get("input").should("have.length", 1);
+
+    // Assert that somehwere on the page there is a Login text
+    // cy.contains("Login");
+
+    // Check that there is a password field
+    cy.get("input[type=password]").should("exist");
+
+    cy.get("input[type=password]").type("password");
+
+    // Check that the password field is invalid
+    cy.get("input[type=password]")
+      .invoke("prop", "validity")
+      .should("deep.include", {
+        valueMissing: false,
+        typeMismatch: false,
+        patternMismatch: false,
+        tooLong: false,
+        tooShort: false,
+        rangeUnderflow: false,
+        rangeOverflow: false,
+        stepMismatch: false,
+        badInput: false,
+        customError: false,
+        valid: true,
+      });
+
+    // Check that the submit button is disabled
+    cy.get("button[type=submit]").should("not.be.disabled");
+
+    // When pressing submit, a request to /login should be made
+    cy.intercept(
+      {
+        method: "POST", // Route all GET requests
+        url: "/login", // that have a URL that matches '/users/*'
+      },
+      {
+        statusCode: 200,
+      }
+    ).as("login");
+
+    // Click the submit button to advance to the next screen
+    cy.get("button[type=submit]").click();
+
+    // Confirm that the login request contained a header with X-XSRF-TOKEN
+    // @todo make a CSRF check test, the below doesnt work. We need to also do it on registration
+    // cy.wait("@login")
+    //   .its("request.headers")
+    //   .should("have.property", "X-XSRF-TOKEN", "token");
+
+    // We should be redirected to the dashboard
+    cy.location("pathname").should("eq", "/");
   });
 });
 
