@@ -60,6 +60,7 @@ const submitForm = async () => {
     ref="baseForm"
     @submit="submitForm"
     :isLoading="userStore.isLoading"
+    submitText="Save"
   >
     <!-- The form starts with just the email. The user presses a button and we check if we should show the register or login inputs -->
     <!-- <TransitionGroup> -->

@@ -104,6 +104,8 @@ const addPaymentMethod = () => {
     "
     :is-loading="form.processing"
   >
+    <label>{{ $t("Add a payment method") }}</label>
+
     <StripeElements
       class="input"
       v-if="stripeLoaded"

@@ -25,5 +25,7 @@
     "A new email has been sent to you.": "Un nouvel e-mail vous a été envoyé.",
     "Resend email": "Renvoyer l'e-mail",
     "Payment methods": "Moyens de paiement",
-    "Add a payment method": "Ajouter un moyen de paiement"
+    "Add a payment method": "Ajouter un moyen de paiement",
+    "Default payment method": "Moyen de paiement par défaut",
+    "Save": "Enregistrer"
 }
