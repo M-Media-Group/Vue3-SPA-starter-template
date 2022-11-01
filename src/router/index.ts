@@ -29,8 +29,18 @@ const router = createRouter({
       name: "logout",
       beforeEnter: async (to, from, next) => {
         const store = useUserStore();
+        if (store.isLoading) {
+          await new Promise((resolve) => {
+            const interval = setInterval(() => {
+              if (!store.isLoading) {
+                clearInterval(interval);
+                resolve(true);
+              }
+            }, 10);
+          });
+        }
         await store.logout();
-        next({ name: "login" });
+        return next({ name: "login" });
       },
       component: LoginView,
     },
@@ -56,7 +66,7 @@ const router = createRouter({
       name: "confirm-email",
       component: ConfirmEmailView,
       meta: {
-        middleware: ["auth", "unconfirmed-email", "dontRedirect"],
+        middleware: ["auth", "unconfirmedEmail", "dontRedirect"],
       },
     },
     {
@@ -72,7 +82,7 @@ const router = createRouter({
       name: "rent",
       component: AboutViewVue,
       meta: {
-        middleware: ["auth", "confirmed-email"],
+        middleware: ["auth", "confirmedEmail"],
       },
     },
     {
@@ -96,8 +106,8 @@ router.beforeEach(async (to, from) => {
     middleware &&
     (middleware.includes("auth") ||
       middleware.includes("guest") ||
-      middleware.includes("confirmed-email") ||
-      middleware.includes("unconfirmed-email"))
+      middleware.includes("confirmedEmail") ||
+      middleware.includes("unconfirmedEmail"))
   ) {
     if (store.isLoading) {
       await new Promise((resolve) => {
@@ -125,8 +135,7 @@ router.beforeEach(async (to, from) => {
         },
       };
     }
-  }
-  if (middleware && middleware.includes("guest")) {
+  } else if (middleware && middleware.includes("guest")) {
     // if so, redirect to the home page
     if (store.isAuthenticated) {
       return {
@@ -134,7 +143,7 @@ router.beforeEach(async (to, from) => {
       };
     }
   }
-  if (middleware && middleware.includes("confirmed-email")) {
+  if (middleware && middleware.includes("confirmedEmail")) {
     // check if the user has confirmed their email
     const hasConfirmedEmail = store.user?.email_verified_at !== null;
     // if not, redirect to the confirm email page
@@ -146,11 +155,9 @@ router.beforeEach(async (to, from) => {
         },
       };
     }
-  }
-
-  if (middleware && middleware.includes("unconfirmed-email")) {
+  } else if (middleware && middleware.includes("unconfirmedEmail")) {
     // check if the user has confirmed their email
-    const hasConfirmedEmail = store.user?.email_verified_at !== null;
+    const hasConfirmedEmail = store.user?.email_verified_at;
     // if so, redirect to the home page
     if (hasConfirmedEmail) {
       return {

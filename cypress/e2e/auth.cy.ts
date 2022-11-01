@@ -503,7 +503,7 @@ describe("Register", () => {
     cy.get("button[type=submit]").click();
 
     // Check that form should only have 1 input (password)
-    cy.get("input").should("have.length", 3);
+    cy.get("input").should("have.length", 4);
 
     // Assert that somehwere on the page there is a Login text
     // cy.contains("Login");
@@ -581,7 +581,7 @@ describe("Register", () => {
     cy.get("button[type=submit]").click();
 
     // Check that the form has 3 inputs
-    cy.get("input").should("have.length", 3);
+    cy.get("input").should("have.length", 4);
 
     // Confirm that the name and surname inputs exist
     cy.get("input[name=name]").should("exist");
@@ -630,7 +630,7 @@ describe("Register", () => {
     cy.get("input[name=name]").type("{enter}");
 
     // Check that the form has 3 inputs
-    cy.get("input").should("have.length", 3);
+    cy.get("input").should("have.length", 4);
   });
 
   it("Shows custom errors on name, email, and password fields when they are returned from the server", () => {
@@ -662,12 +662,14 @@ describe("Register", () => {
     cy.get("input[name=name]").type("John");
     cy.get("input[name=surname]").type("Doe");
     cy.get("input[type=password]").type("password123");
+    // Check the checkbox
+    cy.get("input[type=checkbox]").check();
 
     // Submit the form by pressing enter on the name field
     cy.get("input[name=name]").type("{enter}");
 
     // Check that the form has 3 inputs
-    cy.get("input").should("have.length", 3);
+    cy.get("input").should("have.length", 4);
 
     cy.get("input[name=name]")
       .invoke("prop", "validity")
@@ -729,6 +731,8 @@ describe("Register", () => {
     cy.get("input[name=name]").type("Alex");
     cy.get("input[name=surname]").type("Dissen");
     cy.get("input[name=password]").type("mySecurePassword");
+    // Check the checkbox
+    cy.get("input[type=checkbox]").check();
 
     // Click the submit button to advance to the next screen
     cy.get("button[type=submit]").click();
@@ -834,15 +838,24 @@ describe("Confirm email", () => {
     cy.url().should("include", "/login");
   });
 
+  it("Redirects to home when already confirmed", () => {
+    cy.intercept(
+      "GET", // Route all GET requests
+      "/api/user", // that have a URL that matches '/users/*'
+      { fixture: "user" }
+    ).as("user");
+
+    cy.visit("/confirm-email");
+    cy.location("pathname").should("eq", "/");
+  });
+
   it("Shows a message requesting email confirmation", () => {
     // Intercept the call to api/user
     cy.intercept(
       "GET", // Route all GET requests
       "/api/user", // that have a URL that matches '/users/*'
-      { fixture: "user" }
-    ).as("getUser");
-
-    cy.visit("/");
+      { fixture: "userWithUnconfirmedEmail" }
+    ).as("userWithUnconfirmedEmail");
 
     // Wait for the request to finish
 
@@ -856,6 +869,12 @@ describe("Confirm email", () => {
   });
 
   it("Allows requesting of new verification email", () => {
+    cy.intercept(
+      "GET", // Route all GET requests
+      "/api/user", // that have a URL that matches '/users/*'
+      { fixture: "userWithUnconfirmedEmail" }
+    ).as("userWithUnconfirmedEmail");
+
     cy.intercept(
       {
         method: "POST", // Route all GET requests

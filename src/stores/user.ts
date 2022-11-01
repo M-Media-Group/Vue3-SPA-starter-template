@@ -14,7 +14,6 @@ export const useUserStore = defineStore("user", () => {
 
   async function getUser() {
     isLoading.value = true;
-    attemptedToFetchUser.value = true;
     try {
       const response = await axios.get(baseUrl + "api/user");
       user.value = response.data;
@@ -23,6 +22,7 @@ export const useUserStore = defineStore("user", () => {
     } catch (error) {
       console.log(error);
     } finally {
+      attemptedToFetchUser.value = true;
       isLoading.value = false;
     }
   }
@@ -63,7 +63,7 @@ export const useUserStore = defineStore("user", () => {
 
     // Check if the email is already in use
     try {
-      const response = await axios.post(
+      await axios.post(
         baseUrl + "login",
         {
           email: email,
