@@ -10,9 +10,9 @@
     "created_at": "2019-05-18T12:52:32.000000Z",
     "updated_at": "2022-10-27T18:10:14.000000Z",
     "description": "Im the founder",
-    "stripe_id": null,
-    "pm_type": null,
-    "pm_last_four": null,
+    "stripe_id": "cus_MhMB88BwGmqHCK",
+    "pm_type": "visa",
+    "pm_last_four": "4242",
     "trial_ends_at": null,
     "is_public": false
 }

@@ -38,6 +38,9 @@ const router = createRouter({
         return next({ name: "login" });
       },
       component: () => import("../views/Auth/LoginOrRegisterView.vue"),
+      meta: {
+        middleware: ["auth", "dontRedirect"],
+      },
     },
 
     {
@@ -183,11 +186,16 @@ router.beforeEach(async (to, from) => {
       };
     }
   }
-
+  console.log("Red", from, shouldRedirect);
   // // Finally, if there is a redirect query param, redirect to that
-  if (to.query.redirect && shouldRedirect) {
+  if (
+    from.redirectedFrom &&
+    shouldRedirect &&
+    from.redirectedFrom.path !== to.path
+  ) {
     return {
-      name: to.query.redirect as string,
+      name: from.redirectedFrom.name,
+      query: from.redirectedFrom.query,
     };
   }
 });

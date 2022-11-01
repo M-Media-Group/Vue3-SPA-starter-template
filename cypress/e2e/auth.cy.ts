@@ -347,6 +347,41 @@ describe("Login", () => {
     cy.location("pathname").should("eq", "/");
   });
 
+  it("Logs in and redirects when a redirect is supplied", () => {
+    cy.visit("/rent");
+
+    // Get the input of type email
+    cy.get("input[type=email]").type("success@stripe.com");
+
+    // Click the submit button to advance to the next screen
+    cy.get("button[type=submit]").click();
+
+    cy.get("input[type=password]").type("password");
+
+    // When pressing submit, a request to /login should be made
+    cy.intercept(
+      {
+        method: "POST", // Route all GET requests
+        url: "/login", // that have a URL that matches '/users/*'
+      },
+      {
+        statusCode: 200,
+      }
+    ).as("login");
+
+    cy.intercept(
+      "GET", // Route all GET requests
+      "/api/user", // that have a URL that matches '/users/*'
+      { fixture: "user" }
+    ).as("getUser");
+
+    // Click the submit button to advance to the next screen
+    cy.get("button[type=submit]").click();
+
+    // We should be redirected to the dashboard
+    cy.location("pathname").should("eq", "/rent");
+  });
+
   it("The back button should be present on second pages and, when navigating back, the original submit should not be disabled", () => {
     // Get the input of type email
     cy.get("input[type=email]").type("fail@stripe.com");
