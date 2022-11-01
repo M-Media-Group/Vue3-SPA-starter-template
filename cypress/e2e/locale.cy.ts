@@ -1,4 +1,4 @@
-describe("Payments", () => {
+describe("Locales", () => {
   it("Shows a language switcher in the footer", () => {
     cy.visit("/");
     cy.get("select[name=locales]").should("exist");
