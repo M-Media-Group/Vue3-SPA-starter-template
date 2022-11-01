@@ -2,13 +2,15 @@
 import { useUserStore } from "@/stores/user";
 
 const user = useUserStore();
+
+const appName = import.meta.env.VITE_APP_NAME;
 </script>
 <template>
   <nav>
     <ul>
       <li>
         <router-link to="/" aria-roledescription="logo"
-          ><strong>Scan & Paddle</strong></router-link
+          ><strong>{{ appName }}</strong></router-link
         >
       </li>
     </ul>

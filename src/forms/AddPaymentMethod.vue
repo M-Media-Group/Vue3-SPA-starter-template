@@ -69,9 +69,12 @@ const addPaymentMethod = () => {
       if (result.error) {
         form.error = result.error.message;
       } else {
+        if (!userStore.user?.id) {
+          return;
+        }
         form.processing = true;
         axios
-          .post(route("api.v1.paymentMethods.store"), {
+          .post("/api/users/" + userStore.user.id + "/payment-methods", {
             payment_method: result.paymentMethod.id,
           })
           .then((response) => {
@@ -110,11 +113,6 @@ const addPaymentMethod = () => {
       :stripe-key="stripeKey"
       :elements-options="{
         locale: $i18n.locale,
-        fonts: [
-          {
-            cssSrc: 'https://fonts.googleapis.com/css?family=Roboto',
-          },
-        ],
       }"
     >
       <StripeElement

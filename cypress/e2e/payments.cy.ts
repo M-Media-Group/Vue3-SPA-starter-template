@@ -19,14 +19,22 @@ describe("Payments", () => {
     cy.get("button[type=submit]").should("be.disabled");
   });
   it.skip("Can be submitted", () => {
+    cy.intercept(
+      "POST", // Route all GET requests
+      "/v1/payment_methods", // that have a URL that matches '/users/*'
+      { fixture: "paymentMethodStripeAPI" }
+    ).as("paymentMethodStripeAPI");
+
+    cy.intercept(
+      "POST", // Route all GET requests
+      "/api/users/1/payment-methods", // that have a URL that matches '/users/*'
+      { fixture: "paymentMethod" }
+    ).as("paymentMethod");
     // Fill out the form
     // cy.get("input[name=cardholderName]").type("John Doe");
     // cy.get("input[name=cardNumber]").type("4242424242424242");
     // cy.get("input[name=expiry]").type("12/24");
     // cy.get("input[name=cvc]").type("123");
-
-    // Wait for stripe JS to load
-    cy.wait(5000);
 
     cy.get(".__PrivateStripeElement > iframe")
       .should("have.length", 1)

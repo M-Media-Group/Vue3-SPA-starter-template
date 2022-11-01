@@ -72,6 +72,9 @@ npm run lint
 
 Assumptions:
 - The backend is powered by Laravel Fortify and Sanctum
+- The user object is the one that can make payments (some apps may need to do this on the teams instead)
+  - Using Stripe as the payment provider
+-
 
 Potential tweaks to do:
 - Assumes Fortify and Sanctum are being used in backend

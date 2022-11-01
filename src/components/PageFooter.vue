@@ -1,8 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const appName = import.meta.env.VITE_APP_NAME;
+</script>
 <template>
   <footer>
     <ul>
-      <li>Scan & Paddle</li>
+      <li>{{ appName }}</li>
       <li>
         <select v-model="$i18n.locale" name="locales">
           <option
