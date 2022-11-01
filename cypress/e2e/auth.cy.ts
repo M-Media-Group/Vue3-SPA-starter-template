@@ -49,21 +49,6 @@ describe("Login", () => {
       },
       { statusCode: 404 }
     ).as("emailDoesNotExist");
-    cy.intercept(
-      {
-        method: "POST", // Route all GET requests
-        url: "/register", // that have a URL that matches '/users/*'
-      },
-      {
-        statusCode: 422,
-        body: {
-          message: "The given data was invalid.",
-          errors: {
-            email: ["This email is not formatted correctly."],
-          },
-        },
-      }
-    ).as("badRegistrationEmail");
   });
 
   it("Fail to login with both inputs missing", () => {
@@ -418,7 +403,7 @@ describe("Login", () => {
   });
 });
 
-describe("Register", () => {
+describe.only("Register", () => {
   // Before each, we expect a <form> element to exist
   // with a <button> element inside of it.
   beforeEach(() => {
@@ -761,6 +746,44 @@ describe("Register", () => {
     cy.get("input[type=email]").clear();
     cy.get("input[type=email]").type("ok@stripe.com");
     cy.get("button[type=submit]").should("not.be.disabled");
+  });
+
+  it.only("Can register", () => {
+    cy.intercept(
+      {
+        method: "POST", // Route all GET requests
+        url: "/register", // that have a URL that matches '/users/*'
+      },
+      {
+        statusCode: 201,
+      }
+    ).as("badRegistrationEmail");
+
+    cy.intercept(
+      "GET", // Route all GET requests
+      "/api/user", // that have a URL that matches '/users/*'
+      { fixture: "user" }
+    ).as("getUser");
+    // Get the input of type email
+    cy.get("input[type=email]").type("new-account@test.com");
+
+    // Click the submit button to advance to the next screen
+    cy.get("button[type=submit]").click();
+
+    // Add a name, surname, and password, and check the checkbox
+    cy.get("input[name=name]").type("John");
+    cy.get("input[name=surname]").type("Doe");
+    cy.get("input[type=password]").type("password123");
+    cy.get("input[type=checkbox]").check();
+
+    // Submit the form by pressing enter on the name field
+    cy.get("input[name=name]").type("{enter}");
+
+    // Confirm we are redirected to the "/" path
+    cy.location("pathname").should("eq", "/");
+
+    // Confirm that the navigation bar does not have a link to the login page
+    cy.get("a[href='/login']").should("not.exist");
   });
 });
 

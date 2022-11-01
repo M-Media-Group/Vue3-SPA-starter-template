@@ -121,6 +121,7 @@ export const useUserStore = defineStore("user", () => {
         name: name,
         surname: surname,
       });
+      await getUser();
       return true;
     } catch (error: any) {
       return error.response;

@@ -144,7 +144,7 @@ const goBack = async () => {
         v-model="name"
         minlength="2"
         pattern=".{2,}"
-        title="Please enter Alphabets."
+        autocomplete="given-name"
         autofocus
         required
       />
@@ -157,6 +157,7 @@ const goBack = async () => {
         v-model="surname"
         minlength="2"
         pattern=".{2,}"
+        autocomplete="family-name"
         required
       />
       <label for="password">{{ $t("Password") }}</label>
@@ -168,6 +169,7 @@ const goBack = async () => {
         v-model="password"
         minlength="5"
         pattern=".{5,}"
+        autocomplete="new-password"
         required
       />
 
@@ -195,6 +197,7 @@ const goBack = async () => {
         v-model="password"
         minlength="1"
         pattern=".{1,}"
+        autocomplete="current-password"
         autofocus
         required
       />
