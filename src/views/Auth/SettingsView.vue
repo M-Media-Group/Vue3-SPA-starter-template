@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import CardElement from "@/components/CardElement.vue";
 import AccountSettings from "@/forms/AccountSettings.vue";
+import AddPaymentMethod from "@/forms/AddPaymentMethod.vue";
 import router from "@/router";
 
 const handleUpdate = (event: { email: any }) => {
@@ -15,6 +16,9 @@ const handleUpdate = (event: { email: any }) => {
   <h1>{{ $t("My Account") }}</h1>
   <CardElement :title="$t('Settings')">
     <AccountSettings @updated="handleUpdate"></AccountSettings>
+  </CardElement>
+  <CardElement :title="$t('Payments')">
+    <AddPaymentMethod />
   </CardElement>
   <!-- <CardElement :title="$t('Payment methods')"> </CardElement>
   <CardElement :title="$t('Previous rentals')"> </CardElement>

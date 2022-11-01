@@ -13,6 +13,7 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@stripe/stripe-js": "^1.42.1",
     "pinia": "^2.0.23",
     "vue": "^3.2.41",
     "vue-i18n": "^9.2.2",
