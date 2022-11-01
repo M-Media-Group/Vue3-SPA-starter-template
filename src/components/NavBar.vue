@@ -7,7 +7,9 @@ const user = useUserStore();
   <nav>
     <ul>
       <li>
-        <router-link to="/"><strong>Scan & Paddle</strong></router-link>
+        <router-link to="/" aria-roledescription="logo"
+          ><strong>Scan & Paddle</strong></router-link
+        >
       </li>
     </ul>
     <ul>

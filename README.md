@@ -92,6 +92,9 @@ If you want to add a new feature, write a test that will fail because of the mis
 Define the following:
 - VITE_API_URL
   - Example: http://192.168.10.17/
+- VITE_STRIPE_KEY
+  - Should start with pk_
+
 
 ## Inputs
 Inputs should use built in browser validation. If you need to add custom validation, set it using the native browser validation.
