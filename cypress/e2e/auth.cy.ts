@@ -403,7 +403,7 @@ describe("Login", () => {
   });
 });
 
-describe.only("Register", () => {
+describe("Register", () => {
   // Before each, we expect a <form> element to exist
   // with a <button> element inside of it.
   beforeEach(() => {
@@ -748,7 +748,7 @@ describe.only("Register", () => {
     cy.get("button[type=submit]").should("not.be.disabled");
   });
 
-  it.only("Can register", () => {
+  it("Can register", () => {
     cy.intercept(
       {
         method: "POST", // Route all GET requests
@@ -1001,11 +1001,8 @@ describe("Edit user settings", () => {
     cy.get("input[name=name]").type("Test");
     cy.get("input[name=surname]").type("Test");
 
-    // The submit button should not be disabled
-    cy.get("button[type=submit]").should("not.be.disabled");
-
-    // Click the submit button
-    cy.get("button[type=submit]").click();
+    // Get the submit button right after the email input
+    cy.get("input[name=email]").parent().find("button[type=submit]").click();
   });
   it("Redirects to email confirm when the email is changed", () => {
     cy.intercept(
@@ -1021,9 +1018,8 @@ describe("Edit user settings", () => {
     cy.get("input[name=email]").clear();
     cy.get("input[name=email]").type("changed@test.com");
 
-    cy.get("button[type=submit]").click();
-    // Wait for getUser to finish
-    cy.wait("@getUser");
+    cy.get("input[name=email]").parent().find("button[type=submit]").click();
+
     cy.url().should("include", "/confirm-email");
   });
 });
