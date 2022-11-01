@@ -80,7 +80,10 @@ const submit = async () => {
 const callActionsOnAllInputs = (
   callback: (element: HTMLInputElement) => void
 ) => {
-  for (const element of formElement.value?.elements ?? []) {
+  if (!formElement.value?.elements) {
+    return;
+  }
+  for (const element of formElement.value.elements) {
     if (element instanceof HTMLInputElement) {
       callback(element);
     }

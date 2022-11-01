@@ -129,7 +129,6 @@ const addPaymentMethod = () => {
               fontWeight: '400',
               fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
               fontSize: '16px',
-              lineHeight: '24px',
               fontSmoothing: 'antialiased',
               ':-webkit-autofill': {
                 color: '#fce883',
