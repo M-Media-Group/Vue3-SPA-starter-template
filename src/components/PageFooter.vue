@@ -2,7 +2,6 @@
 const appName = import.meta.env.VITE_APP_NAME;
 
 const handleLocaleChange = (locale: string) => {
-  console.log(locale);
   // Set the document locale
   document.documentElement.lang = locale;
   // Set the document direction

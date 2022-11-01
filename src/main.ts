@@ -22,6 +22,8 @@ let locale =
 if (!["en", "fr"].includes(locale)) {
   locale = "en";
 }
+// Set the locale to the html tag
+document.documentElement.lang = locale;
 
 const i18n = createI18n({
   legacy: false, // you must set `false`, to use Composition API
