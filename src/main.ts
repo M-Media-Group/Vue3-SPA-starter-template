@@ -29,7 +29,6 @@ const i18n = createI18n({
 axios.defaults.withCredentials = true;
 // Set accept header
 axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
-axios.defaults.headers.common["CONTENT_TYPE"] = "application/json";
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 
 app.use(createPinia());
