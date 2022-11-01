@@ -129,6 +129,8 @@ const addPaymentMethod = () => {
               fontWeight: '400',
               fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
               fontSize: '16px',
+              // Even though lineHeight is not suggested to be used by Stripe, we need it to keep a consistent look with Pico
+              lineHeight: '24px',
               fontSmoothing: 'antialiased',
               ':-webkit-autofill': {
                 color: '#fce883',
