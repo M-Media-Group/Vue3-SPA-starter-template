@@ -1,11 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
-import LoginView from "../views/Auth/LoginOrRegisterView.vue";
-import ConfirmEmailView from "../views/Auth/ConfirmEmailView.vue";
-import ResetPasswordVue from "@/forms/ResetPassword.vue";
 import { useUserStore } from "@/stores/user";
 import AboutViewVue from "../views/AboutView.vue";
-import SettingsViewVue from "@/views/Auth/SettingsView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,12 +8,12 @@ const router = createRouter({
     {
       path: "/",
       name: "home",
-      component: HomeView,
+      component: () => import("../views/HomeView.vue"),
     },
     {
       path: "/login",
       name: "login",
-      component: LoginView,
+      component: () => import("../views/Auth/LoginOrRegisterView.vue"),
       meta: {
         middleware: ["guest", "dontRedirect"],
       },
@@ -42,13 +37,13 @@ const router = createRouter({
         await store.logout();
         return next({ name: "login" });
       },
-      component: LoginView,
+      component: () => import("../views/Auth/LoginOrRegisterView.vue"),
     },
 
     {
       path: "/sign-up",
       name: "sign-up",
-      component: LoginView,
+      component: () => import("../views/Auth/LoginOrRegisterView.vue"),
       meta: {
         middleware: ["guest", "dontRedirect"],
       },
@@ -56,7 +51,7 @@ const router = createRouter({
     {
       path: "/forgot-password",
       name: "forgot-password",
-      component: ResetPasswordVue,
+      component: () => import("../forms/ResetPassword.vue"),
       meta: {
         middleware: ["guest"],
       },
@@ -64,7 +59,7 @@ const router = createRouter({
     {
       path: "/confirm-email",
       name: "confirm-email",
-      component: ConfirmEmailView,
+      component: () => import("../views/Auth/ConfirmEmailView.vue"),
       meta: {
         middleware: ["auth", "unconfirmedEmail", "dontRedirect"],
       },
@@ -72,7 +67,7 @@ const router = createRouter({
     {
       path: "/settings",
       name: "settings",
-      component: SettingsViewVue,
+      component: () => import("../views/Auth/SettingsView.vue"),
       meta: {
         middleware: ["auth"],
       },
