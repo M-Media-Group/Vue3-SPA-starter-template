@@ -106,7 +106,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
   setMetaAttributes(to, from);
-  await handleMiddleware(to, from);
+  return (await handleMiddleware(to, from)) ?? undefined;
 });
 
 export default router;
