@@ -1,12 +1,24 @@
 <script setup lang="ts">
 const appName = import.meta.env.VITE_APP_NAME;
+
+const handleLocaleChange = (locale: string) => {
+  console.log(locale);
+  // Set the document locale
+  document.documentElement.lang = locale;
+};
 </script>
 <template>
   <footer>
     <ul>
       <li>{{ appName }}</li>
       <li>
-        <select v-model="$i18n.locale" name="locales">
+        <select
+          v-model="$i18n.locale"
+          name="locales"
+          @change="
+            handleLocaleChange(($event.target as HTMLSelectElement)?.value)
+          "
+        >
           <option
             v-for="locale in $i18n.availableLocales"
             :key="`locale-${locale}`"
