@@ -15,9 +15,16 @@ import fr from "./locales/fr.json";
 
 const app = createApp(App);
 
+// Get the current locale from the browser
+let locale = navigator.language.split("-")[0] ?? "en";
+// If the locale is not supported, fallback to English
+if (!["en", "fr"].includes(locale)) {
+  locale = "en";
+}
+
 const i18n = createI18n({
   legacy: false, // you must set `false`, to use Composition API
-  locale: "en", // set locale
+  locale: locale, // set locale
   fallbackLocale: "en", // set fallback locale
   messages: {
     en: en,
