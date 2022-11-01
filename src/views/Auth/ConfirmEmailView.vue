@@ -20,16 +20,21 @@ const resendEmail = async () => {
 };
 </script>
 <template>
-  <h1>Confirm your email</h1>
-  <CardElement class="card" title="Please confirm your email">
+  <h1>{{ $t("Confirm your email") }}</h1>
+  <CardElement class="card" :title="$t('Confirm your email')">
     <p>
-      Please confirm your email address to continue. Check your spam too. If you
-      didn't get an email, you can ask us to send you a new one.
+      {{
+        $t(
+          "Please confirm your email address to continue. Check your spam too. If you didn't get an email, you can ask us to send you a new one."
+        )
+      }}
     </p>
-    <p class="success" v-if="emailSent">A new email has been sent to you.</p>
+    <p class="success" v-if="emailSent">
+      {{ $t("A new email has been sent to you.") }}
+    </p>
     <BaseForm
       v-else
-      submit-text="Resend email"
+      :submit-text="$t('Resend email')"
       @submit="resendEmail"
     ></BaseForm>
   </CardElement>
