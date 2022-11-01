@@ -88,5 +88,10 @@ If you want to add a new feature, write a test that will fail because of the mis
 
 <!-- Show image https://res.cloudinary.com/practicaldev/image/fetch/s--2bUj5oX1--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/26tdj40bmlnmw09fb27h.png -->
 
+## .env.local file
+Define the following:
+- VITE_API_URL
+  - Example: http://192.168.10.17/
+
 ## Inputs
 Inputs should use built in browser validation. If you need to add custom validation, set it using the native browser validation.

@@ -16,20 +16,21 @@ import fr from "./locales/fr.json";
 const app = createApp(App);
 
 const i18n = createI18n({
-    legacy: false, // you must set `false`, to use Composition API
-    locale: "en", // set locale
-    fallbackLocale: "en", // set fallback locale
-    messages: {
-        en: en,
-        fr: fr,
-    },
-    // something vue-i18n options here ...
+  legacy: false, // you must set `false`, to use Composition API
+  locale: "en", // set locale
+  fallbackLocale: "en", // set fallback locale
+  messages: {
+    en: en,
+    fr: fr,
+  },
+  // something vue-i18n options here ...
 });
 
 axios.defaults.withCredentials = true;
 // Set accept header
 axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 axios.defaults.headers.common["CONTENT_TYPE"] = "application/json";
+axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 
 app.use(createPinia());
 app.use(router);

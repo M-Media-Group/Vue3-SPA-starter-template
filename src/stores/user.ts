@@ -10,12 +10,10 @@ export const useUserStore = defineStore("user", () => {
   const user = ref(null) as Ref<User | null>;
   const attemptedToFetchUser = ref(false);
 
-  const baseUrl = "http://192.168.10.17/";
-
   async function getUser() {
     isLoading.value = true;
     try {
-      const response = await axios.get(baseUrl + "api/user");
+      const response = await axios.get("api/user");
       user.value = response.data;
       isAuthenticated.value = true;
       await getCsrfToken();
@@ -39,7 +37,7 @@ export const useUserStore = defineStore("user", () => {
 
     // Check if the email is already in use by calling POST "email-exists/" + email with axios. If it returns 404, the email is not in use.
     try {
-      const response = await axios.post(baseUrl + "email-exists/" + email);
+      const response = await axios.post("email-exists/" + email);
       return response.status === 200;
     } catch (error) {
       return false;
@@ -64,7 +62,7 @@ export const useUserStore = defineStore("user", () => {
     // Check if the email is already in use
     try {
       await axios.post(
-        baseUrl + "login",
+        "login",
         {
           email: email,
           password: password,
@@ -116,7 +114,7 @@ export const useUserStore = defineStore("user", () => {
 
     try {
       // Check if the email is already in use
-      await axios.post(baseUrl + "register", {
+      await axios.post("register", {
         email: email,
         password: password,
         password_confirmation: password,
@@ -137,7 +135,7 @@ export const useUserStore = defineStore("user", () => {
     }
     isLoading.value = true;
     try {
-      await axios.post(baseUrl + "email/verification-notification", {
+      await axios.post("email/verification-notification", {
         email: user.value.email,
       });
       return true;
@@ -157,7 +155,7 @@ export const useUserStore = defineStore("user", () => {
 
     // Submit a reset password
     try {
-      await axios.post(baseUrl + "forgot-password", {
+      await axios.post("forgot-password", {
         email: email,
       });
       return true;
@@ -174,14 +172,14 @@ export const useUserStore = defineStore("user", () => {
     // document.cookie =
     //   "XSRF-TOKEN=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
-    await axios.get(baseUrl + "sanctum/csrf-cookie", { withCredentials: true });
+    await axios.get("sanctum/csrf-cookie", { withCredentials: true });
 
-    // const response = await fetch(baseUrl + "sanctum/csrf-cookie");
+    // const response = await fetch("sanctum/csrf-cookie");
   }
 
   async function logout() {
     isLoading.value = true;
-    await axios.post(baseUrl + "logout");
+    await axios.post("logout");
     isAuthenticated.value = false;
     user.value = null;
     isLoading.value = false;
@@ -190,7 +188,7 @@ export const useUserStore = defineStore("user", () => {
   async function update(name: string, surname: string, email: string) {
     isLoading.value = true;
     try {
-      await axios.put(baseUrl + "user/profile-information", {
+      await axios.put("user/profile-information", {
         name: name ?? user.value?.name,
         surname: surname ?? user.value?.surname,
         email: email ?? user.value?.email,
