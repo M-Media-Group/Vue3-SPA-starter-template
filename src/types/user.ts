@@ -11,6 +11,10 @@ export interface User {
   updated_at: Date;
   description: string | null;
   is_public: boolean;
+  stripe_id: string | null;
+  pm_type: string | null;
+  pm_last_four: string | null;
+  trial_ends_at: string | null;
   personal_access_tokens?: PersonalAccessToken[];
 }
 

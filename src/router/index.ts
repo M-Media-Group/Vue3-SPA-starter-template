@@ -73,11 +73,19 @@ const router = createRouter({
       },
     },
     {
+      path: "/add-payment-method",
+      name: "add-payment-method",
+      component: () => import("../views/AddPaymentMethodView.vue"),
+      meta: {
+        middleware: ["auth", "dontRedirect"],
+      },
+    },
+    {
       path: "/rent",
       name: "rent",
       component: AboutViewVue,
       meta: {
-        middleware: ["auth", "confirmedEmail"],
+        middleware: ["auth", "confirmedEmail", "hasPaymentMethod"],
       },
     },
     {
@@ -102,7 +110,8 @@ router.beforeEach(async (to, from) => {
     (middleware.includes("auth") ||
       middleware.includes("guest") ||
       middleware.includes("confirmedEmail") ||
-      middleware.includes("unconfirmedEmail"))
+      middleware.includes("unconfirmedEmail") ||
+      middleware.includes("hasPaymentMethod"))
   ) {
     if (store.isLoading) {
       await new Promise((resolve) => {
@@ -160,6 +169,21 @@ router.beforeEach(async (to, from) => {
       };
     }
   }
+
+  if (middleware && middleware.includes("hasPaymentMethod")) {
+    // check if the user has a payment method
+    const hasPaymentMethod = store.user?.pm_type && store.user?.stripe_id;
+    // if not, redirect to the add payment method page
+    if (!hasPaymentMethod) {
+      return {
+        name: "add-payment-method",
+        query: {
+          redirect: to.fullPath,
+        },
+      };
+    }
+  }
+
   // // Finally, if there is a redirect query param, redirect to that
   if (to.query.redirect && shouldRedirect) {
     return {
