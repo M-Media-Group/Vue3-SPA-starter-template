@@ -2,8 +2,8 @@
     "message": {
         "hello": "hello"
     },
-    "fr": "fr",
-    "en": "en",
+    "fr": "Français",
+    "en": "English",
     "Password": "Password",
     "Email": "Email",
     "Submit": "Submit",
