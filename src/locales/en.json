@@ -1,8 +1,33 @@
 {
     "message": {
-        "hello": "world"
+        "hello": "hello"
     },
-    "fr": "Français",
-    "en": "English",
-    "Email": "Email address"
+    "fr": "fr",
+    "en": "en",
+    "Password": "Password",
+    "Email": "Email",
+    "Submit": "Submit",
+    "Login": "Login",
+    "Sign up": "Sign up",
+    "Home": "Home",
+    "Settings": "Settings",
+    "Logout": "Logout",
+    "My Account": "My Account",
+    "Go back": "Go back",
+    "Surname": "Surname",
+    "Name": "Name",
+    "I accept the": "I accept the",
+    "Privacy Policy": "Privacy Policy",
+    "Terms of Service": "Terms of Service",
+    "and": "and",
+    "We'll never share your email with anyone else.": "We'll never share your email with anyone else.",
+    "If you change your email address you will have to confirm it again.": "If you change your email address you will have to confirm it again.",
+    "Confirm your email": "Confirm your email",
+    "Please confirm your email address to continue. Check your spam too. If you didn't get an email, you can ask us to send you a new one.": "Please confirm your email address to continue. Check your spam too. If you didn't get an email, you can ask us to send you a new one.",
+    "A new email has been sent to you.": "A new email has been sent to you.",
+    "Resend email": "Resend email",
+    "Payment methods": "Payment methods",
+    "Add a payment method": "Add a payment method",
+    "Default payment method": "Default payment method",
+    "Save": "Save"
 }
