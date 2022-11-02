@@ -93,6 +93,7 @@ export const handleMiddleware = async (
     from.redirectedFrom &&
     shouldRedirect &&
     from.redirectedFrom.path !== to.path &&
+    from.redirectedFrom.name &&
     from.redirectedFrom.name !== "logout"
   ) {
     return {
