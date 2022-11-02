@@ -50,6 +50,8 @@
   font-family: inherit;
   letter-spacing: inherit;
   height: calc(1rem * var(--line-height) + var(--form-element-spacing-vertical) * 2 + var(--border-width) * 2);
+  /* Below helps with Stripe input */
+  overflow: hidden;
 }
 
 .input::placeholder {
