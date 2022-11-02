@@ -49,6 +49,11 @@ describe("Login", () => {
       },
       { statusCode: 404 }
     ).as("emailDoesNotExist");
+    cy.intercept(
+      "GET", // Route all GET requests
+      "/sanctum/csrf-cookie", // that have a URL that matches '/users/*'
+      { statusCode: 204, delay: 50 }
+    ).as("getCookie");
   });
 
   it("Fail to login with both inputs missing", () => {
@@ -478,6 +483,11 @@ describe("Register", () => {
         },
       }
     ).as("badRegistrationEmail");
+    cy.intercept(
+      "GET", // Route all GET requests
+      "/sanctum/csrf-cookie", // that have a URL that matches '/users/*'
+      { statusCode: 204, delay: 50 }
+    ).as("getCookie");
   });
 
   it("Shows registration when email not found", () => {
@@ -989,6 +999,12 @@ describe("Logout", () => {
       "/api/user", // that have a URL that matches '/users/*'
       { fixture: "user" }
     ).as("getUser");
+
+    cy.intercept(
+      "GET", // Route all GET requests
+      "/sanctum/csrf-cookie", // that have a URL that matches '/users/*'
+      { statusCode: 204, delay: 50 }
+    ).as("getCookie");
 
     // Intercept the logout
     cy.intercept(
