@@ -83,7 +83,9 @@ const callActionsOnAllInputs = (
   if (!formElement.value?.elements) {
     return;
   }
-  for (const element of formElement.value.elements) {
+  const elements = formElement.value.elements;
+  for (let i = 0; i < elements.length; i++) {
+    const element = elements[i];
     if (element instanceof HTMLInputElement) {
       callback(element);
     }
