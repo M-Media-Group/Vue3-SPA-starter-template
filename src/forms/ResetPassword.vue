@@ -25,6 +25,10 @@ const submitForm = async () => {
   if (response === true) {
     success.value = response;
   } else if (typeof response === "object") {
+    if (response.data.errors.email) {
+      response.data.errors.password = response.data.errors.email;
+      delete response.data.errors.email;
+    }
     baseForm.value.setInputErrors(response.data.errors);
   }
   return success.value;
@@ -36,7 +40,6 @@ const submitForm = async () => {
     <label for="password">{{ $t("New password") }}</label>
     <input
       type="password"
-      id="password"
       name="password"
       placeholder="Password"
       v-model="password"
