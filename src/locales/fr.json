@@ -31,5 +31,6 @@
     "Save": "Enregistrer",
     "You do not have a default payment method set": "Vous n'avez pas de moyen de paiement par défaut défini",
     "Forgot password?": "Mot de passe oublié?",
-    "If the account exists an email has been sent!": "Si le compte existe, un e-mail a été envoyé!"
+    "If the account exists an email has been sent!": "Si le compte existe, un e-mail a été envoyé!",
+    "Invalid email or password": "E-mail ou mot de passe invalide"
 }

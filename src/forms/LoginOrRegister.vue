@@ -3,9 +3,12 @@ import BaseButton from "@/components/BaseButton.vue";
 import router from "@/router";
 import { useUserStore } from "@/stores/user";
 import { nextTick, ref } from "vue";
+import { useI18n } from "vue-i18n";
 import BaseForm from "./BaseForm.vue";
 
 const userStore = useUserStore();
+
+const { t } = useI18n();
 
 // Email, password, and remember me
 const email = ref("");
@@ -45,7 +48,7 @@ const login = async () => {
 
   if (response === false) {
     baseForm.value.setInputErrors({
-      password: "Invalid email or password",
+      password: t("Invalid email or password"),
     });
     // const data = await response.json();
     // handleError(data.errors);
