@@ -202,6 +202,38 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
+  async function confirmPassword(password: string) {
+    if (!password) {
+      return false;
+    }
+
+    isLoading.value = true;
+
+    // Submit a reset password
+    try {
+      await axios.post("user/confirm-password", {
+        password: password,
+      });
+      return true;
+    } catch (error: any) {
+      return error.response;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  async function shouldConfirmPassword() {
+    isLoading.value = true;
+    try {
+      const response = await axios.get("user/confirmed-password-status");
+      return response.data.confirmed;
+    } catch (error: any) {
+      return error.response;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   async function getCsrfToken() {
     // Remove XSRF-TOKEN cookie and header
     // axios.defaults.headers.common["X-CSRF-TOKEN"] = "";
@@ -252,5 +284,7 @@ export const useUserStore = defineStore("user", () => {
     sendPasswordReset,
     logout,
     update,
+    confirmPassword,
+    shouldConfirmPassword,
   };
 });

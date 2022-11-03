@@ -70,6 +70,14 @@ const router = createRouter({
       },
     },
     {
+      path: "/confirm-password",
+      name: "confirm-password",
+      component: () => import("../forms/ConfirmPassword.vue"),
+      meta: {
+        middleware: ["auth", "dontRedirect"],
+      },
+    },
+    {
       path: "/confirm-email",
       name: "confirm-email",
       component: () => import("../views/Auth/ConfirmEmailView.vue"),

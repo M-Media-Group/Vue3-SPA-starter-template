@@ -11,24 +11,14 @@ const success = ref(false);
 
 const baseForm = ref();
 
-const token = router.currentRoute.value.query.token as string;
-const email = router.currentRoute.value.query.email as string;
-
 const userStore = useUserStore();
 // The submit function. If there is just the password, check if the password is valid. If it is not, set the register mode. If it is, set the login mode.
 const submitForm = async () => {
-  const response = await userStore.sendPasswordReset(
-    email,
-    token,
-    password.value
-  );
+  const response = await userStore.confirmPassword(password.value);
+  console.log(response);
   if (response === true) {
     success.value = response;
   } else if (typeof response === "object") {
-    if (response.data.errors.email) {
-      response.data.errors.password = response.data.errors.email;
-      delete response.data.errors.email;
-    }
     baseForm.value.setInputErrors(response.data.errors);
   }
   return success.value;
@@ -37,15 +27,15 @@ const submitForm = async () => {
 
 <template>
   <BaseForm ref="baseForm" @submit="submitForm" :disabled="success">
-    <label for="password">{{ $t("New password") }}</label>
+    <label for="password">{{ $t("Password") }}</label>
     <input
       type="password"
       name="password"
-      placeholder="Password"
+      :placeholder="$t('Password')"
       v-model="password"
       :disabled="success"
       autofocus
-      autocomplete="new-password"
+      auto-complete="current-password"
       required
     />
     <small v-if="success" class="success"
