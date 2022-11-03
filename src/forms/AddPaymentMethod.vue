@@ -6,9 +6,6 @@ import { loadStripe } from "@stripe/stripe-js";
 import { StripeElements, StripeElement } from "vue-stripe-js";
 import axios from "axios";
 
-// Email, password, and remember me
-const email = ref("");
-
 const success = ref(false);
 
 const elementReady = ref(false);
@@ -93,6 +90,70 @@ const addPaymentMethod = () => {
       form.processing = false;
     });
 };
+
+const hsl2rgb = (h: number, s: number, l: number) => {
+  let a = s * Math.min(l, 1 - l);
+  let f = (n: number, k = (n + h / 30) % 12) =>
+    l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+  return [f(0), f(8), f(4)];
+};
+
+const getCssVarForStripe = (color: string) => {
+  const computedColor = getComputedStyle(document.documentElement)
+    .getPropertyValue(`--${color}`)
+    .trim()
+    .replace("deg", "");
+
+  // If the computedColor starts with hsl, convert it to rgb
+  if (computedColor.startsWith("hsl")) {
+    const hsl = computedColor.replace("hsl(", "").replace(")", "").split(",");
+    const rgb = hsl2rgb(
+      parseInt(hsl[0]),
+      parseInt(hsl[1]) / 100,
+      parseInt(hsl[2]) / 100
+    );
+    const rgbIn255Scale = rgb.map((c) => Math.round(c * 255));
+    return `rgb(${rgbIn255Scale.join(",")})`;
+  }
+
+  return computedColor;
+};
+
+const appearanceVariables = {
+  colorPrimary: getCssVarForStripe("primary"),
+  colorBackground: getCssVarForStripe("form-element-background-color"),
+  colorText: getCssVarForStripe("form-element-color"),
+  colorDanger: getCssVarForStripe("form-element-invalid-border-color"),
+  fontFamily: "system-ui,-apple-system,Roboto, Open Sans, Segoe UI, sans-serif",
+  // spacingUnit: '2px',
+  fontSizeBase: getCssVarForStripe("font-size"),
+  borderRadius: getCssVarForStripe("border-radius"),
+  // See all possible variables below
+};
+
+const elementStyle = {
+  base: {
+    iconColor: getCssVarForStripe("form-element-color"),
+    color: getCssVarForStripe("form-element-color"),
+    fontWeight: getCssVarForStripe("font-weight"),
+    fontFamily:
+      "system-ui,-apple-system,Roboto, Open Sans, Segoe UI, sans-serif",
+    fontSize: getCssVarForStripe("font-size"),
+    // Even though lineHeight is not suggested to be used by Stripe, we need it to keep a consistent look with Pico
+    lineHeight: getCssVarForStripe("line-height"),
+    fontSmoothing: "antialiased",
+    // ':-webkit-autofill': {
+    //   color: '#fce883',
+    // },
+    "::placeholder": {
+      color: getCssVarForStripe("form-element-placeholder-color"),
+    },
+  },
+  invalid: {
+    iconColor: getCssVarForStripe("form-element-invalid-border-color"),
+    color: getCssVarForStripe("form-element-invalid-border-color"),
+  },
+};
 </script>
 
 <template>
@@ -105,15 +166,18 @@ const addPaymentMethod = () => {
     :is-loading="form.processing"
   >
     <label>{{ $t("Add a payment method") }}</label>
-
     <StripeElements
       class="input"
       v-if="stripeLoaded"
       v-slot="{ elements }"
       ref="elms"
       :stripe-key="stripeKey"
+      :aria-busy="!elementReady"
       :elements-options="{
         locale: $i18n.locale,
+        appearance: {
+          variables: appearanceVariables,
+        },
       }"
     >
       <StripeElement
@@ -122,28 +186,7 @@ const addPaymentMethod = () => {
         @change="handleStripeInput($event)"
         @ready="elementReady = $event"
         :options="{
-          style: {
-            base: {
-              iconColor: '#c4f0ff',
-              color: '#fff',
-              fontWeight: '400',
-              fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
-              fontSize: '16px',
-              // Even though lineHeight is not suggested to be used by Stripe, we need it to keep a consistent look with Pico
-              lineHeight: '24px',
-              fontSmoothing: 'antialiased',
-              ':-webkit-autofill': {
-                color: '#fce883',
-              },
-              '::placeholder': {
-                color: '#73828C',
-              },
-            },
-            invalid: {
-              iconColor: '#FFC7EE',
-              color: '#FFC7EE',
-            },
-          },
+          style: elementStyle,
         }"
       />
     </StripeElements>
