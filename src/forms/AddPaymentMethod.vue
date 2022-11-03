@@ -150,6 +150,14 @@ const elementStyle = {
     color: getCssVarForStripe("form-element-invalid-border-color"),
   },
 };
+
+const handleElementReady = async (event: { elementType: string }) => {
+  elementReady.value = true;
+
+  // Focus on the card
+  await nextTick();
+  card.value.stripeElement.focus();
+};
 </script>
 
 <template>
@@ -179,10 +187,11 @@ const elementStyle = {
       }"
     >
       <StripeElement
+        v-show="elementReady"
         ref="card"
         :elements="elements"
         @change="handleStripeInput($event)"
-        @ready="elementReady = $event"
+        @ready="handleElementReady"
         :options="{
           style: elementStyle,
         }"
