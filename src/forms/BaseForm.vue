@@ -99,7 +99,12 @@ const setInputErrors = (errors: Record<string, string>) => {
       `input[name=${key}]`
     ) as HTMLInputElement;
     if (input) {
-      setErrorOnInput(input, value);
+      // If the value is an array, join it with a space
+      let valueToPass = value;
+      if (Array.isArray(value)) {
+        valueToPass = value.join(" ");
+      }
+      setErrorOnInput(input, valueToPass);
     }
   }
 };
