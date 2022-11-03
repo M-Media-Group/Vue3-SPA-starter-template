@@ -74,6 +74,7 @@ Assumptions:
 - The backend is powered by Laravel Fortify and Sanctum
 - The user object is the one that can make payments (some apps may need to do this on the teams instead)
   - Using Stripe as the payment provider
+  - Using Pico CSS variables for styling - update these if you're not using Pico
 -
 
 Potential tweaks to do:
