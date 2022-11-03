@@ -56,7 +56,7 @@ const router = createRouter({
     {
       path: "/forgot-password",
       name: "forgot-password",
-      component: () => import("../forms/ResetPassword.vue"),
+      component: () => import("../forms/ForgotPassword.vue"),
       meta: {
         middleware: ["guest"],
       },

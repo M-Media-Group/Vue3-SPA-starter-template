@@ -10,9 +10,6 @@ const email = ref("");
 
 const success = ref(false);
 
-// The error message
-const errorMessage = ref("");
-
 const baseForm = ref();
 
 const userStore = useUserStore();
