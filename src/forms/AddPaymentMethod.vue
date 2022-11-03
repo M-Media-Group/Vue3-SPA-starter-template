@@ -159,7 +159,8 @@ const elementStyle = {
     :disabled="
       success || !stripeLoaded || !elementReady || !paymentInfoComplete
     "
-    :is-loading="form.processing"
+    :is-loading="form.processing || !stripeLoaded"
+    data-cy="add-payment-form"
   >
     <label>{{ $t("Add a payment method") }}</label>
     <StripeElements
@@ -169,6 +170,7 @@ const elementStyle = {
       ref="elms"
       :stripe-key="stripeKey"
       :aria-busy="!elementReady"
+      data-cy="add-payment-input"
       :elements-options="{
         locale: $i18n.locale,
         appearance: {

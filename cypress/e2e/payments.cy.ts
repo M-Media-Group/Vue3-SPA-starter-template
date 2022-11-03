@@ -9,8 +9,16 @@ describe("Payments", () => {
     cy.visit("/settings");
   });
   it("Shows payments add page", () => {
+    // There should be a button to add a payment method
+    cy.get("[data-cy=add-payment-button]")
+      .should("exist")
+      .should("not.be.disabled")
+      .click();
+
+    cy.get("[data-cy=add-payment-form]").should("exist");
+    // cy.get("[data-cy=add-payment-input]").should("exist");
     //    There should be a stripe iframe
-    cy.get(".__PrivateStripeElement > iframe").should("exist");
+    // cy.get(".__PrivateStripeElement > iframe").should("exist");
 
     // There should be a submit button
     cy.get("button[type=submit]").should("be.visible");

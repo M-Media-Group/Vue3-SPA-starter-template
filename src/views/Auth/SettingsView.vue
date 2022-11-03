@@ -34,7 +34,11 @@ const addingNewPaymentMethod = ref(false);
       <p>{{ $t("You do not have a default payment method set") }}</p>
     </div>
     <AddPaymentMethod v-if="addingNewPaymentMethod" />
-    <button v-else @click="addingNewPaymentMethod = true">
+    <button
+      data-cy="add-payment-button"
+      v-else
+      @click="addingNewPaymentMethod = true"
+    >
       {{ $t("Add new payment method") }}
     </button>
   </CardElement>
