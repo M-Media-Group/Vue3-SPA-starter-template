@@ -45,7 +45,7 @@ const addingNewPaymentMethod = ref(false);
       v-else
       @click="addingNewPaymentMethod = true"
     >
-      {{ $t("Add new payment method") }}
+      {{ $t("Add a payment method") }}
     </button>
   </CardElement>
   <!-- <CardElement :title="$t('Payment methods')"> </CardElement>
