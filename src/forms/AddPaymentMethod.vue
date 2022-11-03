@@ -32,9 +32,7 @@ const handleStripeInput = async (event: any) => {
     // Scroll to bottom
     // Wait for next tick
     nextTick(() => {
-      window.scrollTo(0, document.body.scrollHeight);
-      // Focus on ref="payButton"
-      // payButton.value.focus();
+      // Focus on the submit button in the baseForm
     });
   }
 };
