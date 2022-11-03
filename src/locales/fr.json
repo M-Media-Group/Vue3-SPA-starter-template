@@ -29,5 +29,7 @@
     "Add a payment method": "Ajouter un moyen de paiement",
     "Default payment method": "Moyen de paiement par défaut",
     "Save": "Enregistrer",
-    "You do not have a default payment method set": "Vous n'avez pas de moyen de paiement par défaut défini"
+    "You do not have a default payment method set": "Vous n'avez pas de moyen de paiement par défaut défini",
+    "Forgot password?": "Mot de passe oublié?",
+    "If the account exists an email has been sent!": "Si le compte existe, un e-mail a été envoyé!"
 }
