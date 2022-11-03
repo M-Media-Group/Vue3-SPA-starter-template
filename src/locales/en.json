@@ -29,5 +29,6 @@
     "Payment methods": "Payment methods",
     "Add a payment method": "Add a payment method",
     "Default payment method": "Default payment method",
-    "Save": "Save"
+    "Save": "Save",
+    "You do not have a default payment method set": "You do not have a default payment method set"
 }

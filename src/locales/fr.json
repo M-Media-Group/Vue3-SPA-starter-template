@@ -27,5 +27,6 @@
     "Payment methods": "Moyens de paiement",
     "Add a payment method": "Ajouter un moyen de paiement",
     "Default payment method": "Moyen de paiement par défaut",
-    "Save": "Enregistrer"
+    "Save": "Enregistrer",
+    "You do not have a default payment method set": "Vous n'avez pas de moyen de paiement par défaut défini"
 }
