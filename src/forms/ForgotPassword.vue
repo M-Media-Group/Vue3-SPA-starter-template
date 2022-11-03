@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import BaseButton from "@/components/BaseButton.vue";
-import router from "@/router";
 import { useUserStore } from "@/stores/user";
-import { nextTick, ref } from "vue";
+import { ref } from "vue";
 import BaseForm from "./BaseForm.vue";
 
 // Email, password, and remember me

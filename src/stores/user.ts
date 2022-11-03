@@ -167,6 +167,41 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
+  async function sendPasswordReset(
+    email: string,
+    token: string,
+    password: string
+  ) {
+    if (!email) {
+      return false;
+    }
+
+    if (!token) {
+      return false;
+    }
+
+    if (!password) {
+      return false;
+    }
+
+    isLoading.value = true;
+
+    // Submit a reset password
+    try {
+      await axios.post("reset-password", {
+        email: email,
+        token: token,
+        password: password,
+        password_confirmation: password,
+      });
+      return true;
+    } catch (error: any) {
+      return error.response;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   async function getCsrfToken() {
     // Remove XSRF-TOKEN cookie and header
     // axios.defaults.headers.common["X-CSRF-TOKEN"] = "";
@@ -214,6 +249,7 @@ export const useUserStore = defineStore("user", () => {
     register,
     resendEmailConfirmation,
     sendPasswordResetEmail,
+    sendPasswordReset,
     logout,
     update,
   };

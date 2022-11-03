@@ -62,6 +62,14 @@ const router = createRouter({
       },
     },
     {
+      path: "/reset-password",
+      name: "reset-password",
+      component: () => import("../forms/ResetPassword.vue"),
+      meta: {
+        middleware: ["guest"],
+      },
+    },
+    {
       path: "/confirm-email",
       name: "confirm-email",
       component: () => import("../views/Auth/ConfirmEmailView.vue"),

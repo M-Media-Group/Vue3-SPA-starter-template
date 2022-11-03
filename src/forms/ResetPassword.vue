@@ -1,0 +1,51 @@
+<script setup lang="ts">
+import router from "@/router";
+import { useUserStore } from "@/stores/user";
+import { ref } from "vue";
+import BaseForm from "./BaseForm.vue";
+
+// Password, password, and remember me
+const password = ref("");
+
+const success = ref(false);
+
+const baseForm = ref();
+
+const token = router.currentRoute.value.query.token as string;
+const email = router.currentRoute.value.query.email as string;
+
+const userStore = useUserStore();
+// The submit function. If there is just the password, check if the password is valid. If it is not, set the register mode. If it is, set the login mode.
+const submitForm = async () => {
+  const response = await userStore.sendPasswordReset(
+    email,
+    token,
+    password.value
+  );
+  if (response === true) {
+    success.value = response;
+  } else if (typeof response === "object") {
+    baseForm.value.setInputErrors(response.data.errors);
+  }
+  return success.value;
+};
+</script>
+
+<template>
+  <BaseForm ref="baseForm" @submit="submitForm" :disabled="success">
+    <label for="password">{{ $t("New password") }}</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      placeholder="Password"
+      v-model="password"
+      :disabled="success"
+      autofocus
+      required
+    />
+    <small v-if="success" class="success"
+      >You can low log in with your new password!</small
+    >
+  </BaseForm>
+</template>

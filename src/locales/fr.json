@@ -3,6 +3,7 @@
         "hello": "world"
     },
     "Password": "Mot de passe",
+    "New password": "Nouveau mot de passe",
     "Email": "Adresse e-mail",
     "Submit": "Soumettre",
     "Login": "Connexion",
