@@ -97,20 +97,20 @@ const addPaymentMethod = () => {
               payment_method: result.setupIntent.payment_method,
             })
             .then((response) => {
-              form.processing = false;
               // If the gtag function is available, log the event.
               // if (typeof gtag === "function") {
               // gtag("event", "add_payment_info");
               // fbq("track", "AddPaymentInfo");
               // }
               // closeModal();
-              nextTick().then(() => emit("added"));
+              emit("added");
+              form.processing = false;
             })
             .catch((error) => {
               form.error = error.response.data.message;
+              form.processing = false;
             });
         }
-        form.processing = false;
       }
     );
 };

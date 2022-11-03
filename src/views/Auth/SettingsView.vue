@@ -33,7 +33,13 @@ const addingNewPaymentMethod = ref(false);
     <div v-else>
       <p>{{ $t("You do not have a default payment method set") }}</p>
     </div>
-    <AddPaymentMethod v-if="addingNewPaymentMethod" />
+    <AddPaymentMethod
+      v-if="addingNewPaymentMethod"
+      @added="
+        addingNewPaymentMethod = false;
+        userStore.getUser();
+      "
+    />
     <button
       data-cy="add-payment-button"
       v-else
