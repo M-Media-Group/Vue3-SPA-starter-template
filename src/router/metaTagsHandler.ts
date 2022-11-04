@@ -17,6 +17,8 @@ export const setMetaAttributes = (
 
   if (typeof to.meta.locale === "string") {
     updateOrCreateMetaTag("og:locale", to.meta.locale ?? "en_US");
+    // } else if (locale.value) {
+    // updateOrCreateMetaTag("og:locale", locale.value);
   } else {
     updateOrCreateMetaTag("og:locale", "en_US");
   }

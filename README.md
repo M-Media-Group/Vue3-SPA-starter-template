@@ -1,31 +1,36 @@
-# paddle-frontend
+# Vue3 starter kit
 
-This template should help get you started developing with Vue 3 in Vite.
+Arguably the most important parts of an app (authentication and handling payment methods) are also the most repetitive and boring to implement. This starter kit aims to solve that problem by providing a solid foundation for your next Vue3 app.
 
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+## Features
+- Highly performant and flexible
+- Widely tested with Unit and E2E tests
+  - Includes Github Actions for CI running both types of tests
+  - Includes all fixtures and mocks needed for testing
+- Doesn't force any CSS frameworks (HTML written semantically and tests use semantic selectors), but comes with Pico CSS for a quick start
+  - Supports Dark Mode
+- Written with Composition API in Vue3 and Typescript
+- Support for Pinia with a pre-made User store, Vue Router, Vue i18n, and Axios
+- Comes with internationalization support out of the box (English and French to start with)
+- Login, logout, register pages
+- Forgot password, reset password, resend email confirmation, password confirmation, payment method adding pages
+- CSRF cookie protection support
+- User settings page with a section to add payment methods
+- Base form component using native HTML5 validation (set custom errors on inputs and then have the browser handle them natively with `setCustomValidity`)
+- Semantic HTML5 elements
+- Middleware for VueRouter including: auth, guest, confirmedEmail, confirmedPassword, hasPaymentMethod
+- Auto meta-tags handling for SEO
+- Content-Security-Policy (CSP) support
 
 ## Project Setup
 
 ```sh
 npm install
 ```
+
+Make sure to copy the `.env.example` to `.env.local` and fill in the values.
+
+After installing everything - you should run the E2E tests to make sure everything is working properly. See the [E2E tests section](#Run-End-to-End-Tests-with-Cypress) for more information.
 
 ### Compile and Hot-Reload for Development
 
@@ -67,22 +72,23 @@ npm run test:e2e
 npm run lint
 ```
 
+## Backend setup
 
-# Custom
+This starter kit was designed to work with a Laravel based backend, but any backend that implements the required functionality would work.
 
-Assumptions:
+Assumptions made by this starter kit:
 - The backend is powered by Laravel Fortify and Sanctum
-- The user object is the one that can make payments (some apps may need to do this on the teams instead)
+  - Check out our complementary [Laravel-SPA package](https://packagist.org/packages/mmedia/laravel-spa) that sets up some backend stuff for you
+  - You should still setup Cashier and the routes for `user/payment-methods` and `user/payment-intent` yourself; see the User store for details
+- The user object is the one that can make payments (some apps may need to do this on team models or other models instead)
   - Using Stripe as the payment provider
-  - Using Pico CSS variables for styling - update these if you're not using Pico
--
+  - Using Pico CSS variables for styling. You do not need to use Pico, but if you change it you might have to update some CSS variables especially ones passed to Stripe Elements
 
-Potential tweaks to do:
-- Assumes Fortify and Sanctum are being used in backend
-- Surname field added to user
-- Language files should be lazy loaded
+## Contributing
 
-# Way of working
+### Test driven approach
+
+We use a test driven approach for this starter kit.
 
 You should almost never modify existing tests. Any modified tests will require merge approval.
 
@@ -91,14 +97,3 @@ If you find a bug, first write a test that will fail because of the bug. Then fi
 If you want to add a new feature, write a test that will fail because of the missing feature. Then add the feature and make sure the test passes. New tests do not require approval.
 
 <!-- Show image https://res.cloudinary.com/practicaldev/image/fetch/s--2bUj5oX1--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/26tdj40bmlnmw09fb27h.png -->
-
-## .env.local file
-Define the following:
-- VITE_API_URL
-  - Example: http://192.168.10.17/
-- VITE_STRIPE_KEY
-  - Should start with pk_
-
-
-## Inputs
-Inputs should use built in browser validation. If you need to add custom validation, set it using the native browser validation.
