@@ -38,9 +38,6 @@ describe("NavBar", () => {
           }),
         ],
       },
-      props: {
-        loggedIn: true,
-      },
     });
     const store = useUserStore(); // uses the testing pinia!
     store.isAuthenticated = true;

@@ -1,4 +1,8 @@
-import { createRouter, createWebHistory } from "vue-router";
+import {
+  createRouter,
+  createWebHistory,
+  type NavigationGuardNext,
+} from "vue-router";
 import { useUserStore } from "@/stores/user";
 import AboutViewVue from "../views/AboutView.vue";
 import { handleMiddleware } from "./middlewareHandler";
@@ -25,19 +29,7 @@ const router = createRouter({
       path: "/logout",
       name: "logout",
       beforeEnter: async (to, from, next) => {
-        const store = useUserStore();
-        if (store.isLoading) {
-          await new Promise((resolve) => {
-            const interval = setInterval(() => {
-              if (!store.isLoading) {
-                clearInterval(interval);
-                resolve(true);
-              }
-            }, 10);
-          });
-        }
-        await store.logout();
-        return next({ name: "login" });
+        return logout(next);
       },
       component: () => import("../views/Auth/LoginOrRegisterView.vue"),
       meta: {
@@ -132,5 +124,21 @@ router.beforeEach(async (to, from) => {
     return middlewareResponse;
   }
 });
+
+const logout = async (next: NavigationGuardNext) => {
+  const store = useUserStore();
+  if (store.isLoading) {
+    await new Promise((resolve) => {
+      const interval = setInterval(() => {
+        if (!store.isLoading) {
+          clearInterval(interval);
+          resolve(true);
+        }
+      }, 10);
+    });
+  }
+  await store.logout();
+  return next({ name: "login" });
+};
 
 export default router;
