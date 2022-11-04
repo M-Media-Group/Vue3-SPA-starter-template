@@ -9,6 +9,9 @@ export default defineConfig(
     test: {
       setupFiles: ["../unit.setup.ts"],
       environment: "jsdom",
+      coverage: {
+        provider: "istanbul", // or 'c8'
+      },
     },
   })
 );
