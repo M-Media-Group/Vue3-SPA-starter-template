@@ -92,11 +92,11 @@ const callActionsOnAllInputs = (
   }
 };
 
-const setInputErrors = (errors: Record<string, string>) => {
+const setInputErrors = (errors: Record<string, string | string[]>) => {
   // For each key in errors, find the input and call setErrorOnInput with the value
   for (const [key, value] of Object.entries(errors)) {
-    const input = document.querySelector(
-      `input[name=${key}]`
+    const input = formElement.value?.elements.namedItem(
+      key
     ) as HTMLInputElement;
     if (input) {
       // If the value is an array, join it with a space

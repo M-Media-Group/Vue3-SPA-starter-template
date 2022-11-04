@@ -189,4 +189,27 @@ describe("Base Form", () => {
     // @todo, according the the HTML spec the attribute shouldnt even exist on the element
     expect(wrapper.find("button").attributes("disabled")).toBeFalsy();
   });
+
+  it("it sets input errors", async () => {
+    const wrapper = mount(BaseForm, {
+      slots: {
+        default: `
+          <input type="text" name="test" value="test" required />
+        `,
+      },
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub,
+        },
+      },
+    });
+
+    // Call the setInputErrors method on the wrapper
+    wrapper.vm.setInputErrors({
+      test: ["This is an error"],
+    });
+
+    // Expect the input validity to be false
+    expect(wrapper.find("input").element.validity.valid).toBe(false);
+  });
 });
