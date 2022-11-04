@@ -3,7 +3,7 @@ import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
 import CardElement from "../CardElement.vue";
 
-describe("HelloWorld", () => {
+describe("Card element", () => {
   it("renders properly without footer", () => {
     const wrapper = mount(CardElement, {
       props: {
