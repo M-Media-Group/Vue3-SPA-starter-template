@@ -4,7 +4,6 @@ import {
   type NavigationGuardNext,
 } from "vue-router";
 import { useUserStore } from "@/stores/user";
-import AboutViewVue from "../views/AboutView.vue";
 import { handleMiddleware } from "./middlewareHandler";
 import { setMetaAttributes } from "./metaTagsHandler";
 
@@ -96,7 +95,7 @@ const router = createRouter({
     {
       path: "/rent",
       name: "rent",
-      component: AboutViewVue,
+      component: () => import("../views/AboutView.vue"),
       meta: {
         middleware: [
           "auth",
@@ -109,9 +108,6 @@ const router = createRouter({
     {
       path: "/about",
       name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import("../views/AboutView.vue"),
     },
   ],
