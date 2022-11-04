@@ -190,7 +190,7 @@ describe("Base Form", () => {
     expect(wrapper.find("button").attributes("disabled")).toBeFalsy();
   });
 
-  it("it sets input errors", async () => {
+  it("it sets input errors", () => {
     const wrapper = mount(BaseForm, {
       slots: {
         default: `
@@ -211,5 +211,27 @@ describe("Base Form", () => {
 
     // Expect the input validity to be false
     expect(wrapper.find("input").element.validity.valid).toBe(false);
+  });
+
+  it("can focus on first input", () => {
+    const wrapper = mount(BaseForm, {
+      attachTo: document.body,
+      slots: {
+        default: `
+          <input type="text" name="test" value="test" required />
+        `,
+      },
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub,
+        },
+      },
+    });
+
+    // Call the focusFirstInput method on the wrapper
+    wrapper.vm.focusOnFirstInput();
+
+    // Expect the input to be focused
+    expect(document.activeElement).toBe(wrapper.find("input").element);
   });
 });
