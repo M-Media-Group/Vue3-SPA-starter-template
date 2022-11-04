@@ -15,6 +15,7 @@ Arguably the most important parts of an app (authentication and handling payment
 - Written with Composition API in Vue3 and Typescript
 - Support for Pinia with a pre-made User store, Vue Router, Vue i18n, and Axios
 - Comes with internationalization support out of the box (English and French to start with)
+- Includes a Dev-Container for development in a Docker enviorment (optional)
 - Login, logout, register pages
 - Forgot password, reset password, resend email confirmation, password confirmation, payment method adding pages
 - CSRF cookie protection support
