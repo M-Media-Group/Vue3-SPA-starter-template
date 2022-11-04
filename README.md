@@ -30,7 +30,7 @@ npm install
 
 Make sure to copy the `.env.example` to `.env.local` and fill in the values.
 
-After installing everything - you should run the E2E tests to make sure everything is working properly. See the [E2E tests section](#Run-End-to-End-Tests-with-Cypress) for more information.
+After installing everything - you should run the E2E tests to make sure everything is working properly. See the [E2E tests section](#run-end-to-end-tests-with-cypress) for more information.
 
 ### Compile and Hot-Reload for Development
 
