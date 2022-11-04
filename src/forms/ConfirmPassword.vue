@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import router from "@/router";
 import { useUserStore } from "@/stores/user";
 import { ref } from "vue";
 import BaseForm from "./BaseForm.vue";

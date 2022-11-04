@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import BaseButton from "@/components/BaseButton.vue";
-import router from "@/router";
 import { useUserStore } from "@/stores/user";
 import { nextTick, ref } from "vue";
 import { useI18n } from "vue-i18n";
@@ -13,7 +12,6 @@ const { t } = useI18n();
 // Email, password, and remember me
 const email = ref("");
 const password = ref("");
-const rememberMe = ref(false);
 
 // Name, Surname
 const name = ref("");
