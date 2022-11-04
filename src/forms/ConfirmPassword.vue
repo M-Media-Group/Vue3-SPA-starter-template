@@ -38,8 +38,8 @@ const submitForm = async () => {
       auto-complete="current-password"
       required
     />
-    <small v-if="success" class="success"
-      >You can low log in with your new password!</small
-    >
+    <small v-if="success" class="success">{{
+      $t("You can low log in with your new password!")
+    }}</small>
   </BaseForm>
 </template>

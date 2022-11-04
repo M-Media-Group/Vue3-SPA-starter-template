@@ -34,5 +34,6 @@
     "You do not have a default payment method set": "You do not have a default payment method set",
     "Forgot password?": "Forgot password?",
     "If the account exists an email has been sent!": "If the account exists an email has been sent!",
-    "Invalid email or password": "Invalid email or password"
+    "Invalid email or password": "Invalid email or password",
+    "You can low log in with your new password!": "You can low log in with your new password!"
 }
