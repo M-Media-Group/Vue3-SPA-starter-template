@@ -10,6 +10,10 @@ export const useUserStore = defineStore("user", () => {
   const user = ref(null) as Ref<User | null>;
   const attemptedToFetchUser = ref(false);
 
+  /**
+   * Get the user
+   *
+   */
   async function getUser() {
     isLoading.value = true;
     try {
@@ -25,6 +29,12 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
+  /**
+   * Check if the email has an account
+   *
+   * @param {string} email
+   * @return {*}
+   */
   async function checkEmail(email: string) {
     // Check if the email is valid
     if (!email) {
@@ -46,6 +56,13 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
+  /**
+   * Log in the user
+   *
+   * @param {string} email
+   * @param {string} password
+   * @return {*}
+   */
   async function login(email: string, password: string) {
     // Check if the email is valid
     if (!email) {
@@ -84,6 +101,15 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
+  /**
+   * Register the user
+   *
+   * @param {string} email
+   * @param {string} password
+   * @param {string} name
+   * @param {string} surname
+   * @return {*}
+   */
   async function register(
     email: string,
     password: string,
@@ -130,6 +156,11 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
+  /**
+   * Resend a confirm-email email to the user
+   *
+   * @return {*}
+   */
   async function resendEmailConfirmation() {
     if (!user.value) {
       return;
@@ -147,6 +178,12 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
+  /**
+   * Send a reset-password email/request
+   *
+   * @param {string} email
+   * @return {*}
+   */
   async function sendPasswordResetEmail(email: string) {
     if (!email) {
       return false;
@@ -167,6 +204,14 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
+  /**
+   * Attempt to reset a password
+   *
+   * @param {string} email
+   * @param {string} token
+   * @param {string} password
+   * @return {*}
+   */
   async function sendPasswordReset(
     email: string,
     token: string,
@@ -202,6 +247,12 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
+  /**
+   * Confirm the users password
+   *
+   * @param {string} password
+   * @return {*}
+   */
   async function confirmPassword(password: string) {
     if (!password) {
       return false;
@@ -222,6 +273,11 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
+  /**
+   * Determine if the user should confirm their password.
+   *
+   * @return {*}
+   */
   async function shouldConfirmPassword() {
     isLoading.value = true;
     try {
@@ -234,6 +290,10 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
+  /**
+   * Get a CSRF cookie from the server
+   *
+   */
   async function getCsrfToken() {
     // Remove XSRF-TOKEN cookie and header
     // axios.defaults.headers.common["X-CSRF-TOKEN"] = "";
@@ -245,6 +305,10 @@ export const useUserStore = defineStore("user", () => {
     // const response = await fetch("sanctum/csrf-cookie");
   }
 
+  /**
+   * Logout the user
+   *
+   */
   async function logout() {
     isLoading.value = true;
     await axios.post("logout");
@@ -253,6 +317,60 @@ export const useUserStore = defineStore("user", () => {
     isLoading.value = false;
   }
 
+  /**
+   * Get a payment intent
+   *
+   * @return {*}
+   */
+  async function getPaymentIntent() {
+    try {
+      const response = await axios.get("user/payment-intent");
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  /**
+   * Add a payment method for a user
+   *
+   * @param {string} paymentMethodId
+   * @return {*}
+   */
+  async function addPaymentMethod(paymentMethodId: string) {
+    try {
+      await axios.post("/user/payment-methods", {
+        payment_method: paymentMethodId,
+      });
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  /**
+   * Get the payment methods of the user
+   *
+   * @return {*}
+   */
+  async function getPaymentMethods() {
+    try {
+      const response = await axios.get("/user/payment-methods");
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  /**
+   * Update a user's profile
+   *
+   * @param {string} name
+   * @param {string} surname
+   * @param {string} email
+   * @return {*}
+   */
   async function update(name: string, surname: string, email: string) {
     isLoading.value = true;
     try {
@@ -286,5 +404,8 @@ export const useUserStore = defineStore("user", () => {
     update,
     confirmPassword,
     shouldConfirmPassword,
+    getPaymentIntent,
+    addPaymentMethod,
+    getPaymentMethods,
   };
 });

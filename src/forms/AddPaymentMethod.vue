@@ -6,8 +6,6 @@ import { loadStripe } from "@stripe/stripe-js";
 import { StripeElements, StripeElement } from "vue-stripe-js";
 import { getCssVarForStripe } from "@/helpers/cssVariables";
 
-import axios from "axios";
-
 const success = ref(false);
 
 const elementReady = ref(false);
@@ -53,15 +51,14 @@ onBeforeMount(() => {
   });
 });
 
-const getClientSecret = () => {
-  axios
-    .get("/api/users/" + userStore.user?.id + "/payment-intent")
-    .then((response) => {
-      clientSecret.value = response.data.client_secret;
-    });
+const getClientSecret = async () => {
+  const response = await userStore.getPaymentIntent();
+  if (response) {
+    clientSecret.value = response.client_secret;
+  }
 };
 
-const addPaymentMethod = () => {
+const addPaymentMethod = async () => {
   form.processing = true;
   // Access instance methods, e.g. createToken()
   // Get stripe element
@@ -90,11 +87,13 @@ const addPaymentMethod = () => {
             return;
           }
           console.log("Got result", result);
-          axios
-            .post("/api/users/" + userStore.user.id + "/payment-methods", {
-              payment_method: result.setupIntent.payment_method,
-            })
+          userStore
+            .addPaymentMethod(result.setupIntent.payment_method)
             .then((response) => {
+              // If the response is false, pass to the next catch
+              if (!response) {
+                throw new Error("Error adding payment method");
+              }
               // If the gtag function is available, log the event.
               // if (typeof gtag === "function") {
               // gtag("event", "add_payment_info");
