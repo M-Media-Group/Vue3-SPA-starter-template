@@ -49,7 +49,7 @@ const submitForm = async () => {
       required
     />
     <small v-if="success" class="success">{{
-      $t("You can low log in with your new password!")
+      $t("You can now log in with your new password!")
     }}</small>
   </BaseForm>
 </template>
