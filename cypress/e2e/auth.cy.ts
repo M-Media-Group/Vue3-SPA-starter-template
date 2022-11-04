@@ -832,7 +832,7 @@ describe("Register", () => {
   });
 });
 
-describe.only("Reset password", () => {
+describe("Reset password", () => {
   beforeEach(() => {
     cy.visit("/forgot-password");
   });
