@@ -1092,6 +1092,95 @@ describe("Logout", () => {
   });
 });
 
+describe("Confirm password", () => {
+  beforeEach(() => {
+    cy.intercept(
+      "PUT", // Route all GET requests
+      "/user/profile-information", // that have a URL that matches '/users/*'
+      { statusCode: 200 }
+    ).as("getUser");
+
+    cy.intercept(
+      "GET", // Route all GET requests
+      "/api/user", // that have a URL that matches '/users/*'
+      { fixture: "user" }
+    ).as("getUser");
+
+    cy.visit("/confirm-password");
+  });
+  it("Shows a confirm password page", () => {
+    // There should be a password input
+    cy.get("input[type=password]").should("be.visible");
+
+    // There should be a submit button
+    cy.get("button[type=submit]").should("be.visible");
+
+    // The button should be disabled
+    cy.get("button[type=submit]").should("be.disabled");
+  });
+  it("It cannot be submitted if the name is empty", () => {
+    // Clear the name input
+    cy.get("input[name=password]").clear();
+
+    // The submit button should be disabled
+    cy.get("button[type=submit]").should("be.disabled");
+  });
+  it("It fails if password is incorrect", () => {
+    cy.intercept(
+      "POST", // Route all GET requests
+      "/user/confirm-password", // that have a URL that matches '/users/*'
+      {
+        statusCode: 422,
+        body: {
+          message: "The provided password was incorrect.",
+          errors: {
+            password: ["The provided password was incorrect."],
+          },
+        },
+      }
+    ).as("checkPasswordFail");
+
+    // Fill the password
+    cy.get("input[name=password]").type("test");
+
+    // Click submit
+    cy.get("button[type=submit]").click();
+
+    // There should be a .error message
+    cy.get("input[name=password]")
+      .invoke("prop", "validity")
+      .should("deep.include", {
+        valueMissing: false,
+        typeMismatch: false,
+        patternMismatch: false,
+        tooLong: false,
+        tooShort: false,
+        rangeUnderflow: false,
+        rangeOverflow: false,
+        stepMismatch: false,
+        badInput: false,
+        customError: true,
+        valid: false,
+      });
+  });
+  it("It can confirm password", () => {
+    cy.intercept(
+      "POST", // Route all GET requests
+      "/user/confirm-password", // that have a URL that matches '/users/*'
+      { statusCode: 201 }
+    ).as("checkPassword");
+
+    // Fill the password
+    cy.get("input[name=password]").type("test");
+
+    // Click submit
+    cy.get("button[type=submit]").click();
+
+    // The submit should be disabled
+    cy.get("button[type=submit]").should("be.disabled");
+  });
+});
+
 describe("Edit user settings", () => {
   beforeEach(() => {
     cy.intercept(
