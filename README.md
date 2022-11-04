@@ -2,6 +2,8 @@
 
 Arguably the most important parts of an app (authentication and handling payment methods) are also the most repetitive and boring to implement. This starter kit aims to solve that problem by providing a solid foundation for your next Vue3 app.
 
+![Screenshot](screenshot.png)
+
 ## Features
 - Highly performant and flexible
 - Widely tested with Unit and E2E tests
@@ -16,7 +18,7 @@ Arguably the most important parts of an app (authentication and handling payment
 - Login, logout, register pages
 - Forgot password, reset password, resend email confirmation, password confirmation, payment method adding pages
 - CSRF cookie protection support
-- User settings page with a section to add payment methods
+- User settings page with a section to add payment methods using Stripe Elements
 - Base form component using native HTML5 validation (set custom errors on inputs and then have the browser handle them natively with `setCustomValidity`)
 - Semantic HTML5 elements
 - Middleware for VueRouter including: auth, guest, confirmedEmail, confirmedPassword, hasPaymentMethod
