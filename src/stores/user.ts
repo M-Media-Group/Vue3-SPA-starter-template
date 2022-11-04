@@ -78,20 +78,10 @@ export const useUserStore = defineStore("user", () => {
 
     // Check if the email is already in use
     try {
-      await axios.post(
-        "login",
-        {
-          email: email,
-          password: password,
-        },
-        {
-          // set Accept header
-          headers: {
-            Accept: "application/json",
-          },
-          withCredentials: true,
-        }
-      );
+      await axios.post("login", {
+        email: email,
+        password: password,
+      });
       await getUser();
       return true;
     } catch (error) {
@@ -295,14 +285,7 @@ export const useUserStore = defineStore("user", () => {
    *
    */
   async function getCsrfToken() {
-    // Remove XSRF-TOKEN cookie and header
-    // axios.defaults.headers.common["X-CSRF-TOKEN"] = "";
-    // document.cookie =
-    //   "XSRF-TOKEN=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
-    await axios.get("sanctum/csrf-cookie", { withCredentials: true });
-
-    // const response = await fetch("sanctum/csrf-cookie");
+    await axios.get("sanctum/csrf-cookie");
   }
 
   /**

@@ -106,7 +106,12 @@ const router = createRouter({
       name: "rent",
       component: AboutViewVue,
       meta: {
-        middleware: ["auth", "confirmedEmail", "hasPaymentMethod"],
+        middleware: [
+          "auth",
+          "confirmedEmail",
+          "hasPaymentMethod",
+          "confirmedPassword",
+        ],
       },
     },
     {

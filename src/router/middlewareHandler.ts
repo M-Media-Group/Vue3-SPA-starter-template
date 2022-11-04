@@ -75,6 +75,29 @@ export const handleMiddleware = async (
     }
   }
 
+  if (middleware && middleware.includes("confirmedPassword")) {
+    // check if the user has confirmed their email
+    const hasConfirmedPassword = await store.shouldConfirmPassword();
+    // if not, redirect to the confirm email page
+    if (!hasConfirmedPassword) {
+      return {
+        name: "confirm-password",
+        query: {
+          redirect: to.fullPath,
+        },
+      };
+    }
+  } else if (middleware && middleware.includes("unconfirmedPassword")) {
+    // check if the user has confirmed their email
+    const hasConfirmedPassword = await store.shouldConfirmPassword();
+    // if so, redirect to the home page
+    if (hasConfirmedPassword) {
+      return {
+        name: "home",
+      };
+    }
+  }
+
   if (middleware && middleware.includes("hasPaymentMethod")) {
     // check if the user has a payment method
     const hasPaymentMethod = store.user?.pm_type && store.user?.stripe_id;
