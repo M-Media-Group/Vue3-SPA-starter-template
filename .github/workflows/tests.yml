@@ -15,7 +15,6 @@ jobs:
         with:
           build: npm run build
           start: npm run test:e2e
-          video: false
           record: false
       - name: Unit tests run
         run: npm run test:unit
