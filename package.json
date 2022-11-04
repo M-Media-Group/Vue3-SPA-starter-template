@@ -1,5 +1,5 @@
 {
-  "name": "paddle-frontend",
+  "name": "vue3-pwa-starter",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",

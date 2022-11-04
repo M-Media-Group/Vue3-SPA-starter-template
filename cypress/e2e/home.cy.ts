@@ -9,12 +9,6 @@ describe("Home Test", () => {
     // A [aria-roledescription=logo] element should exist
     cy.get("[aria-roledescription=logo]").should("exist");
 
-    // A [aria-roledescription=logo] element should contain the text "Paddle"
-    cy.get("[aria-roledescription=logo]").should("contain", "Paddle");
-
-    // A [aria-roledescription=logo] element should contain the text "Scan"
-    cy.get("[aria-roledescription=logo]").should("contain", "Scan");
-
     // In the navbar, there should be a login button
     cy.get("nav").should("contain", "Login");
 
