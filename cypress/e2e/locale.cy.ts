@@ -1,4 +1,19 @@
 describe("Locales", () => {
+  beforeEach(() => {
+    cy.intercept(
+      "GET", // Route all GET requests
+      "/api/user", // that have a URL that matches '/users/*'
+      {
+        statusCode: 401,
+      }
+    ).as("unableToGetUser");
+
+    cy.intercept(
+      "GET", // Route all GET requests
+      "/sanctum/csrf-cookie", // that have a URL that matches '/users/*'
+      { statusCode: 204, delay: 50 }
+    ).as("getCookie");
+  });
   it("Shows a language switcher in the footer", () => {
     cy.visit("/");
     cy.get("select[name=locales]").should("exist");

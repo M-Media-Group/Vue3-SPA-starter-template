@@ -28,13 +28,13 @@ describe("Login", () => {
   // Before each, we expect a <form> element to exist
   // with a <button> element inside of it.
   beforeEach(() => {
-    cy.visit("/login");
-    cy.get("form").should("exist");
-    cy.get("button").should("exist");
-
-    // The email input should be focused
-    cy.focused().should("have.attr", "name", "email");
-
+    cy.intercept(
+      "GET", // Route all GET requests
+      "/api/user", // that have a URL that matches '/users/*'
+      {
+        statusCode: 401,
+      }
+    );
     cy.intercept(
       {
         method: "POST", // Route all GET requests
@@ -54,6 +54,13 @@ describe("Login", () => {
       "/sanctum/csrf-cookie", // that have a URL that matches '/users/*'
       { statusCode: 204, delay: 50 }
     ).as("getCookie");
+
+    cy.visit("/login");
+    cy.get("form").should("exist");
+    cy.get("button").should("exist");
+
+    // The email input should be focused
+    cy.focused().should("have.attr", "name", "email");
   });
 
   it("Fail to login with both inputs missing", () => {
@@ -447,13 +454,13 @@ describe("Register", () => {
   // Before each, we expect a <form> element to exist
   // with a <button> element inside of it.
   beforeEach(() => {
-    cy.visit("/sign-up");
-    cy.get("form").should("exist");
-    cy.get("button").should("exist");
-
-    // The email input should be focused
-    cy.focused().should("have.attr", "name", "email");
-
+    cy.intercept(
+      "GET", // Route all GET requests
+      "/api/user", // that have a URL that matches '/users/*'
+      {
+        statusCode: 401,
+      }
+    );
     cy.intercept(
       {
         method: "POST", // Route all GET requests
@@ -488,6 +495,13 @@ describe("Register", () => {
       "/sanctum/csrf-cookie", // that have a URL that matches '/users/*'
       { statusCode: 204, delay: 50 }
     ).as("getCookie");
+
+    cy.visit("/sign-up");
+    cy.get("form").should("exist");
+    cy.get("button").should("exist");
+
+    // The email input should be focused
+    cy.focused().should("have.attr", "name", "email");
   });
 
   it("Shows registration when email not found", () => {
@@ -802,15 +816,10 @@ describe("Register", () => {
       {
         statusCode: 201,
       }
-    ).as("badRegistrationEmail");
+    ).as("goodRegistration");
 
-    cy.intercept(
-      "GET", // Route all GET requests
-      "/api/user", // that have a URL that matches '/users/*'
-      { fixture: "user" }
-    ).as("getUser");
     // Get the input of type email
-    cy.get("input[type=email]").type("new-account@test.com");
+    cy.get("input[type=email]").type("fail@stripe.com");
 
     // Click the submit button to advance to the next screen
     cy.get("button[type=submit]").click();
@@ -820,6 +829,12 @@ describe("Register", () => {
     cy.get("input[name=surname]").type("Doe");
     cy.get("input[type=password]").type("password123");
     cy.get("input[type=checkbox]").check();
+
+    cy.intercept(
+      "GET", // Route all GET requests
+      "/api/user", // that have a URL that matches '/users/*'
+      { fixture: "user" }
+    ).as("getUser");
 
     // Submit the form by pressing enter on the name field
     cy.get("input[name=name]").type("{enter}");
@@ -834,6 +849,20 @@ describe("Register", () => {
 
 describe("Reset password", () => {
   beforeEach(() => {
+    cy.intercept(
+      "GET", // Route all GET requests
+      "/api/user", // that have a URL that matches '/users/*'
+      {
+        statusCode: 401,
+      }
+    ).as("unableToGetUser");
+
+    cy.intercept(
+      "GET", // Route all GET requests
+      "/sanctum/csrf-cookie", // that have a URL that matches '/users/*'
+      { statusCode: 204, delay: 50 }
+    ).as("getCookie");
+
     cy.visit("/forgot-password");
   });
   it("Shows errors", () => {
@@ -974,6 +1003,15 @@ describe("Reset password", () => {
 });
 
 describe("Confirm email", () => {
+  beforeEach(() => {
+    cy.intercept(
+      "GET", // Route all GET requests
+      "/api/user", // that have a URL that matches '/users/*'
+      {
+        statusCode: 401,
+      }
+    );
+  });
   it("Redirects to login when unauthenticated", () => {
     cy.visit("/confirm-email");
     cy.url().should("include", "/login");
