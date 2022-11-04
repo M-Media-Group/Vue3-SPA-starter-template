@@ -219,7 +219,8 @@ describe("Base Form", () => {
       slots: {
         default: `
           <input type="text" name="test" value="test" required />
-        `,
+          <input type="text" name="test2" value="test" required />
+          `,
       },
       global: {
         stubs: {
@@ -231,7 +232,9 @@ describe("Base Form", () => {
     // Call the focusFirstInput method on the wrapper
     wrapper.vm.focusOnFirstInput();
 
-    // Expect the input to be focused
-    expect(document.activeElement).toBe(wrapper.find("input").element);
+    // Expect the input to be focused on the first input with the name test
+    expect(document.activeElement).toBe(
+      wrapper.find("input[name='test']").element
+    );
   });
 });
