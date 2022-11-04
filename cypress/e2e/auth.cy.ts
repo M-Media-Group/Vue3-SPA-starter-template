@@ -832,7 +832,7 @@ describe("Register", () => {
   });
 });
 
-describe("Reset password", () => {
+describe.only("Reset password", () => {
   beforeEach(() => {
     cy.visit("/forgot-password");
   });
@@ -893,6 +893,79 @@ describe("Reset password", () => {
     cy.get("button[type=submit]").click();
 
     // Check that a .success message is shown
+    cy.get(".success").should("be.visible");
+
+    // The submit should be disabled
+    cy.get("button[type=submit]").should("be.disabled");
+  });
+
+  it("Shows reset password page", () => {
+    cy.visit(
+      "/reset-password?token=c63e0a44e77ae0b66d064cb6a8639d953bd2a32f2deef558faa1693dc444514f&email=test@test.com"
+    );
+
+    // There should be a password input
+    cy.get("input[type=password]").should("be.visible");
+
+    // There should be a submit button
+    cy.get("button[type=submit]").should("be.visible");
+
+    // The submit should be disabled
+    cy.get("button[type=submit]").should("be.disabled");
+  });
+
+  it("Fails to reset password with invalid token", () => {
+    cy.visit(
+      "/reset-password?token=c63e0a44e77ae0b66d064cb6a8639d953bd2a32f2deef558faa1693dc444514f&email=test@test.com"
+    );
+
+    cy.intercept(
+      "POST", // Route all GET requests
+      "/reset-password", // that have a URL that matches '/users/*'
+      {
+        statusCode: 422,
+        body: {
+          message: "This password reset token is invalid.",
+          errors: {
+            email: ["This password reset token is invalid."],
+          },
+        },
+      }
+    ).as("failResetPassword");
+
+    // There should be a password input
+    cy.get("input[type=password]").type("test");
+
+    // Click the submit button to advance to the next screen
+    cy.get("button[type=submit]").click();
+
+    // Check that there is a .error message
+    cy.get(".error").should("be.visible");
+  });
+
+  it("Can reset password", () => {
+    cy.visit(
+      "/reset-password?token=c63e0a44e77ae0b66d064cb6a8639d953bd2a32f2deef558faa1693dc444514f&email=test@test.com"
+    );
+
+    cy.intercept(
+      "POST", // Route all GET requests
+      "/reset-password", // that have a URL that matches '/users/*'
+      {
+        statusCode: 200,
+        body: {
+          message: "Your password has been reset!",
+        },
+      }
+    ).as("resetPassword");
+
+    // Type a new password
+    cy.get("input[type=password]").type("testNewPass");
+
+    // Click the submit button to advance to the next screen
+    cy.get("button[type=submit]").click();
+
+    // Check that there is a .success message
     cy.get(".success").should("be.visible");
 
     // The submit should be disabled
