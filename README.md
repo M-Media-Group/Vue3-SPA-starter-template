@@ -20,6 +20,8 @@ Arguably the most important parts of an app (authentication and handling payment
 - Semantic HTML5 elements
 - Middleware for VueRouter including: auth, guest, confirmedEmail, confirmedPassword, hasPaymentMethod
 - Auto meta-tags handling for SEO
+  - Includes Facebook and Twitter meta tags (Open Graph and Twitter Cards respectively)
+- Auto schema markup generation (at least the basics)
 - Content-Security-Policy (CSP) support
 
 ## Project Setup
