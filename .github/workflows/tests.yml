@@ -13,8 +13,8 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v4.2.0 # use the explicit version number
         with:
-          build: npm run build
-          start: npm run test:e2e
+          parallel: true
           record: false
+          build: npm run build
       - name: Unit tests run
         run: npm run test:unit
