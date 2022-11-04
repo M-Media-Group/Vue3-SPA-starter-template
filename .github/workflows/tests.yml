@@ -15,3 +15,5 @@ jobs:
         with:
           build: npm run build
           start: npm run test:e2e
+      - name: Unit tests run
+        run: npm run test:unit
