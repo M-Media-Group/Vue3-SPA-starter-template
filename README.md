@@ -24,6 +24,7 @@ Arguably the most important parts of an app (authentication and handling payment
   - Includes Facebook and Twitter meta tags (Open Graph and Twitter Cards respectively)
 - Auto schema markup generation (at least the basics)
 - Content-Security-Policy (CSP) support
+- All API calls in a single file for easy customization (the User store)
 - BaseButton component that automatically renders a `button`, `a` with a role of `button`, or `router-link` depending on the props passed (if href its an `a`, if to its a `router-link`, otherwise its a `button`)
 
 ## Project Setup
