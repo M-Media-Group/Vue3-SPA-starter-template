@@ -9,13 +9,14 @@ Arguably the most important parts of an app (authentication and handling payment
 - Widely tested with Unit and E2E tests
   - Includes Github Actions for CI running both types of tests
   - Includes all fixtures and mocks needed for testing
+  - Includes unit-test coverage reports
 - Doesn't force any CSS frameworks (HTML written semantically and tests use semantic selectors), but comes with Pico CSS for a quick start
   - Supports Dark Mode
   - Only 8 classes currently used (rest relies on semantic selectors) so super easy to replace
 - Written with Composition API in Vue3 and Typescript
 - Support for Pinia with a pre-made User store, Vue Router, Vue i18n, and Axios
 - Comes with internationalization support out of the box (English and French to start with)
-- Includes a Dev-Container for development in a Docker enviorment (optional)
+- Includes a Dev-Container for development in a Docker environment (optional)
 - Login, logout, register pages
 - Forgot password, reset password, resend email confirmation, password confirmation, payment method adding pages
 - CSRF cookie protection support
