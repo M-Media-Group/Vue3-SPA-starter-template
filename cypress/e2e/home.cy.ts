@@ -1,6 +1,6 @@
 // https://docs.cypress.io/api/introduction/api.html
 
-describe("My First Test", () => {
+describe("Home Test", () => {
   it("visits the app root url", () => {
     cy.visit("/");
     // A nav element should exist
