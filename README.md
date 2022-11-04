@@ -9,6 +9,7 @@ Arguably the most important parts of an app (authentication and handling payment
   - Includes all fixtures and mocks needed for testing
 - Doesn't force any CSS frameworks (HTML written semantically and tests use semantic selectors), but comes with Pico CSS for a quick start
   - Supports Dark Mode
+  - Only 8 classes currently used (rest relies on semantic selectors) so super easy to replace
 - Written with Composition API in Vue3 and Typescript
 - Support for Pinia with a pre-made User store, Vue Router, Vue i18n, and Axios
 - Comes with internationalization support out of the box (English and French to start with)
@@ -23,6 +24,7 @@ Arguably the most important parts of an app (authentication and handling payment
   - Includes Facebook and Twitter meta tags (Open Graph and Twitter Cards respectively)
 - Auto schema markup generation (at least the basics)
 - Content-Security-Policy (CSP) support
+- BaseButton component that automatically renders a `button`, `a` with a role of `button`, or `router-link` depending on the props passed (if href its an `a`, if to its a `router-link`, otherwise its a `button`)
 
 ## Project Setup
 
