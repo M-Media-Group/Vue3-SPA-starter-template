@@ -9,7 +9,7 @@ export const setMetaAttributes = (
   const locale = i18n.global.locale.value;
 
   if (typeof to.meta.description === "string") {
-    setDescription(to.meta.description);
+    setDescription(i18n.global.t(to.meta.description));
   }
 
   if (typeof to.meta.image === "string") {
@@ -51,12 +51,12 @@ export const setMetaAttributes = (
 
   // If a route with a title was found, set the document (page) title to that value.
   if (nearestWithTitle && typeof nearestWithTitle.meta.title === "string") {
-    setTitle(nearestWithTitle.meta.title);
+    setTitle(i18n.global.t(nearestWithTitle.meta.title));
   } else if (
     previousNearestWithMeta &&
     typeof previousNearestWithMeta.meta.title === "string"
   ) {
-    setTitle(previousNearestWithMeta.meta.title);
+    setTitle(i18n.global.t(previousNearestWithMeta.meta.title));
   } else if (typeof to.name === "string") {
     setTitle(
       i18n.global.t(to.name) + " - " + import.meta.env.VITE_APP_NAME ??

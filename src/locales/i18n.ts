@@ -4,7 +4,7 @@ import axios from "axios";
 
 export const SUPPORT_LOCALES = ["en", "fr"];
 
-export function setupI18n() {
+export async function setupI18n() {
   let locale =
     localStorage.getItem("locale") ?? navigator.language.split("-")[0] ?? "en";
   // If the locale is not supported, fallback to English
@@ -20,12 +20,12 @@ export function setupI18n() {
   //   We load the fallback language just in case
   loadLocaleMessages(i18n, "en");
 
-  setI18nLanguage(i18n, locale);
+  await setI18nLanguage(i18n, locale);
 
   return i18n;
 }
 
-export function setI18nLanguage(
+export async function setI18nLanguage(
   i18n: I18n<{}, {}, {}, string, false>,
   locale: string
 ) {
@@ -39,7 +39,7 @@ export function setI18nLanguage(
   // Set the axios locale
   axios.defaults.headers.common["Accept-Language"] = locale;
   // Load the locale messages
-  loadLocaleMessages(i18n, locale);
+  await loadLocaleMessages(i18n, locale);
 }
 
 export async function loadLocaleMessages(
@@ -56,6 +56,6 @@ export async function loadLocaleMessages(
   return nextTick();
 }
 
-const i18n = setupI18n();
+const i18n = await setupI18n();
 
 export default i18n;
