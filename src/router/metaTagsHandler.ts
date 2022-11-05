@@ -59,7 +59,7 @@ export const setMetaAttributes = (
     setTitle(previousNearestWithMeta.meta.title);
   } else if (typeof to.name === "string") {
     setTitle(
-      to.name + " - " + import.meta.env.VITE_APP_NAME ??
+      i18n.global.t(to.name) + " - " + import.meta.env.VITE_APP_NAME ??
         import.meta.env.VITE_APP_NAME
     );
   } else {

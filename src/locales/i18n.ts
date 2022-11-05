@@ -39,9 +39,9 @@ export function setI18nLanguage(
   localStorage.setItem("locale", locale);
   // Set the axios locale
   axios.defaults.headers.common["Accept-Language"] = locale;
-  //   Set the og:locale
+  // Set the og:locale
   updateOrCreateMetaTag("og:locale", locale);
-  //   Load the locale messages
+  // Load the locale messages
   loadLocaleMessages(i18n, locale);
 }
 
