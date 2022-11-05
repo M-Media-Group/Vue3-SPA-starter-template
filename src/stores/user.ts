@@ -2,6 +2,7 @@ import { ref, type Ref } from "vue";
 import { defineStore } from "pinia";
 import axios from "axios";
 import type { User } from "@/types/user";
+import $bus, { eventTypes } from "@/eventBus/events";
 
 export const useUserStore = defineStore("user", () => {
   // the state of the user
@@ -83,6 +84,7 @@ export const useUserStore = defineStore("user", () => {
         password: password,
       });
       await getUser();
+      $bus.$emit(eventTypes.logged_in);
       return true;
     } catch (error) {
       return false;
@@ -138,6 +140,7 @@ export const useUserStore = defineStore("user", () => {
         surname: surname,
       });
       await getUser();
+      $bus.$emit(eventTypes.registered);
       return true;
     } catch (error: any) {
       return error.response;
@@ -186,6 +189,7 @@ export const useUserStore = defineStore("user", () => {
       await axios.post("forgot-password", {
         email: email,
       });
+      $bus.$emit(eventTypes.sent_reset_password_email);
       return true;
     } catch (error: any) {
       return error.response;
@@ -229,6 +233,7 @@ export const useUserStore = defineStore("user", () => {
         password: password,
         password_confirmation: password,
       });
+      $bus.$emit(eventTypes.reset_password);
       return true;
     } catch (error: any) {
       return error.response;
@@ -255,6 +260,7 @@ export const useUserStore = defineStore("user", () => {
       await axios.post("user/confirm-password", {
         password: password,
       });
+      $bus.$emit(eventTypes.confirmed_password);
       return true;
     } catch (error: any) {
       return error.response;
@@ -298,6 +304,7 @@ export const useUserStore = defineStore("user", () => {
     isAuthenticated.value = false;
     user.value = null;
     isLoading.value = false;
+    $bus.$emit(eventTypes.logged_out);
   }
 
   /**
@@ -325,6 +332,7 @@ export const useUserStore = defineStore("user", () => {
       await axios.post("/user/payment-methods", {
         payment_method: paymentMethodId,
       });
+      $bus.$emit(eventTypes.added_payment_method);
       return true;
     } catch (error) {
       console.log(error);
@@ -363,6 +371,7 @@ export const useUserStore = defineStore("user", () => {
         email: email ?? user.value?.email,
       });
       await getUser();
+      $bus.$emit(eventTypes.updated_user);
       return true;
     } catch (error: any) {
       return error.response;

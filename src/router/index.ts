@@ -6,6 +6,7 @@ import {
 import { useUserStore } from "@/stores/user";
 import { handleMiddleware } from "./middlewareHandler";
 import { setMetaAttributes } from "./metaTagsHandler";
+import $bus, { eventTypes } from "@/eventBus/events";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -118,6 +119,15 @@ router.beforeEach(async (to, from) => {
   const middlewareResponse = await handleMiddleware(to, from);
   if (middlewareResponse !== null) {
     return middlewareResponse;
+  }
+});
+
+router.afterEach((to, from, failure) => {
+  if (!failure) {
+    $bus.$emit(eventTypes.viewed_page, {
+      ...to,
+      name: document.title,
+    });
   }
 });
 

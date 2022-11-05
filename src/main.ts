@@ -8,6 +8,9 @@ import axios from "axios";
 import App from "./App.vue";
 import router from "./router";
 
+// Event bus listeners
+import "./eventBus/listeners/index";
+
 import "@picocss/pico";
 import "./assets/main.css";
 
