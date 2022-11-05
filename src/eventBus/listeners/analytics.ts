@@ -1,4 +1,4 @@
-import { event, pageview, optIn, optOut } from "vue-gtag";
+import { event, pageview, optIn, optOut, set } from "vue-gtag";
 import type { eventTypes } from "../events";
 
 export default {
@@ -24,7 +24,13 @@ export default {
       payment_type: "card",
     });
   },
+  changed_locale: (locale: string) => {
+    set({ locale: locale });
+    event("change_locale", {
+      locale: locale,
+    });
+  },
   created_personal_access_token: () => {
-    event("created_personal_access_token");
+    event("create_personal_access_token");
   },
 } as Record<eventTypes, any>;
