@@ -1,13 +1,10 @@
 <script setup lang="ts">
+import i18n, { setI18nLanguage, SUPPORT_LOCALES } from "@/locales/i18n";
+
 const appName = import.meta.env.VITE_APP_NAME;
 
 const handleLocaleChange = (locale: string) => {
-  // Set the document locale
-  document.documentElement.lang = locale;
-  // Set the document direction
-  document.documentElement.dir = locale === "ar" ? "rtl" : "ltr";
-  // Set a local storage item
-  localStorage.setItem("locale", locale);
+  setI18nLanguage(i18n, locale);
 };
 </script>
 <template>
@@ -23,7 +20,7 @@ const handleLocaleChange = (locale: string) => {
           "
         >
           <option
-            v-for="locale in $i18n.availableLocales"
+            v-for="locale in SUPPORT_LOCALES"
             :key="`locale-${locale}`"
             :value="locale"
           >

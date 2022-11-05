@@ -1,10 +1,13 @@
 import type { RouteLocationNormalized } from "vue-router";
+import i18n, { setI18nLanguage, SUPPORT_LOCALES } from "@/locales/i18n";
 
 // Taken from https://www.digitalocean.com/community/tutorials/vuejs-vue-router-modify-head
 export const setMetaAttributes = (
   to: RouteLocationNormalized,
   from: RouteLocationNormalized
 ) => {
+  const locale = i18n.global.locale.value;
+
   if (typeof to.meta.description === "string") {
     setDescription(to.meta.description);
   }
@@ -17,8 +20,8 @@ export const setMetaAttributes = (
 
   if (typeof to.meta.locale === "string") {
     updateOrCreateMetaTag("og:locale", to.meta.locale ?? "en_US");
-    // } else if (locale.value) {
-    // updateOrCreateMetaTag("og:locale", locale.value);
+  } else if (locale) {
+    updateOrCreateMetaTag("og:locale", locale);
   } else {
     updateOrCreateMetaTag("og:locale", "en_US");
   }
