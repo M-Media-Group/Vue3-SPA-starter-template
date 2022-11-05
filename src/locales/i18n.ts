@@ -9,21 +9,23 @@ export const SUPPORT_LOCALES = ["en", "fr"];
 
 export function setupI18n() {
   let locale =
-    localStorage.getItem("locale") ?? navigator.language.split("-")[0] ?? "en";
+    localStorage.getItem("locale") ??
+    navigator.language.split("-")[0] ??
+    SUPPORT_LOCALES[0];
   // If the locale is not supported, fallback to English
-  if (!["en", "fr"].includes(locale)) {
-    locale = "en";
+  if (!SUPPORT_LOCALES.includes(locale)) {
+    locale = SUPPORT_LOCALES[0];
   }
 
   const i18n = createI18n({
     legacy: false, // you must set `false`, to use Composition API
-    fallbackLocale: "en", // set fallback locale
+    fallbackLocale: SUPPORT_LOCALES[0], // set fallback locale
 
     // something vue-i18n options here ...
   });
 
   //   Load the fallback locale
-  loadLocaleMessages(i18n, "en");
+  loadLocaleMessages(i18n, SUPPORT_LOCALES[0]);
   setI18nLanguage(i18n, locale);
 
   return i18n;

@@ -1,3 +1,4 @@
+import { SUPPORT_LOCALES } from "@/locales/i18n";
 import { eventTypes } from "../events";
 
 class CustomNotification {
@@ -59,7 +60,7 @@ class PushNotification {
     public icon: string | undefined = undefined,
     public tag: string | undefined = undefined,
     public dir: NotificationDirection | undefined = undefined,
-    public lang: string = "en",
+    public lang: string = SUPPORT_LOCALES[0],
     public vibrate: number[] | undefined = undefined,
     public renotify: boolean | undefined = undefined,
     public requireInteraction: boolean | undefined = undefined,
