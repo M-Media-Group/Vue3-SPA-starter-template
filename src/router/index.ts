@@ -1,12 +1,8 @@
-import {
-  createRouter,
-  createWebHistory,
-  type NavigationGuardNext,
-} from "vue-router";
-import { useUserStore } from "@/stores/user";
+import { createRouter, createWebHistory } from "vue-router";
 import { handleMiddleware } from "./middlewareHandler";
 import { setMetaAttributes } from "./metaTagsHandler";
 import $bus, { eventTypes } from "@/eventBus/events";
+import authRoutes from "./authRoutes";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,67 +15,6 @@ const router = createRouter({
         title: "Home",
       },
       component: () => import("../views/HomeView.vue"),
-    },
-    {
-      path: "/login",
-      name: "login",
-      component: () => import("../views/Auth/LoginOrRegisterView.vue"),
-      meta: {
-        middleware: ["guest", "dontRedirect"],
-      },
-    },
-    // A logout route that just calls the logout on userStore, then redirects to login
-    {
-      path: "/logout",
-      name: "logout",
-      beforeEnter: async (to, from, next) => {
-        return logout(next);
-      },
-      component: () => import("../views/Auth/LoginOrRegisterView.vue"),
-      meta: {
-        middleware: ["auth", "dontRedirect"],
-      },
-    },
-
-    {
-      path: "/sign-up",
-      name: "sign-up",
-      component: () => import("../views/Auth/LoginOrRegisterView.vue"),
-      meta: {
-        middleware: ["guest", "dontRedirect"],
-      },
-    },
-    {
-      path: "/forgot-password",
-      name: "forgot-password",
-      component: () => import("../forms/ForgotPassword.vue"),
-      meta: {
-        middleware: ["guest"],
-      },
-    },
-    {
-      path: "/reset-password",
-      name: "reset-password",
-      component: () => import("../forms/ResetPassword.vue"),
-      meta: {
-        middleware: ["guest"],
-      },
-    },
-    {
-      path: "/confirm-password",
-      name: "confirm-password",
-      component: () => import("../forms/ConfirmPassword.vue"),
-      meta: {
-        middleware: ["auth", "dontRedirect"],
-      },
-    },
-    {
-      path: "/confirm-email",
-      name: "confirm-email",
-      component: () => import("../views/Auth/ConfirmEmailView.vue"),
-      meta: {
-        middleware: ["auth", "unconfirmedEmail", "dontRedirect"],
-      },
     },
     {
       path: "/settings",
@@ -115,7 +50,7 @@ const router = createRouter({
       name: "about",
       component: () => import("../views/AboutView.vue"),
     },
-  ],
+  ].concat(authRoutes),
 });
 
 router.beforeEach(async (to, from) => {
@@ -135,21 +70,5 @@ router.afterEach((to, from, failure) => {
     });
   }
 });
-
-const logout = async (next: NavigationGuardNext) => {
-  const store = useUserStore();
-  if (store.isLoading) {
-    await new Promise((resolve) => {
-      const interval = setInterval(() => {
-        if (!store.isLoading) {
-          clearInterval(interval);
-          resolve(true);
-        }
-      }, 10);
-    });
-  }
-  await store.logout();
-  return next({ name: "login" });
-};
 
 export default router;
