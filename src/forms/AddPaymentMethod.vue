@@ -86,7 +86,6 @@ const addPaymentMethod = async () => {
           if (!userStore.user?.id) {
             return;
           }
-          console.log("Got result", result);
           userStore
             .addPaymentMethod(result.setupIntent.payment_method)
             .then((response) => {
