@@ -1,5 +1,5 @@
 import type { RouteLocationNormalized } from "vue-router";
-import i18n, { setI18nLanguage, SUPPORT_LOCALES } from "@/locales/i18n";
+import i18n from "@/locales/i18n";
 
 // Taken from https://www.digitalocean.com/community/tutorials/vuejs-vue-router-modify-head
 export const setMetaAttributes = (

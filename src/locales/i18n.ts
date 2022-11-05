@@ -1,6 +1,9 @@
 import { nextTick } from "vue";
 import { createI18n, type I18n } from "vue-i18n";
 import axios from "axios";
+import { setMetaAttributes } from "@/router/metaTagsHandler";
+import router from "@/router";
+import $bus, { eventTypes } from "@/eventBus/events";
 
 export const SUPPORT_LOCALES = ["en", "fr"];
 
@@ -25,6 +28,7 @@ export async function setupI18n() {
   return i18n;
 }
 
+// @todo: opportunity to refactor - parts of this code does not / should not run on first page load (e.g. when its called from setupI18n)
 export async function setI18nLanguage(
   i18n: I18n<{}, {}, {}, string, false>,
   locale: string
@@ -40,6 +44,15 @@ export async function setI18nLanguage(
   axios.defaults.headers.common["Accept-Language"] = locale;
   // Load the locale messages
   await loadLocaleMessages(i18n, locale);
+  // Re run the meta tags handler when the language changes to update SEO meta tags
+  //   When the router first loads, its matched routes are empty, so we know that we don't need to run the meta tags handler (because the page isn't ready yet, so the language meta will be handled after the page loads by the router)
+  if (router.currentRoute.value.matched.length !== 0) {
+    const to = router.currentRoute.value;
+    const from = router.currentRoute.value;
+    setMetaAttributes(to, from);
+  }
+  // Emit an event to let the app know that the language has changed
+  $bus.$emit(eventTypes.changed_locale, locale);
 }
 
 export async function loadLocaleMessages(
