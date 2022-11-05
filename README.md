@@ -31,6 +31,7 @@ Arguably the most important parts of an app (authentication and handling payment
 - All API calls in a single file for easy customization (the User store)
 - BaseButton component that automatically renders a `button`, `a` with a role of `button`, or `router-link` depending on the props passed (if href its an `a`, if to its a `router-link`, otherwise its a `button`)
 - Global event bus for easy communication with things like Analytics services
+- Netlify TOML file for easy deployment on Netlify
 
 ## Project Setup
 
