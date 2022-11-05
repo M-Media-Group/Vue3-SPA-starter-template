@@ -10,6 +10,8 @@ import $bus, { eventTypes } from "@/eventBus/events";
  */
 export const SUPPORT_LOCALES = ["en", "fr"];
 
+export const RTL_LOCALES = ["ar", "fa", "he", "ur"];
+
 export function setupI18n() {
   let locale =
     localStorage.getItem("locale") ??
@@ -43,7 +45,7 @@ export async function setI18nLanguage(
   // Set the document locale
   document.documentElement.lang = locale;
   // Set the document direction
-  document.documentElement.dir = locale === "ar" ? "rtl" : "ltr";
+  document.documentElement.dir = RTL_LOCALES.includes(locale) ? "rtl" : "ltr";
   // Set a local storage item
   localStorage.setItem("locale", locale);
   // Set the axios locale
