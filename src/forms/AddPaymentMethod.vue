@@ -24,7 +24,7 @@ const form = reactive({
 
 const emit = defineEmits(["added"]);
 
-const handleStripeInput = async (event: any) => {
+const handleStripeInput = async (event: { complete: any }) => {
   paymentInfoComplete.value = !!event.complete;
   if (paymentInfoComplete.value === true) {
     // Scroll to bottom
@@ -147,7 +147,8 @@ const elementStyle = {
   },
 };
 
-const handleElementReady = async (event: { elementType: string }) => {
+// The function receives event: { elementType: string } as a parameter - if we need it
+const handleElementReady = async () => {
   elementReady.value = true;
 
   // Focus on the card

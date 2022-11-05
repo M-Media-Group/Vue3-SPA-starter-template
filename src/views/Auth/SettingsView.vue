@@ -8,7 +8,7 @@ import { ref } from "vue";
 
 const userStore = useUserStore();
 
-const handleUpdate = (event: { email: any }) => {
+const handleUpdate = (event: { email: string | undefined }) => {
   // If the email is in the event, redirect to the confirm email page
   if (event.email) {
     router.push({ name: "confirm-email" });

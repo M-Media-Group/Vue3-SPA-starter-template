@@ -23,7 +23,7 @@ const submitForm = async () => {
   }
 
   // Create an object containing only the changed values
-  const changedValues = {} as any;
+  const changedValues = {} as Record<string, string>;
   if (userStore.user?.name !== name.value) {
     changedValues["name"] = name.value;
   }
