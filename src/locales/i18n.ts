@@ -5,6 +5,9 @@ import { setMetaAttributes } from "@/router/metaTagsHandler";
 import router from "@/router";
 import $bus, { eventTypes } from "@/eventBus/events";
 
+/**
+ * The supported locales in the app. Note that the first locale in this array is the default locale.
+ */
 export const SUPPORT_LOCALES = ["en", "fr"];
 
 export function setupI18n() {
