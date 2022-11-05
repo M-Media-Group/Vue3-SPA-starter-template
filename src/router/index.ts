@@ -51,6 +51,13 @@ const router = createRouter({
       component: () => import("../views/AboutView.vue"),
     },
   ].concat(authRoutes),
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return { top: 0 };
+    }
+  },
 });
 
 router.beforeEach(async (to, from) => {
