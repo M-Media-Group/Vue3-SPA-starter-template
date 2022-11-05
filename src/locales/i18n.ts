@@ -5,6 +5,8 @@ import { setMetaAttributes } from "@/router/metaTagsHandler";
 import router from "@/router";
 import $bus, { eventTypes } from "@/eventBus/events";
 
+import en from "@/locales/en.json";
+
 export const SUPPORT_LOCALES = ["en", "fr"];
 
 export async function setupI18n() {
@@ -18,10 +20,11 @@ export async function setupI18n() {
   const i18n = createI18n({
     legacy: false, // you must set `false`, to use Composition API
     fallbackLocale: "en", // set fallback locale
+    messages: {
+      en: en,
+    } as Record<string, any>,
     // something vue-i18n options here ...
   });
-  //   We load the fallback language just in case
-  loadLocaleMessages(i18n, "en");
 
   await setI18nLanguage(i18n, locale);
 
