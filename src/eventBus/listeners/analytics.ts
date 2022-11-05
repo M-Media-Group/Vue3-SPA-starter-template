@@ -20,7 +20,9 @@ export default {
     event("sign_up");
   },
   added_payment_method: () => {
-    event("add_payment_info");
+    event("add_payment_info", {
+      payment_type: "card",
+    });
   },
   created_personal_access_token: () => {
     event("created_personal_access_token");
