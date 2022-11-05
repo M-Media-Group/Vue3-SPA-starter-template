@@ -115,7 +115,6 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from) => {
-  setMetaAttributes(to, from);
   const middlewareResponse = await handleMiddleware(to, from);
   if (middlewareResponse !== null) {
     return middlewareResponse;
@@ -124,6 +123,8 @@ router.beforeEach(async (to, from) => {
 
 router.afterEach((to, from, failure) => {
   if (!failure) {
+    setMetaAttributes(to, from);
+
     $bus.$emit(eventTypes.viewed_page, {
       ...to,
       name: document.title,

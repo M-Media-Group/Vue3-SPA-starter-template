@@ -1,7 +1,6 @@
 import { nextTick } from "vue";
 import { createI18n, type I18n } from "vue-i18n";
 import axios from "axios";
-import { updateOrCreateMetaTag } from "@/router/metaTagsHandler";
 
 export const SUPPORT_LOCALES = ["en", "fr"];
 
@@ -39,8 +38,6 @@ export function setI18nLanguage(
   localStorage.setItem("locale", locale);
   // Set the axios locale
   axios.defaults.headers.common["Accept-Language"] = locale;
-  // Set the og:locale
-  updateOrCreateMetaTag("og:locale", locale);
   // Load the locale messages
   loadLocaleMessages(i18n, locale);
 }
