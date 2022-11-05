@@ -38,6 +38,7 @@ describe("Locales", () => {
       },
     });
     cy.get("select[name=locales]").should("have.value", "fr");
+    cy.get("html").should("have.attr", "lang", "fr");
   });
   it("Actually changes the language when its changed", () => {
     cy.visit("/");
