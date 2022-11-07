@@ -17,21 +17,26 @@ Arguably the most important parts of an app (authentication and handling payment
 - Support for Pinia with a pre-made User store, Vue Router, Vue i18n, and Axios
 - Comes with internationalization support out of the box (English and French to start with)
 - Includes a Dev-Container for development in a Docker environment (optional)
-- Login, logout, register pages
-- Forgot password, reset password, resend email confirmation, password confirmation, payment method adding pages
 - CSRF cookie protection support
-- User settings page with a section to add payment methods using Stripe Elements
-- Base form component using native HTML5 validation (set custom errors on inputs and then have the browser handle them natively with `setCustomValidity`)
 - Semantic HTML5 elements
-- Middleware for VueRouter including: auth, guest, confirmedEmail, confirmedPassword, hasPaymentMethod
-- Auto meta-tags handling for SEO
-  - Includes Facebook and Twitter meta tags (Open Graph and Twitter Cards respectively)
-- Auto schema markup generation (at least the basics)
 - Content-Security-Policy (CSP) support
 - All API calls in a single file for easy customization (the User store)
-- BaseButton component that automatically renders a `button`, `a` with a role of `button`, or `router-link` depending on the props passed (if href its an `a`, if to its a `router-link`, otherwise its a `button`)
 - Global event bus for easy communication with things like Analytics services
 - Netlify TOML file for easy deployment on Netlify
+
+### Pages and routing
+- User settings page with a section to add payment methods using Stripe Elements
+- Login, logout, register pages
+- Forgot password, reset password, resend email confirmation, password confirmation, payment method adding pages
+- Middleware for VueRouter including: auth, guest, confirmedEmail, confirmedPassword, hasPaymentMethod
+- Auto meta-tags handling for SEO including internationalization support
+  - Includes Facebook and Twitter meta tags (Open Graph and Twitter Cards respectively)
+- Auto schema markup generation (at least the basics)
+
+### Components
+- BaseButton component that automatically renders a `button`, `a` with a role of `button`, or `router-link` depending on the props passed (if href its an `a`, if to its a `router-link`, otherwise its a `button`)
+- BaseForm component using native HTML5 validation (set custom errors on inputs and then have the browser handle them natively with `setCustomValidity`)
+- BaseModal
 
 ## Project Setup
 
