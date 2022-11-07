@@ -42,7 +42,7 @@ Arguably the most important parts of an app (authentication and handling payment
 - Github Actions for CI to run unit and end-to-end tests
 - Netlify TOML file for easy deployment on Netlify
 - CI validation for missing translation keys
-- Pre-commit hooks for linting and testing right before committing
+- Pre-push (or pre-commit if you want) hooks for linting and testing right before pushing
 
 ## Project Setup
 
