@@ -22,7 +22,6 @@ Arguably the most important parts of an app (authentication and handling payment
 - Content-Security-Policy (CSP) support
 - All API calls in a single file for easy customization (the User store)
 - Global event bus for easy communication with things like Analytics services
-- Netlify TOML file for easy deployment on Netlify
 
 ### Pages and routing
 - User settings page with a section to add payment methods using Stripe Elements
@@ -37,6 +36,11 @@ Arguably the most important parts of an app (authentication and handling payment
 - BaseButton component that automatically renders a `button`, `a` with a role of `button`, or `router-link` depending on the props passed (if href its an `a`, if to its a `router-link`, otherwise its a `button`)
 - BaseForm component using native HTML5 validation (set custom errors on inputs and then have the browser handle them natively with `setCustomValidity`)
 - BaseModal
+
+### Continuous Integration and Continuous Deployment
+- Env file support
+- Github Actions for CI to run unit and end-to-end tests
+- Netlify TOML file for easy deployment on Netlify
 
 ## Project Setup
 
