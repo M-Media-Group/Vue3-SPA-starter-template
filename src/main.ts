@@ -9,7 +9,6 @@ import router from "./router";
 // Event bus listeners
 import "./eventBus/listeners/index";
 
-import "@picocss/pico";
 import "./assets/main.css";
 import i18n from "./locales/i18n";
 import VueGtagPlugin from "vue-gtag";
