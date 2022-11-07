@@ -93,12 +93,6 @@ const addPaymentMethod = async () => {
               if (!response) {
                 throw new Error("Error adding payment method");
               }
-              // If the gtag function is available, log the event.
-              // if (typeof gtag === "function") {
-              // gtag("event", "add_payment_info");
-              // fbq("track", "AddPaymentInfo");
-              // }
-              // closeModal();
               emit("added");
               form.processing = false;
             })
@@ -162,7 +156,11 @@ const handleElementReady = async () => {
     ref="baseForm"
     @submit="addPaymentMethod"
     :disabled="
-      success || !stripeLoaded || !elementReady || !paymentInfoComplete
+      success ||
+      !stripeLoaded ||
+      !elementReady ||
+      !paymentInfoComplete ||
+      !clientSecret
     "
     :is-loading="form.processing || !stripeLoaded"
     data-cy="add-payment-form"
