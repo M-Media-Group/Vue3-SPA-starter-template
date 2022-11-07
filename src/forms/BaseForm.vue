@@ -77,6 +77,7 @@ const clearErrorMessageOnElement = (element: HTMLInputElement) => {
 
 const submit = async () => {
   if (formIsValid.value) {
+    // setSuccessOnInputs();
     emit("submit");
   }
 };
@@ -123,10 +124,37 @@ const setErrorOnInput = (
 ) => {
   //   Use setValidity to set the error message
   input.setCustomValidity(error);
+  input.setAttribute("aria-invalid", "true");
   if (report) {
     input.reportValidity();
   }
   setErrorMessageOnElement(input);
+};
+
+const setSuccessOnInputs = () => {
+  callActionsOnAllInputs((element) => {
+    setSuccessOnInput(element);
+  });
+  // After 5 seconds, clear the success state
+  setTimeout(() => {
+    removeSuccessOnInputs();
+  }, 5000);
+};
+
+const setSuccessOnInput = (input: HTMLInputElement) => {
+  input.setAttribute("aria-invalid", "false");
+};
+
+const removeSuccessOnInputs = () => {
+  callActionsOnAllInputs((element) => {
+    removeSuccessOnInput(element);
+  });
+};
+
+const removeSuccessOnInput = (input: HTMLInputElement) => {
+  if (input.validity.valid) {
+    input.removeAttribute("aria-invalid");
+  }
 };
 
 const resetCustomValidityOnInput = (input: HTMLInputElement) => {
@@ -173,6 +201,7 @@ defineExpose({
   checkValidity,
   setInputErrors,
   focusOnFirstInput,
+  setSuccessOnInputs,
 });
 </script>
 

@@ -211,6 +211,31 @@ describe("Base Form", () => {
 
     // Expect the input validity to be false
     expect(wrapper.find("input").element.validity.valid).toBe(false);
+    expect(wrapper.find("input").attributes("aria-invalid")).toBe("true");
+  });
+
+  it("sets success on inputs", () => {
+    const wrapper = mount(BaseForm, {
+      slots: {
+        default: `
+          <input type="text" name="test" value="test" required />
+        `,
+      },
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub,
+        },
+      },
+    });
+
+    // Call the setInputSuccess method on the wrapper
+    wrapper.vm.setSuccessOnInputs();
+
+    // Expect the input validity to be false
+    expect(wrapper.find("input").element.validity.valid).toBe(true);
+
+    // The aria-invalid should be false
+    expect(wrapper.find("input").attributes("aria-invalid")).toBe("false");
   });
 
   it("can focus on first input", () => {

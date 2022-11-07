@@ -36,6 +36,7 @@ const submitForm = async () => {
 
   // If there are no changed values, return
   if (Object.keys(changedValues).length === 0) {
+    baseForm.value.setSuccessOnInputs();
     return;
   }
 
@@ -48,8 +49,13 @@ const submitForm = async () => {
   if (response === true) {
     // Emit the updated event with the changed fields
     emit("updated", changedValues);
+    baseForm.value.setSuccessOnInputs();
     return;
   } else if (typeof response === "object") {
+    // We want to show the user the correct fields to the user so they feel better
+    baseForm.value.setSuccessOnInputs();
+
+    // Show the fields with errors
     baseForm.value.setInputErrors(response.data.errors);
   }
 };
