@@ -93,10 +93,13 @@ npm run test:e2e
 npm run lint
 ```
 
-### Translation handling
+### Translation keys validation
+
 ```sh
-node_modules/.bin/vue-translation-manager [command]
+npm run translation-key-check
 ```
+
+Note, if you expand the supported languages, make sure to update the `.vue-translation.js` file to include the new language.
 
 ## Backend setup
 
