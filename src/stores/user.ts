@@ -333,6 +333,7 @@ export const useUserStore = defineStore("user", () => {
         payment_method: paymentMethodId,
       });
       $bus.$emit(eventTypes.added_payment_method);
+      await getUser();
       return true;
     } catch (error) {
       console.log(error);
