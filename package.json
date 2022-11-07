@@ -53,8 +53,10 @@
     "vue-translation-manager": "^1.2.0",
     "vue-tsc": "^1.0.8"
   },
+  "pre-commit": [
+    "lint"
+  ],
   "pre-push": [
-    "lint",
     "translation-key-check",
     "test:unit:coverage"
   ]
