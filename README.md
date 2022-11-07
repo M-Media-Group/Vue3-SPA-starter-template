@@ -41,6 +41,7 @@ Arguably the most important parts of an app (authentication and handling payment
 - Env file support
 - Github Actions for CI to run unit and end-to-end tests
 - Netlify TOML file for easy deployment on Netlify
+- CI validation for missing translation keys
 
 ## Project Setup
 
