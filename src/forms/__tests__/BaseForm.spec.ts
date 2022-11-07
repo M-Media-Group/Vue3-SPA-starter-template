@@ -237,4 +237,102 @@ describe("Base Form", () => {
       wrapper.find("input[name='test']").element
     );
   });
+
+  it("does not show the submit button if the showSubmitButton prop is false", () => {
+    const wrapper = mount(BaseForm, {
+      props: {
+        showSubmitButton: false,
+      },
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub,
+        },
+      },
+    });
+
+    // Expect the submit button to be disabled
+    expect(wrapper.find("button").exists()).toBe(false);
+  });
+
+  it("shows a custom button is passed in the submit slot", () => {
+    const wrapper = mount(BaseForm, {
+      slots: {
+        submit: `
+          <button type="submit" id="customSubmit">Submit</button>
+        `,
+      },
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub,
+        },
+      },
+    });
+
+    // Expect a customSubmit button to exist
+    expect(wrapper.find("#customSubmit").exists()).toBe(true);
+  });
+
+  it("shows submitText in the submit slot if no custom button is passed", () => {
+    const wrapper = mount(BaseForm, {
+      props: {
+        submitText: "Test Submit",
+      },
+      slots: {
+        submit: `
+          <button type="submit" id="customSubmit">{{submitText}}</button>
+        `,
+      },
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub,
+        },
+      },
+    });
+
+    // Expect the submit button to be disabled
+    expect(wrapper.find("button").text()).toBe("Test Submit");
+  });
+
+  it("can be submitted with a custom event in the submit slot", async () => {
+    const wrapper = mount(BaseForm, {
+      slots: {
+        submit: `
+          <input type="checkbox" id="customSubmit" @change="submit" />
+        `,
+      },
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub,
+        },
+      },
+    });
+
+    // Submit the form by checking the checkbox
+    wrapper.find("#customSubmit").trigger("change");
+
+    // Expect the form to have emitted a submit event
+    expect(wrapper.emitted("submit")).toBeTruthy();
+  });
+
+  // See issue and SO link above for submit with click
+  it.skip("submits form if a custom button is passed in the submit slot", () => {
+    const wrapper = mount(BaseForm, {
+      slots: {
+        submit: `
+          <button type="submit" id="customSubmit">Submit</button>
+        `,
+      },
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub,
+        },
+      },
+    });
+
+    // Submit the form
+    wrapper.find("#customSubmit").trigger("click");
+
+    // Expect the form to have emitted a submit event
+    expect(wrapper.emitted("submit")).toBeTruthy();
+  });
 });

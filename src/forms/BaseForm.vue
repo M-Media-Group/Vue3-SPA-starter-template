@@ -24,6 +24,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  showSubmitButton: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emit = defineEmits(["submit"]);
@@ -181,8 +185,15 @@ defineExpose({
   >
     <slot></slot>
 
-    <slot name="submit">
+    <slot
+      name="submit"
+      :submitText="submitText"
+      :submit="submit"
+      :disabled="!formIsValid || disabled || isLoading"
+      :isLoading="isLoading"
+    >
       <BaseButton
+        v-if="showSubmitButton"
         type="submit"
         :disabled="!formIsValid || disabled || isLoading"
         :aria-busy="isLoading"
