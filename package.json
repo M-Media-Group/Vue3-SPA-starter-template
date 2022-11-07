@@ -13,7 +13,8 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "translate": "node_modules/.bin/vue-translation-manager translate",
-    "translation-key-check": "node_modules/.bin/vue-translation-manager validate"
+    "translation-key-check": "node_modules/.bin/vue-translation-manager validate",
+    "test:all": "run-p coverage test:e2e"
   },
   "dependencies": {
     "@picocss/pico": "^1.5.6",
@@ -54,10 +55,8 @@
   },
   "pre-push": [
     "lint",
-    "type-check",
     "translation-key-check",
     "build",
-    "coverage",
-    "test:e2e"
+    "test:all"
   ]
 }
