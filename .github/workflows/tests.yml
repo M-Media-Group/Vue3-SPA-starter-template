@@ -19,3 +19,5 @@ jobs:
           command: npm run test:e2e
       - name: Unit tests run
         run: npm run test:unit
+      - name: Translation validation
+        run: npm run translation-key-check

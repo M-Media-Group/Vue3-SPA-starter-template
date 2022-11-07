@@ -2,6 +2,8 @@
     "message": {
         "hello": "world"
     },
+    "fr": "Français",
+    "en": "English",
     "Password": "Mot de passe",
     "New password": "Nouveau mot de passe",
     "Email": "Adresse e-mail",

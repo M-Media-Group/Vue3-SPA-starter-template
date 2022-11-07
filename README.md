@@ -92,6 +92,11 @@ npm run test:e2e
 npm run lint
 ```
 
+### Translation handling
+```sh
+node_modules/.bin/vue-translation-manager [command]
+```
+
 ## Backend setup
 
 This starter kit was designed to work with a Laravel based backend, but any backend that implements the required functionality would work.
