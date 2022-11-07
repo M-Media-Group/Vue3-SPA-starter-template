@@ -149,6 +149,10 @@ const handleElementReady = async () => {
 
   // Focus on the card
   await nextTick();
+  focusOnInput();
+};
+
+const focusOnInput = () => {
   card.value.stripeElement.focus();
 };
 </script>
@@ -167,8 +171,9 @@ const handleElementReady = async () => {
     :is-loading="form.processing || !stripeLoaded"
     data-cy="add-payment-form"
   >
-    <label>{{ $t("Add a payment method") }}</label>
+    <label @click="focusOnInput()">{{ $t("Add a payment method") }}</label>
     <StripeElements
+      @click="focusOnInput()"
       class="input"
       v-if="stripeLoaded"
       v-slot="{ elements }"
