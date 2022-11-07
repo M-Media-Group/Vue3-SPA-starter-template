@@ -55,6 +55,11 @@ main~footer ul>li {
   list-style: none;
 }
 
+/* Fixes iframe (especially for 3DS from Stripe) not being inter-actable due to parent modal pointer-event setting */
+.modal-is-open iframe {
+  pointer-events: initial;
+}
+
 /* we will explain what these classes do next! */
 .v-enter-active,
 .v-leave-active {
