@@ -887,7 +887,7 @@ describe("Reset password", () => {
     // Click the submit button to advance to the next screen
     cy.get("button[type=submit]").click();
 
-    // Check that a .success message is shown
+    // Check that the validity fails
     cy.get("input[type=email]")
       .invoke("prop", "validity")
       .should("deep.include", {
@@ -936,11 +936,8 @@ describe("Reset password", () => {
     // There should be a password input
     cy.get("input[type=password]").should("be.visible");
 
-    // There should be a submit button
-    cy.get("button[type=submit]").should("be.visible");
-
-    // The submit should be disabled
-    cy.get("button[type=submit]").should("be.disabled");
+    // There should be a disabled submit button
+    cy.get("button[type=submit]").should("be.visible").should("be.disabled");
   });
 
   it("Fails to reset password with invalid token", () => {
@@ -1090,10 +1087,8 @@ describe("Logout", () => {
 
     // Intercept the logout
     cy.intercept(
-      {
-        method: "POST", // Route all GET requests
-        url: "/logout", // that have a URL that matches '/users/*'
-      },
+      "POST", // Route all GET requests
+      "/logout", // that have a URL that matches '/users/*'
       {
         statusCode: 204,
       }
@@ -1119,10 +1114,8 @@ describe("Logout", () => {
 
     // Intercept the logout
     cy.intercept(
-      {
-        method: "POST", // Route all GET requests
-        url: "/logout", // that have a URL that matches '/users/*'
-      },
+      "POST", // Route all GET requests
+      "/logout", // that have a URL that matches '/users/*'
       {
         statusCode: 204,
       }
@@ -1130,14 +1123,9 @@ describe("Logout", () => {
 
     cy.visit("/logout");
 
-    // The user should be redirected to the login page
-    cy.url().should("include", "/login");
-
     cy.intercept(
-      {
-        method: "POST", // Route all GET requests
-        url: "/email-exists/success@stripe.com", // that have a URL that matches '/users/*'
-      },
+      "POST", // Route all GET requests
+      "/email-exists/success@stripe.com", // that have a URL that matches '/users/*'
       { statusCode: 200 }
     ).as("emailExists");
 
@@ -1147,43 +1135,12 @@ describe("Logout", () => {
     // Click the submit button to advance to the next screen
     cy.get("button[type=submit]").click();
 
-    // Check that form should only have 1 input (password)
-    cy.get("input").should("have.length", 1);
-
-    // Assert that somehwere on the page there is a Login text
-    // cy.contains("Login");
-
-    // Check that there is a password field
-    cy.get("input[type=password]").should("exist");
-
     cy.get("input[type=password]").type("password");
-
-    // Check that the password field is invalid
-    cy.get("input[type=password]")
-      .invoke("prop", "validity")
-      .should("deep.include", {
-        valueMissing: false,
-        typeMismatch: false,
-        patternMismatch: false,
-        tooLong: false,
-        tooShort: false,
-        rangeUnderflow: false,
-        rangeOverflow: false,
-        stepMismatch: false,
-        badInput: false,
-        customError: false,
-        valid: true,
-      });
-
-    // Check that the submit button is disabled
-    cy.get("button[type=submit]").should("not.be.disabled");
 
     // When pressing submit, a request to /login should be made
     cy.intercept(
-      {
-        method: "POST", // Route all GET requests
-        url: "/login", // that have a URL that matches '/users/*'
-      },
+      "POST", // Route all GET requests
+      "/login", // that have a URL that matches '/users/*'
       {
         statusCode: 200,
       }
@@ -1206,12 +1163,6 @@ describe("Logout", () => {
 describe("Confirm password", () => {
   beforeEach(() => {
     cy.intercept(
-      "PUT", // Route all GET requests
-      "/user/profile-information", // that have a URL that matches '/users/*'
-      { statusCode: 200 }
-    ).as("getUser");
-
-    cy.intercept(
       "GET", // Route all GET requests
       "/api/user", // that have a URL that matches '/users/*'
       { fixture: "user" }
@@ -1223,13 +1174,10 @@ describe("Confirm password", () => {
     // There should be a password input
     cy.get("input[type=password]").should("be.visible");
 
-    // There should be a submit button
-    cy.get("button[type=submit]").should("be.visible");
-
-    // The button should be disabled
-    cy.get("button[type=submit]").should("be.disabled");
+    // There should be a disabled submit button
+    cy.get("button[type=submit]").should("be.visible").should("be.disabled");
   });
-  it("It cannot be submitted if the name is empty", () => {
+  it("It cannot be submitted if the password is empty", () => {
     // Clear the name input
     cy.get("input[name=password]").clear();
 
@@ -1304,7 +1252,7 @@ describe("Edit user settings", () => {
       "GET", // Route all GET requests
       "/api/user", // that have a URL that matches '/users/*'
       { fixture: "user" }
-    ).as("getUser");
+    ).as("updateUser");
 
     cy.visit("/settings");
   });
@@ -1357,10 +1305,6 @@ describe("Edit user settings", () => {
       "/api/user", // that have a URL that matches '/users/*'
       { fixture: "userWithUnconfirmedEmail" }
     ).as("userWithUnconfirmedEmail");
-
-    // Set the name, surname and email
-    cy.get("input[name=name]").type("Test");
-    cy.get("input[name=surname]").type("Test");
 
     cy.get("input[name=email]").clear();
     cy.get("input[name=email]").type("changed@test.com");
