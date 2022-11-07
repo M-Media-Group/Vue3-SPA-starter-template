@@ -14,9 +14,6 @@ const appName = import.meta.env.VITE_APP_NAME;
 <template>
   <h1>Authenticate</h1>
   <CardElement title="Connect">
-    <template #header>
-      <h1>{{ appName }}</h1>
-    </template>
     <LoginOrRegister @authenticated="redirect" />
   </CardElement>
 </template>

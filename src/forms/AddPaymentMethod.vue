@@ -82,6 +82,8 @@ const addPaymentMethod = async () => {
         // Handle result.error or result.token
         if (result.error) {
           form.error = result.error.message;
+          alert(form.error);
+          form.processing = false;
         } else {
           if (!userStore.user?.id) {
             return;
