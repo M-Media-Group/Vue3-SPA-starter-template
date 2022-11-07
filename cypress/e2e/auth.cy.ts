@@ -1345,6 +1345,11 @@ describe("Edit user settings", () => {
 
     // Get the submit button right after the email input
     cy.get("input[name=email]").parent().find("button[type=submit]").click();
+
+    // Each input should have aria-invalid=false
+    cy.get("input[name=name]").should("have.attr", "aria-invalid", "false");
+    cy.get("input[name=surname]").should("have.attr", "aria-invalid", "false");
+    cy.get("input[name=email]").should("have.attr", "aria-invalid", "false");
   });
   it("Redirects to email confirm when the email is changed", () => {
     cy.intercept(
