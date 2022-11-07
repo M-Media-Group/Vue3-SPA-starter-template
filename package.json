@@ -55,7 +55,7 @@
     "lint",
     "type-check",
     "translation-key-check",
-    "test:unit",
+    "coverage",
     "test:e2e"
   ]
 }
