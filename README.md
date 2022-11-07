@@ -88,6 +88,8 @@ npm run build
 npm run test:e2e
 ```
 
+Note that there seems to be an issue when trying to run this command in a pre-commit/push hook - see similar issue here: https://stackoverflow.com/questions/73108965/module-not-found-error-when-adding-cypress-command-to-husky-pre-push
+
 ### Lint with [ESLint](https://eslint.org/)
 
 ```sh
