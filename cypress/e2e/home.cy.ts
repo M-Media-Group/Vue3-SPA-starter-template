@@ -2,6 +2,14 @@
 
 describe("Home Test", () => {
   it("visits the app root url", () => {
+    cy.intercept(
+      "GET", // Route all GET requests
+      "/api/user", // that have a URL that matches '/users/*'
+      {
+        statusCode: 401,
+      }
+    );
+
     cy.visit("/");
     // A nav element should exist
     cy.get("nav").should("exist");
