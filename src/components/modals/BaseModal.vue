@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import CardElement from "@/components/CardElement.vue";
+import BaseButton from "../BaseButton.vue";
 
 const props = defineProps({
   // The title of the card
@@ -97,7 +98,7 @@ defineExpose({
           :aria-label="$t('Close')"
           class="close"
           :data-target="modalId"
-          @click="closeModal()"
+          @click.prevent="closeModal()"
           v-if="showCloseInHeader"
         >
         </a>
@@ -106,23 +107,16 @@ defineExpose({
 
       <template #footer v-if="showFooter || $slots.footer">
         <slot name="footer">
-          <a
-            href="#cancel"
-            role="button"
+          <BaseButton
             class="secondary"
             :data-target="modalId"
-            @click="closeModal()"
+            @click.prevent="closeModal()"
           >
             {{ $t("Cancel") }}
-          </a>
-          <a
-            href="#confirm"
-            role="button"
-            :data-target="modalId"
-            @click="closeModal()"
-          >
+          </BaseButton>
+          <BaseButton :data-target="modalId" @click.prevent="closeModal()">
             {{ $t("Confirm") }}
-          </a>
+          </BaseButton>
         </slot>
       </template>
     </CardElement>
