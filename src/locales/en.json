@@ -36,5 +36,8 @@
     "If the account exists an email has been sent!": "If the account exists an email has been sent!",
     "Invalid email or password": "Invalid email or password",
     "You can now log in with your new password!": "You can now log in with your new password!",
-    "Close": "Close"
+    "Close": "Close",
+    "Auto": "Auto",
+    "Light": "Light",
+    "Dark": "Dark"
 }
