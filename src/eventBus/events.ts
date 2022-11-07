@@ -17,6 +17,7 @@ export enum eventTypes {
   deleted_personal_access_token = "deleted_personal_access_token",
   added_payment_method = "added_payment_method",
   changed_locale = "changed_locale",
+  changed_theme = "changed_theme",
 }
 
 type EventsObject = { [P in eventTypes]?: any };

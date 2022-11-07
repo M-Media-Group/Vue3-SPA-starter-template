@@ -30,6 +30,12 @@ export default {
       locale: locale,
     });
   },
+  changed_theme: (theme: string) => {
+    set({ theme: theme });
+    event("change_theme", {
+      theme: theme,
+    });
+  },
   created_personal_access_token: () => {
     event("create_personal_access_token");
   },
