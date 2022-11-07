@@ -12,8 +12,8 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "translate": "node_modules/.bin/vue-translation-manager translate",
-    "translation-key-check": "node_modules/.bin/vue-translation-manager validate",
+    "translate": "vue-translation-manager translate",
+    "translation-key-check": "vue-translation-manager validate",
     "test:all": "run-p coverage test:e2e"
   },
   "dependencies": {
