@@ -35,8 +35,15 @@ main~footer {
   margin-top: 40px;
 }
 
+article>header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
 /* Article/cards header and footer children should not have a margin-bottom */
-article>header>*,
+article>header>div>*,
 article>footer>* {
   margin-bottom: 0px;
 }

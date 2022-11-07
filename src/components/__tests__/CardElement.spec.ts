@@ -128,4 +128,20 @@ describe("Card element", () => {
     // default slot. Find the text inside the wrapper
     expect(wrapper.text()).toContain("Body content");
   });
+
+  it("shows headerActions when that slot is passed", () => {
+    const wrapper = mount(CardElement, {
+      props: {
+        title: "Hello",
+        subtitle: "subtitle",
+      },
+      slots: {
+        headerActions: "Header actions",
+      },
+    });
+
+    // There should be a headerActions since we pass it into the
+    // headerActions slot. Find the text inside the wrapper
+    expect(wrapper.text()).toContain("Header actions");
+  });
 });

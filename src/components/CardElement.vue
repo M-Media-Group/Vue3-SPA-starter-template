@@ -34,8 +34,13 @@ defineProps({
 
     <header>
       <slot name="header">
-        <h3>{{ title }}</h3>
-        <p>{{ subtitle }}</p>
+        <div>
+          <h3>{{ title }}</h3>
+          <p>{{ subtitle }}</p>
+        </div>
+        <div class="actions" v-if="$slots.headerActions">
+          <slot name="headerActions" />
+        </div>
       </slot>
     </header>
     <div class="card-body">
