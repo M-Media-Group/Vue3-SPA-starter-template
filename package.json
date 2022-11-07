@@ -45,6 +45,7 @@
     "vite": "^3.1.8",
     "vitest": "^0.24.3",
     "vue-stripe-js": "^1.0.1",
+    "vue-translation-manager": "^1.2.0",
     "vue-tsc": "^1.0.8"
   }
 }
