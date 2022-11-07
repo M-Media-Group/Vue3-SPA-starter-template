@@ -75,7 +75,6 @@ const submitForm = async () => {
       v-model="name"
       minlength="2"
       pattern=".{2,}"
-      title="Please enter Alphabets."
       autofocus
       required
     />
