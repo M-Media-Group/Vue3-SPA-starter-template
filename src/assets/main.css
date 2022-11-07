@@ -8,15 +8,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.logo {
-  font-family: "Roboto";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 17.5px;
-  line-height: 21px;
-  /* identical to box height */
-}
-
 main {
   gap: 40px;
   display: flex;

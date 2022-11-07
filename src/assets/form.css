@@ -1,9 +1,4 @@
-/* Any invalid form should automatically make the submit button disabled */
-/* form:invalid button[type="submit"] {
-  cursor: not-allowed;
-  pointer-events: none;
-  opacity: 0.5;
-} */
+/* This file simply adds a .input class that behaves like the semantic input styling with Pico. This is used to render StripeElements to look like other inputs */
 
 /* Any invalid */
 :where(input, select, textarea, .input):not([type=checkbox], [type=radio], [type=date], [type=datetime-local], [type=month], [type=time], [type=week], :placeholder-shown, :focus):invalid {
