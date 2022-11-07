@@ -21,7 +21,7 @@ const resendEmail = async () => {
 </script>
 <template>
   <h1>{{ $t("Confirm your email") }}</h1>
-  <CardElement class="card" :title="$t('Confirm your email')">
+  <CardElement :title="$t('Confirm your email')">
     <p>
       {{
         $t(
