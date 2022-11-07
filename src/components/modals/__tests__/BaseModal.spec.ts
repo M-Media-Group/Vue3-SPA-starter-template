@@ -93,6 +93,29 @@ describe("Base Modal", () => {
     expect(wrapper.find("header [data-target]").exists()).toBe(true);
   });
 
+  it("closes the modal when the close button is clicked", async () => {
+    const wrapper = mount(BaseModal, {
+      props: {
+        title: "Test Title",
+      },
+      global: {
+        stubs: globalStubs,
+      },
+    });
+
+    // Click the modal to open it
+    await wrapper.find("button").trigger("click");
+
+    // Click the close button
+    await wrapper.find("header [data-target]").trigger("click");
+
+    // Wait for the modal to close (transition - 0.5 second)
+    await new Promise((r) => setTimeout(r, 500));
+
+    // Expect the modal to be closed
+    await expect(wrapper.find("dialog").attributes("open")).toBe(undefined);
+  });
+
   it("does not show a close button in the header when prop showCloseInHeader is false", () => {
     const wrapper = mount(BaseModal, {
       props: {
