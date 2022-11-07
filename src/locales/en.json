@@ -39,5 +39,7 @@
     "Close": "Close",
     "Auto": "Auto",
     "Light": "Light",
-    "Dark": "Dark"
+    "Dark": "Dark",
+    "Connect": "Connect",
+    "Authenticate": "Authenticate"
 }

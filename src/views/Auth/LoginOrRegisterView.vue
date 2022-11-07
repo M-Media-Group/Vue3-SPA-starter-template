@@ -7,13 +7,11 @@ const redirect = () => {
   // Redirect to the home page
   router.push("/");
 };
-
-const appName = import.meta.env.VITE_APP_NAME;
 </script>
 
 <template>
-  <h1>Authenticate</h1>
-  <CardElement title="Connect">
+  <h1>{{ $t("Authenticate") }}</h1>
+  <CardElement :title="$t('Connect')">
     <LoginOrRegister @authenticated="redirect" />
   </CardElement>
 </template>

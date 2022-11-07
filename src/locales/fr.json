@@ -39,5 +39,7 @@
     "Close": "Fermer",
     "Auto": "Auto",
     "Light": "Clair",
-    "Dark": "Sombre"
+    "Dark": "Sombre",
+    "Connect": "Connecter",
+    "Authenticate": "Authentifier"
 }
