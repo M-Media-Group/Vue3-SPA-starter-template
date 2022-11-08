@@ -24,7 +24,6 @@ export class MiddlewareHandler {
     if (!this.to.redirectedFrom && this.to.query.redirect) {
       return this.to.query.redirect;
     }
-    console.log(this.to);
     if (!this.middlewares) {
       return;
     }
