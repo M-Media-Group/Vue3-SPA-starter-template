@@ -130,4 +130,36 @@ describe("Base Modal", () => {
     // There should be an element in the header with data-target set
     expect(wrapper.find("header [data-target]").exists()).toBe(false);
   });
+
+  it("removes the modal-is-open class from the html when unmounted", () => {
+    const wrapper = mount(BaseModal, {
+      props: {
+        title: "Test Title",
+      },
+      global: {
+        stubs: globalStubs,
+      },
+    });
+
+    // Expect the modal to be closed
+    expect(document.documentElement.classList.contains("modal-is-open")).toBe(
+      false
+    );
+
+    // Click the modal to open it
+    wrapper.find("button").trigger("click");
+
+    // Expect the modal to be open
+    expect(document.documentElement.classList.contains("modal-is-open")).toBe(
+      true
+    );
+
+    // Unmount the component
+    wrapper.unmount();
+
+    // Expect the modal to be closed
+    expect(document.documentElement.classList.contains("modal-is-open")).toBe(
+      false
+    );
+  });
 });

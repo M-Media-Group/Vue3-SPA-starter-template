@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onUnmounted, ref } from "vue";
 import CardElement from "@/components/CardElement.vue";
 import BaseButton from "../BaseButton.vue";
 
@@ -64,6 +64,10 @@ const closeModalIfBackgroundClicked = (event: Event) => {
     closeModal();
   }
 };
+
+onUnmounted(() => {
+  document.documentElement.classList.remove(isOpenClass);
+});
 
 // Export the openModal function so that it can be called from the parent
 // component
