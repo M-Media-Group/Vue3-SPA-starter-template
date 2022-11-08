@@ -54,6 +54,12 @@ const router = createRouter({
       },
       component: () => import("../views/AboutView.vue"),
     },
+    // Add a catch-all 404 page
+    {
+      path: "/:pathMatch(.*)*",
+      name: "NotFound",
+      component: () => import("../views/404View.vue"),
+    },
   ].concat(authRoutes),
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
