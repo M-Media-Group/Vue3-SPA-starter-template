@@ -947,9 +947,7 @@ describe("Reset password", () => {
   });
 
   it("Shows reset password page", () => {
-    cy.visit(
-      "/reset-password?token=c63e0a44e77ae0b66d064cb6a8639d953bd2a32f2deef558faa1693dc444514f&email=test@test.com"
-    );
+    cy.visit("/reset-password?token=xxx&email=test@test.com");
 
     // There should be a password input
     cy.get("input[type=password]").should("be.visible");
@@ -959,9 +957,7 @@ describe("Reset password", () => {
   });
 
   it("Fails to reset password with invalid token", () => {
-    cy.visit(
-      "/reset-password?token=c63e0a44e77ae0b66d064cb6a8639d953bd2a32f2deef558faa1693dc444514f&email=test@test.com"
-    );
+    cy.visit("/reset-password?token=xxx&email=test@test.com");
 
     cy.intercept(
       "POST", // Route all GET requests
@@ -988,9 +984,7 @@ describe("Reset password", () => {
   });
 
   it("Can reset password", () => {
-    cy.visit(
-      "/reset-password?token=c63e0a44e77ae0b66d064cb6a8639d953bd2a32f2deef558faa1693dc444514f&email=test@test.com"
-    );
+    cy.visit("/reset-password?token=xxx&email=test@test.com");
 
     cy.intercept(
       "POST", // Route all GET requests

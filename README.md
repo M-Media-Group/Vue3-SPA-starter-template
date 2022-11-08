@@ -97,6 +97,7 @@ Slots:
 - Netlify TOML file for easy deployment on Netlify
 - CI validation for missing translation keys
 - Pre-push (or pre-commit if you want) hooks for linting and testing right before pushing
+- Secrets leak detection during lint process
 
 ## Project Setup
 

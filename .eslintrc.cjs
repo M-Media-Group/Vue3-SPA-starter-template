@@ -18,8 +18,14 @@ module.exports = {
   parserOptions: {
     ecmaVersion: "latest",
   },
-  plugins: ["unused-imports", "spellcheck"],
+  plugins: ["unused-imports", "spellcheck", "no-secrets"],
   rules: {
+    "no-secrets/no-secrets": [
+      "error",
+      {
+        ignoreContent: ["userWithUnconfirmedEmail"],
+      },
+    ],
     "spellcheck/spell-checker": [
       0,
       {
