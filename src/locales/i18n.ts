@@ -77,6 +77,9 @@ export async function loadLocaleMessages(
   i18n: { global: { setLocaleMessage: (arg0: any, arg1: any) => void } },
   locale: string
 ) {
+  if (!SUPPORT_LOCALES.includes(locale)) {
+    return;
+  }
   // load locale messages with dynamic import
   const messages = await import(
     /* webpackChunkName: "locale-[request]" */ `../locales/${locale}.json`
