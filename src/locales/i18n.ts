@@ -12,26 +12,33 @@ export const SUPPORT_LOCALES = ["en", "fr"];
 
 export const RTL_LOCALES = ["ar", "fa", "he", "ur"];
 
-export function setupI18n() {
-  let locale =
-    localStorage.getItem("locale") ??
-    navigator.language.split("-")[0] ??
-    SUPPORT_LOCALES[0];
+export const bestGuessLocale =
+  localStorage.getItem("locale") ??
+  navigator.language.split("-")[0] ??
+  SUPPORT_LOCALES[0];
+
+export function setBestGuessLocale(i18n: I18n<{}, {}, {}, string, false>) {
+  let locale = bestGuessLocale;
   // If the locale is not supported, fallback to English
   if (!SUPPORT_LOCALES.includes(locale)) {
     locale = SUPPORT_LOCALES[0];
   }
 
+  setI18nLanguage(i18n, locale);
+}
+
+export function setupI18n() {
   const i18n = createI18n({
     legacy: false, // you must set `false`, to use Composition API
     fallbackLocale: SUPPORT_LOCALES[0], // set fallback locale
-
     // something vue-i18n options here ...
   });
 
-  //   Load the fallback locale
+  // Load the fallback locale
   loadLocaleMessages(i18n, SUPPORT_LOCALES[0]);
-  setI18nLanguage(i18n, locale);
+
+  // Set the best guess locale
+  setBestGuessLocale(i18n);
 
   window.onlanguagechange = () => {
     const newLanguage = navigator.language.split("-")[0];
