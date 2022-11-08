@@ -66,16 +66,7 @@ const router = createRouter({
 
 router.beforeEach(async (to) => {
   const store = useUserStore();
-  if (store.isLoading || !store.attemptedToFetchUser) {
-    await new Promise((resolve) => {
-      const interval = setInterval(() => {
-        if (!store.isLoading) {
-          clearInterval(interval);
-          resolve(true);
-        }
-      }, 10);
-    });
-  }
+  await store.isReady;
   return new MiddlewareHandler(to).handle();
 });
 

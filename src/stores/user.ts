@@ -11,6 +11,18 @@ export const useUserStore = defineStore("user", () => {
   const user = ref(null) as Ref<User | null>;
   const attemptedToFetchUser = ref(false);
 
+  // A promise that returns true when isLoading is false and attemptedToFetchUser is true
+  const isReady = new Promise((resolve) => {
+    const interval = setInterval(() => {
+      if (!isLoading.value) {
+        clearInterval(interval);
+        resolve(true);
+      }
+    }, 10);
+  }).then(() => {
+    return true;
+  });
+
   // The userEmail is meant for keeping email state across auth pages, for example when going from login to forgot-password page
   const userEmail = ref(null) as Ref<string | null>;
 
@@ -407,5 +419,6 @@ export const useUserStore = defineStore("user", () => {
     getPaymentIntent,
     addPaymentMethod,
     getPaymentMethods,
+    isReady,
   };
 });
