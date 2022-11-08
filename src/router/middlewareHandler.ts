@@ -1,127 +1,46 @@
-import { useUserStore } from "@/stores/user";
+/** This file defines a middleware handler that can handle multiple middlewares in a given route, navigating to each one until all pass */
+//     // if so, continue to the intended route
+
 import type { RouteLocationNormalized } from "vue-router";
 
-export const handleMiddleware = async (
-  to: RouteLocationNormalized,
-  from: RouteLocationNormalized
-) => {
-  // The the to.meta.middleware value so Typescript knows its format
-  const middleware = to.meta.middleware as string[] | undefined;
-  const store = useUserStore();
+export class MiddlewareHandler {
+  to: RouteLocationNormalized;
 
-  const shouldRedirect = !(middleware && middleware.includes("dontRedirect"));
-  if (
-    middleware &&
-    (middleware.includes("auth") ||
-      middleware.includes("guest") ||
-      middleware.includes("confirmedEmail") ||
-      middleware.includes("unconfirmedEmail") ||
-      middleware.includes("hasPaymentMethod"))
-  ) {
-    if (store.isLoading) {
-      await new Promise((resolve) => {
-        const interval = setInterval(() => {
-          if (!store.isLoading) {
-            clearInterval(interval);
-            resolve(true);
-          }
-        }, 10);
-      });
-    }
-    if (!store.attemptedToFetchUser) {
-      await store.getUser();
-    }
+  constructor(to: RouteLocationNormalized) {
+    this.to = to;
   }
 
-  // if the route has auth in its middleware array
-  if (middleware && middleware.includes("auth")) {
-    // if not, redirect to the login page
-    if (!store.isAuthenticated) {
-      return {
-        name: "login",
-        query: {
-          redirect: to.fullPath,
-        },
-      };
-    }
-  } else if (middleware && middleware.includes("guest")) {
-    // if so, redirect to the home page
-    if (store.isAuthenticated) {
-      return {
-        name: "home",
-      };
-    }
-  }
-  if (middleware && middleware.includes("confirmedEmail")) {
-    // check if the user has confirmed their email
-    const hasConfirmedEmail = store.user?.email_verified_at !== null;
-    // if not, redirect to the confirm email page
-    if (!hasConfirmedEmail) {
-      return {
-        name: "confirm-email",
-        query: {
-          redirect: to.fullPath,
-        },
-      };
-    }
-  } else if (middleware && middleware.includes("unconfirmedEmail")) {
-    // check if the user has confirmed their email
-    const hasConfirmedEmail = store.user?.email_verified_at;
-    // if so, redirect to the home page
-    if (hasConfirmedEmail) {
-      return {
-        name: "home",
-      };
-    }
+  get middlewares() {
+    return this.to.meta.middleware as string[] | undefined;
   }
 
-  if (middleware && middleware.includes("confirmedPassword")) {
-    // check if the user has confirmed their email
-    const hasConfirmedPassword = await store.shouldConfirmPassword();
-    // if not, redirect to the confirm email page
-    if (!hasConfirmedPassword) {
-      return {
-        name: "confirm-password",
-        query: {
-          redirect: to.fullPath,
-        },
-      };
-    }
-  } else if (middleware && middleware.includes("unconfirmedPassword")) {
-    // check if the user has confirmed their email
-    const hasConfirmedPassword = await store.shouldConfirmPassword();
-    // if so, redirect to the home page
-    if (hasConfirmedPassword) {
-      return {
-        name: "home",
-      };
-    }
+  handleMiddleware(name: string) {
+    return import(`./middlewares/${name}`).then((middleware) => {
+      return middleware.default(this.to);
+    });
   }
 
-  if (middleware && middleware.includes("hasPaymentMethod")) {
-    // check if the user has a payment method
-    const hasPaymentMethod = store.user?.pm_type && store.user?.stripe_id;
-    // if not, redirect to the add payment method page
-    if (!hasPaymentMethod) {
-      return {
-        name: "add-payment-method",
-        query: {
-          redirect: to.fullPath,
-        },
-      };
+  async handle() {
+    if (!this.to.redirectedFrom && this.to.query.redirect) {
+      return this.to.query.redirect;
+    }
+    console.log(this.to);
+    if (!this.middlewares) {
+      return;
+    }
+
+    for (const middleware of this.middlewares) {
+      const result = await this.handleMiddleware(middleware);
+      if (result) {
+        if (!(result.setRedirectToIntended === false)) {
+          result.query = {
+            redirect: this.to.fullPath,
+          };
+        }
+        return result;
+      }
     }
   }
-  // // Finally, if there is a redirect query param, redirect to that
-  if (
-    from.redirectedFrom &&
-    shouldRedirect &&
-    from.redirectedFrom.path !== to.path &&
-    from.redirectedFrom.name &&
-    from.redirectedFrom.name !== "logout"
-  ) {
-    return {
-      name: from.redirectedFrom.name,
-      query: from.redirectedFrom.query,
-    };
-  }
-};
+}
+
+// export default new MiddlewareHandler();

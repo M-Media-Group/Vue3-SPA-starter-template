@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import CardElement from "@/components/CardElement.vue";
-import LoginOrRegister from "@/forms/LoginOrRegister.vue";
+import ConfirmPassword from "@/forms/ConfirmPassword.vue";
 import router from "@/router";
 
 const redirect = () => {
@@ -10,8 +10,8 @@ const redirect = () => {
 </script>
 
 <template>
-  <h1>{{ $t("Authenticate") }}</h1>
-  <CardElement :title="$t('Connect')">
-    <LoginOrRegister @authenticated="redirect" />
+  <h1>{{ $t("Confirm your password") }}</h1>
+  <CardElement :title="$t('Confirm your password')">
+    <ConfirmPassword @confirmed="redirect" />
   </CardElement>
 </template>

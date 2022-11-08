@@ -4,7 +4,7 @@ import AddPaymentMethod from "@/forms/AddPaymentMethod.vue";
 import router from "@/router";
 
 const added = () => {
-  router.push("/");
+  router.push((router.currentRoute.value.query.redirect as string) ?? "/");
 };
 </script>
 <template>

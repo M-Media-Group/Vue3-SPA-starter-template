@@ -7,7 +7,7 @@ export default [
     name: "login",
     component: () => import("../views/Auth/LoginOrRegisterView.vue"),
     meta: {
-      middleware: ["guest", "dontRedirect"],
+      middleware: ["guest"],
     },
   },
   // A logout route that just calls the logout on userStore, then redirects to login
@@ -19,7 +19,7 @@ export default [
     },
     component: () => import("../views/Auth/LoginOrRegisterView.vue"),
     meta: {
-      middleware: ["auth", "dontRedirect"],
+      middleware: ["auth"],
     },
   },
 
@@ -28,7 +28,7 @@ export default [
     name: "sign-up",
     component: () => import("../views/Auth/LoginOrRegisterView.vue"),
     meta: {
-      middleware: ["guest", "dontRedirect"],
+      middleware: ["guest"],
     },
   },
   {
@@ -50,9 +50,9 @@ export default [
   {
     path: "/confirm-password",
     name: "confirm-password",
-    component: () => import("../forms/ConfirmPassword.vue"),
+    component: () => import("../views/Auth/ConfirmPasswordView.vue"),
     meta: {
-      middleware: ["auth", "dontRedirect"],
+      middleware: ["auth"],
     },
   },
   {
@@ -60,7 +60,7 @@ export default [
     name: "confirm-email",
     component: () => import("../views/Auth/ConfirmEmailView.vue"),
     meta: {
-      middleware: ["auth", "unconfirmedEmail", "dontRedirect"],
+      middleware: ["auth", "unconfirmedEmail"],
     },
   },
 ];

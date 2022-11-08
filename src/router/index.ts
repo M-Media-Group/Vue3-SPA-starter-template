@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { handleMiddleware } from "./middlewareHandler";
 import { setMetaAttributes } from "./metaTagsHandler";
 import $bus, { eventTypes } from "@/eventBus/events";
 import authRoutes from "./authRoutes";
+import { MiddlewareHandler } from "./middlewareHandler";
+import { useUserStore } from "@/stores/user";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,7 +30,7 @@ const router = createRouter({
       name: "add-payment-method",
       component: () => import("../views/AddPaymentMethodView.vue"),
       meta: {
-        middleware: ["auth", "dontRedirect"],
+        middleware: ["auth"],
       },
     },
     {
@@ -48,6 +49,9 @@ const router = createRouter({
     {
       path: "/about",
       name: "about",
+      meta: {
+        middleware: ["auth", "confirmedPassword"],
+      },
       component: () => import("../views/AboutView.vue"),
     },
   ].concat(authRoutes),
@@ -60,17 +64,24 @@ const router = createRouter({
   },
 });
 
-router.beforeEach(async (to, from) => {
-  const middlewareResponse = await handleMiddleware(to, from);
-  if (middlewareResponse !== null) {
-    return middlewareResponse;
+router.beforeEach(async (to) => {
+  const store = useUserStore();
+  if (store.isLoading || !store.attemptedToFetchUser) {
+    await new Promise((resolve) => {
+      const interval = setInterval(() => {
+        if (!store.isLoading) {
+          clearInterval(interval);
+          resolve(true);
+        }
+      }, 10);
+    });
   }
+  return new MiddlewareHandler(to).handle();
 });
 
 router.afterEach((to, from, failure) => {
   if (!failure) {
     setMetaAttributes(to, from);
-
     $bus.$emit(eventTypes.viewed_page, {
       ...to,
       name: document.title,
