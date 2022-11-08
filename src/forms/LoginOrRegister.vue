@@ -9,8 +9,6 @@ const userStore = useUserStore();
 
 const { t } = useI18n();
 
-// Email, password, and remember me
-const email = ref("");
 const password = ref("");
 
 // Name, Surname
@@ -31,8 +29,11 @@ const emit = defineEmits(["authenticated"]);
 
 // The check email function
 const checkEmail = async () => {
+  if (!userStore.userEmail) {
+    return;
+  }
   // Check if the email is already in use
-  const response = await userStore.checkEmail(email.value);
+  const response = await userStore.checkEmail(userStore.userEmail);
 
   // If the response is not a bool
   if (typeof response !== "boolean") {
@@ -47,8 +48,11 @@ const checkEmail = async () => {
 
 // The login function
 const login = async () => {
+  if (!userStore.userEmail) {
+    return;
+  }
   // Check if the email is already in use
-  const response = await userStore.login(email.value, password.value);
+  const response = await userStore.login(userStore.userEmail, password.value);
 
   if (response === false) {
     baseForm.value.setInputErrors({
@@ -64,9 +68,12 @@ const login = async () => {
 
 // The register function
 const register = async () => {
+  if (!userStore.userEmail) {
+    return;
+  }
   // Check if the email is already in use
   const response = await userStore.register(
-    email.value,
+    userStore.userEmail,
     password.value,
     name.value,
     surname.value
@@ -101,7 +108,7 @@ const register = async () => {
 
 // The submit function. If there is just the email, check if the email is valid. If it is not, set the register mode. If it is, set the login mode.
 const submitForm = async () => {
-  if (email.value && !checkedEmail.value) {
+  if (userStore.userEmail && !checkedEmail.value) {
     await checkEmail();
     baseForm.value.focusOnFirstInput();
   } else if (isRegistering.value) {
@@ -133,7 +140,7 @@ const goBack = async () => {
         id="email"
         name="email"
         :placeholder="$t('Email')"
-        v-model="email"
+        v-model="userStore.userEmail"
         pattern="[^@]+@[^@]+\.[^@]+"
         autofocus
         required

@@ -36,10 +36,8 @@ describe("Login", () => {
       }
     );
     cy.intercept(
-      {
-        method: "POST", // Route all GET requests
-        url: "/email-exists/success@stripe.com", // that have a URL that matches '/users/*'
-      },
+      "POST", // Route all GET requests
+      "/email-exists/success@stripe.com",
       { statusCode: 200 }
     ).as("emailExists");
     cy.intercept(
@@ -1016,6 +1014,28 @@ describe("Reset password", () => {
 
     // The submit should be disabled
     cy.get("button[type=submit]").should("be.disabled");
+  });
+
+  it("Keeps the email when going from login to forgot password", () => {
+    cy.intercept(
+      "POST", // Route all GET requests
+      "/email-exists/success@stripe.com",
+      { statusCode: 200 }
+    ).as("emailExists");
+
+    cy.visit("/login");
+
+    // Type an email
+    cy.get("input[type=email]").type("success@stripe.com");
+
+    // Press the submit button
+    cy.get("button[type=submit]").click();
+
+    // Press the forgot password link
+    cy.get("a[href='/forgot-password']").click();
+
+    // Check that the email is still there
+    cy.get("input[type=email]").should("have.value", "success@stripe.com");
   });
 });
 

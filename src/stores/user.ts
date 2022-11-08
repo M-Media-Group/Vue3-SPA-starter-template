@@ -11,6 +11,9 @@ export const useUserStore = defineStore("user", () => {
   const user = ref(null) as Ref<User | null>;
   const attemptedToFetchUser = ref(false);
 
+  // The userEmail is meant for keeping email state across auth pages, for example when going from login to forgot-password page
+  const userEmail = ref(null) as Ref<string | null>;
+
   /**
    * Get the user
    *
@@ -389,6 +392,7 @@ export const useUserStore = defineStore("user", () => {
     checkEmail,
     getUser,
     user,
+    userEmail,
     attemptedToFetchUser,
     isLoading,
     login,

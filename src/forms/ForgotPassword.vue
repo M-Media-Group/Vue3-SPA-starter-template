@@ -3,9 +3,6 @@ import { useUserStore } from "@/stores/user";
 import { ref } from "vue";
 import BaseForm from "./BaseForm.vue";
 
-// Email, password, and remember me
-const email = ref("");
-
 const success = ref(false);
 
 const baseForm = ref();
@@ -13,7 +10,10 @@ const baseForm = ref();
 const userStore = useUserStore();
 // The submit function. If there is just the email, check if the email is valid. If it is not, set the register mode. If it is, set the login mode.
 const submitForm = async () => {
-  const response = await userStore.sendPasswordResetEmail(email.value);
+  if (!userStore.userEmail) {
+    return;
+  }
+  const response = await userStore.sendPasswordResetEmail(userStore.userEmail);
   if (response === true) {
     success.value = response;
   } else if (typeof response === "object") {
@@ -31,7 +31,7 @@ const submitForm = async () => {
       id="email"
       name="email"
       :placeholder="$t('Email')"
-      v-model="email"
+      v-model="userStore.userEmail"
       :disabled="success"
       autofocus
       required
