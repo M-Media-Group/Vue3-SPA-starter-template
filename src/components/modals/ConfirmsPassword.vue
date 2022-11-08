@@ -31,7 +31,7 @@ const handleConfirmed = () => {
 
     <BaseModal
       ref="modal"
-      :title="$t('Connect')"
+      :title="$t('Confirm your password')"
       :showTrigger="false"
       :showFooter="false"
     >

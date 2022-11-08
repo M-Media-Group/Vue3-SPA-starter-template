@@ -43,5 +43,6 @@
     "Connect": "Connecter",
     "Authenticate": "Authentifier",
     "Send a new password": "Envoyer un nouveau mot de passe",
-    "Login or sign up to continue": "Connectez-vous ou inscrivez-vous pour continuer"
+    "Login or sign up to continue": "Connectez-vous ou inscrivez-vous pour continuer",
+    "Confirm your password": "Confirmez votre mot de passe"
 }
