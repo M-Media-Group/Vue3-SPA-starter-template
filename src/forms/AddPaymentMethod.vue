@@ -85,7 +85,7 @@ const addPaymentMethod = async () => {
           alert(form.error);
           form.processing = false;
         } else {
-          if (!userStore.user?.id) {
+          if (!userStore.isAuthenticated) {
             return;
           }
           userStore
