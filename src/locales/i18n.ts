@@ -1,5 +1,5 @@
 import { nextTick } from "vue";
-import { createI18n, type I18n } from "vue-i18n";
+import { type I18n, createI18n } from "vue-i18n";
 import axios from "axios";
 import { setMetaAttributes } from "@/router/metaTagsHandler";
 import router from "@/router";

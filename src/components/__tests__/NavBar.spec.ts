@@ -1,6 +1,6 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
-import { mount, RouterLinkStub } from "@vue/test-utils";
+import { RouterLinkStub, mount } from "@vue/test-utils";
 
 import { createTestingPinia } from "@pinia/testing";
 

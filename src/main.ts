@@ -9,9 +9,9 @@ import router from "./router";
 // Event bus listeners
 import "./eventBus/listeners/index";
 
+import VueGtagPlugin from "vue-gtag";
 import "./assets/main.css";
 import i18n from "./locales/i18n";
-import VueGtagPlugin from "vue-gtag";
 
 const app = createApp(App);
 

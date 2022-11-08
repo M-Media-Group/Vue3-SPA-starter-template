@@ -1,6 +1,6 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
-import { mount, RouterLinkStub } from "@vue/test-utils";
+import { RouterLinkStub, mount } from "@vue/test-utils";
 
 import PageFooter from "../PageFooter.vue";
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import i18n, { setI18nLanguage, SUPPORT_LOCALES } from "@/locales/i18n";
+import i18n, { SUPPORT_LOCALES, setI18nLanguage } from "@/locales/i18n";
 import $bus, { eventTypes } from "@/eventBus/events";
 
 const appName = import.meta.env.VITE_APP_NAME;

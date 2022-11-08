@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import BaseButton from "@/components/BaseButton.vue";
-import { ref, nextTick, onUpdated, onMounted, type PropType } from "vue";
+import { type PropType, nextTick, onMounted, onUpdated, ref } from "vue";
 
 // Prop of submit text
 defineProps({

@@ -118,8 +118,6 @@ class PushNotification {
     console.log("requesting notification permission");
     // Otherwise, we need to ask the user for permission
     await Notification.requestPermission();
-
-    return;
   }
 
   private showPush() {

@@ -1,4 +1,4 @@
-import { event, pageview, optIn, optOut, set } from "vue-gtag";
+import { event, optIn, optOut, pageview, set } from "vue-gtag";
 import type { eventTypes } from "../events";
 
 export default {

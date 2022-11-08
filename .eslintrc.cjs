@@ -31,5 +31,22 @@ module.exports = {
         argsIgnorePattern: "^_",
       },
     ],
+    "no-unneeded-ternary": "error",
+    "no-useless-rename": "error",
+    "no-useless-return": "error",
+    "no-var": "error",
+    "sort-imports": [
+      "error",
+      {
+        ignoreDeclarationSort: true,
+      },
+    ],
+    "spaced-comment": ["error", "always", { markers: ["/"] }],
+    yoda: "error",
+    "no-trailing-spaces": "error",
+    "dot-notation": "error",
+    "no-lonely-if": "error",
+    "no-undef-init": "error",
+    "prefer-const": "error",
   },
 };

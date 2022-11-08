@@ -25,13 +25,13 @@ const submitForm = async () => {
   // Create an object containing only the changed values
   const changedValues = {} as Record<string, string>;
   if (userStore.user?.name !== name.value) {
-    changedValues["name"] = name.value;
+    changedValues.name = name.value;
   }
   if (userStore.user?.surname !== surname.value) {
-    changedValues["surname"] = surname.value;
+    changedValues.surname = surname.value;
   }
   if (userStore.user?.email !== email.value) {
-    changedValues["email"] = email.value;
+    changedValues.email = email.value;
   }
 
   // If there are no changed values, return
@@ -50,7 +50,6 @@ const submitForm = async () => {
     // Emit the updated event with the changed fields
     emit("updated", changedValues);
     baseForm.value.setSuccessOnInputs();
-    return;
   } else if (typeof response === "object") {
     // We want to show the user the correct fields to the user so they feel better
     baseForm.value.setSuccessOnInputs();

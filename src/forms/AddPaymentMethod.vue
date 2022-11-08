@@ -3,7 +3,7 @@ import { useUserStore } from "@/stores/user";
 import { nextTick, onBeforeMount, reactive, ref } from "vue";
 import BaseForm from "./BaseForm.vue";
 import { loadStripe } from "@stripe/stripe-js";
-import { StripeElements, StripeElement } from "vue-stripe-js";
+import { StripeElement, StripeElements } from "vue-stripe-js";
 import { getCssVarForStripe } from "@/helpers/cssVariables";
 
 const success = ref(false);
