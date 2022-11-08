@@ -50,8 +50,11 @@ export const useUserStore = defineStore("user", () => {
     try {
       const response = await axios.post("email-exists/" + email);
       return response.status === 200;
-    } catch (error) {
-      return false;
+    } catch (error: any) {
+      if (error.response.status === 404) {
+        return false;
+      }
+      return error.response;
     } finally {
       isLoading.value = false;
     }

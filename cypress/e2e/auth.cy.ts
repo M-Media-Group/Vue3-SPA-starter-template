@@ -131,6 +131,26 @@ describe("Login", () => {
     cy.get("button[type=submit]").should("be.disabled");
   });
 
+  it("Fails to login with a 500 server response", () => {
+    cy.intercept(
+      "POST", // Route all GET requests
+      "/email-exists/test@invalid.com123",
+      { statusCode: 500 }
+    ).as("serverError");
+
+    // Fill in the form
+    cy.get("input[type=email]").type("test@invalid.com123");
+
+    // Click the submit button
+    cy.get("button[type=submit]").click();
+
+    // There should still be the email input
+    cy.get("input[type=email]").should("exist");
+
+    // The button should not be disabled
+    cy.get("button[type=submit]").should("not.be.disabled");
+  });
+
   it("Fail to login when email is valid but password is empty", () => {
     // Get the input of type email
     cy.get("input[type=email]").type("success@stripe.com");

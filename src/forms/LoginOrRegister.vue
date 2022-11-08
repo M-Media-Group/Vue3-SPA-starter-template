@@ -33,6 +33,12 @@ const emit = defineEmits(["authenticated"]);
 const checkEmail = async () => {
   // Check if the email is already in use
   const response = await userStore.checkEmail(email.value);
+
+  // If the response is not a bool
+  if (typeof response !== "boolean") {
+    alert(response.data.message);
+    return;
+  }
   isRegistering.value = !response;
 
   errorMessage.value = "";
