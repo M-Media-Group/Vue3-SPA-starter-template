@@ -40,11 +40,14 @@ const openingClass = "modal-is-opening";
 const closingClass = "modal-is-closing";
 const animationDuration = 400; // ms
 
+const emits = defineEmits(["opened", "closed"]);
+
 const openModal = () => {
   isModalOpen.value = true;
   document.documentElement.classList.add(isOpenClass, openingClass);
   setTimeout(() => {
     document.documentElement.classList.remove(openingClass);
+    emits("opened");
   }, animationDuration);
 };
 
@@ -53,6 +56,7 @@ const closeModal = () => {
   setTimeout(() => {
     document.documentElement.classList.remove(closingClass, isOpenClass);
     isModalOpen.value = false;
+    emits("closed");
   }, animationDuration);
 };
 
@@ -66,7 +70,7 @@ const closeModalIfBackgroundClicked = (event: Event) => {
 };
 
 onUnmounted(() => {
-  document.documentElement.classList.remove(isOpenClass);
+  closeModal();
 });
 
 // Export the openModal function so that it can be called from the parent
