@@ -159,6 +159,7 @@ const focusOnInput = () => {
 
 <template>
   <BaseForm
+    v-if="userStore.isAuthenticated"
     ref="baseForm"
     @submit="addPaymentMethod"
     :disabled="
@@ -200,4 +201,5 @@ const focusOnInput = () => {
       />
     </StripeElements>
   </BaseForm>
+  <div v-else>{{ $t("Login or sign up to continue") }}</div>
 </template>

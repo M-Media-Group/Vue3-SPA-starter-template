@@ -13,8 +13,7 @@ const modal = ref();
 const startConfirmingPassword = async () => {
   const shouldConfirmPassword = await userStore.shouldConfirmPassword();
   if (!shouldConfirmPassword) {
-    emits("confirmed");
-    return;
+    return handleConfirmed();
   }
   modal.value.openModal();
 };

@@ -12,8 +12,7 @@ const modal = ref();
 
 const startConfirmingPaymentMethod = () => {
   if (userStore.user?.pm_type) {
-    emits("confirmed");
-    return;
+    return handleAddedPaymentMethod();
   }
   modal.value.openModal();
 };

@@ -27,7 +27,12 @@ const submitForm = async () => {
 </script>
 
 <template>
-  <BaseForm ref="baseForm" @submit="submitForm" :disabled="success">
+  <BaseForm
+    v-if="userStore.isAuthenticated"
+    ref="baseForm"
+    @submit="submitForm"
+    :disabled="success"
+  >
     <label for="password">{{ $t("Password") }}</label>
     <input
       type="password"
@@ -43,4 +48,5 @@ const submitForm = async () => {
       $t("You can now log in with your new password!")
     }}</small>
   </BaseForm>
+  <div v-else>{{ $t("Login or sign up to continue") }}</div>
 </template>

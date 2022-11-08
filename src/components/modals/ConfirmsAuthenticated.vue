@@ -12,8 +12,7 @@ const modal = ref();
 
 const startConfirmingPaymentMethod = () => {
   if (userStore.isAuthenticated) {
-    emits("confirmed");
-    return;
+    return handleAuthenticated();
   }
   modal.value.openModal();
 };

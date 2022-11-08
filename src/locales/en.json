@@ -42,5 +42,6 @@
     "Dark": "Dark",
     "Connect": "Connect",
     "Authenticate": "Authenticate",
-    "Send a new password": "Send a new password"
+    "Send a new password": "Send a new password",
+    "Login or sign up to continue": "Login or sign up to continue"
 }
