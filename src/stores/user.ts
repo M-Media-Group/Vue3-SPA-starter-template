@@ -284,7 +284,7 @@ export const useUserStore = defineStore("user", () => {
     isLoading.value = true;
     try {
       const response = await axios.get("user/confirmed-password-status");
-      return response.data.confirmed;
+      return !response.data.confirmed;
     } catch (error: any) {
       return error.response;
     } finally {
