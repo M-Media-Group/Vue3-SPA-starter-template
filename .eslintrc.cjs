@@ -17,8 +17,6 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: "latest",
-    noUnusedLocals: true,
-    noUnusedParameters: true,
   },
   plugins: ["unused-imports"],
   rules: {
