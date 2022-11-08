@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import BaseButton from "@/components/BaseButton.vue";
 import { useUserStore } from "@/stores/user";
-import { nextTick, ref } from "vue";
+import { nextTick, reactive, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import BaseForm from "./BaseForm.vue";
 
@@ -9,11 +9,14 @@ const userStore = useUserStore();
 
 const { t } = useI18n();
 
-const password = ref("");
-
-// Name, Surname
-const name = ref("");
-const surname = ref("");
+/**
+ * Note that we don't have the email here. Its in the userStore - we put it there so we can remember the email entered across the login, forgot password, and register pages.
+ */
+const authForm = reactive({
+  name: "",
+  surname: "",
+  password: "",
+});
 
 const checkedEmail = ref(false);
 
@@ -52,7 +55,10 @@ const login = async () => {
     return;
   }
   // Check if the email is already in use
-  const response = await userStore.login(userStore.userEmail, password.value);
+  const response = await userStore.login(
+    userStore.userEmail,
+    authForm.password
+  );
 
   if (response === false) {
     baseForm.value.setInputErrors({
@@ -60,7 +66,7 @@ const login = async () => {
     });
     // const data = await response.json();
     // handleError(data.errors);
-    password.value = "";
+    authForm.password = "";
   } else {
     emit("authenticated");
   }
@@ -74,9 +80,9 @@ const register = async () => {
   // Check if the email is already in use
   const response = await userStore.register(
     userStore.userEmail,
-    password.value,
-    name.value,
-    surname.value
+    authForm.password,
+    authForm.name,
+    authForm.surname
   );
 
   // const data = await response.json();
@@ -155,7 +161,7 @@ const goBack = async () => {
         id="name"
         name="name"
         :placeholder="$t('Name')"
-        v-model="name"
+        v-model="authForm.name"
         minlength="2"
         pattern=".{2,}"
         autocomplete="given-name"
@@ -168,7 +174,7 @@ const goBack = async () => {
         id="surname"
         name="surname"
         :placeholder="$t('Surname')"
-        v-model="surname"
+        v-model="authForm.surname"
         minlength="2"
         pattern=".{2,}"
         autocomplete="family-name"
@@ -180,7 +186,7 @@ const goBack = async () => {
         id="password"
         name="password"
         :placeholder="$t('Password')"
-        v-model="password"
+        v-model="authForm.password"
         minlength="5"
         pattern=".{5,}"
         autocomplete="new-password"
@@ -208,7 +214,7 @@ const goBack = async () => {
         id="password"
         name="password"
         :placeholder="$t('Password')"
-        v-model="password"
+        v-model="authForm.password"
         minlength="1"
         pattern=".{1,}"
         autocomplete="current-password"
