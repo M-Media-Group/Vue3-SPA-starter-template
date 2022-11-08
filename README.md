@@ -33,9 +33,51 @@ Arguably the most important parts of an app (authentication and handling payment
 - Auto schema markup generation (at least the basics)
 
 ### Components
-- BaseButton component that automatically renders a `button`, `a` with a role of `button`, or `router-link` depending on the props passed (if href its an `a`, if to its a `router-link`, otherwise its a `button`)
-- BaseForm component using native HTML5 validation (set custom errors on inputs and then have the browser handle them natively with `setCustomValidity`)
-- BaseModal
+
+#### BaseForm
+A helper component that makes it easy to create forms with validation. It's a wrapper around native browser validation.
+
+Props:
+- submitText: string - The text to display on the submit button
+- disabled: boolean - Whether the form is disabled or not
+- isLoading: boolean - Whether the form is loading or not
+- showSubmitButton: boolean - Whether to show the submit button or not
+
+Methods that can be called (make sure to set a ref on the BaseForm):
+- checkValidity - check the validity of each input in the form at once
+- setInputErrors - pass a JSON object with the input names as keys and the error messages as values. The values can also be an array (this is how Laravel returns errors from the backend, for example)
+- focusOnFirstInput - focus on the first input element in the form
+- setSuccessOnInputs - sets aria-invalid to false on valid inputs, which in turn renders a green border with PicoCSS. Will clear after 5 seconds, just like native browser errors
+
+Slots:
+- default - the form content
+- submit - the submit content (will replace the default submit button)
+  - The slot provides the submitText, submit (method), disabled, and isLoading props that you can use
+
+#### BaseButton
+Automatically render a `button`, `a` with a role of `button`, or `router-link` depending on the props passed (if `href` its an `a`, if `to` its a `router-link`, otherwise its a `button`)
+
+Props:
+- to: string - The route to link to (optional)
+- href: string - The href to link to (optional)
+
+Slots:
+- Default slot - The text to display in the button
+
+#### BaseModal
+Render a modal with an optional backdrop and close button.
+
+Props:
+- title: string - The title of the modal
+- allowBackgroundClickToClose: boolean - allow clicking the background to close the modal
+- showFooter: boolean - show the modal footer
+- showCloseInHeader: boolean - show the close button in the header
+- showTrigger: boolean - show the trigger button
+
+Slots:
+- default - the modal content
+- trigger - the trigger button
+- footer - the modal footer
 
 ### Continuous Integration and Continuous Deployment
 - Env file support
