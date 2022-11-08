@@ -15,7 +15,7 @@ export class MiddlewareHandler {
   }
 
   handleMiddleware(name: string) {
-    return import(`./middlewares/${name}`).then((middleware) => {
+    return import(`./middlewares/${name}.ts`).then((middleware) => {
       return middleware.default(this.to);
     });
   }
