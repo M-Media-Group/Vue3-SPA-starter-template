@@ -33,6 +33,11 @@ export function setupI18n() {
   loadLocaleMessages(i18n, SUPPORT_LOCALES[0]);
   setI18nLanguage(i18n, locale);
 
+  window.onlanguagechange = () => {
+    const newLanguage = navigator.language.split("-")[0];
+    setI18nLanguage(i18n, newLanguage);
+  };
+
   return i18n;
 }
 
@@ -41,6 +46,11 @@ export async function setI18nLanguage(
   i18n: I18n<{}, {}, {}, string, false>,
   locale: string
 ) {
+  // If the locale is not supported, fallback to English
+  if (!SUPPORT_LOCALES.includes(locale)) {
+    locale = SUPPORT_LOCALES[0];
+  }
+
   i18n.global.locale.value = locale;
   // Set the document locale
   document.documentElement.lang = locale;

@@ -29,6 +29,22 @@ describe("Locales", () => {
       cy.get("html").should("have.attr", "lang", value);
     });
   });
+  // Skipping test because no idea how to change language during test, but can test physically in Chrome, see: https://stackoverflow.com/questions/36072584/how-can-i-change-chrome-settings-to-test-using-navigator-language
+  it.skip("Changes language when browser language changed", () => {
+    cy.visit("/");
+    // Confirm that the current language is English
+    cy.get("html").should("have.attr", "lang", "en");
+
+    // Update the browser language
+    cy.window().then((win) => {
+      Object.defineProperty(win.navigator, "language", {
+        value: "fr-FR",
+      });
+    });
+
+    // Confirm that the current language is French
+    cy.get("html").should("have.attr", "lang", "fr");
+  });
   it("Uses French by default if navigator language is French", () => {
     cy.visit("/", {
       onBeforeLoad(win) {
