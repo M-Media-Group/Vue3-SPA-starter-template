@@ -31,7 +31,7 @@ class CustomNotification {
       new BrowserNotification(this.message, this.duration).show();
     }
     if (this.modes.includes("push")) {
-      new PushNotification("Cartes.io", this.message).show();
+      new PushNotification(import.meta.env.VITE_APP_NAME, this.message).show();
     }
     if (this.modes.includes("site")) {
       this.showSite();
