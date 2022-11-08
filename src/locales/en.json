@@ -41,5 +41,6 @@
     "Light": "Light",
     "Dark": "Dark",
     "Connect": "Connect",
-    "Authenticate": "Authenticate"
+    "Authenticate": "Authenticate",
+    "Send a new password": "Send a new password"
 }

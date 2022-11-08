@@ -24,7 +24,12 @@ const submitForm = async () => {
 </script>
 
 <template>
-  <BaseForm ref="baseForm" @submit="submitForm" :disabled="success">
+  <BaseForm
+    ref="baseForm"
+    @submit="submitForm"
+    :disabled="success"
+    :submit-text="$t('Send a new password')"
+  >
     <label for="email">{{ $t("Email") }}</label>
     <input
       type="email"
