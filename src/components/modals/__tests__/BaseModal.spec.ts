@@ -152,9 +152,17 @@ describe("Base Modal", () => {
     // Unmount the component
     wrapper.unmount();
 
-    // Expect the modal to be closed
+    // Expect the modal to be closing
     expect(
       document.documentElement.classList.contains("modal-is-closing")
     ).toBe(true);
+
+    // Wait for the animation to finish
+    await new Promise((r) => setTimeout(r, 500));
+
+    // Expect the modal to be closed
+    expect(document.documentElement.classList.contains("modal-is-open")).toBe(
+      false
+    );
   });
 });
