@@ -32,6 +32,18 @@ Arguably the most important parts of an app (authentication and handling payment
   - Includes Facebook and Twitter meta tags (Open Graph and Twitter Cards respectively)
 - Auto schema markup generation (at least the basics)
 
+### Forms
+Forms are split into separate components so they can be used either on pages (like a login page) or in modals (like a login to continue modal).
+
+The following forms are included:
+- Login or register
+  - Form that checks if a user email exists, and shows a login or registration form based on previous result
+- Reset password
+- Forgot password
+- Confirm password
+- Account settings
+- Add payment info
+
 ### Components
 
 #### BaseForm
