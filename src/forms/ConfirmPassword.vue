@@ -10,12 +10,15 @@ const success = ref(false);
 
 const baseForm = ref();
 
+const emit = defineEmits(["confirmed"]);
+
 const userStore = useUserStore();
 // The submit function. If there is just the password, check if the password is valid. If it is not, set the register mode. If it is, set the login mode.
 const submitForm = async () => {
   const response = await userStore.confirmPassword(password.value);
   if (response === true) {
     success.value = response;
+    emit("confirmed");
   } else if (typeof response === "object") {
     baseForm.value.setInputErrors(response.data.errors);
   }
