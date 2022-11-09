@@ -1,4 +1,4 @@
-import { useUserStore } from "@/stores/user";
+import router from "@/router";
 import { eventTypes } from "../events";
 
 const bc = new BroadcastChannel(import.meta.env.VITE_APP_NAME);
@@ -12,8 +12,8 @@ bc.onmessage = (event) => {
     event.data.type === eventTypes.logged_in ||
     event.data.type === eventTypes.logged_out
   ) {
-    const userStore = useUserStore();
-    userStore.getUser();
+    // refresh the page
+    router.go(0);
   }
 };
 
