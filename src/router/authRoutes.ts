@@ -1,5 +1,5 @@
 import { useUserStore } from "@/stores/user";
-import type { NavigationGuardNext } from "vue-router";
+import type { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
 export default [
   {
@@ -14,7 +14,11 @@ export default [
   {
     path: "/logout",
     name: "logout",
-    beforeEnter: async (to: any, from: any, next: NavigationGuardNext) => {
+    beforeEnter: async (
+      to: RouteLocationNormalized,
+      from: RouteLocationNormalized,
+      next: NavigationGuardNext
+    ) => {
       return logout(next);
     },
     component: () => import("../views/Auth/LoginOrRegisterView.vue"),
