@@ -46,5 +46,6 @@
     "Login or sign up to continue": "Login or sign up to continue",
     "Confirm your password": "Confirm your password",
     "Your personal access token has been created. This is the only time you can see it.": "Your personal access token has been created. This is the only time you can see it.",
-    "Token name": "Token name"
+    "Token name": "Token name",
+    "You have no API access tokens.": "You have no API access tokens."
 }

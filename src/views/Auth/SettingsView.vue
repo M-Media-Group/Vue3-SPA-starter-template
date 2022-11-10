@@ -78,7 +78,7 @@ const handleDeleteToken = (id: string) => {
         </li>
       </ul>
     </template>
-    <p v-else>You have no API access tokens.</p>
+    <p v-else>{{ $t("You have no API access tokens.") }}</p>
     <PersonalAccessTokens @created="handleCreatedToken" />
   </CardElement>
 </template>

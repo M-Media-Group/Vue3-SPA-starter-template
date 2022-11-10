@@ -46,5 +46,6 @@
     "Login or sign up to continue": "Connectez-vous ou inscrivez-vous pour continuer",
     "Confirm your password": "Confirmez votre mot de passe",
     "Your personal access token has been created. This is the only time you can see it.": "Votre jeton d'accès personnel a été créé. C'est la seule fois que vous pouvez le voir.",
-    "Token name": "Nom du jeton"
+    "Token name": "Nom du jeton",
+    "You have no API access tokens.": "Vous n'avez aucun jeton d'accès à l'API."
 }
