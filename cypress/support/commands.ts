@@ -31,6 +31,11 @@ declare global {
       handleCsrf(): Chainable<void>;
       handleAuthenticatedUser(): Chainable<void>;
       handleUnauthenticatedUser(): Chainable<void>;
+      invalidFor(
+        subject: any,
+        options?: Partial<TypeOptions>
+      ): Chainable<Element>;
+
       //   login(email: string, password: string): Chainable<void>;
       //   drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>;
       //   dismiss(
@@ -76,4 +81,50 @@ Cypress.Commands.add("handleUnauthenticatedUser", () => {
   ).as("getUnauthenticatedUser");
 });
 
+Cypress.Commands.add(
+  "invalidFor",
+  {
+    prevSubject: "element",
+  },
+  (subject, options: string[]) => {
+    const availableValidityOptions = [
+      "valueMissing",
+      "typeMismatch",
+      "patternMismatch",
+      "tooLong",
+      "tooShort",
+      "rangeUnderflow",
+      "rangeOverflow",
+      "stepMismatch",
+      "badInput",
+      "customError",
+    ];
+
+    let shouldBeValid = true;
+
+    // Convert the options array to object
+
+    if (options.length !== 0) {
+      shouldBeValid = false;
+    }
+
+    const optionsToCheck: Record<string, boolean> = {};
+
+    for (const option in availableValidityOptions) {
+      optionsToCheck[availableValidityOptions[option]] =
+        options.indexOf(availableValidityOptions[option]) > -1;
+    }
+    console.log("checking", {
+      ...optionsToCheck,
+      valid: shouldBeValid,
+    });
+    // Assert that the input is invalid
+    cy.wrap(subject)
+      .invoke("prop", "validity")
+      .should("deep.include", {
+        ...optionsToCheck,
+        valid: shouldBeValid,
+      });
+  }
+);
 export {};

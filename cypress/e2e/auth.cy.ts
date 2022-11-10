@@ -57,21 +57,7 @@ describe("Login", () => {
     cy.get("form").should("exist");
 
     // Assert that the input is invalid
-    cy.get("input[type=email]")
-      .invoke("prop", "validity")
-      .should("deep.include", {
-        valueMissing: true,
-        typeMismatch: false,
-        patternMismatch: false,
-        tooLong: false,
-        tooShort: false,
-        rangeUnderflow: false,
-        rangeOverflow: false,
-        stepMismatch: false,
-        badInput: false,
-        customError: false,
-        valid: false,
-      });
+    cy.get("input[type=email]").invalidFor(["valueMissing"]);
 
     // Assert that the submit button is disabled
     cy.get("button[type=submit]").should("be.disabled");
@@ -100,21 +86,7 @@ describe("Login", () => {
     cy.get("input[type=email]").type("test@invalid");
 
     // Assert that the input is invalid
-    cy.get("input[type=email]")
-      .invoke("prop", "validity")
-      .should("deep.include", {
-        valueMissing: false,
-        typeMismatch: false,
-        patternMismatch: true,
-        tooLong: false,
-        tooShort: false,
-        rangeUnderflow: false,
-        rangeOverflow: false,
-        stepMismatch: false,
-        badInput: false,
-        customError: false,
-        valid: false,
-      });
+    cy.get("input[type=email]").invalidFor(["patternMismatch"]);
 
     // Assert that the submit button is disabled
     cy.get("button[type=submit]").should("be.disabled");
@@ -143,21 +115,7 @@ describe("Login", () => {
     cy.get("input[type=email]").type("success@stripe.com");
 
     // Assert that the input is valid
-    cy.get("input[type=email]")
-      .invoke("prop", "validity")
-      .should("deep.include", {
-        valueMissing: false,
-        typeMismatch: false,
-        patternMismatch: false,
-        tooLong: false,
-        tooShort: false,
-        rangeUnderflow: false,
-        rangeOverflow: false,
-        stepMismatch: false,
-        badInput: false,
-        customError: false,
-        valid: true,
-      });
+    cy.get("input[type=email]").invalidFor([]);
 
     // Assert that the form is valid
     // cy.get("form").invoke("prop", "validity").should("deep.include", {
@@ -198,21 +156,7 @@ describe("Login", () => {
     cy.get("input[type=password]").should("exist");
 
     // Check that the password field is invalid
-    cy.get("input[type=password]")
-      .invoke("prop", "validity")
-      .should("deep.include", {
-        valueMissing: true,
-        typeMismatch: false,
-        patternMismatch: false,
-        tooLong: false,
-        tooShort: false,
-        rangeUnderflow: false,
-        rangeOverflow: false,
-        stepMismatch: false,
-        badInput: false,
-        customError: false,
-        valid: false,
-      });
+    cy.get("input[type=password]").invalidFor(["valueMissing"]);
 
     // Check that the submit button is disabled
     cy.get("button[type=submit]").should("be.disabled");
@@ -251,22 +195,8 @@ describe("Login", () => {
 
     cy.get("input[type=password]").type("password");
 
-    // Check that the password field is invalid
-    cy.get("input[type=password]")
-      .invoke("prop", "validity")
-      .should("deep.include", {
-        valueMissing: false,
-        typeMismatch: false,
-        patternMismatch: false,
-        tooLong: false,
-        tooShort: false,
-        rangeUnderflow: false,
-        rangeOverflow: false,
-        stepMismatch: false,
-        badInput: false,
-        customError: false,
-        valid: true,
-      });
+    // Check that the password field is valid
+    cy.get("input[type=password]").invalidFor([]);
 
     // Check that the submit button is disabled
     cy.get("button[type=submit]").should("not.be.disabled");
@@ -322,22 +252,8 @@ describe("Login", () => {
 
     cy.get("input[type=password]").type("password");
 
-    // Check that the password field is invalid
-    cy.get("input[type=password]")
-      .invoke("prop", "validity")
-      .should("deep.include", {
-        valueMissing: false,
-        typeMismatch: false,
-        patternMismatch: false,
-        tooLong: false,
-        tooShort: false,
-        rangeUnderflow: false,
-        rangeOverflow: false,
-        stepMismatch: false,
-        badInput: false,
-        customError: false,
-        valid: true,
-      });
+    // Check that the password field is valid
+    cy.get("input[type=password]").invalidFor([]);
 
     // Check that the submit button is disabled
     cy.get("button[type=submit]").should("not.be.disabled");
@@ -402,21 +318,7 @@ describe("Login", () => {
     cy.get("input[type=email]").type("fail@stripe.com");
 
     // Assert that the input is valid
-    cy.get("input[type=email]")
-      .invoke("prop", "validity")
-      .should("deep.include", {
-        valueMissing: false,
-        typeMismatch: false,
-        patternMismatch: false,
-        tooLong: false,
-        tooShort: false,
-        rangeUnderflow: false,
-        rangeOverflow: false,
-        stepMismatch: false,
-        badInput: false,
-        customError: false,
-        valid: true,
-      });
+    cy.get("input[type=email]").invalidFor([]);
 
     // Assert that the form is valid
     // cy.get("form").invoke("prop", "validity").should("deep.include", {
@@ -503,41 +405,6 @@ describe("Register", () => {
     // Get the input of type email
     cy.get("input[type=email]").type("fail@stripe.com");
 
-    // Assert that the input is valid
-    cy.get("input[type=email]")
-      .invoke("prop", "validity")
-      .should("deep.include", {
-        valueMissing: false,
-        typeMismatch: false,
-        patternMismatch: false,
-        tooLong: false,
-        tooShort: false,
-        rangeUnderflow: false,
-        rangeOverflow: false,
-        stepMismatch: false,
-        badInput: false,
-        customError: false,
-        valid: true,
-      });
-
-    // Assert that the form is valid
-    // cy.get("form").invoke("prop", "validity").should("deep.include", {
-    //   valueMissing: true,
-    //   typeMismatch: false,
-    //   patternMismatch: false,
-    //   tooLong: false,
-    //   tooShort: false,
-    //   rangeUnderflow: false,
-    //   rangeOverflow: false,
-    //   stepMismatch: false,
-    //   badInput: false,
-    //   customError: false,
-    //   valid: false,
-    // });
-
-    // Assert that the submit button is not disabled
-    cy.get("button[type=submit]").should("not.be.disabled");
-
     // Click the submit button to advance to the next screen
     cy.get("button[type=submit]").click();
 
@@ -558,55 +425,12 @@ describe("Register", () => {
     cy.focused().should("have.attr", "name", "name");
 
     // Check that the password field is invalid
-    cy.get("input[type=password]")
-      .invoke("prop", "validity")
-      .should("deep.include", {
-        valueMissing: true,
-        typeMismatch: false,
-        patternMismatch: false,
-        tooLong: false,
-        tooShort: false,
-        rangeUnderflow: false,
-        rangeOverflow: false,
-        stepMismatch: false,
-        badInput: false,
-        customError: false,
-        valid: false,
-      });
+    cy.get("input[type=password]").invalidFor(["valueMissing"]);
 
     // Check that the name field is invalid
-    cy.get("input[name=name]")
-      .invoke("prop", "validity")
-      .should("deep.include", {
-        valueMissing: true,
-        typeMismatch: false,
-        patternMismatch: false,
-        tooLong: false,
-        tooShort: false,
-        rangeUnderflow: false,
-        rangeOverflow: false,
-        stepMismatch: false,
-        badInput: false,
-        customError: false,
-        valid: false,
-      });
+    cy.get("input[name=name]").invalidFor(["valueMissing"]);
 
-    // Check that the name field is invalid
-    cy.get("input[name=surname]")
-      .invoke("prop", "validity")
-      .should("deep.include", {
-        valueMissing: true,
-        typeMismatch: false,
-        patternMismatch: false,
-        tooLong: false,
-        tooShort: false,
-        rangeUnderflow: false,
-        rangeOverflow: false,
-        stepMismatch: false,
-        badInput: false,
-        customError: false,
-        valid: false,
-      });
+    cy.get("input[name=surname]").invalidFor(["valueMissing"]);
 
     // Check that the submit button is disabled
     cy.get("button[type=submit]").should("be.disabled");
@@ -631,39 +455,11 @@ describe("Register", () => {
     cy.get("input[name=surname]").type("a");
 
     // Check that the name field is invalid
-    cy.get("input[name=name]")
-      .invoke("prop", "validity")
-      .should("deep.include", {
-        valueMissing: false,
-        typeMismatch: false,
-        patternMismatch: true,
-        tooLong: false,
-        // Cant use tooShort here - needed to trigger validity on non-dirty (script added) inputs, see https://stackoverflow.com/a/53261163/7410951
-        tooShort: false,
-        rangeUnderflow: false,
-        rangeOverflow: false,
-        stepMismatch: false,
-        badInput: false,
-        customError: false,
-        valid: false,
-      });
+    // Cant use tooShort here - needed to trigger validity on non-dirty (script added) inputs, see https://stackoverflow.com/a/53261163/7410951
+    cy.get("input[name=name]").invalidFor(["patternMismatch"]);
 
     // Check that the surname field is invalid
-    cy.get("input[name=surname]")
-      .invoke("prop", "validity")
-      .should("deep.include", {
-        valueMissing: false,
-        typeMismatch: false,
-        patternMismatch: true,
-        tooLong: false,
-        tooShort: false,
-        rangeUnderflow: false,
-        rangeOverflow: false,
-        stepMismatch: false,
-        badInput: false,
-        customError: false,
-        valid: false,
-      });
+    cy.get("input[name=surname]").invalidFor(["patternMismatch"]);
 
     // Submit the form by pressing enter on the name field
     cy.get("input[name=name]").type("{enter}");
@@ -710,53 +506,11 @@ describe("Register", () => {
     // Check that the form has 3 inputs
     cy.get("input").should("have.length", 4);
 
-    cy.get("input[name=name]")
-      .invoke("prop", "validity")
-      .should("deep.include", {
-        valueMissing: false,
-        typeMismatch: false,
-        patternMismatch: false,
-        tooLong: false,
-        tooShort: false,
-        rangeUnderflow: false,
-        rangeOverflow: false,
-        stepMismatch: false,
-        badInput: false,
-        customError: true,
-        valid: false,
-      });
+    cy.get("input[name=name]").invalidFor(["customError"]);
 
-    cy.get("input[name=surname]")
-      .invoke("prop", "validity")
-      .should("deep.include", {
-        valueMissing: false,
-        typeMismatch: false,
-        patternMismatch: false,
-        tooLong: false,
-        tooShort: false,
-        rangeUnderflow: false,
-        rangeOverflow: false,
-        stepMismatch: false,
-        badInput: false,
-        customError: true,
-        valid: false,
-      });
+    cy.get("input[name=surname]").invalidFor(["customError"]);
 
-    cy.get("input[name=password]")
-      .invoke("prop", "validity")
-      .should("deep.include", {
-        valueMissing: false,
-        typeMismatch: false,
-        patternMismatch: false,
-        tooLong: false,
-        tooShort: false,
-        rangeUnderflow: false,
-        rangeOverflow: false,
-        stepMismatch: false,
-        badInput: false,
-        customError: true,
-        valid: false,
-      });
+    cy.get("input[type=password]").invalidFor(["customError"]);
   });
 
   it("Returns to email screen after submission of registration form with bad email", () => {
@@ -780,21 +534,7 @@ describe("Register", () => {
     cy.get("input").should("have.length", 1);
 
     // The email input should be invalid
-    cy.get("input[type=email]")
-      .invoke("prop", "validity")
-      .should("deep.include", {
-        valueMissing: false,
-        typeMismatch: false,
-        patternMismatch: false,
-        tooLong: false,
-        tooShort: false,
-        rangeUnderflow: false,
-        rangeOverflow: false,
-        stepMismatch: false,
-        badInput: false,
-        customError: true,
-        valid: false,
-      });
+    cy.get("input[type=email]").invalidFor(["customError"]);
 
     // Typing a new email should make the form valid
     cy.get("input[type=email]").clear();
@@ -902,21 +642,7 @@ describe("Reset password", () => {
     cy.get("button[type=submit]").click();
 
     // Check that the validity fails
-    cy.get("input[type=email]")
-      .invoke("prop", "validity")
-      .should("deep.include", {
-        valueMissing: false,
-        typeMismatch: false,
-        patternMismatch: false,
-        tooLong: false,
-        tooShort: false,
-        rangeUnderflow: false,
-        rangeOverflow: false,
-        stepMismatch: false,
-        badInput: false,
-        customError: true,
-        valid: false,
-      });
+    cy.get("input[type=email]").invalidFor(["customError"]);
   });
 
   it("Sends an email", () => {
@@ -1177,28 +903,15 @@ describe("Confirm password", () => {
     }).as("checkPasswordFail");
 
     // Fill the password
-    cy.get("input[name=password]").type("test");
+    cy.get("input[type=password]").type("test");
 
     // Click submit
     cy.get("button[type=submit]").click();
 
-    // There should be a .error message
-    cy.get("input[name=password]")
-      .invoke("prop", "validity")
-      .should("deep.include", {
-        valueMissing: false,
-        typeMismatch: false,
-        patternMismatch: false,
-        tooLong: false,
-        tooShort: false,
-        rangeUnderflow: false,
-        rangeOverflow: false,
-        stepMismatch: false,
-        badInput: false,
-        customError: true,
-        valid: false,
-      });
+    // There should be an error on the input
+    cy.get("input[type=password]").invalidFor(["customError"]);
   });
+
   it("It can confirm password", () => {
     cy.intercept(
       {
