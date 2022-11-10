@@ -863,6 +863,44 @@ describe("Register", () => {
     // Confirm that the navigation bar does not have a link to the login page
     cy.get("a[href='/login']").should("not.exist");
   });
+
+  it("Registers and redirects when redirect supplied", () => {
+    cy.intercept(
+      {
+        method: "POST", // Route all GET requests
+        url: "/register", // that have a URL that matches '/users/*'
+      },
+      {
+        statusCode: 201,
+      }
+    ).as("goodRegistration");
+
+    cy.visit("/settings");
+
+    // Get the input of type email
+    cy.get("input[type=email]").type("fail@stripe.com");
+
+    // Click the submit button to advance to the next screen
+    cy.get("button[type=submit]").click();
+
+    // Add a name, surname, and password, and check the checkbox
+    cy.get("input[name=name]").type("John");
+    cy.get("input[name=surname]").type("Doe");
+    cy.get("input[type=password]").type("password123");
+    cy.get("input[type=checkbox]").check();
+
+    cy.intercept(
+      "GET", // Route all GET requests
+      "/api/user", // that have a URL that matches '/users/*'
+      { fixture: "user" }
+    ).as("getUser");
+
+    // Submit the form by pressing enter on the name field
+    cy.get("input[name=name]").type("{enter}");
+
+    // We should be redirected to the dashboard
+    cy.location("pathname").should("eq", "/settings");
+  });
 });
 
 describe("Reset password", () => {
@@ -1043,9 +1081,12 @@ describe("Confirm email", () => {
       }
     );
   });
+
   it("Redirects to login when unauthenticated", () => {
     cy.visit("/confirm-email");
-    cy.url().should("include", "/login");
+    cy.location("pathname").should("eq", "/login");
+    // There should be a query param of redirect pointing to /confirm-email
+    cy.location("search").should("eq", "?redirect=/confirm-email");
   });
 
   it("Redirects to home when already confirmed", () => {
@@ -1059,7 +1100,7 @@ describe("Confirm email", () => {
     cy.location("pathname").should("eq", "/");
   });
 
-  it("Shows a message requesting email confirmation", () => {
+  it("Shows email confirmation resend page", () => {
     // Intercept the call to api/user
     cy.intercept(
       "GET", // Route all GET requests
