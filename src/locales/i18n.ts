@@ -51,7 +51,8 @@ export function setupI18n() {
 // @todo: opportunity to refactor - parts of this code does not / should not run on first page load (e.g. when its called from setupI18n)
 export async function setI18nLanguage(
   i18n: I18n<{}, {}, {}, string, false>,
-  locale: string
+  locale: string,
+  emit = true
 ) {
   // If the locale is not supported, fallback to English
   if (!SUPPORT_LOCALES.includes(locale)) {
@@ -76,8 +77,10 @@ export async function setI18nLanguage(
     const from = router.currentRoute.value;
     setMetaAttributes(to, from);
   }
-  // Emit an event to let the app know that the language has changed
-  $bus.$emit(eventTypes.changed_locale, locale);
+  // Emit an event to let the app know that the language has changed, if the emit param is true
+  if (emit) {
+    $bus.$emit(eventTypes.changed_locale, locale);
+  }
 }
 
 export async function loadLocaleMessages(
