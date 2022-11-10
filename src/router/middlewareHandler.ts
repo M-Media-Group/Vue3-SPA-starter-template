@@ -65,7 +65,12 @@ export class MiddlewareHandler {
       const result = await this.handleMiddleware(middleware);
 
       // If the middleware returned something, it means that we're going to the middleware intercepted route instead
-      if (result) {
+      if (result !== undefined) {
+        // If the result is false, we cancel the navigation
+        if (result === false) {
+          return result;
+        }
+
         // We should set a reference to the intended page in the URL so we can redirect there after the middleware that intercepted the request is satisfied. Some middlewares may not want this behaviour (e.g. if you're authenticated but trying to visit a guest only page (like login), you don't want to set a redirect to login in the URL as it makes no sense)
         if (!(result.setRedirectToIntended === false)) {
           result.query = {
