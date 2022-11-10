@@ -1239,6 +1239,11 @@ describe("Confirm password", () => {
   beforeEach(() => {
     cy.intercept(
       "GET", // Route all GET requests
+      "/sanctum/csrf-cookie", // that have a URL that matches '/users/*'
+      { statusCode: 204, delay: 50 }
+    ).as("getCookie");
+    cy.intercept(
+      "GET", // Route all GET requests
       "/api/user", // that have a URL that matches '/users/*'
       { fixture: "user" }
     ).as("getUser");
@@ -1298,12 +1303,6 @@ describe("Confirm password", () => {
       });
   });
   it("It can confirm password", () => {
-    cy.intercept(
-      "GET", // Route all GET requests
-      "/sanctum/csrf-cookie", // that have a URL that matches '/users/*'
-      { statusCode: 204, delay: 50 }
-    ).as("getCookie");
-
     cy.intercept(
       "POST", // Route all GET requests
       "/user/confirm-password", // that have a URL that matches '/users/*'
