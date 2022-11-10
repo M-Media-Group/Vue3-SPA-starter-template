@@ -147,7 +147,7 @@ describe("Login", () => {
     cy.get("input").should("have.length", 1);
 
     // The password input should be focused
-    cy.focused().should("have.attr", "name", "password");
+    cy.focused().should("have.attr", "type", "password");
 
     // Assert that somehwere on the page there is a Login text
     // cy.contains("Login");
@@ -523,7 +523,7 @@ describe("Register", () => {
     // Confirm that both require 2 characters or more
     cy.get("input[name=name]").type("Alex");
     cy.get("input[name=surname]").type("Dissen");
-    cy.get("input[name=password]").type("mySecurePassword");
+    cy.get("input[type=password]").type("mySecurePassword");
     // Check the checkbox
     cy.get("input[type=checkbox]").check();
 
@@ -618,6 +618,7 @@ describe("Reset password", () => {
     cy.handleUnauthenticatedUser();
 
     cy.visit("/forgot-password");
+    cy.focused().should("have.attr", "type", "email");
   });
   it("Shows errors", () => {
     cy.intercept(
@@ -676,6 +677,9 @@ describe("Reset password", () => {
 
     // There should be a disabled submit button
     cy.get("button[type=submit]").should("be.visible").should("be.disabled");
+
+    // The input should be focused
+    cy.focused().should("have.attr", "type", "password");
   });
 
   it("Fails to reset password with invalid token", () => {
@@ -883,14 +887,19 @@ describe("Confirm password", () => {
 
     // There should be a disabled submit button
     cy.get("button[type=submit]").should("be.visible").should("be.disabled");
+
+    // The input should be focused
+    cy.focused().should("have.attr", "type", "password");
   });
+
   it("It cannot be submitted if the password is empty", () => {
     // Clear the name input
-    cy.get("input[name=password]").clear();
+    cy.get("input[type=password]").clear();
 
     // The submit button should be disabled
     cy.get("button[type=submit]").should("be.disabled");
   });
+
   it("It fails if password is incorrect", () => {
     cy.intercept("POST", "/user/confirm-password", {
       statusCode: 422,
@@ -922,7 +931,7 @@ describe("Confirm password", () => {
     ).as("checkPassword");
 
     // Fill the password
-    cy.get("input[name=password]").type("test");
+    cy.get("input[type=password]").type("test");
 
     // Click submit
     cy.get("button[type=submit]").click();
@@ -950,7 +959,7 @@ describe("Edit user settings", () => {
     // There should be a name, surname and email input
     cy.get("input[name=name]").should("be.visible");
     cy.get("input[name=surname]").should("be.visible");
-    cy.get("input[name=email]").should("be.visible");
+    cy.get("input[type=email]").should("be.visible");
 
     // There should be a submit button
     cy.get("button[type=submit]").should("be.visible");
@@ -971,7 +980,7 @@ describe("Edit user settings", () => {
   });
   it("It cannot be submitted if the email is empty", () => {
     // Clear the name input
-    cy.get("input[name=email]").clear();
+    cy.get("input[type=email]").clear();
 
     // The submit button should be disabled
     cy.get("button[type=submit]").should("be.disabled");
@@ -982,24 +991,24 @@ describe("Edit user settings", () => {
     cy.get("input[name=surname]").type("Test");
 
     // Get the submit button right after the email input
-    cy.get("input[name=email]").parent().find("button[type=submit]").click();
+    cy.get("input[type=email]").parent().find("button[type=submit]").click();
 
     // Each input should have aria-invalid=false
     cy.get("input[name=name]")
       .first()
       .should("have.attr", "aria-invalid", "false");
     cy.get("input[name=surname]").should("have.attr", "aria-invalid", "false");
-    cy.get("input[name=email]").should("have.attr", "aria-invalid", "false");
+    cy.get("input[type=email]").should("have.attr", "aria-invalid", "false");
   });
   it("Redirects to email confirm when the email is changed", () => {
     cy.intercept("GET", "/api/user", {
       fixture: "userWithUnconfirmedEmail",
     }).as("userWithUnconfirmedEmail");
 
-    cy.get("input[name=email]").clear();
-    cy.get("input[name=email]").type("changed@test.com");
+    cy.get("input[type=email]").clear();
+    cy.get("input[type=email]").type("changed@test.com");
 
-    cy.get("input[name=email]").parent().find("button[type=submit]").click();
+    cy.get("input[type=email]").parent().find("button[type=submit]").click();
 
     cy.url().should("include", "/confirm-email");
   });
