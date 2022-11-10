@@ -22,7 +22,7 @@ Arguably the most important parts of an app (authentication and handling payment
 - Content-Security-Policy (CSP) support
 - All API calls in a single file for easy customization (the User store)
 - Global event bus for easy communication with things like Analytics services
-- Syncing of authentication states and languages across tabs using broadcastMessage (if you change it on one tab, all other tabs will also update)
+- Syncing of authentication states and languages across tabs using broadcastMessage (if you change it on one tab, all other open tabs with the same app running will also update)
 
 ### Pages and routing
 - User settings page with a section to add payment methods using Stripe Elements
