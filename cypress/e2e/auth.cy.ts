@@ -1368,15 +1368,17 @@ describe("Edit user settings", () => {
     cy.get("button[type=submit]").should("be.disabled");
   });
   it("Can be submitted", () => {
-    // Set the name, surname and email
-    cy.get("input[name=name]").type("Test");
+    // Set the name, surname and email. We specify first() here because there is another input with the same name for personal access token creation
+    cy.get("input[name=name]").first().type("Test");
     cy.get("input[name=surname]").type("Test");
 
     // Get the submit button right after the email input
     cy.get("input[name=email]").parent().find("button[type=submit]").click();
 
     // Each input should have aria-invalid=false
-    cy.get("input[name=name]").should("have.attr", "aria-invalid", "false");
+    cy.get("input[name=name]")
+      .first()
+      .should("have.attr", "aria-invalid", "false");
     cy.get("input[name=surname]").should("have.attr", "aria-invalid", "false");
     cy.get("input[name=email]").should("have.attr", "aria-invalid", "false");
   });

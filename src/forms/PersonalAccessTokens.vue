@@ -48,8 +48,7 @@ const submitForm = async () => {
     <input
       type="text"
       name="name"
-      placeholder="Token name"
-      aria-label="Token name"
+      :placeholder="$t('Token name')"
       required
       v-model="tokenName"
     />
