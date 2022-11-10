@@ -1,9 +1,16 @@
 <script setup lang="ts">
 import { useUserStore } from "@/stores/user";
+import { ref } from "vue";
 
 const user = useUserStore();
 
+const detailsElement = ref();
+
 const appName = import.meta.env.VITE_APP_NAME;
+
+const blur = () => {
+  detailsElement.value.removeAttribute("open");
+};
 </script>
 <template>
   <nav>
@@ -17,7 +24,7 @@ const appName = import.meta.env.VITE_APP_NAME;
     <ul>
       <template v-if="user.isAuthenticated">
         <li>
-          <details role="list" dir="rtl">
+          <details role="list" dir="rtl" ref="detailsElement">
             <summary
               aria-haspopup="listbox"
               role="link"
@@ -25,7 +32,7 @@ const appName = import.meta.env.VITE_APP_NAME;
             >
               {{ $t("My Account") }}
             </summary>
-            <ul role="listbox">
+            <ul role="listbox" @click="blur()">
               <li>
                 <router-link to="/settings">{{ $t("Settings") }}</router-link>
               </li>
