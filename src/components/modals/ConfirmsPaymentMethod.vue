@@ -9,15 +9,15 @@ const modal = ref();
 
 const isConfirming = ref(false);
 
-const startConfirmingPaymentMethod = async () => {
+const startConfirming = async () => {
   isConfirming.value = true;
   if (!(await hasPaymentMethod())) {
-    return handleAddedPaymentMethod();
+    return handleConfirmed();
   }
   modal.value.openModal();
 };
 
-const handleAddedPaymentMethod = () => {
+const handleConfirmed = () => {
   emits("confirmed");
   modal.value.closeModal();
 };
@@ -28,7 +28,7 @@ const AddPaymentMethod = defineAsyncComponent(
 </script>
 <template>
   <span>
-    <span @click.prevent="startConfirmingPaymentMethod">
+    <span @click.prevent="startConfirming">
       <slot :isConfirming="isConfirming" />
     </span>
 
@@ -39,10 +39,7 @@ const AddPaymentMethod = defineAsyncComponent(
       :showFooter="false"
       @closed="isConfirming = false"
     >
-      <AddPaymentMethod
-        v-if="modal?.isModalOpen"
-        @added="handleAddedPaymentMethod"
-      />
+      <AddPaymentMethod v-if="modal?.isModalOpen" @success="handleConfirmed" />
     </BaseModal>
   </span>
 </template>

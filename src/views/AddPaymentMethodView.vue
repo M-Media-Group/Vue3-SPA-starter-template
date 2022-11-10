@@ -10,6 +10,6 @@ const added = () => {
 <template>
   <h1>{{ $t("Add a payment method") }}</h1>
   <CardElement :title="$t('Payment methods')">
-    <AddPaymentMethod @added="added" />
+    <AddPaymentMethod @success="added" />
   </CardElement>
 </template>

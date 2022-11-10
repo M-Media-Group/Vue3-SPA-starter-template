@@ -55,7 +55,7 @@ const handleDeleteToken = (id: string) => {
     </div>
     <AddPaymentMethod
       v-if="addingNewPaymentMethod"
-      @added="
+      @success="
         addingNewPaymentMethod = false;
         userStore.getUser();
       "

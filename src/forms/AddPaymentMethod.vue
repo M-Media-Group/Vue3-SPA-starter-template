@@ -22,7 +22,7 @@ const form = reactive({
   processing: false,
 });
 
-const emit = defineEmits(["added"]);
+const emit = defineEmits(["success"]);
 
 const handleStripeInput = async (event: { complete: any }) => {
   paymentInfoComplete.value = !!event.complete;
@@ -95,7 +95,7 @@ const addPaymentMethod = async () => {
               if (!response) {
                 throw new Error("Error adding payment method");
               }
-              emit("added");
+              emit("success");
               form.processing = false;
             })
             .catch((error) => {
