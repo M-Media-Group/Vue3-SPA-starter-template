@@ -28,7 +28,7 @@ const errorMessage = ref("");
 
 const baseForm = ref();
 
-const emit = defineEmits(["authenticated"]);
+const emit = defineEmits(["success"]);
 
 // The check email function
 const checkEmail = async () => {
@@ -68,7 +68,7 @@ const login = async () => {
     // handleError(data.errors);
     authForm.password = "";
   } else {
-    emit("authenticated");
+    emit("success");
   }
 };
 
@@ -108,7 +108,7 @@ const register = async () => {
     }
     // handleError(data.errors);
   } else {
-    emit("authenticated");
+    emit("success");
   }
 };
 

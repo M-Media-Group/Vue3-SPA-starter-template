@@ -9,15 +9,15 @@ const modal = ref();
 
 const isConfirming = ref(false);
 
-const startConfirmingAuthenticationStatus = async () => {
+const startConfirming = async () => {
   isConfirming.value = true;
   if (!(await auth())) {
-    return handleAuthenticated();
+    return HandleConfirmed();
   }
   modal.value.openModal();
 };
 
-const handleAuthenticated = () => {
+const HandleConfirmed = () => {
   emits("confirmed");
   modal.value.closeModal();
 };
@@ -28,7 +28,7 @@ const LoginOrRegister = defineAsyncComponent(
 </script>
 <template>
   <span>
-    <span @click.prevent="startConfirmingAuthenticationStatus">
+    <span @click.prevent="startConfirming">
       <slot :isConfirming="isConfirming" />
     </span>
 
@@ -39,10 +39,7 @@ const LoginOrRegister = defineAsyncComponent(
       :showFooter="false"
       @closed="isConfirming = false"
     >
-      <LoginOrRegister
-        v-if="modal?.isModalOpen"
-        @authenticated="handleAuthenticated"
-      />
+      <LoginOrRegister v-if="modal?.isModalOpen" @success="HandleConfirmed" />
     </BaseModal>
   </span>
 </template>
