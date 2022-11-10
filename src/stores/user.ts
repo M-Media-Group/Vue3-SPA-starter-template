@@ -59,7 +59,9 @@ export const useUserStore = defineStore("user", () => {
 
     isLoading.value = true;
 
-    await getCsrfToken();
+    await getCsrfToken().catch((e) => {
+      console.error("CSRF cookie fetching error", e);
+    });
 
     // Check if the email is already in use by calling POST "email-exists/" + email with axios. If it returns 404, the email is not in use.
     try {
