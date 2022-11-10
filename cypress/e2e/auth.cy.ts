@@ -1,10 +1,7 @@
 describe("Guest auth pages redirect to home when logged in", () => {
   beforeEach(() => {
-    cy.intercept(
-      "GET", // Route all GET requests
-      "/api/user", // that have a URL that matches '/users/*'
-      { fixture: "user" }
-    ).as("getUser");
+    cy.handleCsrf();
+    cy.handleAuthenticatedUser();
   });
 
   it("Redirects home from login if the user is already authenticated", () => {
@@ -28,30 +25,24 @@ describe("Login", () => {
   // Before each, we expect a <form> element to exist
   // with a <button> element inside of it.
   beforeEach(() => {
+    cy.handleCsrf();
+
+    cy.handleUnauthenticatedUser();
+
     cy.intercept(
-      "GET", // Route all GET requests
-      "/api/user", // that have a URL that matches '/users/*'
       {
-        statusCode: 401,
-      }
-    );
-    cy.intercept(
-      "POST", // Route all GET requests
-      "/email-exists/success@stripe.com",
+        method: "POST",
+        pathname: "/email-exists/success@stripe.com",
+      },
       { statusCode: 200 }
     ).as("emailExists");
     cy.intercept(
       {
-        method: "POST", // Route all GET requests
-        url: "/email-exists/fail@stripe.com", // that have a URL that matches '/users/*'
+        method: "POST",
+        pathname: "/email-exists/fail@stripe.com",
       },
       { statusCode: 404 }
     ).as("emailDoesNotExist");
-    cy.intercept(
-      "GET", // Route all GET requests
-      "/sanctum/csrf-cookie", // that have a URL that matches '/users/*'
-      { statusCode: 204, delay: 50 }
-    ).as("getCookie");
 
     cy.visit("/login");
     cy.get("form").should("exist");
@@ -130,11 +121,9 @@ describe("Login", () => {
   });
 
   it("Fails to login with a 500 server response", () => {
-    cy.intercept(
-      "POST", // Route all GET requests
-      "/email-exists/test@invalid.com123",
-      { statusCode: 500 }
-    ).as("serverError");
+    cy.intercept("POST", "/email-exists/test@invalid.com123", {
+      statusCode: 500,
+    }).as("serverError");
 
     // Fill in the form
     cy.get("input[type=email]").type("test@invalid.com123");
@@ -285,8 +274,8 @@ describe("Login", () => {
     // When pressing submit, a request to /login should be made
     cy.intercept(
       {
-        method: "POST", // Route all GET requests
-        url: "/login", // that have a URL that matches '/users/*'
+        method: "POST",
+        pathname: "/login",
       },
       {
         statusCode: 422,
@@ -356,8 +345,8 @@ describe("Login", () => {
     // When pressing submit, a request to /login should be made
     cy.intercept(
       {
-        method: "POST", // Route all GET requests
-        url: "/login", // that have a URL that matches '/users/*'
+        method: "POST",
+        pathname: "/login",
       },
       {
         statusCode: 200,
@@ -391,19 +380,15 @@ describe("Login", () => {
     // When pressing submit, a request to /login should be made
     cy.intercept(
       {
-        method: "POST", // Route all GET requests
-        url: "/login", // that have a URL that matches '/users/*'
+        method: "POST",
+        pathname: "/login",
       },
       {
         statusCode: 200,
       }
     ).as("login");
 
-    cy.intercept(
-      "GET", // Route all GET requests
-      "/api/user", // that have a URL that matches '/users/*'
-      { fixture: "user" }
-    ).as("getUser");
+    cy.handleAuthenticatedUser();
 
     // Click the submit button to advance to the next screen
     cy.get("button[type=submit]").click();
@@ -472,31 +457,28 @@ describe("Register", () => {
   // Before each, we expect a <form> element to exist
   // with a <button> element inside of it.
   beforeEach(() => {
-    cy.intercept(
-      "GET", // Route all GET requests
-      "/api/user", // that have a URL that matches '/users/*'
-      {
-        statusCode: 401,
-      }
-    );
+    cy.handleCsrf();
+
+    cy.handleUnauthenticatedUser();
+
     cy.intercept(
       {
-        method: "POST", // Route all GET requests
-        url: "/email-exists/success@stripe.com", // that have a URL that matches '/users/*'
+        method: "POST",
+        pathname: "/email-exists/success@stripe.com",
       },
       { statusCode: 200 }
     ).as("emailExists");
     cy.intercept(
       {
-        method: "POST", // Route all GET requests
-        url: "/email-exists/fail@stripe.com", // that have a URL that matches '/users/*'
+        method: "POST",
+        pathname: "/email-exists/fail@stripe.com",
       },
       { statusCode: 404 }
     ).as("emailDoesNotExist");
     cy.intercept(
       {
-        method: "POST", // Route all GET requests
-        url: "/register", // that have a URL that matches '/users/*'
+        method: "POST",
+        pathname: "/register",
       },
       {
         statusCode: 422,
@@ -508,11 +490,6 @@ describe("Register", () => {
         },
       }
     ).as("badRegistrationEmail");
-    cy.intercept(
-      "GET", // Route all GET requests
-      "/sanctum/csrf-cookie", // that have a URL that matches '/users/*'
-      { statusCode: 204, delay: 50 }
-    ).as("getCookie");
 
     cy.visit("/sign-up");
     cy.get("form").should("exist");
@@ -698,8 +675,8 @@ describe("Register", () => {
   it("Shows custom errors on name, email, and password fields when they are returned from the server", () => {
     cy.intercept(
       {
-        method: "POST", // Route all GET requests
-        url: "/register", // that have a URL that matches '/users/*'
+        method: "POST",
+        pathname: "/register",
       },
       {
         statusCode: 422,
@@ -828,8 +805,8 @@ describe("Register", () => {
   it("Can register", () => {
     cy.intercept(
       {
-        method: "POST", // Route all GET requests
-        url: "/register", // that have a URL that matches '/users/*'
+        method: "POST",
+        pathname: "/register",
       },
       {
         statusCode: 201,
@@ -848,11 +825,7 @@ describe("Register", () => {
     cy.get("input[type=password]").type("password123");
     cy.get("input[type=checkbox]").check();
 
-    cy.intercept(
-      "GET", // Route all GET requests
-      "/api/user", // that have a URL that matches '/users/*'
-      { fixture: "user" }
-    ).as("getUser");
+    cy.handleAuthenticatedUser();
 
     // Submit the form by pressing enter on the name field
     cy.get("input[name=name]").type("{enter}");
@@ -867,8 +840,8 @@ describe("Register", () => {
   it("Registers and redirects when redirect supplied", () => {
     cy.intercept(
       {
-        method: "POST", // Route all GET requests
-        url: "/register", // that have a URL that matches '/users/*'
+        method: "POST",
+        pathname: "/register",
       },
       {
         statusCode: 201,
@@ -889,11 +862,7 @@ describe("Register", () => {
     cy.get("input[type=password]").type("password123");
     cy.get("input[type=checkbox]").check();
 
-    cy.intercept(
-      "GET", // Route all GET requests
-      "/api/user", // that have a URL that matches '/users/*'
-      { fixture: "user" }
-    ).as("getUser");
+    cy.handleAuthenticatedUser();
 
     // Submit the form by pressing enter on the name field
     cy.get("input[name=name]").type("{enter}");
@@ -905,27 +874,16 @@ describe("Register", () => {
 
 describe("Reset password", () => {
   beforeEach(() => {
-    cy.intercept(
-      "GET", // Route all GET requests
-      "/api/user", // that have a URL that matches '/users/*'
-      {
-        statusCode: 401,
-      }
-    ).as("unableToGetUser");
-
-    cy.intercept(
-      "GET", // Route all GET requests
-      "/sanctum/csrf-cookie", // that have a URL that matches '/users/*'
-      { statusCode: 204, delay: 50 }
-    ).as("getCookie");
+    cy.handleCsrf();
+    cy.handleUnauthenticatedUser();
 
     cy.visit("/forgot-password");
   });
   it("Shows errors", () => {
     cy.intercept(
       {
-        method: "POST", // Route all GET requests
-        url: "/forgot-password", // that have a URL that matches '/users/*'
+        method: "POST",
+        pathname: "/forgot-password",
       },
       {
         statusCode: 422,
@@ -964,8 +922,8 @@ describe("Reset password", () => {
   it("Sends an email", () => {
     cy.intercept(
       {
-        method: "POST", // Route all GET requests
-        url: "/forgot-password", // that have a URL that matches '/users/*'
+        method: "POST",
+        pathname: "/forgot-password",
       },
       {
         statusCode: 200,
@@ -997,19 +955,15 @@ describe("Reset password", () => {
   it("Fails to reset password with invalid token", () => {
     cy.visit("/reset-password?token=xxx&email=test@test.com");
 
-    cy.intercept(
-      "POST", // Route all GET requests
-      "/reset-password", // that have a URL that matches '/users/*'
-      {
-        statusCode: 422,
-        body: {
-          message: "This password reset token is invalid.",
-          errors: {
-            email: ["This password reset token is invalid."],
-          },
+    cy.intercept("POST", "/reset-password", {
+      statusCode: 422,
+      body: {
+        message: "This password reset token is invalid.",
+        errors: {
+          email: ["This password reset token is invalid."],
         },
-      }
-    ).as("failResetPassword");
+      },
+    }).as("failResetPassword");
 
     // There should be a password input
     cy.get("input[type=password]").type("test");
@@ -1024,16 +978,12 @@ describe("Reset password", () => {
   it("Can reset password", () => {
     cy.visit("/reset-password?token=xxx&email=test@test.com");
 
-    cy.intercept(
-      "POST", // Route all GET requests
-      "/reset-password", // that have a URL that matches '/users/*'
-      {
-        statusCode: 200,
-        body: {
-          message: "Your password has been reset!",
-        },
-      }
-    ).as("resetPassword");
+    cy.intercept("POST", "/reset-password", {
+      statusCode: 200,
+      body: {
+        message: "Your password has been reset!",
+      },
+    }).as("resetPassword");
 
     // Type a new password
     cy.get("input[type=password]").type("testNewPass");
@@ -1049,11 +999,9 @@ describe("Reset password", () => {
   });
 
   it("Keeps the email when going from login to forgot password", () => {
-    cy.intercept(
-      "POST", // Route all GET requests
-      "/email-exists/success@stripe.com",
-      { statusCode: 200 }
-    ).as("emailExists");
+    cy.intercept("POST", "/email-exists/success@stripe.com", {
+      statusCode: 200,
+    }).as("emailExists");
 
     cy.visit("/login");
 
@@ -1073,13 +1021,8 @@ describe("Reset password", () => {
 
 describe("Confirm email", () => {
   beforeEach(() => {
-    cy.intercept(
-      "GET", // Route all GET requests
-      "/api/user", // that have a URL that matches '/users/*'
-      {
-        statusCode: 401,
-      }
-    );
+    cy.handleCsrf();
+    cy.handleUnauthenticatedUser();
   });
 
   it("Redirects to login when unauthenticated", () => {
@@ -1090,11 +1033,7 @@ describe("Confirm email", () => {
   });
 
   it("Redirects to home when already confirmed", () => {
-    cy.intercept(
-      "GET", // Route all GET requests
-      "/api/user", // that have a URL that matches '/users/*'
-      { fixture: "user" }
-    ).as("user");
+    cy.intercept("GET", "/api/user", { fixture: "user" }).as("user");
 
     cy.visit("/confirm-email");
     cy.location("pathname").should("eq", "/");
@@ -1102,11 +1041,9 @@ describe("Confirm email", () => {
 
   it("Shows email confirmation resend page", () => {
     // Intercept the call to api/user
-    cy.intercept(
-      "GET", // Route all GET requests
-      "/api/user", // that have a URL that matches '/users/*'
-      { fixture: "userWithUnconfirmedEmail" }
-    ).as("userWithUnconfirmedEmail");
+    cy.intercept("GET", "/api/user", {
+      fixture: "userWithUnconfirmedEmail",
+    }).as("userWithUnconfirmedEmail");
 
     // Wait for the request to finish
 
@@ -1120,16 +1057,14 @@ describe("Confirm email", () => {
   });
 
   it("Allows requesting of new verification email", () => {
-    cy.intercept(
-      "GET", // Route all GET requests
-      "/api/user", // that have a URL that matches '/users/*'
-      { fixture: "userWithUnconfirmedEmail" }
-    ).as("userWithUnconfirmedEmail");
+    cy.intercept("GET", "/api/user", {
+      fixture: "userWithUnconfirmedEmail",
+    }).as("userWithUnconfirmedEmail");
 
     cy.intercept(
       {
-        method: "POST", // Route all GET requests
-        url: "/email/verification-notification", // that have a URL that matches '/users/*'
+        method: "POST",
+        pathname: "/email/verification-notification",
       },
       {
         statusCode: 202,
@@ -1154,20 +1089,12 @@ describe("Confirm email", () => {
 
 describe("Logout", () => {
   it("Logs out", () => {
-    cy.intercept(
-      "GET", // Route all GET requests
-      "/api/user", // that have a URL that matches '/users/*'
-      { fixture: "user" }
-    ).as("getUser");
+    cy.handleAuthenticatedUser();
 
     // Intercept the logout
-    cy.intercept(
-      "POST", // Route all GET requests
-      "/logout", // that have a URL that matches '/users/*'
-      {
-        statusCode: 204,
-      }
-    );
+    cy.intercept("POST", "/logout", {
+      statusCode: 204,
+    });
 
     cy.visit("/logout");
 
@@ -1175,34 +1102,19 @@ describe("Logout", () => {
     cy.url().should("include", "/login");
   });
   it("Can log back in after logout", () => {
-    cy.intercept(
-      "GET", // Route all GET requests
-      "/api/user", // that have a URL that matches '/users/*'
-      { fixture: "user" }
-    ).as("getUser");
-
-    cy.intercept(
-      "GET", // Route all GET requests
-      "/sanctum/csrf-cookie", // that have a URL that matches '/users/*'
-      { statusCode: 204, delay: 50 }
-    ).as("getCookie");
+    cy.handleCsrf();
+    cy.handleAuthenticatedUser();
 
     // Intercept the logout
-    cy.intercept(
-      "POST", // Route all GET requests
-      "/logout", // that have a URL that matches '/users/*'
-      {
-        statusCode: 204,
-      }
-    );
+    cy.intercept("POST", "/logout", {
+      statusCode: 204,
+    });
 
     cy.visit("/logout");
 
-    cy.intercept(
-      "POST", // Route all GET requests
-      "/email-exists/success@stripe.com", // that have a URL that matches '/users/*'
-      { statusCode: 200 }
-    ).as("emailExists");
+    cy.intercept("POST", "/email-exists/success@stripe.com", {
+      statusCode: 200,
+    }).as("emailExists");
 
     // Get the input of type email
     cy.get("input[type=email]").type("success@stripe.com");
@@ -1213,13 +1125,9 @@ describe("Logout", () => {
     cy.get("input[type=password]").type("password");
 
     // When pressing submit, a request to /login should be made
-    cy.intercept(
-      "POST", // Route all GET requests
-      "/login", // that have a URL that matches '/users/*'
-      {
-        statusCode: 200,
-      }
-    ).as("login");
+    cy.intercept("POST", "/login", {
+      statusCode: 200,
+    }).as("login");
 
     // Click the submit button to advance to the next screen
     cy.get("button[type=submit]").click();
@@ -1237,16 +1145,9 @@ describe("Logout", () => {
 
 describe("Confirm password", () => {
   beforeEach(() => {
-    cy.intercept(
-      "GET", // Route all GET requests
-      "/sanctum/csrf-cookie", // that have a URL that matches '/users/*'
-      { statusCode: 204, delay: 50 }
-    ).as("getCookie");
-    cy.intercept(
-      "GET", // Route all GET requests
-      "/api/user", // that have a URL that matches '/users/*'
-      { fixture: "user" }
-    ).as("getUser");
+    cy.handleCsrf();
+
+    cy.handleAuthenticatedUser();
 
     cy.visit("/confirm-password");
   });
@@ -1265,19 +1166,15 @@ describe("Confirm password", () => {
     cy.get("button[type=submit]").should("be.disabled");
   });
   it("It fails if password is incorrect", () => {
-    cy.intercept(
-      "POST", // Route all GET requests
-      "/user/confirm-password", // that have a URL that matches '/users/*'
-      {
-        statusCode: 422,
-        body: {
-          message: "The provided password was incorrect.",
-          errors: {
-            password: ["The provided password was incorrect."],
-          },
+    cy.intercept("POST", "/user/confirm-password", {
+      statusCode: 422,
+      body: {
+        message: "The provided password was incorrect.",
+        errors: {
+          password: ["The provided password was incorrect."],
         },
-      }
-    ).as("checkPasswordFail");
+      },
+    }).as("checkPasswordFail");
 
     // Fill the password
     cy.get("input[name=password]").type("test");
@@ -1303,11 +1200,9 @@ describe("Confirm password", () => {
       });
   });
   it("It can confirm password", () => {
-    cy.intercept(
-      "POST", // Route all GET requests
-      "/user/confirm-password", // that have a URL that matches '/users/*'
-      { statusCode: 201 }
-    ).as("checkPassword");
+    cy.intercept("POST", "/user/confirm-password", { statusCode: 201 }).as(
+      "checkPassword"
+    );
 
     // Fill the password
     cy.get("input[name=password]").type("test");
@@ -1322,17 +1217,11 @@ describe("Confirm password", () => {
 
 describe("Edit user settings", () => {
   beforeEach(() => {
-    cy.intercept(
-      "PUT", // Route all GET requests
-      "/user/profile-information", // that have a URL that matches '/users/*'
-      { statusCode: 200 }
-    ).as("getUser");
+    cy.intercept("PUT", "/user/profile-information", { statusCode: 200 }).as(
+      "updateUser"
+    );
 
-    cy.intercept(
-      "GET", // Route all GET requests
-      "/api/user", // that have a URL that matches '/users/*'
-      { fixture: "user" }
-    ).as("updateUser");
+    cy.intercept("GET", "/api/user", { fixture: "user" }).as("updateUser");
 
     cy.visit("/settings");
   });
@@ -1382,11 +1271,9 @@ describe("Edit user settings", () => {
     cy.get("input[name=email]").should("have.attr", "aria-invalid", "false");
   });
   it("Redirects to email confirm when the email is changed", () => {
-    cy.intercept(
-      "GET", // Route all GET requests
-      "/api/user", // that have a URL that matches '/users/*'
-      { fixture: "userWithUnconfirmedEmail" }
-    ).as("userWithUnconfirmedEmail");
+    cy.intercept("GET", "/api/user", {
+      fixture: "userWithUnconfirmedEmail",
+    }).as("userWithUnconfirmedEmail");
 
     cy.get("input[name=email]").clear();
     cy.get("input[name=email]").type("changed@test.com");
