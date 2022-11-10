@@ -7,6 +7,8 @@ const success = ref(false);
 
 const baseForm = ref();
 
+const emit = defineEmits(["success"]);
+
 const userStore = useUserStore();
 // The submit function. If there is just the email, check if the email is valid. If it is not, set the register mode. If it is, set the login mode.
 const submitForm = async () => {
@@ -16,6 +18,7 @@ const submitForm = async () => {
   const response = await userStore.sendPasswordResetEmail(userStore.userEmail);
   if (response === true) {
     success.value = response;
+    emit("success");
   } else if (typeof response === "object") {
     baseForm.value.setInputErrors(response.data.errors);
   }
