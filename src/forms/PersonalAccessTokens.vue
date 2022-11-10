@@ -43,7 +43,7 @@ const submitForm = async () => {
     ref="baseForm"
     @submit="submitForm"
     :isLoading="userStore.isLoading"
-    submitText="Create"
+    submitText="Create a new API token"
   >
     <input
       type="text"
