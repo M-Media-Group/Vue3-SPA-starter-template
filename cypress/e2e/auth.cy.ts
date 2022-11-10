@@ -1205,7 +1205,7 @@ describe("Confirm password", () => {
         method: "POST",
         pathname: "/user/confirm-password",
       },
-      { statusCode: 201 }
+      { statusCode: 201, delay: 50 }
     ).as("checkPassword");
 
     // Fill the password
@@ -1216,6 +1216,9 @@ describe("Confirm password", () => {
 
     // The submit should be disabled
     cy.get("button[type=submit]").should("be.disabled");
+
+    // The user should be redirected once confirmed
+    cy.location("pathname").should("eq", "/");
   });
 });
 
