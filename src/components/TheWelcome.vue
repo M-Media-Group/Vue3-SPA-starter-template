@@ -5,9 +5,51 @@ import ToolingIcon from "./icons/IconTooling.vue";
 import EcosystemIcon from "./icons/IconEcosystem.vue";
 import CommunityIcon from "./icons/IconCommunity.vue";
 import SupportIcon from "./icons/IconSupport.vue";
+import BaseButton from "./BaseButton.vue";
+import ConfirmsAuthenticated from "./modals/ConfirmsAuthenticated.vue";
+import ConfirmsPaymentMethod from "./modals/ConfirmsPaymentMethod.vue";
+import ConfirmsPassword from "./modals/ConfirmsPassword.vue";
+
+const handleAuthenticated = () => {
+  // Redirect to the home page
+  alert("action here");
+};
+
+const handlePaymentOk = () => {
+  alert("action here on ok payment");
+};
 </script>
 
 <template>
+  <ConfirmsAuthenticated @confirmed="handleAuthenticated">
+    <BaseButton>Do action when authed</BaseButton>
+  </ConfirmsAuthenticated>
+
+  <ConfirmsPaymentMethod @confirmed="handlePaymentOk">
+    <template v-slot="{ isConfirming }">
+      <BaseButton :aria-busy="isConfirming"
+        >Do action when payment method confirmed
+      </BaseButton>
+    </template>
+  </ConfirmsPaymentMethod>
+
+  <ConfirmsPassword @confirmed="handleAuthenticated">
+    <template v-slot="{ isConfirming }">
+      <BaseButton :aria-busy="isConfirming"
+        >Do action when password confirmed
+      </BaseButton>
+    </template>
+  </ConfirmsPassword>
+
+  <!-- Nesting these modals doesnt "really" work -->
+  <!-- <ConfirmsAuthenticated @confirmed="handleAuthenticated">
+    <ConfirmsPaymentMethod @confirmed="handlePaymentOk">
+      <BaseButton>
+        Do action when payment method confirmed and authed</BaseButton
+      >
+    </ConfirmsPaymentMethod>
+  </ConfirmsAuthenticated> -->
+
   <WelcomeItem>
     <template #icon>
       <DocumentationIcon />
