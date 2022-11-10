@@ -1200,9 +1200,13 @@ describe("Confirm password", () => {
       });
   });
   it("It can confirm password", () => {
-    cy.intercept("POST", "/user/confirm-password", { statusCode: 201 }).as(
-      "checkPassword"
-    );
+    cy.intercept(
+      {
+        method: "POST",
+        pathname: "/user/confirm-password",
+      },
+      { statusCode: 201 }
+    ).as("checkPassword");
 
     // Fill the password
     cy.get("input[name=password]").type("test");
@@ -1217,11 +1221,12 @@ describe("Confirm password", () => {
 
 describe("Edit user settings", () => {
   beforeEach(() => {
+    cy.handleCsrf();
+    cy.handleAuthenticatedUser();
+
     cy.intercept("PUT", "/user/profile-information", { statusCode: 200 }).as(
       "updateUser"
     );
-
-    cy.intercept("GET", "/api/user", { fixture: "user" }).as("updateUser");
 
     cy.visit("/settings");
   });
