@@ -697,8 +697,8 @@ describe("Reset password", () => {
     // Click the submit button to advance to the next screen
     cy.get("button[type=submit]").click();
 
-    // Check that there is a .error message
-    cy.get(".error").should("be.visible");
+    // Check that there is an error shown
+    cy.get("input[type=password]").invalidFor(["customError"]);
   });
 
   it("Can reset password", () => {
