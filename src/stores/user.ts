@@ -448,6 +448,7 @@ export const useUserStore = defineStore("user", () => {
     return axios
       .delete("/user/personal-access-tokens/" + id)
       .then((response) => {
+        $bus.$emit(eventTypes.deleted_personal_access_token, response.data);
         return response.data;
       })
       .catch((error) => {
