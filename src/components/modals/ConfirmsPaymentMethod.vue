@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { defineAsyncComponent, ref } from "vue";
 import { useUserStore } from "@/stores/user";
 import BaseModal from "@/components/modals/BaseModal.vue";
-import AddPaymentMethod from "@/forms/AddPaymentMethod.vue";
 
 const userStore = useUserStore();
 
@@ -24,6 +23,10 @@ const handleAddedPaymentMethod = () => {
   emits("confirmed");
   modal.value.closeModal();
 };
+
+const AddPaymentMethod = defineAsyncComponent(
+  () => import("@/forms/AddPaymentMethod.vue")
+);
 </script>
 <template>
   <span>
@@ -38,7 +41,10 @@ const handleAddedPaymentMethod = () => {
       :showFooter="false"
       @closed="isConfirming = false"
     >
-      <AddPaymentMethod @added="handleAddedPaymentMethod" />
+      <AddPaymentMethod
+        v-if="modal?.isModalOpen"
+        @added="handleAddedPaymentMethod"
+      />
     </BaseModal>
   </span>
 </template>

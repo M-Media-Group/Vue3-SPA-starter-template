@@ -81,6 +81,7 @@ onUnmounted(() => {
 // Export the openModal function so that it can be called from the parent
 // component
 defineExpose({
+  isModalOpen,
   openModal,
   closeModal,
 });

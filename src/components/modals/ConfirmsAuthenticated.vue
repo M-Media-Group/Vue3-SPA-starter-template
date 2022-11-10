@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { defineAsyncComponent, ref } from "vue";
 import { useUserStore } from "@/stores/user";
 import BaseModal from "@/components/modals/BaseModal.vue";
-import LoginOrRegister from "@/forms/LoginOrRegister.vue";
 
 const userStore = useUserStore();
 
@@ -24,6 +23,10 @@ const handleAuthenticated = () => {
   emits("confirmed");
   modal.value.closeModal();
 };
+
+const LoginOrRegister = defineAsyncComponent(
+  () => import("@/forms/LoginOrRegister.vue")
+);
 </script>
 <template>
   <span>
@@ -38,7 +41,10 @@ const handleAuthenticated = () => {
       :showFooter="false"
       @closed="isConfirming = false"
     >
-      <LoginOrRegister @authenticated="handleAuthenticated" />
+      <LoginOrRegister
+        v-if="modal?.isModalOpen"
+        @authenticated="handleAuthenticated"
+      />
     </BaseModal>
   </span>
 </template>
