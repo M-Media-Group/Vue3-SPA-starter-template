@@ -10,7 +10,10 @@ const emits = defineEmits(["confirmed"]);
 
 const modal = ref();
 
+const isConfirming = ref(false);
+
 const startConfirmingPaymentMethod = () => {
+  isConfirming.value = true;
   if (userStore.user?.pm_type) {
     return handleAddedPaymentMethod();
   }
@@ -25,7 +28,7 @@ const handleAddedPaymentMethod = () => {
 <template>
   <span>
     <span @click.prevent="startConfirmingPaymentMethod">
-      <slot />
+      <slot :isConfirming="isConfirming" />
     </span>
 
     <BaseModal
@@ -33,6 +36,7 @@ const handleAddedPaymentMethod = () => {
       :title="$t('Add a payment method')"
       :showTrigger="false"
       :showFooter="false"
+      @closed="isConfirming = false"
     >
       <AddPaymentMethod @added="handleAddedPaymentMethod" />
     </BaseModal>

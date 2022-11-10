@@ -10,7 +10,10 @@ const emits = defineEmits(["confirmed"]);
 
 const modal = ref();
 
+const isConfirming = ref(false);
+
 const startConfirmingPassword = async () => {
+  isConfirming.value = true;
   const shouldConfirmPassword = await userStore.shouldConfirmPassword();
   if (!shouldConfirmPassword) {
     return handleConfirmed();
@@ -26,7 +29,7 @@ const handleConfirmed = () => {
 <template>
   <span>
     <span @click.prevent="startConfirmingPassword">
-      <slot />
+      <slot :isConfirming="isConfirming" />
     </span>
 
     <BaseModal
@@ -34,6 +37,7 @@ const handleConfirmed = () => {
       :title="$t('Confirm your password')"
       :showTrigger="false"
       :showFooter="false"
+      @closed="isConfirming = false"
     >
       <ConfirmPassword @confirmed="handleConfirmed" />
     </BaseModal>

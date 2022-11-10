@@ -10,7 +10,10 @@ const emits = defineEmits(["confirmed"]);
 
 const modal = ref();
 
+const isConfirming = ref(false);
+
 const startConfirmingAuthenticationStatus = () => {
+  isConfirming.value = true;
   if (userStore.isAuthenticated) {
     return handleAuthenticated();
   }
@@ -25,7 +28,7 @@ const handleAuthenticated = () => {
 <template>
   <span>
     <span @click.prevent="startConfirmingAuthenticationStatus">
-      <slot />
+      <slot :isConfirming="isConfirming" />
     </span>
 
     <BaseModal
@@ -33,6 +36,7 @@ const handleAuthenticated = () => {
       :title="$t('Connect')"
       :showTrigger="false"
       :showFooter="false"
+      @closed="isConfirming = false"
     >
       <LoginOrRegister @authenticated="handleAuthenticated" />
     </BaseModal>
