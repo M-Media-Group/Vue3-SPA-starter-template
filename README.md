@@ -44,6 +44,7 @@ The following forms are included:
 - Confirm password
 - Account settings
 - Add payment info
+- Create personal access token
 
 ### Components
 
