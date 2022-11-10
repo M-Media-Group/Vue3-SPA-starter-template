@@ -10,13 +10,22 @@ import $bus, { eventTypes } from "@/eventBus/events";
  */
 export const SUPPORT_LOCALES = ["en", "fr"];
 
+/**
+ * The locales that are Right-To-Left
+ */
 export const RTL_LOCALES = ["ar", "fa", "he", "ur"];
 
+/**
+ * The best guess locale. Will first try to get it from the localStorage, then from the navigator, and if those fail, will use the first supported locale
+ */
 export const bestGuessLocale =
   localStorage.getItem("locale") ??
   navigator.language.split("-")[0] ??
   SUPPORT_LOCALES[0];
 
+/**
+ * Set the current app locale to the best-guessed locale
+ */
 export function setBestGuessLocale(i18n: I18n<{}, {}, {}, string, false>) {
   let locale = bestGuessLocale;
   // If the locale is not supported, fallback to English
@@ -27,6 +36,9 @@ export function setBestGuessLocale(i18n: I18n<{}, {}, {}, string, false>) {
   setI18nLanguage(i18n, locale);
 }
 
+/**
+ * Setup i18n
+ */
 export function setupI18n() {
   const i18n = createI18n({
     legacy: false, // you must set `false`, to use Composition API
@@ -83,6 +95,9 @@ export async function setI18nLanguage(
   }
 }
 
+/**
+ * Load the JSON locale files dynamically from the locales/ folder
+ */
 export async function loadLocaleMessages(
   i18n: { global: { setLocaleMessage: (arg0: any, arg1: any) => void } },
   locale: string
@@ -100,6 +115,9 @@ export async function loadLocaleMessages(
   return nextTick();
 }
 
+/**
+ * Our i18n instance
+ */
 const i18n = setupI18n();
 
 export default i18n;
