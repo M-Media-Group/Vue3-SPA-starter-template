@@ -29,6 +29,11 @@ const props = defineProps({
     required: false,
     default: true,
   },
+  triggerText: {
+    type: String,
+    required: false,
+    default: null,
+  },
 });
 
 const isModalOpen = ref(false);
@@ -81,15 +86,16 @@ defineExpose({
 });
 </script>
 <template>
-  <slot name="trigger" :openModal="openModal">
+  <slot name="trigger" :openModal="openModal" :isOpen="isModalOpen">
     <!-- Button to trigger the modal -->
     <button
       v-if="showTrigger"
       class="contrast"
       :data-target="modalId"
       @click="openModal()"
+      :aria-busy="isModalOpen"
     >
-      {{ title }}
+      {{ triggerText ?? title }}
     </button>
   </slot>
 
