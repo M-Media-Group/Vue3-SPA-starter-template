@@ -10,7 +10,7 @@ const emits = defineEmits(["confirmed"]);
 
 const modal = ref();
 
-const startConfirmingPaymentMethod = () => {
+const startConfirmingAuthenticationStatus = () => {
   if (userStore.isAuthenticated) {
     return handleAuthenticated();
   }
@@ -24,7 +24,7 @@ const handleAuthenticated = () => {
 </script>
 <template>
   <span>
-    <span @click.prevent="startConfirmingPaymentMethod">
+    <span @click.prevent="startConfirmingAuthenticationStatus">
       <slot />
     </span>
 
