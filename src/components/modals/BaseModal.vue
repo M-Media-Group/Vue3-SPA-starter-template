@@ -105,6 +105,7 @@ defineExpose({
     :id="modalId"
     :open="isModalOpen"
     @click="closeModalIfBackgroundClicked"
+    @keydown.esc="closeModal"
   >
     <CardElement :title="title">
       <template #headerActions>
