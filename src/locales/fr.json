@@ -48,5 +48,6 @@
     "Your personal access token has been created. This is the only time you can see it.": "Votre jeton d'accès personnel a été créé. C'est la seule fois que vous pouvez le voir.",
     "Token name": "Nom du jeton",
     "You have no API access tokens.": "Vous n'avez aucun jeton d'accès à l'API.",
-    "Create a new API token": "Créer un nouveau jeton d'API"
+    "Create a new API token": "Créer un nouveau jeton d'API",
+    "New token name": "Nouveau nom de jeton"
 }

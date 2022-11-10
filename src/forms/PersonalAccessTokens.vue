@@ -45,6 +45,7 @@ const submitForm = async () => {
     :isLoading="userStore.isLoading"
     submitText="Create a new API token"
   >
+    <label for="name">{{ $t("New token name") }}</label>
     <input
       type="text"
       name="name"
