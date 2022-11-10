@@ -1,7 +1,7 @@
 import { type Ref, ref } from "vue";
 import { defineStore } from "pinia";
 import axios from "axios";
-import type { User } from "@/types/user";
+import type { PersonalAccessToken, User } from "@/types/user";
 import $bus, { eventTypes } from "@/eventBus/events";
 
 export const useUserStore = defineStore("user", () => {
@@ -399,6 +399,66 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
+  /**
+   * Get all the users personal access tokens
+   *
+   * @return {*}
+   */
+  async function getPersonalAccessTokens() {
+    return axios
+      .get("/user/personal-access-tokens")
+      .then((response) => {
+        if (!user.value) {
+          return [] as PersonalAccessToken[];
+        }
+        user.value.personal_access_tokens = response.data;
+        return response.data as PersonalAccessToken[];
+      })
+      .catch((error) => {
+        console.log("Personal access tokens error", error);
+        return [] as PersonalAccessToken[];
+      });
+  }
+
+  /**
+   * Create a personal access token for the user
+   *
+   * @param {string} name
+   * @return {*}
+   */
+  async function createPersonalAccessToken(name: string) {
+    return axios
+      .post("/user/personal-access-tokens", {
+        name: name,
+      })
+      .then((response) => {
+        $bus.$emit(eventTypes.created_personal_access_token, response.data);
+        return response.data;
+      })
+      .catch((error) => {
+        console.log("Personal access tokens error", error);
+        alert(error.response.data.message);
+      })
+      .finally(() => {
+        isLoading.value = false;
+      });
+  }
+
+  async function deletePersonalAccessToken(id: string) {
+    return axios
+      .delete("/user/personal-access-tokens/" + id)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.log("Personal access tokens error", error);
+        alert(error.response.data.message);
+      })
+      .finally(() => {
+        isLoading.value = false;
+      });
+  }
+
   return {
     isAuthenticated,
     checkEmail,
@@ -420,5 +480,8 @@ export const useUserStore = defineStore("user", () => {
     addPaymentMethod,
     getPaymentMethods,
     isReady,
+    getPersonalAccessTokens,
+    createPersonalAccessToken,
+    deletePersonalAccessToken,
   };
 });
