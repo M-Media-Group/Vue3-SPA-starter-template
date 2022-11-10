@@ -181,8 +181,10 @@ onUpdated(async () => {
 
 onMounted(() => {
   checkValidity();
-  // Focus on the first input
-  focusOnFirstInput();
+  // Focus on the first input if the document is not already focused on something
+  if (!document.querySelector(":focus")) {
+    focusOnFirstInput();
+  }
 });
 
 const focusOnFirstInput = () => {
