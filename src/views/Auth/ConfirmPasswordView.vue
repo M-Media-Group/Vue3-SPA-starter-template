@@ -12,6 +12,6 @@ const redirect = () => {
 <template>
   <h1>{{ $t("Confirm your password") }}</h1>
   <CardElement :title="$t('Confirm your password')">
-    <ConfirmPassword @confirmed="redirect" />
+    <ConfirmPassword @success="redirect" />
   </CardElement>
 </template>

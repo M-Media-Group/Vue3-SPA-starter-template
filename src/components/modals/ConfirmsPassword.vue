@@ -9,7 +9,7 @@ const modal = ref();
 
 const isConfirming = ref(false);
 
-const startConfirmingPassword = async () => {
+const startConfirming = async () => {
   isConfirming.value = true;
   if (!(await confirmedPassword())) {
     return handleConfirmed();
@@ -28,7 +28,7 @@ const ConfirmPassword = defineAsyncComponent(
 </script>
 <template>
   <span>
-    <span @click.prevent="startConfirmingPassword">
+    <span @click.prevent="startConfirming">
       <slot :isConfirming="isConfirming" />
     </span>
 
@@ -39,7 +39,7 @@ const ConfirmPassword = defineAsyncComponent(
       :showFooter="false"
       @closed="isConfirming = false"
     >
-      <ConfirmPassword v-if="modal?.isModalOpen" @confirmed="handleConfirmed" />
+      <ConfirmPassword v-if="modal?.isModalOpen" @success="handleConfirmed" />
     </BaseModal>
   </span>
 </template>
