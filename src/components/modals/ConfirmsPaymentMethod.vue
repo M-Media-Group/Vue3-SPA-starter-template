@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { defineAsyncComponent, ref } from "vue";
-import { useUserStore } from "@/stores/user";
 import BaseModal from "@/components/modals/BaseModal.vue";
-
-const userStore = useUserStore();
+import hasPaymentMethod from "@/router/middlewares/hasPaymentMethod";
 
 const emits = defineEmits(["confirmed"]);
 
@@ -11,9 +9,9 @@ const modal = ref();
 
 const isConfirming = ref(false);
 
-const startConfirmingPaymentMethod = () => {
+const startConfirmingPaymentMethod = async () => {
   isConfirming.value = true;
-  if (userStore.user?.pm_type) {
+  if (!(await hasPaymentMethod())) {
     return handleAddedPaymentMethod();
   }
   modal.value.openModal();

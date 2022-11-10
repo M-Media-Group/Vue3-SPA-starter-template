@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { defineAsyncComponent, ref } from "vue";
-import { useUserStore } from "@/stores/user";
 import BaseModal from "@/components/modals/BaseModal.vue";
-
-const userStore = useUserStore();
+import confirmedPassword from "@/router/middlewares/confirmedPassword";
 
 const emits = defineEmits(["confirmed"]);
 
@@ -13,8 +11,7 @@ const isConfirming = ref(false);
 
 const startConfirmingPassword = async () => {
   isConfirming.value = true;
-  const shouldConfirmPassword = await userStore.shouldConfirmPassword();
-  if (!shouldConfirmPassword) {
+  if (!(await confirmedPassword())) {
     return handleConfirmed();
   }
   modal.value.openModal();
