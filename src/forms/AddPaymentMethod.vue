@@ -176,6 +176,7 @@ const focusOnInput = () => {
     <StripeElements
       @click="focusOnInput()"
       class="input"
+      style="min-width: 280px"
       v-if="stripeLoaded"
       v-slot="{ elements }"
       ref="elms"
