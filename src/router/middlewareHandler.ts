@@ -1,7 +1,7 @@
 /** This file defines a middleware handler that can handle multiple middlewares in a given route, navigating to each one until all pass */
 //     // if so, continue to the intended route
 
-import type { RouteLocationNormalized, Router } from "vue-router";
+import type { Router } from "vue-router";
 
 /**
  * A class that handles the middlewares of the coming request.
@@ -16,20 +16,12 @@ export class MiddlewareHandler {
    * @type {RouteLocationNormalized}
    * @memberof MiddlewareHandler
    */
-  to: RouteLocationNormalized;
+  middlewares: string[];
+  middlewareCallback: any | null;
 
-  constructor(to: RouteLocationNormalized) {
-    this.to = to;
-  }
-
-  /**
-   * All the middlewares for the coming request
-   *
-   * @readonly
-   * @memberof MiddlewareHandler
-   */
-  get middlewares() {
-    return this.to.meta.middleware as string[] | undefined;
+  constructor(middlewares: string[], middlewareCallback = null as any) {
+    this.middlewares = middlewares;
+    this.middlewareCallback = middlewareCallback;
   }
 
   /**
@@ -39,9 +31,9 @@ export class MiddlewareHandler {
    * @return {*}
    * @memberof MiddlewareHandler
    */
-  handleMiddleware(name: string) {
+  handleMiddleware(name: string, options: any) {
     return import(`./middlewares/${name}.ts`).then((middleware) => {
-      return middleware.default(this.to);
+      return middleware.default(options);
     });
   }
 
@@ -52,17 +44,16 @@ export class MiddlewareHandler {
    * @memberof MiddlewareHandler
    */
   async handle() {
-    if (!this.to.redirectedFrom && this.to.query.redirect) {
-      return this.to.query.redirect;
-    }
-
     // If there are no middlewares to run, just continue
     if (!this.middlewares) {
       return;
     }
 
     for (const middleware of this.middlewares) {
-      const result = await this.handleMiddleware(middleware);
+      const result = await this.handleMiddleware(
+        middleware,
+        this.middlewareCallback
+      );
 
       // If the middleware returned something, it means that we're going to the middleware intercepted route instead
       if (result !== undefined) {
@@ -72,9 +63,12 @@ export class MiddlewareHandler {
         }
 
         // We should set a reference to the intended page in the URL so we can redirect there after the middleware that intercepted the request is satisfied. Some middlewares may not want this behaviour (e.g. if you're authenticated but trying to visit a guest only page (like login), you don't want to set a redirect to login in the URL as it makes no sense)
-        if (!(result.setRedirectToIntended === false)) {
+        if (
+          !(result.setRedirectToIntended === false) &&
+          this.middlewareCallback?.fullPath
+        ) {
           result.query = {
-            redirect: this.to.fullPath,
+            redirect: this.middlewareCallback.fullPath,
           };
         }
 
@@ -86,6 +80,12 @@ export class MiddlewareHandler {
 
 export const setupMiddlewareHandler = (router: Router) => {
   router.beforeEach(async (to) => {
-    return new MiddlewareHandler(to).handle();
+    if (!to.redirectedFrom && to.query.redirect) {
+      return to.query.redirect;
+    }
+    return new MiddlewareHandler(
+      (to.meta.middleware as string[]) || [],
+      to
+    ).handle();
   });
 };
