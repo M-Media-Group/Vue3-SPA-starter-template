@@ -33,14 +33,6 @@ const router = createRouter({
       },
     },
     {
-      path: "/rent",
-      name: "rent",
-      component: () => import("../views/CameraView.vue"),
-      meta: {
-        middleware: ["hasGivenCameraPermission"],
-      },
-    },
-    {
       path: "/about",
       name: "about",
       meta: {
