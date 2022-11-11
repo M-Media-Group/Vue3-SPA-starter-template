@@ -1,10 +1,7 @@
 describe("Payments", () => {
   beforeEach(() => {
-    cy.intercept(
-      "GET", // Route all GET requests
-      "/api/user", // that have a URL that matches '/users/*'
-      { fixture: "user" }
-    ).as("getUser");
+    cy.handleCsrf();
+    cy.handleAuthenticatedUser();
 
     cy.visit("/settings");
   });

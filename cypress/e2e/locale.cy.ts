@@ -8,11 +8,7 @@ describe("Locales", () => {
       }
     ).as("unableToGetUser");
 
-    cy.intercept(
-      "GET", // Route all GET requests
-      "/sanctum/csrf-cookie", // that have a URL that matches '/users/*'
-      { statusCode: 204, delay: 50 }
-    ).as("getCookie");
+    cy.handleCsrf();
   });
   it("Shows a language switcher in the footer", () => {
     cy.visit("/");
