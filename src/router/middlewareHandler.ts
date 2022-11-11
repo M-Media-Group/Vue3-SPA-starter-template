@@ -19,7 +19,13 @@ export class MiddlewareHandler {
   middlewares: string[];
   middlewareCallback: any | null;
 
-  constructor(middlewares: string[], middlewareCallback = null as any) {
+  constructor(
+    middlewares: string[] | string,
+    middlewareCallback = null as any
+  ) {
+    if (typeof middlewares === "string") {
+      middlewares = [middlewares];
+    }
     this.middlewares = middlewares;
     this.middlewareCallback = middlewareCallback;
   }
