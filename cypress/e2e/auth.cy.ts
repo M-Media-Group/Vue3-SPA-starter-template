@@ -771,9 +771,12 @@ describe("Confirm email", () => {
 
   it("Shows email confirmation resend page", () => {
     // Intercept the call to api/user
-    cy.intercept("GET", "/api/user", {
-      fixture: "userWithUnconfirmedEmail",
-    }).as("userWithUnconfirmedEmail");
+    cy.intercept(
+      { method: "GET", pathname: "/api/user" },
+      {
+        fixture: "userWithUnconfirmedEmail",
+      }
+    ).as("userWithUnconfirmedEmail");
 
     // Wait for the request to finish
 
@@ -787,9 +790,12 @@ describe("Confirm email", () => {
   });
 
   it("Allows requesting of new verification email", () => {
-    cy.intercept("GET", "/api/user", {
-      fixture: "userWithUnconfirmedEmail",
-    }).as("userWithUnconfirmedEmail");
+    cy.intercept(
+      { method: "GET", pathname: "/api/user" },
+      {
+        fixture: "userWithUnconfirmedEmail",
+      }
+    ).as("userWithUnconfirmedEmail");
 
     cy.intercept(
       {
@@ -934,7 +940,7 @@ describe("Confirm password", () => {
         method: "POST",
         pathname: "/user/confirm-password",
       },
-      { statusCode: 201, delay: 50 }
+      { statusCode: 201, delay: 150 }
     ).as("checkPassword");
 
     // Fill the password
@@ -992,11 +998,8 @@ describe("Edit user settings", () => {
     // The submit button should be disabled
     cy.get("button[type=submit]").should("be.disabled");
   });
-  it("Can be submitted", () => {
-    // Set the name, surname and email. We specify first() here because there is another input with the same name for personal access token creation
-    cy.get("input[name=name]").first().type("Test");
-    cy.get("input[name=surname]").type("Test");
 
+  it("Can be submitted", () => {
     // Get the submit button right after the email input
     cy.get("input[type=email]").parent().find("button[type=submit]").click();
 
@@ -1007,10 +1010,15 @@ describe("Edit user settings", () => {
     cy.get("input[name=surname]").should("have.attr", "aria-invalid", "false");
     cy.get("input[type=email]").should("have.attr", "aria-invalid", "false");
   });
+
   it("Redirects to email confirm when the email is changed", () => {
-    cy.intercept("GET", "/api/user", {
-      fixture: "userWithUnconfirmedEmail",
-    }).as("userWithUnconfirmedEmail");
+    cy.intercept(
+      { method: "GET", pathname: "/api/user" },
+      {
+        fixture: "userWithUnconfirmedEmail",
+        delay: 150,
+      }
+    ).as("userWithUnconfirmedEmail");
 
     cy.get("input[type=email]").clear();
     cy.get("input[type=email]").type("changed@test.com");
