@@ -6,9 +6,8 @@ import EcosystemIcon from "./icons/IconEcosystem.vue";
 import CommunityIcon from "./icons/IconCommunity.vue";
 import SupportIcon from "./icons/IconSupport.vue";
 import BaseButton from "./BaseButton.vue";
-import ConfirmsAuthenticated from "./modals/ConfirmsAuthenticated.vue";
 import ConfirmsPaymentMethod from "./modals/ConfirmsPaymentMethod.vue";
-import ConfirmsPassword from "./modals/ConfirmsPassword.vue";
+import ConfirmsMiddleware from "./modals/ConfirmsMiddleware.vue";
 
 const handleAuthenticated = () => {
   // Redirect to the home page
@@ -18,12 +17,40 @@ const handleAuthenticated = () => {
 const handlePaymentOk = () => {
   alert("action here on ok payment");
 };
+
+const attemptOk = (success: () => any, fail: () => any, shouldPass: any) => {
+  return shouldPass ? success() : fail();
+};
 </script>
 
 <template>
-  <ConfirmsAuthenticated @confirmed="handleAuthenticated">
+  <ConfirmsMiddleware
+    :title="$t('Confirm your email')"
+    :middleware="['auth', 'confirmedPassword']"
+    @confirmed="handleAuthenticated"
+  >
+    <BaseButton>Force unconfirmed email</BaseButton>
+
+    <template #confirmationElement:confirmedPassword="{ success, fail }">
+      <p>
+        {{
+          $t(
+            "Please confirm your email address to continue. Check your spam too. If you didn't get an email, you can ask us to send you a new one."
+          )
+        }}
+      </p>
+      <BaseButton @click="attemptOk(success, fail, false)">Fail</BaseButton>
+      <BaseButton @click="attemptOk(success, fail, true)">Ok</BaseButton>
+    </template>
+  </ConfirmsMiddleware>
+
+  <ConfirmsMiddleware
+    :title="$t('Connect')"
+    :middleware="['auth', 'confirmedPassword']"
+    @confirmed="handleAuthenticated"
+  >
     <BaseButton>Do action when authed</BaseButton>
-  </ConfirmsAuthenticated>
+  </ConfirmsMiddleware>
 
   <ConfirmsPaymentMethod @confirmed="handlePaymentOk">
     <template v-slot="{ isConfirming }">
@@ -33,13 +60,13 @@ const handlePaymentOk = () => {
     </template>
   </ConfirmsPaymentMethod>
 
-  <ConfirmsPassword @confirmed="handleAuthenticated">
-    <template v-slot="{ isConfirming }">
-      <BaseButton :aria-busy="isConfirming"
-        >Do action when password confirmed
-      </BaseButton>
-    </template>
-  </ConfirmsPassword>
+  <ConfirmsMiddleware
+    :title="$t('Confirm your password')"
+    middleware="confirmedPassword"
+    @confirmed="handleAuthenticated"
+  >
+    <BaseButton>Do action when authed</BaseButton>
+  </ConfirmsMiddleware>
 
   <!-- Nesting these modals doesnt "really" work -->
   <!-- <ConfirmsAuthenticated @confirmed="handleAuthenticated">
