@@ -1,4 +1,5 @@
 # The middleware logic
+This starter kit comes with an opinionated middleware handler. It allows you to protect routes and actions using middlewares defined in a single place.
 
 ## Example usage
 Imagine we want to prevent a user action based on if they have enough kittens (we'll consider 5 to be enough in this case).
@@ -36,6 +37,8 @@ export default (options) => {
 
 The middleware is defined and ready to be used.
 
+### Route level protection
+
 To protect a route, you could pass your middleware name into the `meta.middleware` array in your route, like so:
 
 ```javascript
@@ -51,6 +54,8 @@ To protect a route, you could pass your middleware name into the `meta.middlewar
 
 You'll notice `middleware` is an array, which means you can pass multiple middlewares and they will run one after the other, stopping the execution if one of them fails. In this case, it could be a good idea to also add an authentication-check middleware before ours, for example.
 
+### Component level protection
+
 We can also protect in-component actions too, using the `ConfirmsMiddleware` element.
 ```html
 <ConfirmsMiddleware
@@ -61,14 +66,15 @@ We can also protect in-component actions too, using the `ConfirmsMiddleware` ele
     <button>Vote for best kitty</button>
 </ConfirmsMiddleware>
 ```
+When a user clicks the `Vote for best kitty` button, their click will be intercepted by the `ConfirmsMiddleware` component, which will check each middleware.
 
-This will show a modal if the middleware fails. The modal itself will have the form displayed inside it (the same one we defined in our middleware).
+If a middleware fails, a modal will be shown. The modal itself will have the form displayed inside it (the same one we defined in our middleware).
 
-When they have enough kittens, the `confirmed` component event will fire. If the user already had enough kittens to begin with, then the `confirmed` event would be fired without opening the modal.
+When the user has enough kittens added, the `confirmed` component event will fire and the modal will close. If the user already had enough kittens to begin with, then the `confirmed` event would be fired without opening the modal.
 
-## Defining a middleware class
+## The middleware class
 
-The middleware class
+The middleware class defines the logic of your middleware.
 
 ### Properties
 #### form: string | false
@@ -90,3 +96,14 @@ If you would like to redirect elsewhere, you should override the `route` functio
 
 #### setOptions
 You should not override this function. It sets the options available to the middleware. This function should be called before you call the `handle()` function.
+
+## The middleware handler
+The middleware handler is already set up for you for the Router and in the `ConfirmsMiddleware` component.
+
+The middleware handler itself takes an array of middleware names and runs through each of them. As a second parameter, you can pass in optional options. Calling the `handle()` function will execute all the middlewares passed to the handler.
+
+```javascript
+const response = await new MiddlewareHandler(['auth', 'userHasKittens'], options).handle();
+```
+
+If all middlewares pass, the response will be `undefined`. If the middleware should stop execution, it will return `false`. If you pass an instance of `RouteLocationNormalized` to the `options`, the handler will automatically detect that it should respond with a redirect if it fails. Otherwise, it will return a `string` containing the name of the form to display.
