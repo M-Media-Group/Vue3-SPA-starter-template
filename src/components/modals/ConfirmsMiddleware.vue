@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type PropType, defineAsyncComponent, ref } from "vue";
+import { type PropType, defineAsyncComponent, ref, useSlots } from "vue";
 import BaseModal from "@/components/modals/BaseModal.vue";
 import { MiddlewareHandler } from "@/router/middlewareHandler";
 
@@ -13,6 +13,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const slots = useSlots();
 
 const formToUse = ref();
 
@@ -41,7 +43,10 @@ const startConfirming = async () => {
 
   interceptedByMiddleware.value = middlewareResponse.middleware;
 
-  if (middlewareResponse.data === false) {
+  if (
+    middlewareResponse.data === false &&
+    !slots["confirmationElement:" + interceptedByMiddleware.value]
+  ) {
     return HandleFailed();
   }
 
