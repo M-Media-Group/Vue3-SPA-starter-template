@@ -1,7 +1,7 @@
 /** This file defines a middleware handler that can handle multiple middlewares in a given route, navigating to each one until all pass */
 //     // if so, continue to the intended route
 
-import type { RouteLocationNormalized } from "vue-router";
+import type { RouteLocationNormalized, Router } from "vue-router";
 
 /**
  * A class that handles the middlewares of the coming request.
@@ -83,3 +83,9 @@ export class MiddlewareHandler {
     }
   }
 }
+
+export const setupMiddlewareHandler = (router: Router) => {
+  router.beforeEach(async (to) => {
+    return new MiddlewareHandler(to).handle();
+  });
+};

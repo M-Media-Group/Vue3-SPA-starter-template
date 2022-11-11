@@ -14,7 +14,7 @@ export const useUserStore = defineStore("user", () => {
   // A promise that returns true when isLoading is false and attemptedToFetchUser is true
   const isReady = new Promise((resolve) => {
     const interval = setInterval(() => {
-      if (!isLoading.value) {
+      if (attemptedToFetchUser.value && !isLoading.value) {
         clearInterval(interval);
         resolve(true);
       }

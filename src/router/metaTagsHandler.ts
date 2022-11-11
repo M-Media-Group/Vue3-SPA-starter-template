@@ -1,4 +1,4 @@
-import type { RouteLocationNormalized } from "vue-router";
+import type { RouteLocationNormalized, Router } from "vue-router";
 import i18n from "@/locales/i18n";
 
 // Taken from https://www.digitalocean.com/community/tutorials/vuejs-vue-router-modify-head
@@ -160,4 +160,12 @@ export const updateOrCreateSchema = (json = null as null | Object) => {
     newSchema.innerHTML = JSON.stringify(json);
     document.head.appendChild(newSchema);
   }
+};
+
+export const setupMetaTagsHandler = (router: Router) => {
+  router.afterEach((to, from, failure) => {
+    if (!failure) {
+      setMetaAttributes(to, from);
+    }
+  });
 };

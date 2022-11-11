@@ -1,9 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { setMetaAttributes } from "./metaTagsHandler";
 import $bus, { eventTypes } from "@/eventBus/events";
 import authRoutes from "./authRoutes";
-import { MiddlewareHandler } from "./middlewareHandler";
-import { useUserStore } from "@/stores/user";
+import { setupMetaTagsHandler } from "./metaTagsHandler";
+import { setupMiddlewareHandler } from "./middlewareHandler";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -36,14 +35,9 @@ const router = createRouter({
     {
       path: "/rent",
       name: "rent",
-      component: () => import("../views/AboutView.vue"),
+      component: () => import("../views/CameraView.vue"),
       meta: {
-        middleware: [
-          "auth",
-          "confirmedEmail",
-          "hasPaymentMethod",
-          "confirmedPassword",
-        ],
+        middleware: ["hasGivenCameraPermission"],
       },
     },
     {
@@ -70,15 +64,11 @@ const router = createRouter({
   },
 });
 
-router.beforeEach(async (to) => {
-  const store = useUserStore();
-  await store.isReady;
-  return new MiddlewareHandler(to).handle();
-});
+setupMiddlewareHandler(router);
+setupMetaTagsHandler(router);
 
 router.afterEach((to, from, failure) => {
   if (!failure) {
-    setMetaAttributes(to, from);
     $bus.$emit(eventTypes.viewed_page, {
       ...to,
       name: document.title,

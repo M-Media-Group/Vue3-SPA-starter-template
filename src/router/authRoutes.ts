@@ -71,16 +71,7 @@ export default [
 
 const logout = async (next: NavigationGuardNext) => {
   const store = useUserStore();
-  if (store.isLoading) {
-    await new Promise((resolve) => {
-      const interval = setInterval(() => {
-        if (!store.isLoading) {
-          clearInterval(interval);
-          resolve(true);
-        }
-      }, 10);
-    });
-  }
+  await store.isReady;
   await store.logout();
   return next({ name: "login" });
 };
