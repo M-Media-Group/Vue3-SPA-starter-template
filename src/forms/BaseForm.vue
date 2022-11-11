@@ -3,7 +3,7 @@ import BaseButton from "@/components/BaseButton.vue";
 import { type PropType, nextTick, onMounted, onUpdated, ref } from "vue";
 
 // Prop of submit text
-defineProps({
+const props = defineProps({
   submitText: {
     type: String,
     default: "Submit",
@@ -76,7 +76,7 @@ const clearErrorMessageOnElement = (element: HTMLInputElement) => {
 };
 
 const submit = async () => {
-  if (formIsValid.value) {
+  if (formIsValid.value && !props.isLoading) {
     // setSuccessOnInputs();
     emit("submit");
   }

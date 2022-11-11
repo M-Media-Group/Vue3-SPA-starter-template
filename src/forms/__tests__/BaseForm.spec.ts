@@ -76,6 +76,24 @@ describe("Base Form", () => {
     expect(wrapper.emitted("submit")).toBeTruthy();
   });
 
+  it("prevents submission when isLoading", () => {
+    const wrapper = mount(BaseForm, {
+      props: {
+        isLoading: true,
+      },
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub,
+        },
+      },
+    });
+    // Submit the form
+    wrapper.find("form").trigger("submit");
+
+    // Expect the form to have emitted a submit event
+    expect(wrapper.emitted("submit")).toBeFalsy();
+  });
+
   it("emits a submit event when submitted via enter key", () => {
     const wrapper = mount(BaseForm, {
       slots: {
