@@ -67,6 +67,11 @@ export default [
       middleware: ["auth", "unconfirmedEmail"],
     },
   },
+  {
+    path: "/confirm/:element",
+    name: "confirm",
+    component: () => import("../views/ConfirmView.vue"),
+  },
 ];
 
 const logout = async (next: NavigationGuardNext) => {
