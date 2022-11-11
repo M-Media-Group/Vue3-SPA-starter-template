@@ -11,6 +11,7 @@ export enum eventTypes {
   sent_reset_password_email = "sent_reset_password_email",
   reset_password = "reset_password",
   confirmed_password = "confirmed_password",
+  confirmed_email = "confirmed_email",
   updated_user = "updated_user",
   registered = "registered",
   created_personal_access_token = "created_personal_access_token",
