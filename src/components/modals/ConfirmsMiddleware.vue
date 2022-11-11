@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { defineAsyncComponent, onMounted, ref } from "vue";
+import { type PropType, defineAsyncComponent, ref } from "vue";
 import BaseModal from "@/components/modals/BaseModal.vue";
+import { MiddlewareHandler } from "@/router/middlewareHandler";
 
 const props = defineProps({
   title: {
@@ -8,34 +9,12 @@ const props = defineProps({
     required: true,
   },
   middleware: {
-    type: String,
+    type: Array as PropType<string[] | string>,
     required: true,
   },
-  form: {
-    type: String,
-    required: false,
-  },
 });
 
-let middleware: { default: () => any };
-
-onMounted(async () => {
-  middleware = await fetchMiddleware(props.middleware);
-});
-
-const fetchMiddleware = async (name: string) => {
-  try {
-    const middleware = await import(`./../../router/middlewares/${name}.ts`);
-    return middleware;
-  } catch (e) {
-    console.error("Failed loading middleware", e);
-    throw new Error(
-      "Failed loading middleware " +
-        name +
-        ". Are you sure the middleware you passed to the ConfirmsMiddleware modal component exists?"
-    );
-  }
-};
+const formToUse = ref();
 
 const emits = defineEmits(["confirmed"]);
 
@@ -44,16 +23,23 @@ const modal = ref();
 const isConfirming = ref(false);
 
 const startConfirming = async () => {
-  if (middleware === undefined) {
+  if (props.middleware === undefined) {
     return;
   }
   isConfirming.value = true;
-  const middlewareResponse = await middleware.default();
+  const middlewareResponse = await new MiddlewareHandler(
+    props.middleware
+  ).handle();
+  console.log("Got response", middlewareResponse);
   if (middlewareResponse === undefined) {
     return HandleConfirmed();
   }
   if (middlewareResponse === false) {
     return HandleFailed();
+  }
+  if (typeof middlewareResponse === "string") {
+    formToUse.value = middlewareResponse;
+    setElement();
   }
   modal.value.openModal();
 };
@@ -67,9 +53,13 @@ const HandleFailed = () => {
   modal.value.closeModal();
 };
 
-const ConfirmationElement = defineAsyncComponent(
-  () => import(`./../../forms/${props.form}.vue`)
-);
+const ConfirmationElement = ref();
+
+const setElement = () => {
+  ConfirmationElement.value = defineAsyncComponent(
+    () => import(`./../../forms/${formToUse.value}.vue`)
+  );
+};
 </script>
 <template>
   <span>
@@ -86,12 +76,13 @@ const ConfirmationElement = defineAsyncComponent(
     >
       <slot
         name="confirmationElement"
-        :success="HandleConfirmed"
+        :success="startConfirming"
         :fail="HandleFailed"
       >
-        <ConfirmationElement
-          v-if="form && modal?.isModalOpen"
-          @success="HandleConfirmed"
+        <component
+          :is="ConfirmationElement"
+          v-if="formToUse && modal?.isModalOpen"
+          @success="startConfirming"
         />
       </slot>
     </BaseModal>
