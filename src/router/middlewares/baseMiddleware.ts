@@ -7,10 +7,10 @@ import type { RouteLocationRaw } from "vue-router";
  * @class baseMiddleware
  */
 abstract class baseMiddleware {
-  options = {} as any;
+  options = {} as RouteLocationRaw | Record<string, any>;
   form = false as string | false;
 
-  public setOptions(options: any) {
+  public setOptions(options: RouteLocationRaw | any) {
     this.options = options;
     return this;
   }
