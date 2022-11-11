@@ -176,6 +176,8 @@ You can show custom content for each intercepted middleware. You should override
 
 The slot exposes `success` and `fail` functions that you can call to pass or fail the middleware respectively.
 
+When you call `success()`, the component will re-run all middlewares to check that they pass. You should be sure that your middleware will pass before calling `success()`.
+
 ### Props
 - middleware: string | string[] - the middleware or array of middlewares to use
 - title: string - the title to show to the user while their request is intercepted
