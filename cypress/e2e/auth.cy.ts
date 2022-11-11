@@ -818,9 +818,13 @@ describe("Confirm email", () => {
 });
 
 describe("Logout", () => {
-  it("Logs out", () => {
+  beforeEach(() => {
+    cy.handleCsrf();
     cy.handleAuthenticatedUser();
+    cy.visit("/");
+  });
 
+  it("Logs out", () => {
     // Intercept the logout
     cy.intercept("POST", "/logout", {
       statusCode: 204,
@@ -832,9 +836,6 @@ describe("Logout", () => {
     cy.url().should("include", "/login");
   });
   it("Can log back in after logout", () => {
-    cy.handleCsrf();
-    cy.handleAuthenticatedUser();
-
     // Intercept the logout
     cy.intercept("POST", "/logout", {
       statusCode: 204,
@@ -901,15 +902,21 @@ describe("Confirm password", () => {
   });
 
   it("It fails if password is incorrect", () => {
-    cy.intercept("POST", "/user/confirm-password", {
-      statusCode: 422,
-      body: {
-        message: "The provided password was incorrect.",
-        errors: {
-          password: ["The provided password was incorrect."],
-        },
+    cy.intercept(
+      {
+        method: "POST",
+        pathname: "/user/confirm-password",
       },
-    }).as("checkPasswordFail");
+      {
+        statusCode: 422,
+        body: {
+          message: "The provided password was incorrect.",
+          errors: {
+            password: ["The provided password was incorrect."],
+          },
+        },
+      }
+    ).as("checkPasswordFail");
 
     // Fill the password
     cy.get("input[type=password]").type("test");
