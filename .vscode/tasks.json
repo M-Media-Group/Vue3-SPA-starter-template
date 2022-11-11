@@ -1,0 +1,12 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "isBackground": true,
+            "type": "npm",
+            "script": "test:e2e:dev",
+            "label": "npm: test:e2e:dev",
+            "detail": "start-server-and-test 'vite dev --port 4173 --host' :4173 'cypress open --e2e'"
+        }
+    ]
+}
