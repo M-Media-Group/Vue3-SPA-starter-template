@@ -20,6 +20,7 @@ module.exports = {
   },
   plugins: ["unused-imports", "spellcheck", "no-secrets"],
   rules: {
+    camelcase: ["error", { properties: "never" }],
     "no-secrets/no-secrets": [
       "error",
       {
