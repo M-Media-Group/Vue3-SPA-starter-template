@@ -1,8 +1,8 @@
 {
     "id": 1,
     "username": "Michał",
-    "name": null,
-    "surname": null,
+    "name": "John",
+    "surname": "Doe",
     "email": "hello@test.com",
     "email_verified_at": null,
     "avatar": null,
