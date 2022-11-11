@@ -22,25 +22,34 @@ const modal = ref();
 
 const isConfirming = ref(false);
 
+const interceptedByMiddleware = ref("");
+
 const startConfirming = async () => {
   if (props.middleware === undefined) {
     return;
   }
+
   isConfirming.value = true;
+
   const middlewareResponse = await new MiddlewareHandler(
     props.middleware
   ).handle();
-  console.log("Got response", middlewareResponse);
-  if (middlewareResponse === undefined) {
+
+  if (middlewareResponse?.data === undefined) {
     return HandleConfirmed();
   }
-  if (middlewareResponse === false) {
+
+  interceptedByMiddleware.value = middlewareResponse.middleware;
+
+  if (middlewareResponse.data === false) {
     return HandleFailed();
   }
-  if (typeof middlewareResponse === "string") {
-    formToUse.value = middlewareResponse;
+
+  if (typeof middlewareResponse.data === "string") {
+    formToUse.value = middlewareResponse.data;
     setElement();
   }
+
   modal.value.openModal();
 };
 
@@ -75,7 +84,7 @@ const setElement = () => {
       @closed="isConfirming = false"
     >
       <slot
-        name="confirmationElement"
+        :name="'confirmationElement:' + interceptedByMiddleware"
         :success="startConfirming"
         :fail="HandleFailed"
       >

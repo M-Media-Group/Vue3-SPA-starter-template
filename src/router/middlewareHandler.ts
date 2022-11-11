@@ -56,24 +56,29 @@ export class MiddlewareHandler {
     }
 
     for (const middleware of this.middlewares) {
-      const result = await this.handleMiddleware(
+      const result = {
+        middleware: middleware,
+        data: undefined as any,
+      };
+
+      result.data = await this.handleMiddleware(
         middleware,
         this.middlewareCallback
       );
 
       // If the middleware returned something, it means that we're going to the middleware intercepted route instead
-      if (result !== undefined) {
+      if (result.data !== undefined) {
         // If the result is false, we cancel the navigation
-        if (result === false) {
+        if (result.data === false) {
           return result;
         }
 
         // We should set a reference to the intended page in the URL so we can redirect there after the middleware that intercepted the request is satisfied. Some middlewares may not want this behaviour (e.g. if you're authenticated but trying to visit a guest only page (like login), you don't want to set a redirect to login in the URL as it makes no sense)
         if (
-          !(result.setRedirectToIntended === false) &&
+          !(result.data.setRedirectToIntended === false) &&
           this.middlewareCallback?.fullPath
         ) {
-          result.query = {
+          result.data.query = {
             redirect: this.middlewareCallback.fullPath,
           };
         }
@@ -89,9 +94,16 @@ export const setupMiddlewareHandler = (router: Router) => {
     if (!to.redirectedFrom && to.query.redirect) {
       return to.query.redirect;
     }
-    return new MiddlewareHandler(
+
+    const middleware = new MiddlewareHandler(
       (to.meta.middleware as string[]) || [],
       to
-    ).handle();
+    );
+
+    const response = await middleware.handle();
+
+    if (response && "data" in response) {
+      return response.data;
+    }
   });
 };

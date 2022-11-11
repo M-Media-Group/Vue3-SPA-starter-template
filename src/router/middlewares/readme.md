@@ -63,7 +63,7 @@ We can also protect in-component actions too, using the `ConfirmsMiddleware` ele
     :middleware="['userHasKittens']"
     @confirmed="submitVote()"
 >
-    <button>Vote for best kitty</button>
+    <button>{{ $t('Vote for best kitty') }}</button>
 </ConfirmsMiddleware>
 ```
 When a user clicks the `Vote for best kitty` button, their click will be intercepted by the `ConfirmsMiddleware` component, which will check each middleware.
@@ -107,3 +107,75 @@ const response = await new MiddlewareHandler(['auth', 'userHasKittens'], options
 ```
 
 If all middlewares pass, the response will be `undefined`. If the middleware should stop execution, it will return `false`. If you pass an instance of `RouteLocationNormalized` to the `options`, the handler will automatically detect that it should respond with a redirect if it fails. Otherwise, it will return a `string` containing the name of the form to display.
+
+## The ConfirmsMiddleware component
+
+### Examples
+
+#### Simple example
+The simplest example verifies that a middleware will pass. If it does not, it will show the `form` for that middleware to the user.
+```html
+  <ConfirmsMiddleware
+    title="Title"
+    middleware="confirmedPassword"
+    @confirmed="handleConfirmedPassword"
+  >
+    <button>Do action when password confirmed</button>
+  </ConfirmsMiddleware>
+```
+
+#### Using multiple middlewares
+
+You can pass an array to `middleware` to use multiple middlewares.
+
+```html
+  <ConfirmsMiddleware
+    title="Title"
+    :middleware="['auth', 'confirmedPassword']"
+    @confirmed="handleConfirmedPassword"
+  >
+    <button>Do action when authenticated and password confirmed</button>
+  </ConfirmsMiddleware>
+```
+
+#### Showing a loading state on the slot component
+
+The default slot provides an isConfirming property you can use to determine if the components is currently confirming the middleware.
+
+```html
+  <ConfirmsMiddleware
+    title="Title"
+    :middleware="['auth', 'confirmedPassword']"
+    @confirmed="handleConfirmedPassword"
+  >
+    <template v-slot="{ isConfirming }">
+        <button :aria-busy="isConfirming">Do action when authenticated and password confirmed</button>
+    </template>
+  </ConfirmsMiddleware>
+```
+
+#### Overriding forms for each middleware
+You can show custom content for each intercepted middleware. You should override the slot by using `confirmationElement:` followed by the name of the middleware that the slot should apply to. In this case, we want to override the auth form, so we use `confirmationElement:auth`.
+
+```html
+  <ConfirmsMiddleware
+    title="Title"
+    :middleware="['auth', 'confirmedPassword']"
+    @confirmed="handleConfirmedPassword"
+  >
+
+    <button>Do action when authenticated and password confirmed</button>
+
+    <template #confirmationElement:auth="{ success, fail }">
+        <button  @click="fail()">Fail</button>
+        <button @click="success()">Success</button>
+    </template>
+
+  </ConfirmsMiddleware>
+```
+
+The slot exposes `success` and `fail` functions that you can call to pass or fail the middleware respectively.
+
+### Props
+
+### Slots
