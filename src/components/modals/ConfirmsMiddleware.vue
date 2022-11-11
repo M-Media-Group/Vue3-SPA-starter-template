@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { type PropType, defineAsyncComponent, ref, useSlots } from "vue";
+import {
+  type PropType,
+  defineAsyncComponent,
+  ref,
+  shallowRef,
+  useSlots,
+} from "vue";
 import BaseModal from "@/components/modals/BaseModal.vue";
 import { MiddlewareHandler } from "@/router/middlewareHandler";
 
@@ -67,7 +73,7 @@ const HandleFailed = () => {
   modal.value.closeModal();
 };
 
-const ConfirmationElement = ref();
+const ConfirmationElement = shallowRef();
 
 const setElement = () => {
   ConfirmationElement.value = defineAsyncComponent(

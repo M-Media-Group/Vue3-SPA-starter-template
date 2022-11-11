@@ -1,14 +1,21 @@
 import { useUserStore } from "@/stores/user";
+import baseMiddleware from "./baseMiddleware";
 
-/** A middleware that checks if the user is authenticated */
-export default async () => {
-  const userStore = useUserStore();
-  // check if the user has confirmed their email
-  const shouldConfirmPassword = await userStore.shouldConfirmPassword();
-  // if not, redirect to the confirm email page
-  if (shouldConfirmPassword) {
-    return {
-      name: "confirm-password",
-    };
+class confirmedPassword extends baseMiddleware {
+  form = "ConfirmPassword";
+
+  async handle() {
+    const store = useUserStore();
+    await store.isReady;
+    const shouldConfirmPassword = await store.shouldConfirmPassword();
+    if (shouldConfirmPassword) {
+      return this.fail();
+    }
   }
+}
+
+const middleware = new confirmedPassword();
+
+export default (options: any) => {
+  return middleware.setOptions(options).handle();
 };
