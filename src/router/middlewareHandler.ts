@@ -96,7 +96,7 @@ export class MiddlewareHandler {
 
       // Handle the middleware and return its data, if it returns any
       result.data = await this.handleMiddleware(middleware.name, {
-        routeData: this.middlewareCallback.routeData,
+        routeData: this.middlewareCallback?.routeData,
         middlewareOptions: middleware.options,
       });
 
