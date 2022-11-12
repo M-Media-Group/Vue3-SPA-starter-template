@@ -96,7 +96,7 @@ export class MiddlewareHandler {
 
       // Handle the middleware and return its data, if it returns any
       result.data = await this.handleMiddleware(middleware.name, {
-        routeData: this.middlewareCallback,
+        routeData: this.middlewareCallback.routeData,
         middlewareOptions: middleware.options,
       });
 
@@ -109,11 +109,14 @@ export class MiddlewareHandler {
 
         // We should set a reference to the intended page in the URL so we can redirect there after the middleware that intercepted the request is satisfied. Some middlewares may not want this behaviour (e.g. if you're authenticated but trying to visit a guest only page (like login), you don't want to set a redirect to login in the URL as it makes no sense)
         if (
-          !(result.data.setRedirectToIntended === false) &&
-          this.middlewareCallback?.fullPath
+          !(
+            "setRedirectToIntended" in result.data &&
+            result.data.setRedirectToIntended === false
+          ) &&
+          this.middlewareCallback.routeData?.fullPath
         ) {
           result.data.query = {
-            redirect: this.middlewareCallback.fullPath,
+            redirect: this.middlewareCallback.routeData.fullPath,
           };
         }
 
