@@ -1,18 +1,27 @@
-/** A middleware that checks if the user has given us camera permissions */
-export default async () => {
-  if (
-    !("mediaDevices" in navigator) ||
-    !("getUserMedia" in navigator.mediaDevices)
-  ) {
-    alert("Your browser does not support this feature.");
-    return false;
-  }
+import { baseGate } from "@m-media/vue3-gate-keeper";
 
-  return await navigator.mediaDevices
-    .getUserMedia({ video: true })
-    .then(() => {})
-    .catch(() => {
-      alert("You must enable camera permissions to continue");
-      return false;
-    });
+class hasGivenCameraPermission extends baseGate {
+  async handle() {
+    if (
+      !("mediaDevices" in navigator) ||
+      !("getUserMedia" in navigator.mediaDevices)
+    ) {
+      alert("Your browser does not support using a camera.");
+      return this.fail();
+    }
+
+    return await navigator.mediaDevices
+      .getUserMedia({ video: true })
+      .then(() => {})
+      .catch(() => {
+        alert("You must give us camera permissions to continue.");
+        return this.fail();
+      });
+  }
+}
+
+const gate = new hasGivenCameraPermission();
+
+export default (options: any) => {
+  return gate.setOptions(options).handle();
 };

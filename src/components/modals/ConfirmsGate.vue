@@ -8,15 +8,15 @@ import {
   useSlots,
 } from "vue";
 import BaseModal from "@/components/modals/BaseModal.vue";
-import type { Middleware } from "@/router/middlewareHandler";
+import type { Gate } from "@m-media/vue3-gate-keeper/src/gateKeeper";
 
 const props = defineProps({
   title: {
     type: String,
     required: true,
   },
-  middleware: {
-    type: Array as PropType<string | Middleware | (Middleware | string)[]>,
+  gate: {
+    type: Array as PropType<string | Gate | (Gate | string)[]>,
     required: true,
   },
 });
@@ -31,34 +31,34 @@ const modal = ref();
 
 const isConfirming = ref(false);
 
-const interceptedByMiddleware = ref("");
+const interceptedByGate = ref("");
 
-const runMiddlewares = inject("runMiddlewares") as Function;
+const runGates = inject("gateKeeper") as Function;
 
 const startConfirming = async () => {
-  if (props.middleware === undefined) {
+  if (props.gate === undefined) {
     return;
   }
 
   isConfirming.value = true;
 
-  const middlewareResponse = await runMiddlewares(props.middleware);
+  const gateResponse = await runGates(props.gate).handle();
 
-  if (middlewareResponse?.data === undefined) {
+  if (gateResponse?.data === undefined) {
     return HandleConfirmed();
   }
 
-  interceptedByMiddleware.value = middlewareResponse.middleware;
+  interceptedByGate.value = gateResponse.gate;
 
   if (
-    middlewareResponse.data === false &&
-    !slots["confirmationElement:" + interceptedByMiddleware.value]
+    gateResponse.data === false &&
+    !slots["confirmationElement:" + interceptedByGate.value]
   ) {
     return HandleFailed();
   }
 
-  if (typeof middlewareResponse.data === "string") {
-    formToUse.value = middlewareResponse.data;
+  if (typeof gateResponse.data === "string") {
+    formToUse.value = gateResponse.data;
     setElement();
   }
 
@@ -96,7 +96,7 @@ const setElement = () => {
       @closed="isConfirming = false"
     >
       <slot
-        :name="'confirmationElement:' + interceptedByMiddleware"
+        :name="'confirmationElement:' + interceptedByGate"
         :success="startConfirming"
         :fail="HandleFailed"
       >

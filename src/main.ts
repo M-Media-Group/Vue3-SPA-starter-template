@@ -12,7 +12,7 @@ import "./eventBus/listeners/index";
 import VueGtagPlugin from "vue-gtag";
 import "./assets/main.css";
 import i18n from "./locales/i18n";
-import { middlewarePlugin } from "./router/middlewareHandler";
+import { gatePlugin } from "@m-media/vue3-gate-keeper";
 
 const app = createApp(App);
 
@@ -25,7 +25,13 @@ app.use(createPinia());
 app.use(router);
 app.use(i18n);
 
-app.use(middlewarePlugin, {}, router);
+app.use(
+  gatePlugin,
+  {
+    gateFolder: "/src/router/middlewares",
+  },
+  router
+);
 
 app.use(
   VueGtagPlugin,

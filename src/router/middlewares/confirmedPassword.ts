@@ -1,7 +1,7 @@
 import { useUserStore } from "@/stores/user";
-import baseMiddleware from "./baseMiddleware";
+import { baseGate } from "@m-media/vue3-gate-keeper";
 
-class confirmedPassword extends baseMiddleware {
+class confirmedPassword extends baseGate {
   form = "ConfirmPassword";
 
   async handle() {

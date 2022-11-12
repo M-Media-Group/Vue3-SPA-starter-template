@@ -20,7 +20,7 @@ const router = createRouter({
       name: "settings",
       component: () => import("../views/Auth/SettingsView.vue"),
       meta: {
-        middleware: ["auth"],
+        gates: ["auth"],
       },
     },
     {
@@ -28,14 +28,14 @@ const router = createRouter({
       name: "add-payment-method",
       component: () => import("../views/AddPaymentMethodView.vue"),
       meta: {
-        middleware: ["auth"],
+        gates: ["auth"],
       },
     },
     {
       path: "/about",
       name: "about",
       meta: {
-        middleware: ["auth", "confirmedPassword"],
+        gates: ["auth", "confirmedPassword"],
       },
       component: () => import("../views/AboutView.vue"),
     },

@@ -1,9 +1,9 @@
 import { useUserStore } from "@/stores/user";
 import type { RouteLocationRaw } from "vue-router";
-import baseMiddleware from "./baseMiddleware";
+import { baseGate } from "@m-media/vue3-gate-keeper";
 
 /** A middleware that checks if the user is authenticated */
-class auth extends baseMiddleware {
+class auth extends baseGate {
   form = "LoginOrRegister";
 
   async handle() {

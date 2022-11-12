@@ -7,7 +7,7 @@ import CommunityIcon from "./icons/IconCommunity.vue";
 import SupportIcon from "./icons/IconSupport.vue";
 import BaseButton from "./BaseButton.vue";
 import ConfirmsPaymentMethod from "./modals/ConfirmsPaymentMethod.vue";
-import ConfirmsMiddleware from "./modals/ConfirmsMiddleware.vue";
+import ConfirmsGate from "./modals/ConfirmsGate.vue";
 
 const handleAuthenticated = () => {
   // Redirect to the home page
@@ -24,14 +24,22 @@ const attemptOk = (success: () => any, fail: () => any, shouldPass: any) => {
 </script>
 
 <template>
-  <ConfirmsMiddleware
+  <ConfirmsGate
     :title="$t('Confirm your email')"
-    :middleware="['auth', 'confirmedPassword']"
+    :gate="[
+      {
+        name: 'auth',
+        options: {
+          shouldPass: true,
+        },
+      },
+      'hasGivenCameraPermission',
+    ]"
     @confirmed="handleAuthenticated"
   >
     <BaseButton>Force unconfirmed email</BaseButton>
 
-    <template #confirmationElement:confirmedPassword="{ success, fail }">
+    <template #confirmationElement:hasGivenCameraPermission="{ success, fail }">
       <p>
         {{
           $t(
@@ -42,15 +50,18 @@ const attemptOk = (success: () => any, fail: () => any, shouldPass: any) => {
       <BaseButton @click="attemptOk(success, fail, false)">Fail</BaseButton>
       <BaseButton @click="attemptOk(success, fail, true)">Ok</BaseButton>
     </template>
-  </ConfirmsMiddleware>
+  </ConfirmsGate>
 
-  <ConfirmsMiddleware
+  <ConfirmsGate
     :title="$t('Connect')"
-    :middleware="['auth', 'confirmedPassword']"
+    :gate="['auth', 'confirmedPassword', 'hasPaymentMethod']"
     @confirmed="handleAuthenticated"
   >
-    <BaseButton>Do action when authed</BaseButton>
-  </ConfirmsMiddleware>
+    <BaseButton
+      >Do action when authed, confirmedPassword, and
+      hasPaymentMethod</BaseButton
+    >
+  </ConfirmsGate>
 
   <ConfirmsPaymentMethod @confirmed="handlePaymentOk">
     <template v-slot="{ isConfirming }">
@@ -60,13 +71,13 @@ const attemptOk = (success: () => any, fail: () => any, shouldPass: any) => {
     </template>
   </ConfirmsPaymentMethod>
 
-  <ConfirmsMiddleware
+  <ConfirmsGate
     :title="$t('Confirm your password')"
-    middleware="confirmedPassword"
+    gate="confirmedPassword"
     @confirmed="handleAuthenticated"
   >
-    <BaseButton>Do action when authed</BaseButton>
-  </ConfirmsMiddleware>
+    <BaseButton>Do action when password confirmed</BaseButton>
+  </ConfirmsGate>
 
   <!-- Nesting these modals doesnt "really" work -->
   <!-- <ConfirmsAuthenticated @confirmed="handleAuthenticated">
