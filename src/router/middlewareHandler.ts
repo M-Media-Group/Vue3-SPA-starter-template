@@ -94,6 +94,26 @@ export class MiddlewareHandler {
   }
 
   /**
+   * Get the middlewares that are loaded and ready to be parsed/ran through
+   *
+   * @return {*}
+   * @memberof MiddlewareHandler
+   */
+  getMiddlewares() {
+    return this.middlewares;
+  }
+
+  /**
+   * Get an array of middleware names that are ready to be parsed/ran
+   *
+   * @return {*}
+   * @memberof MiddlewareHandler
+   */
+  getMiddlewareNames() {
+    return this.middlewares.map((middleware) => middleware.name);
+  }
+
+  /**
    * Set route data
    *
    * @param {*} [routeData=null as RouteLocationNormalized | RouteLocationRaw | null]
@@ -154,14 +174,11 @@ export class MiddlewareHandler {
 
         // We should set a reference to the intended page in the URL so we can redirect there after the middleware that intercepted the request is satisfied. Some middlewares may not want this behaviour (e.g. if you're authenticated but trying to visit a guest only page (like login), you don't want to set a redirect to login in the URL as it makes no sense)
         if (
-          !(
-            result.data?.setRedirectToIntended &&
-            result.data.setRedirectToIntended === false
-          ) &&
+          result.data.setRedirectToIntended !== false &&
           this.routeData?.fullPath
         ) {
           result.data.query = {
-            redirect: this.routeData.routeData.fullPath,
+            redirect: this.routeData.fullPath,
           };
         }
 
@@ -175,16 +192,16 @@ export class MiddlewareHandler {
  * The function to setup the middleware handler for a vue router
  * @param router
  */
-export const setupMiddlewareHandler = (router: Router) => {
+export const setupMiddlewareHandler = (
+  middleware: MiddlewareHandler,
+  router: Router
+) => {
   router.beforeEach(async (to) => {
     if (!to.redirectedFrom && to.query.redirect) {
       return to.query.redirect;
     }
 
-    const middleware = new MiddlewareHandler(
-      (to.meta.middleware as string[]) || []
-    );
-
+    middleware.setMiddlewares((to.meta.middleware as string[]) || []);
     middleware.setRouteData(to);
 
     const response = await middleware.handle();
@@ -193,4 +210,16 @@ export const setupMiddlewareHandler = (router: Router) => {
       return response.data;
     }
   });
+};
+
+export const middlewarePlugin = {
+  install(app: any, options: any, router?: Router) {
+    const middleware = new MiddlewareHandler([]);
+    app.provide("middleware", middleware);
+    console.log("got router", router, options);
+
+    if (router) {
+      setupMiddlewareHandler(middleware, router);
+    }
+  },
 };

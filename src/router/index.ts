@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from "vue-router";
 import $bus, { eventTypes } from "@/eventBus/events";
 import authRoutes from "./authRoutes";
 import { setupMetaTagsHandler } from "./metaTagsHandler";
-import { setupMiddlewareHandler } from "./middlewareHandler";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -56,7 +55,6 @@ const router = createRouter({
   },
 });
 
-setupMiddlewareHandler(router);
 setupMetaTagsHandler(router);
 
 router.afterEach((to, from, failure) => {

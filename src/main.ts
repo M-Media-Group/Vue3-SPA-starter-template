@@ -12,6 +12,7 @@ import "./eventBus/listeners/index";
 import VueGtagPlugin from "vue-gtag";
 import "./assets/main.css";
 import i18n from "./locales/i18n";
+import { middlewarePlugin } from "./router/middlewareHandler";
 
 const app = createApp(App);
 
@@ -23,6 +24,8 @@ axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 app.use(createPinia());
 app.use(router);
 app.use(i18n);
+
+app.use(middlewarePlugin, {}, router);
 
 app.use(
   VueGtagPlugin,

@@ -2,12 +2,13 @@
 import {
   type PropType,
   defineAsyncComponent,
+  inject,
   ref,
   shallowRef,
   useSlots,
 } from "vue";
 import BaseModal from "@/components/modals/BaseModal.vue";
-import { type Middleware, MiddlewareHandler } from "@/router/middlewareHandler";
+import type { Middleware, MiddlewareHandler } from "@/router/middlewareHandler";
 
 const props = defineProps({
   title: {
@@ -32,6 +33,8 @@ const isConfirming = ref(false);
 
 const interceptedByMiddleware = ref("");
 
+const middlewareHandler = inject("middleware") as MiddlewareHandler;
+
 const startConfirming = async () => {
   if (props.middleware === undefined) {
     return;
@@ -39,9 +42,9 @@ const startConfirming = async () => {
 
   isConfirming.value = true;
 
-  const middlewareResponse = await new MiddlewareHandler(
-    props.middleware
-  ).handle();
+  const middlewareResponse = await middlewareHandler
+    .setMiddlewares(props.middleware)
+    .handle();
 
   if (middlewareResponse?.data === undefined) {
     return HandleConfirmed();
