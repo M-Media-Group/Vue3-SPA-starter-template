@@ -192,7 +192,7 @@ export class MiddlewareHandler {
  * The function to setup the middleware handler for a vue router
  * @param router
  */
-export const setupMiddlewareHandler = (
+export const setupMiddlewareRouterHandler = (
   middleware: MiddlewareHandler,
   router: Router
 ) => {
@@ -215,11 +215,12 @@ export const setupMiddlewareHandler = (
 export const middlewarePlugin = {
   install(app: any, options: any, router?: Router) {
     const middleware = new MiddlewareHandler([]);
+
     app.provide("middleware", middleware);
-    console.log("got router", router, options);
 
     if (router) {
-      setupMiddlewareHandler(middleware, router);
+      // We pass a new, separate instance of the MiddlewareHandler so that the routeData set later is independent
+      setupMiddlewareRouterHandler(new MiddlewareHandler([]), router);
     }
   },
 };
