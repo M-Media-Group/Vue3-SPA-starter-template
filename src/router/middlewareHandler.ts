@@ -1,5 +1,4 @@
 /** This file defines a middleware handler that can handle multiple middlewares in a given route, navigating to each one until all pass */
-//     // if so, continue to the intended route
 
 import type {
   RouteLocationNormalized,
@@ -25,7 +24,7 @@ export interface MiddlewareOptions {
  */
 export class MiddlewareHandler {
   /**
-   * Our "request" object - the route that the request is going to
+   * Our middlewares that will be handled during the request
    *
    * @type {RouteLocationNormalized}
    * @memberof MiddlewareHandler
@@ -33,7 +32,7 @@ export class MiddlewareHandler {
   middlewares = [] as Middleware[];
 
   /**
-   *
+   * Our "request" object - the route that the request is going to
    *
    * @type {(any | null)}
    * @memberof MiddlewareHandler
@@ -212,11 +211,18 @@ export const setupMiddlewareRouterHandler = (
   });
 };
 
+/**
+ * Our Vue3 middleware plugin
+ */
 export const middlewarePlugin = {
   install(app: any, options: any, router?: Router) {
     const middleware = new MiddlewareHandler([]);
 
-    app.provide("middleware", middleware);
+    const runMiddlewares = async (middlewares: any) => {
+      return await middleware.setMiddlewares(middlewares).handle();
+    };
+
+    app.provide("runMiddlewares", runMiddlewares);
 
     if (router) {
       // We pass a new, separate instance of the MiddlewareHandler so that the routeData set later is independent

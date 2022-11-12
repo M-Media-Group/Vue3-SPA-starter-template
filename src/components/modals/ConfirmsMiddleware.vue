@@ -8,7 +8,7 @@ import {
   useSlots,
 } from "vue";
 import BaseModal from "@/components/modals/BaseModal.vue";
-import type { Middleware, MiddlewareHandler } from "@/router/middlewareHandler";
+import type { Middleware } from "@/router/middlewareHandler";
 
 const props = defineProps({
   title: {
@@ -33,7 +33,7 @@ const isConfirming = ref(false);
 
 const interceptedByMiddleware = ref("");
 
-const middlewareHandler = inject("middleware") as MiddlewareHandler;
+const runMiddlewares = inject("runMiddlewares") as Function;
 
 const startConfirming = async () => {
   if (props.middleware === undefined) {
@@ -42,9 +42,7 @@ const startConfirming = async () => {
 
   isConfirming.value = true;
 
-  const middlewareResponse = await middlewareHandler
-    .setMiddlewares(props.middleware)
-    .handle();
+  const middlewareResponse = await runMiddlewares(props.middleware);
 
   if (middlewareResponse?.data === undefined) {
     return HandleConfirmed();
