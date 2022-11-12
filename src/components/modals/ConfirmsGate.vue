@@ -2,13 +2,13 @@
 import {
   type PropType,
   defineAsyncComponent,
-  inject,
   ref,
   shallowRef,
   useSlots,
 } from "vue";
 import BaseModal from "@/components/modals/BaseModal.vue";
 import type { Gate } from "@m-media/vue3-gate-keeper/src/gateKeeper";
+import { useGateKeeper } from "@m-media/vue3-gate-keeper";
 
 const props = defineProps({
   title: {
@@ -33,7 +33,7 @@ const isConfirming = ref(false);
 
 const interceptedByGate = ref("");
 
-const runGates = inject("gateKeeper") as Function;
+const runGates = useGateKeeper() as Function;
 
 const startConfirming = async () => {
   if (props.gate === undefined) {
