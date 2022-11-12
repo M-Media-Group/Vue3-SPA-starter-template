@@ -30,13 +30,54 @@ export class MiddlewareHandler {
    * @type {RouteLocationNormalized}
    * @memberof MiddlewareHandler
    */
-  middlewares: Middleware[];
-  middlewareCallback: any | null;
+  middlewares = [] as Middleware[];
 
-  constructor(
-    middlewares: string | (string | Middleware)[] | Middleware,
-    middlewareCallback = null as any
+  /**
+   *
+   *
+   * @type {(any | null)}
+   * @memberof MiddlewareHandler
+   */
+  routeData: any | null;
+
+  constructor(middlewares: string | (string | Middleware)[] | Middleware) {
+    this.setMiddlewares(middlewares);
+  }
+
+  /**
+   *Convert a potentially singular type middleware to an array
+   *
+   * @private
+   * @param {(string | Middleware | (string | Middleware)[])} middleware
+   * @return {*}
+   * @memberof MiddlewareHandler
+   */
+  private convertSingularMiddlewareToArray(
+    middleware: string | Middleware | (string | Middleware)[]
   ) {
+    return Array.isArray(middleware) ? middleware : [middleware];
+  }
+
+  /**
+   * Convert a potential string into a middleware object
+   *
+   * @private
+   * @param {(string | Middleware)} middleware
+   * @return {*}
+   * @memberof MiddlewareHandler
+   */
+  private convertStringMiddlewareToObject(middleware: string | Middleware) {
+    return typeof middleware === "string" ? { name: middleware } : middleware;
+  }
+
+  /**
+   * Set the middleware to use during the request
+   *
+   * @param {(string | (string | Middleware)[] | Middleware)} middlewares
+   * @return {*}
+   * @memberof MiddlewareHandler
+   */
+  setMiddlewares(middlewares: string | (string | Middleware)[] | Middleware) {
     middlewares = this.convertSingularMiddlewareToArray(middlewares);
 
     const newMiddlewares = [];
@@ -49,17 +90,21 @@ export class MiddlewareHandler {
 
     this.middlewares = newMiddlewares;
 
-    this.middlewareCallback = middlewareCallback;
+    return this;
   }
 
-  private convertSingularMiddlewareToArray(
-    middleware: string | Middleware | (string | Middleware)[]
+  /**
+   * Set route data
+   *
+   * @param {*} [routeData=null as RouteLocationNormalized | RouteLocationRaw | null]
+   * @return {*}
+   * @memberof MiddlewareHandler
+   */
+  setRouteData(
+    routeData = null as RouteLocationNormalized | RouteLocationRaw | null
   ) {
-    return Array.isArray(middleware) ? middleware : [middleware];
-  }
-
-  private convertStringMiddlewareToObject(middleware: string | Middleware) {
-    return typeof middleware === "string" ? { name: middleware } : middleware;
+    this.routeData = routeData;
+    return this;
   }
 
   /**
@@ -96,7 +141,7 @@ export class MiddlewareHandler {
 
       // Handle the middleware and return its data, if it returns any
       result.data = await this.handleMiddleware(middleware.name, {
-        routeData: this.middlewareCallback?.routeData,
+        routeData: this.routeData,
         middlewareOptions: middleware.options,
       });
 
@@ -110,13 +155,13 @@ export class MiddlewareHandler {
         // We should set a reference to the intended page in the URL so we can redirect there after the middleware that intercepted the request is satisfied. Some middlewares may not want this behaviour (e.g. if you're authenticated but trying to visit a guest only page (like login), you don't want to set a redirect to login in the URL as it makes no sense)
         if (
           !(
-            "setRedirectToIntended" in result.data &&
+            result.data?.setRedirectToIntended &&
             result.data.setRedirectToIntended === false
           ) &&
-          this.middlewareCallback.routeData?.fullPath
+          this.routeData?.fullPath
         ) {
           result.data.query = {
-            redirect: this.middlewareCallback.routeData.fullPath,
+            redirect: this.routeData.routeData.fullPath,
           };
         }
 
@@ -126,6 +171,10 @@ export class MiddlewareHandler {
   }
 }
 
+/**
+ * The function to setup the middleware handler for a vue router
+ * @param router
+ */
 export const setupMiddlewareHandler = (router: Router) => {
   router.beforeEach(async (to) => {
     if (!to.redirectedFrom && to.query.redirect) {
@@ -133,9 +182,10 @@ export const setupMiddlewareHandler = (router: Router) => {
     }
 
     const middleware = new MiddlewareHandler(
-      (to.meta.middleware as string[]) || [],
-      { routeData: to }
+      (to.meta.middleware as string[]) || []
     );
+
+    middleware.setRouteData(to);
 
     const response = await middleware.handle();
 
