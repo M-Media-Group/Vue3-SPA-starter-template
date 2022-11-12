@@ -28,7 +28,7 @@ app.use(i18n);
 app.use(
   gatePlugin,
   {
-    gateFolder: "/src/router/middlewares",
+    gateFolder: "./../../../../src/router/middlewares",
   },
   router
 );
