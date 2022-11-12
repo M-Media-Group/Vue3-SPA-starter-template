@@ -1,6 +1,6 @@
 import { baseGate } from "@m-media/vue3-gate-keeper";
 
-class hasGivenCameraPermission extends baseGate {
+export default class extends baseGate {
   async handle() {
     if (
       !("mediaDevices" in navigator) ||
@@ -19,9 +19,3 @@ class hasGivenCameraPermission extends baseGate {
       });
   }
 }
-
-const gate = new hasGivenCameraPermission();
-
-export default (options: any) => {
-  return gate.setOptions(options).handle();
-};

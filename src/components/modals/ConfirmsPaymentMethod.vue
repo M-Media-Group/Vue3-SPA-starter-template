@@ -11,7 +11,7 @@ const isConfirming = ref(false);
 
 const startConfirming = async () => {
   isConfirming.value = true;
-  if (!(await hasPaymentMethod(null))) {
+  if (!(await new hasPaymentMethod())) {
     return handleConfirmed();
   }
   modal.value.openModal();

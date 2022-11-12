@@ -14,6 +14,8 @@ import "./assets/main.css";
 import i18n from "./locales/i18n";
 import { gatePlugin } from "@m-media/vue3-gate-keeper";
 
+import gates from "./router/middlewares/index";
+
 const app = createApp(App);
 
 axios.defaults.withCredentials = true;
@@ -28,7 +30,7 @@ app.use(i18n);
 app.use(
   gatePlugin,
   {
-    gateFolder: "./../../../../src/router/middlewares",
+    gateInstances: gates,
   },
   router
 );

@@ -3,7 +3,7 @@ import type { RouteLocationRaw } from "vue-router";
 import { baseGate } from "@m-media/vue3-gate-keeper";
 
 /** A middleware that checks if the user is authenticated */
-class auth extends baseGate {
+export default class extends baseGate {
   form = "LoginOrRegister";
 
   async handle() {
@@ -20,9 +20,3 @@ class auth extends baseGate {
     };
   }
 }
-
-const middleware = new auth();
-
-export default (options: any) => {
-  return middleware.setOptions(options).handle();
-};

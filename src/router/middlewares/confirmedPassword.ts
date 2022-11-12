@@ -1,7 +1,7 @@
 import { useUserStore } from "@/stores/user";
 import { baseGate } from "@m-media/vue3-gate-keeper";
 
-class confirmedPassword extends baseGate {
+export default class extends baseGate {
   form = "ConfirmPassword";
 
   async handle() {
@@ -13,9 +13,3 @@ class confirmedPassword extends baseGate {
     }
   }
 }
-
-const middleware = new confirmedPassword();
-
-export default (options: any) => {
-  return middleware.setOptions(options).handle();
-};

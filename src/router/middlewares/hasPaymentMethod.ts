@@ -3,7 +3,7 @@ import type { RouteLocationRaw } from "vue-router";
 import { baseGate } from "@m-media/vue3-gate-keeper";
 
 /** A middleware that checks if the user is authenticated */
-class hasPaymentMethod extends baseGate {
+export default class extends baseGate {
   form = "AddPaymentMethod";
 
   async handle() {
@@ -22,9 +22,3 @@ class hasPaymentMethod extends baseGate {
     };
   }
 }
-
-const middleware = new hasPaymentMethod();
-
-export default (options: any) => {
-  return middleware.setOptions(options).handle();
-};
