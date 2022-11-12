@@ -1,4 +1,5 @@
 import type { RouteLocationRaw } from "vue-router";
+import type { MiddlewareOptions } from "../middlewareHandler";
 
 /**
  * The base middleware abstract class, which all other middlewares should extend.
@@ -7,7 +8,7 @@ import type { RouteLocationRaw } from "vue-router";
  * @class baseMiddleware
  */
 abstract class baseMiddleware {
-  options = {} as RouteLocationRaw | Record<string, any>;
+  options = {} as MiddlewareOptions;
   form = false as string | false;
 
   public setOptions(options: RouteLocationRaw | any) {
@@ -19,7 +20,8 @@ abstract class baseMiddleware {
     if (
       this.options &&
       typeof this.options === "object" &&
-      "fullPath" in this.options
+      "routeData" in this.options &&
+      this.options.routeData
     ) {
       return this.route();
     } else {

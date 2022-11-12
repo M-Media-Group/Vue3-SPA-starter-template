@@ -7,7 +7,7 @@ import {
   useSlots,
 } from "vue";
 import BaseModal from "@/components/modals/BaseModal.vue";
-import { MiddlewareHandler } from "@/router/middlewareHandler";
+import { type Middleware, MiddlewareHandler } from "@/router/middlewareHandler";
 
 const props = defineProps({
   title: {
@@ -15,7 +15,7 @@ const props = defineProps({
     required: true,
   },
   middleware: {
-    type: Array as PropType<string[] | string>,
+    type: Array as PropType<string | Middleware | (Middleware | string)[]>,
     required: true,
   },
 });

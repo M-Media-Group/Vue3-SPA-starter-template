@@ -178,6 +178,24 @@ The slot exposes `success` and `fail` functions that you can call to pass or fai
 
 When you call `success()`, the component will re-run all middlewares to check that they pass. You should be sure that your middleware will pass before calling `success()`.
 
+#### Passing additional data to the middleware
+```html
+<ConfirmsMiddleware
+    :title="$t('Add kittens')"
+    :middleware="[{
+        name: "userHasKittens",
+        options: {
+            minKittens: 5
+        }
+    }]"
+    @confirmed="submitVote()"
+>
+    <button>{{ $t('Vote for best kitty') }}</button>
+</ConfirmsMiddleware>
+```
+
+In your middleware handler, you can get the data using `this.options.middlewareOptions`, in this case it would be `this.options.middlewareOptions.minKittens`.
+
 ### Props
 - middleware: string | string[] - the middleware or array of middlewares to use
 - title: string - the title to show to the user while their request is intercepted

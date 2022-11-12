@@ -1,7 +1,21 @@
 /** This file defines a middleware handler that can handle multiple middlewares in a given route, navigating to each one until all pass */
 //     // if so, continue to the intended route
 
-import type { Router } from "vue-router";
+import type {
+  RouteLocationNormalized,
+  RouteLocationRaw,
+  Router,
+} from "vue-router";
+
+export interface Middleware {
+  name: string;
+  options?: MiddlewareOptions | Record<string, any>;
+}
+
+export interface MiddlewareOptions {
+  routeData?: RouteLocationRaw | RouteLocationNormalized;
+  middlewareOptions?: Record<string, any>;
+}
 
 /**
  * A class that handles the middlewares of the coming request.
@@ -16,18 +30,36 @@ export class MiddlewareHandler {
    * @type {RouteLocationNormalized}
    * @memberof MiddlewareHandler
    */
-  middlewares: string[];
+  middlewares: Middleware[];
   middlewareCallback: any | null;
 
   constructor(
-    middlewares: string[] | string,
+    middlewares: string | (string | Middleware)[] | Middleware,
     middlewareCallback = null as any
   ) {
-    if (typeof middlewares === "string") {
-      middlewares = [middlewares];
+    middlewares = this.convertSingularMiddlewareToArray(middlewares);
+
+    const newMiddlewares = [];
+
+    for (const middleware in middlewares) {
+      newMiddlewares.push(
+        this.convertStringMiddlewareToObject(middlewares[middleware])
+      );
     }
-    this.middlewares = middlewares;
+
+    this.middlewares = newMiddlewares;
+
     this.middlewareCallback = middlewareCallback;
+  }
+
+  private convertSingularMiddlewareToArray(
+    middleware: string | Middleware | (string | Middleware)[]
+  ) {
+    return Array.isArray(middleware) ? middleware : [middleware];
+  }
+
+  private convertStringMiddlewareToObject(middleware: string | Middleware) {
+    return typeof middleware === "string" ? { name: middleware } : middleware;
   }
 
   /**
@@ -56,15 +88,17 @@ export class MiddlewareHandler {
     }
 
     for (const middleware of this.middlewares) {
+      // Setup the result that we will send back
       const result = {
-        middleware: middleware,
+        middleware: middleware.name,
         data: undefined as any,
       };
 
-      result.data = await this.handleMiddleware(
-        middleware,
-        this.middlewareCallback
-      );
+      // Handle the middleware and return its data, if it returns any
+      result.data = await this.handleMiddleware(middleware.name, {
+        routeData: this.middlewareCallback,
+        middlewareOptions: middleware.options,
+      });
 
       // If the middleware returned something, it means that we're going to the middleware intercepted route instead
       if (result.data !== undefined) {
@@ -97,7 +131,7 @@ export const setupMiddlewareHandler = (router: Router) => {
 
     const middleware = new MiddlewareHandler(
       (to.meta.middleware as string[]) || [],
-      to
+      { routeData: to }
     );
 
     const response = await middleware.handle();
