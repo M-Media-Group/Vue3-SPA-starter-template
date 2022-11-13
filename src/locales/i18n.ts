@@ -11,11 +11,6 @@ import $bus, { eventTypes } from "@/eventBus/events";
 export const SUPPORT_LOCALES = ["en", "fr"];
 
 /**
- * The locales that are Right-To-Left
- */
-export const RTL_LOCALES = ["ar", "fa", "he", "ur"];
-
-/**
  * The best guess locale. Will first try to get it from the localStorage, then from the navigator, and if those fail, will use the first supported locale
  */
 export const bestGuessLocale =
@@ -72,10 +67,6 @@ export async function setI18nLanguage(
   }
 
   i18n.global.locale.value = locale;
-  // Set the document locale
-  document.documentElement.lang = locale;
-  // Set the document direction
-  document.documentElement.dir = RTL_LOCALES.includes(locale) ? "rtl" : "ltr";
   // Set a local storage item
   localStorage.setItem("locale", locale);
   // Set the axios locale

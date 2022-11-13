@@ -2,6 +2,8 @@ import type { RouteLocationNormalized, Router } from "vue-router";
 import i18n from "@/locales/i18n";
 import type { App } from "vue";
 
+export const RTL_LOCALES = ["ar", "fa", "he", "ur"];
+
 // Taken from https://www.digitalocean.com/community/tutorials/vuejs-vue-router-modify-head
 export const setMetaAttributes = (
   to: RouteLocationNormalized,
@@ -20,11 +22,11 @@ export const setMetaAttributes = (
   updateOrCreateMetaTag("og:site_name", import.meta.env.VITE_APP_NAME);
 
   if (typeof to.meta.locale === "string") {
-    updateOrCreateMetaTag("og:locale", to.meta.locale ?? "en_US");
+    setLocale(to.meta.locale ?? "en_US");
   } else if (locale) {
-    updateOrCreateMetaTag("og:locale", locale);
+    setLocale(locale);
   } else {
-    updateOrCreateMetaTag("og:locale", "en_US");
+    setLocale("en_US");
   }
 
   setFollow(true);
@@ -161,6 +163,12 @@ export const updateOrCreateSchema = (json = null as null | Object) => {
     newSchema.innerHTML = JSON.stringify(json);
     document.head.appendChild(newSchema);
   }
+};
+
+export const setLocale = (locale: string) => {
+  updateOrCreateMetaTag("og:locale", locale);
+  document.documentElement.lang = locale;
+  document.documentElement.dir = RTL_LOCALES.includes(locale) ? "rtl" : "ltr";
 };
 
 export const setupMetaTagsHandler = (router: Router) => {
