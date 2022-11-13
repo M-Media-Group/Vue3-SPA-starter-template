@@ -143,14 +143,29 @@ export const setCurrentUrl = (url = null as null | string) => {
   updateOrCreateMetaTag("twitter:url", url);
 };
 
-export const updateOrCreateMetaTag = (tagName: string, content: string) => {
-  const metaTag = document.querySelector(`meta[name="${tagName}"]`);
+export const updateOrCreateMetaTag = (
+  tagName: string,
+  content: string,
+  type = "meta",
+  tagNameSelector = "name",
+  contentSelector = "content",
+  additionalAttributes = [] as { name: string; value: string }[]
+) => {
+  const metaTag = document.querySelector(
+    `${type}[${tagNameSelector}="${tagName}"][${contentSelector}]`
+  );
   if (metaTag) {
-    metaTag.setAttribute("content", content);
+    metaTag.setAttribute(contentSelector, content);
+    additionalAttributes.forEach((attribute) => {
+      metaTag.setAttribute(attribute.name, attribute.value);
+    });
   } else {
-    const newMetaTag = document.createElement("meta");
-    newMetaTag.setAttribute("name", tagName);
-    newMetaTag.setAttribute("content", content);
+    const newMetaTag = document.createElement(type);
+    newMetaTag.setAttribute(tagNameSelector, tagName);
+    newMetaTag.setAttribute(contentSelector, content);
+    additionalAttributes.forEach((attribute) => {
+      newMetaTag.setAttribute(attribute.name, attribute.value);
+    });
     document.head.appendChild(newMetaTag);
   }
 };
@@ -190,29 +205,20 @@ export const setLocale = (locale: string) => {
 };
 
 export const setLocaleAlternate = (locales: string[]) => {
-  if (locales.length === 0) {
-    return;
-  }
+  updateOrCreateMetaTag("x-default", "alternate", "link", "hreflang", "rel", [
+    {
+      name: "href",
+      value: window.location.href,
+    },
+  ]);
 
-  const alternate = document.querySelector("link[rel='alternate']");
-  if (alternate) {
-    alternate.remove();
-  }
-
-  // Create a hreflang="x-default"
-  const defaultAlternate = document.createElement("link");
-  defaultAlternate.setAttribute("rel", "alternate");
-  defaultAlternate.setAttribute("hreflang", "x-default");
-  defaultAlternate.setAttribute("href", window.location.href);
-  document.head.appendChild(defaultAlternate);
-
-  // Create a hreflang="en" for each locale
   locales.forEach((locale) => {
-    const newAlternate = document.createElement("link");
-    newAlternate.setAttribute("rel", "alternate");
-    newAlternate.setAttribute("hreflang", locale);
-    newAlternate.setAttribute("href", window.location.href);
-    document.head.appendChild(newAlternate);
+    updateOrCreateMetaTag(locale, "alternate", "link", "hreflang", "rel", [
+      {
+        name: "href",
+        value: window.location.href,
+      },
+    ]);
   });
 };
 
