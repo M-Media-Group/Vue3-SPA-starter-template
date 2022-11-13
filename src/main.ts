@@ -14,7 +14,7 @@ import "./assets/main.css";
 import i18n from "./locales/i18n";
 import { gatePlugin } from "@m-media/vue3-gate-keeper";
 
-import gates from "./router/middlewares";
+import gates from "./router/gates";
 
 const app = createApp(App);
 
