@@ -15,7 +15,7 @@ import i18n, { SUPPORT_LOCALES } from "./locales/i18n";
 import { gatePlugin } from "@m-media/vue3-gate-keeper";
 
 import gates from "./router/gates";
-import { metaTagPlugin } from "./router/metaTagsHandler";
+import { metaTagPlugin } from "@m-media/vue3-meta-tags";
 
 const app = createApp(App);
 
@@ -39,9 +39,11 @@ app.use(
 app.use(
   metaTagPlugin,
   {
+    defaultName: import.meta.env.VITE_APP_NAME,
     defaultLocale: i18n.global.locale.value,
     locales: SUPPORT_LOCALES,
     preconnect: [
+      import.meta.env.VITE_API_URL,
       "https://js.stripe.com",
       "https://hooks.stripe.com",
       "https://api.stripe.com",

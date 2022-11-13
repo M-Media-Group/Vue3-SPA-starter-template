@@ -10,6 +10,7 @@ Arguably the most important parts of an app (authentication and handling payment
 - [Pinia](https://pinia.vuejs.org) for state management
 - [Stripe](https://github.com/ectoflow/vue-stripe-js) for payment processing
 - [GateKeeper](https://github.com/M-Media-Group/Vue3-GateKeeper) for protecting routes and used in the [ConfirmGate](src/components/modals/ConfirmsGate.vue) component
+- [Meta-Tags](https://github.com/M-Media-Group/Vue3-Meta-Tags) for managing meta tags
 - [i18n](https://github.com/intlify/vue-i18n-next) for internationalization
 - [Google Analytics](https://github.com/MatteoGabriele/vue-gtag) for analytics
 - [PicoCSS](https://picocss.com) for semantic CSS
@@ -41,7 +42,7 @@ Arguably the most important parts of an app (authentication and handling payment
 - User settings page with a section to add payment methods using Stripe Elements
 - Login, logout, register pages
 - Forgot password, reset password, resend email confirmation, password confirmation, payment method adding pages
-- Middleware for VueRouter including: auth, guest, confirmedEmail, confirmedPassword, hasPaymentMethod
+- [Gates](https://github.com/M-Media-Group/Vue3-GateKeeper) for GateKeeper including: auth, guest, confirmedEmail, confirmedPassword, hasPaymentMethod
 - Auto meta-tags handling for SEO including internationalization support
   - Includes Facebook and Twitter meta tags (Open Graph and Twitter Cards respectively)
 - Auto schema markup generation (at least the basics)

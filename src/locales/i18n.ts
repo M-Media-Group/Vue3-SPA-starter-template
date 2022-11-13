@@ -1,7 +1,7 @@
 import { nextTick } from "vue";
 import { type I18n, createI18n } from "vue-i18n";
 import axios from "axios";
-import { setLocaleToUse, setMetaAttributes } from "@/router/metaTagsHandler";
+import { setLocaleToUse, setMetaAttributes } from "@m-media/vue3-meta-tags";
 import router from "@/router";
 import $bus, { eventTypes } from "@/eventBus/events";
 
