@@ -16,6 +16,7 @@ import { gatePlugin } from "@m-media/vue3-gate-keeper";
 
 import gates from "./router/gates";
 import { metaTagPlugin } from "@m-media/vue3-meta-tags";
+import { EventsPlugin } from "./eventBus/events";
 
 const app = createApp(App);
 
@@ -67,5 +68,7 @@ app.use(
   },
   router
 );
+
+app.use(EventsPlugin);
 
 app.mount("#app");
