@@ -36,7 +36,19 @@ app.use(
   router
 );
 
-app.use(metaTagPlugin, {}, router);
+app.use(
+  metaTagPlugin,
+  {
+    defaultLocale: i18n.global.locale.value,
+    preconnect: [
+      "https://js.stripe.com",
+      "https://hooks.stripe.com",
+      "https://api.stripe.com",
+      "https://www.googletagmanager.com",
+    ],
+  },
+  router
+);
 
 app.use(
   VueGtagPlugin,

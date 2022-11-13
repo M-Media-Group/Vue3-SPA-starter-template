@@ -17,13 +17,15 @@ export const RTL_LOCALES = [
   "yi",
 ];
 
+const preconnect = [import.meta.env.VITE_API_URL] as string[];
+
+let defaultLocale = "en_US";
+
 // Taken from https://www.digitalocean.com/community/tutorials/vuejs-vue-router-modify-head
 export const setMetaAttributes = (
   to: RouteLocationNormalized,
   from: RouteLocationNormalized
 ) => {
-  const locale = i18n.global.locale.value;
-
   if (typeof to.meta.description === "string") {
     setDescription(i18n.global.t(to.meta.description));
   }
@@ -35,16 +37,17 @@ export const setMetaAttributes = (
   updateOrCreateMetaTag("og:site_name", import.meta.env.VITE_APP_NAME);
 
   if (typeof to.meta.locale === "string") {
-    setLocale(to.meta.locale ?? "en_US");
-  } else if (locale) {
-    setLocale(locale);
+    setLocale(to.meta.locale ?? defaultLocale);
+  } else if (i18n.global.locale.value) {
+    setLocale(i18n.global.locale.value);
   } else {
-    setLocale("en_US");
+    setLocale(defaultLocale);
   }
 
   setFollow(true);
   setCurrentUrl();
   updateOrCreateSchema();
+  setPreconnect(preconnect);
 
   // This goes through the matched routes from last to first, finding the closest route with a title.
   // e.g., if we have `/some/deep/nested/route` and `/some`, `/deep`, and `/nested` have titles,
@@ -184,6 +187,34 @@ export const setLocale = (locale: string) => {
   document.documentElement.dir = RTL_LOCALES.includes(locale) ? "rtl" : "ltr";
 };
 
+export const setLocaleAlternate = (locales: string[]) => {
+  const alternate = document.querySelector("link[rel='alternate']");
+  if (alternate) {
+    alternate.remove();
+  }
+  locales.forEach((locale) => {
+    const newAlternate = document.createElement("link");
+    newAlternate.setAttribute("rel", "alternate");
+    newAlternate.setAttribute("hreflang", locale);
+    newAlternate.setAttribute("href", window.location.href);
+    document.head.appendChild(newAlternate);
+  });
+};
+
+export const setPreconnect = (urls: string[]) => {
+  urls.forEach((url) => {
+    const preconnectLink = document.querySelector(
+      `link[rel="preconnect"][href="${url}"]`
+    );
+    if (!preconnectLink) {
+      const newPreconnect = document.createElement("link");
+      newPreconnect.setAttribute("rel", "preconnect");
+      newPreconnect.setAttribute("href", url);
+      document.head.appendChild(newPreconnect);
+    }
+  });
+};
+
 export const setupMetaTagsHandler = (router: Router) => {
   router.afterEach((to, from, failure) => {
     if (!failure) {
@@ -194,6 +225,12 @@ export const setupMetaTagsHandler = (router: Router) => {
 
 export const metaTagPlugin = {
   install: (app: App, options: any, router: Router) => {
+    if (options.preconnect) {
+      preconnect.push(...options.preconnect);
+    }
+    if (options.defaultLocale) {
+      defaultLocale = options.defaultLocale;
+    }
     setupMetaTagsHandler(router);
   },
 };
