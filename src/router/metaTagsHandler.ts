@@ -1,5 +1,4 @@
 import type { RouteLocationNormalized, Router } from "vue-router";
-import i18n from "@/locales/i18n";
 import type { App } from "vue";
 
 export const RTL_LOCALES = [
@@ -40,8 +39,6 @@ export const setMetaAttributes = (
 
   if (typeof to.meta.locale === "string") {
     setLocale(to.meta.locale ?? defaultLocale);
-  } else if (i18n.global.locale.value) {
-    setLocale(i18n.global.locale.value);
   } else {
     setLocale(defaultLocale);
   }
