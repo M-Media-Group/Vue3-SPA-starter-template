@@ -16,7 +16,7 @@ const props = defineProps({
     required: true,
   },
   gate: {
-    type: Array as PropType<string | Gate | (Gate | string)[]>,
+    type: [Array, String] as PropType<string | Gate | (Gate | string)[]>,
     required: true,
   },
 });
