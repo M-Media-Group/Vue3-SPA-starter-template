@@ -2,7 +2,20 @@ import type { RouteLocationNormalized, Router } from "vue-router";
 import i18n from "@/locales/i18n";
 import type { App } from "vue";
 
-export const RTL_LOCALES = ["ar", "fa", "he", "ur"];
+export const RTL_LOCALES = [
+  "ar",
+  "arc",
+  "dv",
+  "fa",
+  "ha",
+  "he",
+  "khw",
+  "ks",
+  "ku",
+  "ps",
+  "ur",
+  "yi",
+];
 
 // Taken from https://www.digitalocean.com/community/tutorials/vuejs-vue-router-modify-head
 export const setMetaAttributes = (
