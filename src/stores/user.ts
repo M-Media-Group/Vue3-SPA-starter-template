@@ -2,7 +2,7 @@ import { type Ref, ref } from "vue";
 import { defineStore } from "pinia";
 import axios from "axios";
 import type { PersonalAccessToken, User } from "@/types/user";
-import $bus, { eventTypes } from "@/eventBus/events";
+import { eventTypes, useEventsBus } from "@/eventBus/events";
 
 export const useUserStore = defineStore("user", () => {
   // the state of the user
@@ -11,6 +11,7 @@ export const useUserStore = defineStore("user", () => {
   const user = ref(null) as Ref<User | null>;
   const attemptedToFetchUser = ref(false);
 
+  const $bus = useEventsBus();
   // A promise that returns true when isLoading is false and attemptedToFetchUser is true
   const isReady = new Promise((resolve) => {
     const interval = setInterval(() => {

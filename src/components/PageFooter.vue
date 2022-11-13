@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import i18n, { SUPPORT_LOCALES, setI18nLanguage } from "@/locales/i18n";
-import $bus, { eventTypes } from "@/eventBus/events";
+import { eventTypes, useEventsBus } from "@/eventBus/events";
 
 const appName = import.meta.env.VITE_APP_NAME;
+
+const $bus = useEventsBus();
 
 const handleLocaleChange = (locale: string) => {
   setI18nLanguage(i18n, locale);

@@ -1,4 +1,4 @@
-import type { App } from "vue";
+import { type App, inject } from "vue";
 
 export enum eventTypes {
   enabled_analytics = "enabled_analytics",
@@ -67,11 +67,16 @@ export class Listeners {
   }
 }
 
+export const eventsBusKey = Symbol.for("eventsBusKey");
+
+export const useEventsBus = () => {
+  return inject(eventsBusKey) as Events;
+};
+
 // Currently unused
 export const EventsPlugin = {
   install: (app: App<any>) => {
-    // inject a globally available $bus
-    app.config.globalProperties.$bus = eventsInstance;
+    app.provide(eventsBusKey, eventsInstance);
   },
 };
 
