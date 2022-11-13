@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import $bus, { eventTypes } from "@/eventBus/events";
 import authRoutes from "./authRoutes";
-import { setupMetaTagsHandler } from "./metaTagsHandler";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -54,8 +53,6 @@ const router = createRouter({
     }
   },
 });
-
-setupMetaTagsHandler(router);
 
 router.afterEach((to, from, failure) => {
   if (!failure) {

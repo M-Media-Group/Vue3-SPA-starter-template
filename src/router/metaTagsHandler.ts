@@ -1,5 +1,6 @@
 import type { RouteLocationNormalized, Router } from "vue-router";
 import i18n from "@/locales/i18n";
+import type { App } from "vue";
 
 // Taken from https://www.digitalocean.com/community/tutorials/vuejs-vue-router-modify-head
 export const setMetaAttributes = (
@@ -168,4 +169,10 @@ export const setupMetaTagsHandler = (router: Router) => {
       setMetaAttributes(to, from);
     }
   });
+};
+
+export const metaTagPlugin = {
+  install: (app: App, options: any, router: Router) => {
+    setupMetaTagsHandler(router);
+  },
 };

@@ -15,6 +15,7 @@ import i18n from "./locales/i18n";
 import { gatePlugin } from "@m-media/vue3-gate-keeper";
 
 import gates from "./router/gates";
+import { metaTagPlugin } from "./router/metaTagsHandler";
 
 const app = createApp(App);
 
@@ -34,6 +35,8 @@ app.use(
   },
   router
 );
+
+app.use(metaTagPlugin, {}, router);
 
 app.use(
   VueGtagPlugin,
