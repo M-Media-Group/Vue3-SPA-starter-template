@@ -4,7 +4,18 @@ Arguably the most important parts of an app (authentication and handling payment
 
 ![Screenshot](screenshot.png)
 
+## Comes with
+
+- [Vue Router](https://router.vuejs.org) for routing
+- [Pinia](https://pinia.vuejs.org) for state management
+- [Stripe](https://github.com/ectoflow/vue-stripe-js) for payment processing
+- [GateKeeper](https://github.com/M-Media-Group/Vue3-GateKeeper) for protecting routes and used in the [ConfirmGate](src/components/modals/ConfirmsGate.vue) component
+- [i18n](https://github.com/intlify/vue-i18n-next) for internationalization
+- [Google Analytics](https://github.com/MatteoGabriele/vue-gtag) for analytics
+- [PicoCSS](https://picocss.com) for semantic CSS
+
 ## Features
+
 - Highly performant and flexible
 - Widely tested with Unit and E2E tests
   - Includes Github Actions for CI running both types of tests
@@ -26,6 +37,7 @@ Arguably the most important parts of an app (authentication and handling payment
 - VSCode launch configuration so you can use breakpoints in your debugging
 
 ### Pages and routing
+
 - User settings page with a section to add payment methods using Stripe Elements
 - Login, logout, register pages
 - Forgot password, reset password, resend email confirmation, password confirmation, payment method adding pages
@@ -35,9 +47,11 @@ Arguably the most important parts of an app (authentication and handling payment
 - Auto schema markup generation (at least the basics)
 
 ### Forms
+
 Forms are split into separate components so they can be used either on pages (like a login page) or in modals (like a login to continue modal).
 
 The following forms are included:
+
 - Login or register
   - Form that checks if a user email exists, and shows a login or registration form based on previous result
 - Reset password
@@ -50,39 +64,48 @@ The following forms are included:
 ### Components
 
 #### BaseForm
+
 A helper component that makes it easy to create forms with validation. It's a wrapper around native browser validation.
 
 Props:
+
 - submitText: string - The text to display on the submit button
 - disabled: boolean - Whether the form is disabled or not
 - isLoading: boolean - Whether the form is loading or not
 - showSubmitButton: boolean - Whether to show the submit button or not
 
 Methods that can be called (make sure to set a ref on the BaseForm):
+
 - checkValidity - check the validity of each input in the form at once
 - setInputErrors - pass a JSON object with the input names as keys and the error messages as values. The values can also be an array (this is how Laravel returns errors from the backend, for example)
 - focusOnFirstInput - focus on the first input element in the form
 - setSuccessOnInputs - sets aria-invalid to false on valid inputs, which in turn renders a green border with PicoCSS. Will clear after 5 seconds, just like native browser errors
 
 Slots:
+
 - default - the form content
 - submit - the submit content (will replace the default submit button)
   - The slot provides the submitText, submit (method), disabled, and isLoading props that you can use
 
 #### BaseButton
+
 Automatically render a `button`, `a` with a role of `button`, or `router-link` depending on the props passed (if `href` its an `a`, if `to` its a `router-link`, otherwise its a `button`)
 
 Props:
+
 - to: string - The route to link to (optional)
 - href: string - The href to link to (optional)
 
 Slots:
+
 - Default slot - The text to display in the button
 
 #### BaseModal
+
 Render a modal with an optional backdrop and close button.
 
 Props:
+
 - title: string - The title of the modal
 - allowBackgroundClickToClose: boolean - allow clicking the background to close the modal
 - showFooter: boolean - show the modal footer
@@ -90,11 +113,13 @@ Props:
 - showTrigger: boolean - show the trigger button
 
 Slots:
+
 - default - the modal content
 - trigger - the trigger button
 - footer - the modal footer
 
 ### Continuous Integration and Continuous Deployment
+
 - Env file support
 - Github Actions for CI to run unit and end-to-end tests
 - Netlify TOML file for easy deployment on Netlify
@@ -167,6 +192,7 @@ Note, if you expand the supported languages, make sure to update the `.vue-trans
 This starter kit was designed to work with a Laravel based backend, but any backend that implements the required functionality would work.
 
 Assumptions made by this starter kit:
+
 - The backend is powered by Laravel Fortify and Sanctum
   - Check out our complementary [Laravel-SPA package](https://packagist.org/packages/mmedia/laravel-spa) that sets up some backend stuff for you
   - You should still setup Cashier and the routes for `user/payment-methods` and `user/payment-intent` yourself; see the User store for details
