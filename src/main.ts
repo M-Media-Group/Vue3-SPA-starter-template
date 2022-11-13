@@ -46,6 +46,9 @@ app.use(
       "https://api.stripe.com",
       "https://www.googletagmanager.com",
     ],
+    textCallback: (text: string) => {
+      return i18n.global.t(text);
+    },
   },
   router
 );

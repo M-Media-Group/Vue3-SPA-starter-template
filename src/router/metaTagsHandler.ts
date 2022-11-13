@@ -21,13 +21,15 @@ const preconnect = [import.meta.env.VITE_API_URL] as string[];
 
 let defaultLocale = "en_US";
 
+let textCallback = null as ((text: string) => string) | null;
+
 // Taken from https://www.digitalocean.com/community/tutorials/vuejs-vue-router-modify-head
 export const setMetaAttributes = (
   to: RouteLocationNormalized,
   from: RouteLocationNormalized
 ) => {
   if (typeof to.meta.description === "string") {
-    setDescription(i18n.global.t(to.meta.description));
+    setDescription(setText(to.meta.description));
   }
 
   if (typeof to.meta.image === "string") {
@@ -70,15 +72,15 @@ export const setMetaAttributes = (
 
   // If a route with a title was found, set the document (page) title to that value.
   if (nearestWithTitle && typeof nearestWithTitle.meta.title === "string") {
-    setTitle(i18n.global.t(nearestWithTitle.meta.title));
+    setTitle(setText(nearestWithTitle.meta.title));
   } else if (
     previousNearestWithMeta &&
     typeof previousNearestWithMeta.meta.title === "string"
   ) {
-    setTitle(i18n.global.t(previousNearestWithMeta.meta.title));
+    setTitle(setText(previousNearestWithMeta.meta.title));
   } else if (typeof to.name === "string") {
     setTitle(
-      i18n.global.t(to.name) + " - " + import.meta.env.VITE_APP_NAME ??
+      setText(to.name) + " - " + import.meta.env.VITE_APP_NAME ??
         import.meta.env.VITE_APP_NAME
     );
   } else {
@@ -215,6 +217,14 @@ export const setPreconnect = (urls: string[]) => {
   });
 };
 
+export const setText = (text: string) => {
+  if (!textCallback) {
+    return text;
+  } else {
+    return textCallback(text);
+  }
+};
+
 export const setupMetaTagsHandler = (router: Router) => {
   router.afterEach((to, from, failure) => {
     if (!failure) {
@@ -230,6 +240,9 @@ export const metaTagPlugin = {
     }
     if (options.defaultLocale) {
       defaultLocale = options.defaultLocale;
+    }
+    if (options.textCallback) {
+      textCallback = options.textCallback;
     }
     setupMetaTagsHandler(router);
   },
