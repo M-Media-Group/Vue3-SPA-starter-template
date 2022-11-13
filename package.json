@@ -5,9 +5,10 @@
     "dev": "vite",
     "build": "run-p type-check build-only",
     "preview": "vite preview --host",
+    "preview:new": "build && run-p preview",
     "test:unit:coverage": "vitest  --environment jsdom --root src/ run --coverage",
     "test:unit": "vitest --environment jsdom --root src/",
-    "test:e2e": "start-server-and-test preview :4173 'cypress run --e2e --config video=false,screenshotOnRunFailure=false'",
+    "test:e2e": "start-server-and-test preview :4173 'cypress run --e2e'",
     "test:e2e:dev": "start-server-and-test 'vite dev --port 4173 --host' :4173 'cypress open --e2e'",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
@@ -17,7 +18,7 @@
     "test:all": "run-p coverage test:e2e"
   },
   "dependencies": {
-    "@m-media/vue3-gate-keeper": "^0.1.0",
+    "@m-media/vue3-gate-keeper": "^0.1.4",
     "@picocss/pico": "^1.5.6",
     "@stripe/stripe-js": "^1.42.1",
     "pinia": "^2.0.23",

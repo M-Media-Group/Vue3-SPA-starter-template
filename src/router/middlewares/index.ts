@@ -4,6 +4,7 @@ import guest from "./guest";
 import hasPaymentMethod from "./hasPaymentMethod";
 import confirmedPassword from "./confirmedPassword";
 import confirmedEmail from "./confirmedEmail";
+import unconfirmedEmail from "./unconfirmedEmail";
 
 export default {
   auth,
@@ -12,4 +13,5 @@ export default {
   hasPaymentMethod,
   confirmedPassword,
   confirmedEmail,
+  unconfirmedEmail,
 };

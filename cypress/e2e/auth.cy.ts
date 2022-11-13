@@ -763,7 +763,7 @@ describe("Confirm email", () => {
   });
 
   it("Redirects to home when already confirmed", () => {
-    cy.intercept("GET", "/api/user", { fixture: "user" }).as("user");
+    cy.handleAuthenticatedUser();
 
     cy.visit("/confirm-email");
     cy.location("pathname").should("eq", "/");
