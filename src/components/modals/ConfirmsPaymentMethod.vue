@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineAsyncComponent, ref } from "vue";
 import BaseModal from "@/components/modals/BaseModal.vue";
-import hasPaymentMethod from "@/router/middlewares/hasPaymentMethod";
+import hasPaymentMethod from "@/router/gates/hasPaymentMethod";
 
 const emits = defineEmits(["confirmed"]);
 
