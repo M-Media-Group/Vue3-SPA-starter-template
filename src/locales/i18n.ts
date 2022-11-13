@@ -1,7 +1,7 @@
 import { nextTick } from "vue";
 import { type I18n, createI18n } from "vue-i18n";
 import axios from "axios";
-import { setMetaAttributes } from "@/router/metaTagsHandler";
+import { setLocaleToUse, setMetaAttributes } from "@/router/metaTagsHandler";
 import router from "@/router";
 import $bus, { eventTypes } from "@/eventBus/events";
 
@@ -78,6 +78,7 @@ export async function setI18nLanguage(
   if (router.currentRoute.value.matched.length !== 0) {
     const to = router.currentRoute.value;
     const from = router.currentRoute.value;
+    setLocaleToUse(locale);
     setMetaAttributes(to, from);
   }
   // Emit an event to let the app know that the language has changed, if the emit param is true

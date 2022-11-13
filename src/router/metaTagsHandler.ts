@@ -114,6 +114,10 @@ export const setMetaAttributes = (
     .forEach((tag: HTMLMetaElement) => document.head.appendChild(tag));
 };
 
+export const setLocaleToUse = (locale: string) => {
+  defaultLocale = locale;
+};
+
 export const setTitle = (title: string) => {
   document.title = title;
   updateOrCreateMetaTag("og:title", title);
@@ -258,7 +262,7 @@ export const metaTagPlugin = {
       preconnect.push(...options.preconnect);
     }
     if (options.defaultLocale) {
-      defaultLocale = options.defaultLocale;
+      setLocaleToUse(options.defaultLocale);
     }
     if (options.textCallback) {
       textCallback = options.textCallback;
