@@ -11,7 +11,7 @@ import "./eventBus/listeners/index";
 
 import VueGtagPlugin from "vue-gtag";
 import "./assets/main.css";
-import i18n from "./locales/i18n";
+import i18n, { SUPPORT_LOCALES } from "./locales/i18n";
 import { gatePlugin } from "@m-media/vue3-gate-keeper";
 
 import gates from "./router/gates";
@@ -40,6 +40,7 @@ app.use(
   metaTagPlugin,
   {
     defaultLocale: i18n.global.locale.value,
+    locales: SUPPORT_LOCALES,
     preconnect: [
       "https://js.stripe.com",
       "https://hooks.stripe.com",

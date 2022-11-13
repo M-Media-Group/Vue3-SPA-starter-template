@@ -20,6 +20,8 @@ const preconnect = [import.meta.env.VITE_API_URL] as string[];
 
 let defaultLocale = "en_US";
 
+let locales: string[] = [];
+
 let textCallback = null as ((text: string) => string) | null;
 
 // Taken from https://www.digitalocean.com/community/tutorials/vuejs-vue-router-modify-head
@@ -47,6 +49,7 @@ export const setMetaAttributes = (
   setCurrentUrl();
   updateOrCreateSchema();
   setPreconnect(preconnect);
+  setLocaleAlternate(locales);
 
   // This goes through the matched routes from last to first, finding the closest route with a title.
   // e.g., if we have `/some/deep/nested/route` and `/some`, `/deep`, and `/nested` have titles,
@@ -187,10 +190,23 @@ export const setLocale = (locale: string) => {
 };
 
 export const setLocaleAlternate = (locales: string[]) => {
+  if (locales.length === 0) {
+    return;
+  }
+
   const alternate = document.querySelector("link[rel='alternate']");
   if (alternate) {
     alternate.remove();
   }
+
+  // Create a hreflang="x-default"
+  const defaultAlternate = document.createElement("link");
+  defaultAlternate.setAttribute("rel", "alternate");
+  defaultAlternate.setAttribute("hreflang", "x-default");
+  defaultAlternate.setAttribute("href", window.location.href);
+  document.head.appendChild(defaultAlternate);
+
+  // Create a hreflang="en" for each locale
   locales.forEach((locale) => {
     const newAlternate = document.createElement("link");
     newAlternate.setAttribute("rel", "alternate");
@@ -240,6 +256,9 @@ export const metaTagPlugin = {
     }
     if (options.textCallback) {
       textCallback = options.textCallback;
+    }
+    if (options.locales) {
+      locales = options.locales;
     }
     setupMetaTagsHandler(router);
   },
