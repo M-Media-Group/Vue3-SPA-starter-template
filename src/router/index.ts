@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
 import $bus, { eventTypes } from "@/eventBus/events";
 import authRoutes from "./authRoutes";
+import { ref } from "vue";
+
+export const navIsLoading = ref(true);
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -54,7 +57,12 @@ const router = createRouter({
   },
 });
 
+router.beforeEach(() => {
+  navIsLoading.value = true;
+});
+
 router.afterEach((to, from, failure) => {
+  navIsLoading.value = false;
   if (!failure) {
     $bus.$emit(eventTypes.viewed_page, {
       ...to,

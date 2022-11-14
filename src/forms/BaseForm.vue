@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import BaseButton from "@/components/BaseButton.vue";
 import { type PropType, nextTick, onMounted, onUpdated, ref } from "vue";
+import { navIsLoading } from "@/router";
 
 // Prop of submit text
 const props = defineProps({
@@ -76,7 +77,12 @@ const clearErrorMessageOnElement = (element: HTMLInputElement) => {
 };
 
 const submit = async () => {
-  if (formIsValid.value && !props.isLoading) {
+  if (
+    formIsValid.value &&
+    !props.isLoading &&
+    !navIsLoading.value &&
+    !props.disabled
+  ) {
     // setSuccessOnInputs();
     emit("submit");
   }
@@ -220,13 +226,13 @@ defineExpose({
       name="submit"
       :submitText="submitText"
       :submit="submit"
-      :disabled="!formIsValid || disabled || isLoading"
+      :disabled="!formIsValid || disabled || isLoading || navIsLoading"
       :isLoading="isLoading"
     >
       <BaseButton
         v-if="showSubmitButton"
         type="submit"
-        :disabled="!formIsValid || disabled || isLoading"
+        :disabled="!formIsValid || disabled || isLoading || navIsLoading"
         :aria-busy="isLoading"
       >
         {{ $t(submitText) }}
