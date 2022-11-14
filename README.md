@@ -43,9 +43,7 @@ Arguably the most important parts of an app (authentication and handling payment
 - Login, logout, register pages
 - Forgot password, reset password, resend email confirmation, password confirmation, payment method adding pages
 - [Gates](https://github.com/M-Media-Group/Vue3-GateKeeper) for GateKeeper including: auth, guest, confirmedEmail, confirmedPassword, hasPaymentMethod
-- Auto meta-tags handling for SEO including internationalization support
-  - Includes Facebook and Twitter meta tags (Open Graph and Twitter Cards respectively)
-- Auto schema markup generation (at least the basics)
+- Auto meta-tags and schema markup handling for SEO including internationalization support using [Vue3-Meta-Tags](https://github.com/M-Media-Group/Vue3-Meta-Tags)
 
 ### Forms
 
