@@ -48,6 +48,9 @@ const animationDuration = 400; // ms
 const emits = defineEmits(["opened", "closed"]);
 
 const openModal = () => {
+  if (isModalOpen.value) {
+    return;
+  }
   isModalOpen.value = true;
   document.documentElement.classList.add(isOpenClass, openingClass);
   setTimeout(() => {
@@ -57,6 +60,9 @@ const openModal = () => {
 };
 
 const closeModal = () => {
+  if (!isModalOpen.value) {
+    return;
+  }
   document.documentElement.classList.add(closingClass);
   setTimeout(() => {
     document.documentElement.classList.remove(closingClass, isOpenClass);

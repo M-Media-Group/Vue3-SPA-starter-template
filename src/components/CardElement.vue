@@ -5,7 +5,7 @@ defineProps({
   // The title of the card
   title: {
     type: String,
-    required: true,
+    required: false,
   },
   // The subtitle of the card
   subtitle: {
@@ -33,10 +33,13 @@ defineProps({
     </div>
 
     <header>
-      <slot name="header">
+      <slot
+        name="header"
+        v-if="title || subtitle || $slots.headerActions || $slots.header"
+      >
         <div>
-          <h3>{{ title }}</h3>
-          <p>{{ subtitle }}</p>
+          <h3 v-if="title">{{ title }}</h3>
+          <p v-if="subtitle">{{ subtitle }}</p>
         </div>
         <div class="actions" v-if="$slots.headerActions">
           <slot name="headerActions" />
