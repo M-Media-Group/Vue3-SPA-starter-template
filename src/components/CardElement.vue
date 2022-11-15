@@ -32,11 +32,8 @@ defineProps({
       />
     </div>
 
-    <header>
-      <slot
-        name="header"
-        v-if="title || subtitle || $slots.headerActions || $slots.header"
-      >
+    <header v-if="title || subtitle || $slots.headerActions || $slots.header">
+      <slot name="header">
         <div>
           <h3 v-if="title">{{ title }}</h3>
           <p v-if="subtitle">{{ subtitle }}</p>
