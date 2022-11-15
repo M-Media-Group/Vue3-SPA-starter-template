@@ -55,6 +55,18 @@ main~footer ul>li {
   list-style: none;
 }
 
+nav form {
+  margin: 0;
+}
+
+.page-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
 /* Fixes iframe (especially for 3DS from Stripe) not being inter-actable due to parent modal pointer-event setting */
 .modal-is-open iframe {
   pointer-events: initial;

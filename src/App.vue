@@ -4,6 +4,7 @@ import NavBar from "./components/NavBar.vue";
 import { useUserStore } from "./stores/user";
 import { RouterView, useRouter } from "vue-router";
 import { ref } from "vue";
+import { navIsLoading } from "./router";
 
 // Using the store, attempt to get the current user
 const user = useUserStore();
@@ -22,6 +23,13 @@ router.isReady().then(() => {
 </script>
 
 <template>
+  <Transition>
+    <progress
+      v-if="!isReady || navIsLoading"
+      class="page-progress"
+      :indeterminate="true"
+    />
+  </Transition>
   <NavBar />
   <main>
     <RouterView v-if="isReady" />
