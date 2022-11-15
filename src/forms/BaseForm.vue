@@ -29,6 +29,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  autoFocus: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emit = defineEmits(["submit"]);
@@ -188,7 +192,7 @@ onUpdated(async () => {
 onMounted(() => {
   checkValidity();
   // Focus on the first input if the document is not already focused on something
-  if (!document.querySelector(":focus")) {
+  if (!document.querySelector(":focus") && props.autoFocus) {
     focusOnFirstInput();
   }
 });
