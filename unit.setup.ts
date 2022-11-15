@@ -9,4 +9,5 @@ config.global.mocks = {
     availableLocales: SUPPORT_LOCALES,
     fallbackLocale: SUPPORT_LOCALES[0],
   },
+  navIsLoading: false,
 };
