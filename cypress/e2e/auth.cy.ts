@@ -143,17 +143,16 @@ describe("Login", () => {
     // It should also be disabled
     cy.get("button[type=submit]").should("be.disabled");
 
-    // Check that form should only have 1 input (password)
-    cy.get("input").should("have.length", 1);
-
-    // The password input should be focused
-    cy.focused().should("have.attr", "type", "password");
-
     // Assert that somehwere on the page there is a Login text
     // cy.contains("Login");
 
     // Check that there is a password field
     cy.get("input[type=password]").should("exist");
+
+    // The password input should be focused
+    cy.focused().should("have.attr", "type", "password");
+
+    cy.get("input[name=name]").should("not.exist");
 
     // Check that the password field is invalid
     cy.get("input[type=password]").invalidFor(["valueMissing"]);
@@ -184,14 +183,12 @@ describe("Login", () => {
     // Click the submit button to advance to the next screen
     cy.get("button[type=submit]").click();
 
-    // Check that form should only have 1 input (password)
-    cy.get("input").should("have.length", 1);
-
     // Assert that somehwere on the page there is a Login text
     // cy.contains("Login");
 
     // Check that there is a password field
     cy.get("input[type=password]").should("exist");
+    cy.get("input[name=name]").should("not.exist");
 
     cy.get("input[type=password]").type("password");
 
@@ -241,14 +238,12 @@ describe("Login", () => {
     // Click the submit button to advance to the next screen
     cy.get("button[type=submit]").click();
 
-    // Check that form should only have 1 input (password)
-    cy.get("input").should("have.length", 1);
-
     // Assert that somehwere on the page there is a Login text
     // cy.contains("Login");
 
     // Check that there is a password field
     cy.get("input[type=password]").should("exist");
+    cy.get("input[name=name]").should("not.exist");
 
     cy.get("input[type=password]").type("password");
 
@@ -408,9 +403,6 @@ describe("Register", () => {
     // Click the submit button to advance to the next screen
     cy.get("button[type=submit]").click();
 
-    // Check that form should only have 1 input (password)
-    cy.get("input").should("have.length", 4);
-
     // Assert that somehwere on the page there is a Login text
     // cy.contains("Login");
 
@@ -443,12 +435,12 @@ describe("Register", () => {
     // Click the submit button to advance to the next screen
     cy.get("button[type=submit]").click();
 
-    // Check that the form has 3 inputs
-    cy.get("input").should("have.length", 4);
-
     // Confirm that the name and surname inputs exist
     cy.get("input[name=name]").should("exist");
     cy.get("input[name=surname]").should("exist");
+
+    // Check that the accept TOC exists
+    cy.get("input[type=checkbox]").should("exist");
 
     // Confirm that both require 2 characters or more
     cy.get("input[name=name]").type("a");
@@ -463,9 +455,6 @@ describe("Register", () => {
 
     // Submit the form by pressing enter on the name field
     cy.get("input[name=name]").type("{enter}");
-
-    // Check that the form has 3 inputs
-    cy.get("input").should("have.length", 4);
   });
 
   it("Shows custom errors on name, email, and password fields when they are returned from the server", () => {
@@ -503,9 +492,6 @@ describe("Register", () => {
     // Submit the form by pressing enter on the name field
     cy.get("input[name=name]").type("{enter}");
 
-    // Check that the form has 3 inputs
-    cy.get("input").should("have.length", 4);
-
     cy.get("input[name=name]").invalidFor(["customError"]);
 
     cy.get("input[name=surname]").invalidFor(["customError"]);
@@ -529,9 +515,6 @@ describe("Register", () => {
 
     // Click the submit button to advance to the next screen
     cy.get("button[type=submit]").click();
-
-    // Check that the form has 1 input
-    cy.get("input").should("have.length", 1);
 
     // The email input should be invalid
     cy.get("input[type=email]").invalidFor(["customError"]);
