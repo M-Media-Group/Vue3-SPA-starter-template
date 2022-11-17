@@ -1,6 +1,6 @@
 // See also the vitest.config.ts file
 import { config } from "@vue/test-utils";
-import { SUPPORT_LOCALES } from "./src/locales/i18n";
+import { SUPPORT_LOCALES, setupI18n } from "./src/locales/i18n";
 
 config.global.mocks = {
   $t: (tKey) => tKey, // just return translation key
@@ -11,3 +11,6 @@ config.global.mocks = {
   },
   navIsLoading: false,
 };
+
+const i18n = setupI18n();
+config.global.plugins = [i18n];
