@@ -1,14 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import { RouterLinkStub, mount } from "@vue/test-utils";
+import { mount } from "@vue/test-utils";
 import BaseModal from "../BaseModal.vue";
 
 describe("Confirms Middleware", () => {
-  // Globally stub the router-link component
-  const globalStubs = {
-    RouterLink: RouterLinkStub,
-  };
-
   it("renders a confirmation element", () => {
     const wrapper = mount(BaseModal, {
       props: {
@@ -17,9 +12,6 @@ describe("Confirms Middleware", () => {
       },
       slots: {
         default: "<button name=test>Click me</button>",
-      },
-      global: {
-        stubs: globalStubs,
       },
     });
 

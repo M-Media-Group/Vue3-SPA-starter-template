@@ -1,21 +1,13 @@
 import { describe, expect, it } from "vitest";
 
-import { RouterLinkStub, mount } from "@vue/test-utils";
+import { mount } from "@vue/test-utils";
 import BaseModal from "../BaseModal.vue";
 
 describe("Base Modal", () => {
-  // Globally stub the router-link component
-  const globalStubs = {
-    RouterLink: RouterLinkStub,
-  };
-
   it("renders a modal element", () => {
     const wrapper = mount(BaseModal, {
       props: {
         title: "Test Title",
-      },
-      global: {
-        stubs: globalStubs,
       },
     });
 
@@ -34,9 +26,6 @@ describe("Base Modal", () => {
       props: {
         title: "Test Title",
       },
-      global: {
-        stubs: globalStubs,
-      },
     });
 
     // Click the modal to open it
@@ -51,9 +40,6 @@ describe("Base Modal", () => {
       props: {
         title: "Test Title",
       },
-      global: {
-        stubs: globalStubs,
-      },
     });
 
     // Expect the title to be rendered within the article element
@@ -64,9 +50,6 @@ describe("Base Modal", () => {
     const wrapper = mount(BaseModal, {
       props: {
         title: "Test Title",
-      },
-      global: {
-        stubs: globalStubs,
       },
     });
 
@@ -84,9 +67,6 @@ describe("Base Modal", () => {
       props: {
         title: "Test Title",
       },
-      global: {
-        stubs: globalStubs,
-      },
     });
 
     // There should be an element in the header with data-target set
@@ -97,9 +77,6 @@ describe("Base Modal", () => {
     const wrapper = mount(BaseModal, {
       props: {
         title: "Test Title",
-      },
-      global: {
-        stubs: globalStubs,
       },
     });
 
@@ -122,9 +99,6 @@ describe("Base Modal", () => {
         title: "Test Title",
         showCloseInHeader: false,
       },
-      global: {
-        stubs: globalStubs,
-      },
     });
 
     // There should be an element in the header with data-target set
@@ -135,9 +109,6 @@ describe("Base Modal", () => {
     const wrapper = mount(BaseModal, {
       props: {
         title: "Test Title",
-      },
-      global: {
-        stubs: globalStubs,
       },
     });
 

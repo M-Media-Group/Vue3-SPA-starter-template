@@ -1,17 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { RouterLinkStub, mount } from "@vue/test-utils";
+import { mount } from "@vue/test-utils";
 import BaseForm from "../BaseForm.vue";
 
 describe("Base Form", () => {
   it("renders a form element", () => {
-    const wrapper = mount(BaseForm, {
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
-      },
-    });
+    const wrapper = mount(BaseForm);
 
     // Expect a form element to exist
     expect(wrapper.find("form").exists()).toBe(true);
@@ -31,11 +25,6 @@ describe("Base Form", () => {
       props: {
         submitText: "Submit",
       },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
-      },
     });
 
     // Expect the submit button to have the correct text
@@ -50,11 +39,6 @@ describe("Base Form", () => {
           <input type="text" />
         `,
       },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
-      },
     });
 
     // Expect the form element to have two inputs
@@ -62,13 +46,7 @@ describe("Base Form", () => {
   });
 
   it("emits a submit event when submitted", () => {
-    const wrapper = mount(BaseForm, {
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
-      },
-    });
+    const wrapper = mount(BaseForm);
     // Submit the form
     wrapper.find("form").trigger("submit");
 
@@ -80,11 +58,6 @@ describe("Base Form", () => {
     const wrapper = mount(BaseForm, {
       props: {
         isLoading: true,
-      },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
       },
     });
     // Submit the form
@@ -100,11 +73,6 @@ describe("Base Form", () => {
         default: `
           <input type="text" />
         `,
-      },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
       },
     });
     // Submit the form with a keydown enter event
@@ -122,11 +90,6 @@ describe("Base Form", () => {
           <input type="text" />
         `,
       },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
-      },
     });
     // Submit the form with a keydown enter event
     wrapper.find("button").trigger("click");
@@ -141,11 +104,6 @@ describe("Base Form", () => {
         default: `
           <input type="text" required />
         `,
-      },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
       },
     });
 
@@ -164,11 +122,6 @@ describe("Base Form", () => {
       props: {
         disabled: true,
       },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
-      },
     });
 
     // Expect the submit button to be disabled
@@ -180,11 +133,6 @@ describe("Base Form", () => {
       props: {
         isLoading: true,
       },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
-      },
     });
 
     // Expect the submit button to be disabled
@@ -195,13 +143,7 @@ describe("Base Form", () => {
   });
 
   it("is does not disable the submit button by default", () => {
-    const wrapper = mount(BaseForm, {
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
-      },
-    });
+    const wrapper = mount(BaseForm);
 
     // Expect the submit button to be disabled
     // @todo, according the the HTML spec the attribute shouldnt even exist on the element
@@ -214,11 +156,6 @@ describe("Base Form", () => {
         default: `
           <input type="text" name="test" value="test" required />
         `,
-      },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
       },
     });
 
@@ -238,11 +175,6 @@ describe("Base Form", () => {
         default: `
           <input type="text" name="test" value="test" required />
         `,
-      },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
       },
     });
 
@@ -265,11 +197,6 @@ describe("Base Form", () => {
           <input type="text" name="test2" value="test" required />
           `,
       },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
-      },
     });
 
     // Call the focusFirstInput method on the wrapper
@@ -286,11 +213,6 @@ describe("Base Form", () => {
       props: {
         showSubmitButton: false,
       },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
-      },
     });
 
     // Expect the submit button to be disabled
@@ -303,11 +225,6 @@ describe("Base Form", () => {
         submit: `
           <button type="submit" id="customSubmit">Submit</button>
         `,
-      },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
       },
     });
 
@@ -325,11 +242,6 @@ describe("Base Form", () => {
           <button type="submit" id="customSubmit">{{submitText}}</button>
         `,
       },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
-      },
     });
 
     // Expect the submit button to be disabled
@@ -342,11 +254,6 @@ describe("Base Form", () => {
         submit: `
           <input type="checkbox" id="customSubmit" @change="submit" />
         `,
-      },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
       },
     });
 
@@ -364,11 +271,6 @@ describe("Base Form", () => {
         submit: `
           <button type="submit" id="customSubmit">Submit</button>
         `,
-      },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
       },
     });
 

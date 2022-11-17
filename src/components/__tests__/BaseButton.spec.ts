@@ -13,12 +13,6 @@ describe("Base Button", () => {
       slots: {
         default: "Click me",
       },
-
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
-      },
     });
 
     // Expect an anchor element to exist
@@ -40,12 +34,6 @@ describe("Base Button", () => {
       slots: {
         default: "Click me",
       },
-
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
-      },
     });
 
     // Expect a button element to exist
@@ -59,12 +47,6 @@ describe("Base Button", () => {
     const wrapper = mount(BaseButton, {
       slots: {
         default: "Click me",
-      },
-
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
       },
     });
 
@@ -83,12 +65,6 @@ describe("Base Button", () => {
 
       slots: {
         default: "Click me",
-      },
-
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
       },
     });
 

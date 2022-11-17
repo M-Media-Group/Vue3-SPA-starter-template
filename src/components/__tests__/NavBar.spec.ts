@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 
-import { RouterLinkStub, mount } from "@vue/test-utils";
+import { mount } from "@vue/test-utils";
 
 import { createTestingPinia } from "@pinia/testing";
 
@@ -11,9 +11,6 @@ describe("NavBar", () => {
   it("renders properly when logged out", () => {
     const wrapper = mount(NavBar, {
       global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
         plugins: [
           createTestingPinia({
             createSpy: vi.fn,
@@ -29,9 +26,6 @@ describe("NavBar", () => {
   it("renders properly when logged in", async () => {
     const wrapper = mount(NavBar, {
       global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
         plugins: [
           createTestingPinia({
             createSpy: vi.fn,
