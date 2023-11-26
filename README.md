@@ -128,6 +128,8 @@ Slots:
 
 ## Project Setup
 
+This starter kit is actively tested with and recommends using Node 20.
+
 ```sh
 npm install
 ```
