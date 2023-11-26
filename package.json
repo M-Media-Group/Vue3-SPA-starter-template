@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
+    "dev:https": "vite --https",
     "build": "run-p type-check build-only",
     "preview": "vite preview --host",
     "preview:new": "build && run-p preview",
@@ -33,6 +34,7 @@
     "@rushstack/eslint-patch": "^1.1.4",
     "@types/jsdom": "^20.0.0",
     "@types/node": "^16.11.68",
+    "@vitejs/plugin-basic-ssl": "^1.0.2",
     "@vitejs/plugin-vue": "^3.1.2",
     "@vitest/coverage-istanbul": "^0.24.5",
     "@vue/eslint-config-prettier": "^7.0.0",
