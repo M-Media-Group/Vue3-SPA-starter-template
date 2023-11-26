@@ -49,5 +49,7 @@
     "Token name": "Nom du jeton",
     "You have no API access tokens.": "Vous n'avez aucun jeton d'accès à l'API.",
     "Create a new API token": "Créer un nouveau jeton d'API",
-    "New token name": "Nouveau nom de jeton"
+    "New token name": "Nouveau nom de jeton",
+    "Cancel": "Annuler",
+    "Confirm": "Confirmer"
 }

@@ -49,5 +49,7 @@
     "Token name": "Token name",
     "You have no API access tokens.": "You have no API access tokens.",
     "Create a new API token": "Create a new API token",
-    "New token name": "New token name"
+    "New token name": "New token name",
+    "Cancel": "Cancel",
+    "Confirm": "Confirm"
 }
