@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "dev:https": "vite --https",
     "build": "run-p type-check build-only",
     "preview": "vite preview --host",
     "preview:new": "build && run-p preview",
