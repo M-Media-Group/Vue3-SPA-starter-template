@@ -12,7 +12,7 @@
             ],
             "name": "Run dev",
             "preLaunchTask": "npm: dev",
-            "url": "http://192.168.10.17:4173",
+            "url": "https://192.168.10.17:4173",
             "webRoot": "${workspaceFolder}"
         },
         {
@@ -23,7 +23,7 @@
             ],
             "name": "Test app",
             "preLaunchTask": "npm: test:e2e:dev",
-            "url": "http://192.168.10.17:4173",
+            "url": "https://192.168.10.17:4173",
             "webRoot": "${workspaceFolder}"
         }
     ]
