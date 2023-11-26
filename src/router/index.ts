@@ -47,7 +47,7 @@ const router = createRouter({
       name: "NotFound",
       component: () => import("../views/404View.vue"),
     },
-  ].concat(authRoutes),
+  ].concat(authRoutes as any),
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition;

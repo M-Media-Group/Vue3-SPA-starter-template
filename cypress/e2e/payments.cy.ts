@@ -48,7 +48,9 @@ describe("Payments", () => {
         let input = doc.find("input")[0];
         cy.wrap(input).type("4242424242424242");
         input = doc.find("input")[1];
-        cy.wrap(input).clear().type("12").type("42");
+        cy.wrap(input).clear();
+        cy.wrap(input).type("12");
+        cy.wrap(input).type("42");
         input = doc.find("input")[2];
         cy.wrap(input).type("424");
       });
