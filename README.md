@@ -144,6 +144,8 @@ After installing everything - you should run the E2E tests to make sure everythi
 npm run dev
 ```
 
+Wether you are using the Docker environment or not, you should now be able to access the app at `http://localhost:8001`.
+
 ### Type-Check, Compile and Minify for Production
 
 ```sh
