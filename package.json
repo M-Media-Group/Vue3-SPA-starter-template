@@ -23,7 +23,7 @@
   "dependencies": {
     "@m-media/vue3-gate-keeper": "^0.1.5",
     "@m-media/vue3-meta-tags": "^0.0.4",
-    "@picocss/pico": "^1.5.6",
+    "@picocss/pico": "^2.0.6",
     "@stripe/stripe-js": "^1.42.1",
     "pinia": "^2.0.23",
     "vue": "^3.2.41",

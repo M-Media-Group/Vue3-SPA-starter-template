@@ -2,53 +2,53 @@
 
 /* Any invalid */
 :where(input, select, textarea, .input):not([type=checkbox], [type=radio], [type=date], [type=datetime-local], [type=month], [type=time], [type=week], :placeholder-shown, :focus):invalid {
-  background-image: var(--icon-invalid);
-  padding-right: calc(var(--form-element-spacing-horizontal) + 1.5rem) !important;
-  padding-left: var(--form-element-spacing-horizontal);
-  -webkit-padding-start: var(--form-element-spacing-horizontal) !important;
-  padding-inline-start: var(--form-element-spacing-horizontal) !important;
-  -webkit-padding-end: calc(var(--form-element-spacing-horizontal) + 1.5rem) !important;
-  padding-inline-end: calc(var(--form-element-spacing-horizontal) + 1.5rem) !important;
+  background-image: var(--pico-icon-invalid);
+  padding-right: calc(var(--pico-form-element-spacing-horizontal) + 1.5rem) !important;
+  padding-left: var(--pico-form-element-spacing-horizontal);
+  -webkit-padding-start: var(--pico-form-element-spacing-horizontal) !important;
+  padding-inline-start: var(--pico-form-element-spacing-horizontal) !important;
+  -webkit-padding-end: calc(var(--pico-form-element-spacing-horizontal) + 1.5rem) !important;
+  padding-inline-end: calc(var(--pico-form-element-spacing-horizontal) + 1.5rem) !important;
   background-position: center right .75rem;
   background-size: 1rem auto;
   background-repeat: no-repeat;
 }
 
 :where(input, select, textarea, .input):not(:placeholder-shown, :focus):invalid {
-  --border-color: var(--form-element-invalid-border-color);
+  --border-color: var(--pico-form-element-invalid-border-color);
 }
 
 :where(input, select, textarea, .input):not(:placeholder-shown, :focus):invalid+small {
-  color: var(--form-element-invalid-border-color);
+  color: var(--pico-form-element-invalid-border-color);
 }
 
 .input {
-  padding: var(--form-element-spacing-vertical) var(--form-element-spacing-horizontal);
-  margin-bottom: var(--spacing);
+  padding: var(--pico-form-element-spacing-vertical) var(--pico-form-element-spacing-horizontal);
+  margin-bottom: var(--pico-spacing);
   width: 100%;
-  --background-color: var(--form-element-background-color);
-  --border-color: var(--form-element-border-color);
-  --color: var(--form-element-color);
+  --background-color: var(--pico-form-element-background-color);
+  --border-color: var(--pico-form-element-border-color);
+  --color: var(--pico-form-element-color);
   --box-shadow: none;
-  border: var(--border-width) solid var(--border-color);
-  border-radius: var(--border-radius);
+  border: var(--pico-border-width) solid var(--pico-border-color);
+  border-radius: var(--pico-border-radius);
   outline: 0;
-  background-color: var(--background-color);
-  box-shadow: var(--box-shadow);
-  color: var(--color);
-  font-weight: var(--font-weight);
-  transition: background-color var(--transition),
-    border-color var(--transition), color var(--transition),
-    box-shadow var(--transition);
+  background-color: var(--pico-background-color);
+  box-shadow: var(--pico-box-shadow);
+  color: var(--pico-color);
+  font-weight: var(--pico-font-weight);
+  transition: background-color var(--pico-transition),
+    border-color var(--pico-transition), color var(--pico-transition),
+    box-shadow var(--pico-transition);
   font-size: 1rem;
-  line-height: var(--line-height);
+  line-height: var(--pico-line-height);
   font-family: inherit;
   letter-spacing: inherit;
-  height: calc(1rem * var(--line-height) + var(--form-element-spacing-vertical) * 2 + var(--border-width) * 2);
+  height: calc(1rem * var(--pico-line-height) + var(--pico-form-element-spacing-vertical) * 2 + var(--pico-border-width) * 2);
   /* Below helps with Stripe input */
   overflow: hidden;
 }
 
 .input::placeholder {
-  color: var(--form-element-placeholder-color);
+  color: var(--pico-form-element-placeholder-color);
 }
