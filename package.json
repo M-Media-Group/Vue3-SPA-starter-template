@@ -8,7 +8,7 @@
     "dev": "vite",
     "build": "run-p type-check build-only",
     "preview": "vite preview",
-    "preview:new": "build && run-p preview",
+    "preview:new": "npm run build && run-p preview",
     "test:unit:coverage": "vitest  --environment jsdom --root src/ run --coverage",
     "test:unit": "vitest --environment jsdom --root src/",
     "test:e2e": "START_SERVER_AND_TEST_INSECURE=1 start-server-and-test preview https://localhost:4173/ 'cypress run --e2e --config video=false,screenshotOnRunFailure=false'",
