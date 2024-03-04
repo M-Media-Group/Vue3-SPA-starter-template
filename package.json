@@ -5,7 +5,7 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "vite dev --port 8001",
     "build": "run-p type-check build-only",
     "preview": "vite preview",
     "preview:new": "npm run build && run-p preview",
