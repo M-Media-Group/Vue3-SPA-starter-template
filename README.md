@@ -36,6 +36,7 @@ Arguably the most important parts of an app (authentication and handling payment
 - Global event bus for easy communication with things like Analytics services
 - Syncing of authentication states and languages across tabs using broadcastMessage (if you change it on one tab, all other open tabs with the same app running will also update)
 - VSCode launch configuration so you can use breakpoints in your debugging
+- Includes Storybook for easy isolated component preview and development
 
 ### Pages and routing
 
@@ -189,6 +190,16 @@ npm run translation-key-check
 ```
 
 Note, if you expand the supported languages, make sure to update the `.vue-translation.js` file to include the new language.
+
+### Storybook
+
+```sh
+npm run storybook
+```
+
+This will start the Storybook server and open a new tab in your browser.
+
+You can read more about Storybook [here](https://storybook.js.org/).
 
 ## Backend setup
 
