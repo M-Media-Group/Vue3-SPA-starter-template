@@ -108,38 +108,38 @@ const addPaymentMethod = async () => {
 };
 
 const appearanceVariables = {
-  colorPrimary: getCssVarForStripe("primary"),
-  colorBackground: getCssVarForStripe("form-element-background-color"),
-  colorText: getCssVarForStripe("form-element-color"),
-  colorDanger: getCssVarForStripe("form-element-invalid-border-color"),
+  colorPrimary: getCssVarForStripe("pico-primary"),
+  colorBackground: getCssVarForStripe("pico-form-element-background-color"),
+  colorText: getCssVarForStripe("pico-form-element-color"),
+  colorDanger: getCssVarForStripe("pico-form-element-invalid-border-color"),
   fontFamily: "system-ui,-apple-system,Roboto, Open Sans, Segoe UI, sans-serif",
   // spacingUnit: '2px',
-  fontSizeBase: getCssVarForStripe("font-size"),
-  borderRadius: getCssVarForStripe("border-radius"),
+  fontSizeBase: getCssVarForStripe("pico-font-size"),
+  borderRadius: getCssVarForStripe("pico-border-radius"),
   // See all possible variables below
 };
 
 const elementStyle = {
   base: {
-    iconColor: getCssVarForStripe("form-element-color"),
-    color: getCssVarForStripe("form-element-color"),
-    fontWeight: getCssVarForStripe("font-weight"),
+    iconColor: getCssVarForStripe("pico-form-element-color"),
+    color: getCssVarForStripe("pico-form-element-color"),
+    fontWeight: getCssVarForStripe("pico-font-weight"),
     fontFamily:
       "system-ui,-apple-system,Roboto, Open Sans, Segoe UI, sans-serif",
-    fontSize: getCssVarForStripe("font-size"),
+    fontSize: getCssVarForStripe("pico-font-size"),
     // Even though lineHeight is not suggested to be used by Stripe, we need it to keep a consistent look with Pico
-    lineHeight: getCssVarForStripe("line-height"),
+    lineHeight: getCssVarForStripe("pico-line-height"),
     fontSmoothing: "antialiased",
     // ':-webkit-autofill': {
     //   color: '#fce883',
     // },
     "::placeholder": {
-      color: getCssVarForStripe("form-element-placeholder-color"),
+      color: getCssVarForStripe("pico-form-element-placeholder-color"),
     },
   },
   invalid: {
-    iconColor: getCssVarForStripe("form-element-invalid-border-color"),
-    color: getCssVarForStripe("form-element-invalid-border-color"),
+    iconColor: getCssVarForStripe("pico-form-element-invalid-border-color"),
+    color: getCssVarForStripe("pico-form-element-invalid-border-color"),
   },
 };
 
