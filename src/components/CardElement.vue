@@ -23,6 +23,13 @@ defineProps({
     type: String,
     required: false,
   },
+  /** The heading level to use, between 1 and 6. This has no effect if the title is not set or the header slot is used. */
+  titleHeadingLevel: {
+    type: Number,
+    required: false,
+    default: 3,
+    validator: (value: number) => value >= 1 && value <= 6,
+  },
 });
 </script>
 
@@ -41,7 +48,9 @@ defineProps({
       <header v-if="title || subtitle || $slots.headerActions || $slots.header">
         <slot name="header">
           <div>
-            <h3 v-if="title">{{ title }}</h3>
+            <component :is="`h${titleHeadingLevel}`" v-if="title">{{
+              title
+            }}</component>
             <p v-if="subtitle">{{ subtitle }}</p>
           </div>
           <div class="actions" v-if="$slots.headerActions">

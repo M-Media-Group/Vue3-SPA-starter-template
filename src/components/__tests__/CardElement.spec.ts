@@ -38,6 +38,12 @@ describe("Card element", () => {
 
     // There should be no footer since we didn't pass it into the slot
     expect(wrapper.find("footer").exists()).toBe(false);
+
+    // There should be a header
+    expect(wrapper.find("header").exists()).toBe(true);
+
+    // The header should have an h3 by default
+    expect(wrapper.find("header h3").exists()).toBe(true);
   });
 
   it("shows a footer when one is passed", () => {
@@ -156,5 +162,18 @@ describe("Card element", () => {
 
     // Now, instead of an `article`, we will have an `router-link` element
     expect(wrapper.findComponent(RouterLinkStub).props().to).toBe("/");
+  });
+
+  it("Uses the correct H level for the title when passed", () => {
+    const wrapper = mount(CardElement, {
+      props: {
+        title: "Hello",
+        subtitle: "subtitle",
+        titleHeadingLevel: 1,
+      },
+    });
+
+    // The title should be an h2
+    expect(wrapper.find("header h1").exists()).toBe(true);
   });
 });
