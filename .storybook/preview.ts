@@ -29,6 +29,10 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+    // Don/t show background color for the preview since we use the light/dark switcher
+    backgrounds: {
+      disable: true,
+    },
   },
 };
 
