@@ -43,6 +43,7 @@
     "@storybook/test": "^7.6.17",
     "@storybook/vue3": "^7.6.17",
     "@storybook/vue3-vite": "^7.6.17",
+    "@storybook/web-components": "^7.6.17",
     "@types/jsdom": "^20.0.0",
     "@types/node": "^16.11.68",
     "@vitejs/plugin-basic-ssl": "^1.0.2",

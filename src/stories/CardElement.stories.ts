@@ -72,6 +72,12 @@ export const ImagesOnly: Story = {
   },
 };
 
+export const BodyOnly: Story = {
+  args: {
+    default: "Hello World",
+  },
+};
+
 export const HeaderOverwrite: Story = {
   args: {
     header: "Hello World",
