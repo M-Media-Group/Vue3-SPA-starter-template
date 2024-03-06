@@ -1,4 +1,6 @@
-import type { Preview } from "@storybook/vue3";
+import type { Preview, VueRenderer } from "@storybook/vue3";
+import { withThemeByDataAttribute } from "@storybook/addon-themes";
+
 import "@/assets/main.css";
 
 import i18n from "../src/locales/i18n";
@@ -27,12 +29,24 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+    // Don/t show background color for the preview since we use the light/dark switcher
+    backgrounds: {
+      disable: true,
+    },
   },
 };
 
 preview.decorators = [
   /* this is the basic setup with no params passed to the decorator */
   vueRouter(),
+  withThemeByDataAttribute<VueRenderer>({
+    themes: {
+      light: "light",
+      dark: "dark",
+    },
+    defaultTheme: "light",
+    attributeName: 'data-theme',
+  }),
 ];
 
 

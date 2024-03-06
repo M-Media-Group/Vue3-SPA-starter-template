@@ -1,6 +1,17 @@
 @import "@picocss/pico";
 @import "./form.css";
 
+:root,
+:root:not([data-theme]) {
+  --primary: hsl(195 85% 35% / 1);
+  --primary-hover: hsl(195 85% 45% / 1);
+  --muted-color: hsl(205, 10%, 60%);
+}
+
+a {
+  --color: hsl(195 85% 41%);
+}
+
 body {
   min-height: 100vh;
   text-rendering: optimizeLegibility;

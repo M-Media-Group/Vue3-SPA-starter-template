@@ -40,7 +40,7 @@ defineProps({
     :to="to ? to : undefined"
   >
     <article>
-      <div class="images" v-if="images">
+      <div class="images" v-if="images" tabindex="0">
         <img
           v-for="image in images"
           :src="image.src"
