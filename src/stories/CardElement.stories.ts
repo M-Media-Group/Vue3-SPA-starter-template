@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 
 import CardElement from "@/components/CardElement.vue";
+import { h } from "vue";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta: Meta<typeof CardElement> = {
@@ -75,6 +76,12 @@ export const ImagesOnly: Story = {
 export const BodyOnly: Story = {
   args: {
     default: "Hello World",
+  },
+};
+
+export const BodyOnlyWithBold: Story = {
+  args: {
+    default: () => [h("b", "Hello World"), h("p", "Hello World")],
   },
 };
 
