@@ -47,27 +47,27 @@ article>:last-child:not(footer) {
 
 /* If the last child is the header,  */
 article>:last-child:is(header) {
-  margin-bottom: calc(var(--block-spacing-vertical)* -2);
+  margin-bottom: calc(var(--pico-block-spacing-vertical)* -2);
 }
 
 /* If the .images are the first child, remove margin-top and add a margin-bottom */
 article>:first-child:is(.images) {
-  margin-top: calc(var(--block-spacing-vertical)* -1);
-  margin-bottom: var(--block-spacing-vertical);
-  margin-left: calc(var(--block-spacing-horizontal)* -1);
-  margin-right: calc(var(--block-spacing-horizontal)* -1);
+  margin-top: calc(var(--pico-block-spacing-vertical)* -1);
+  margin-bottom: var(--pico-block-spacing-vertical);
+  margin-left: calc(var(--pico-block-spacing-horizontal)* -1);
+  margin-right: calc(var(--pico-block-spacing-horizontal)* -1);
 
-  width: calc(100% + var(--block-spacing-horizontal)* 2);
+  width: calc(100% + var(--pico-block-spacing-horizontal)* 2);
 }
 
 /* If the last child is images, remove margin-bottom */
 article>:last-child:is(.images) {
-  margin-bottom: calc(var(--block-spacing-vertical)* -1);
+  margin-bottom: calc(var(--pico-block-spacing-vertical)* -1);
 }
 
 /* If the last child is the footer, remove the margin-top */
 article>:first-child:is(footer) {
-  margin-top: calc(var(--block-spacing-vertical)* -1);
+  margin-top: calc(var(--pico-block-spacing-vertical)* -1);
 }
 
 /* make a simple slider with flex */
@@ -97,13 +97,13 @@ a:has(>article):is([aria-current]) {
   display: block;
   text-decoration: none;
   color: inherit;
-  --color: var(--text-color);
+  --color: var(--pico-text-color);
 }
 
 a:has(>article):hover {
   text-decoration: none;
   color: inherit;
-  --color: var(--text-color);
+  --color: var(--pico-text-color);
 }
 
 main~footer ul {
@@ -157,6 +157,6 @@ label:has(+select:required)::after,
 label:has(>input[type="checkbox"]:required)::after,
 label:has(>input[type="radio"]:required)::after {
   content: "*";
-  color: var(--del-color);
-  margin-left: calc(var(--nav-link-spacing-vertical) / 2);
+  color: var(--pico-del-color);
+  margin-left: calc(var(--pico-nav-link-spacing-vertical) / 2);
 }
