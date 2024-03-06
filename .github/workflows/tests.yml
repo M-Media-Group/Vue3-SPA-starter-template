@@ -8,14 +8,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Install and build
-        run: |
-          npm ci
-          npm run build
-      - name: Unit tests run
-        run: npm run test:unit
+      - name: Install dependencies
+        run: npm ci
       - name: Translation validation
         run: npm run translation-key-check
+      - name: Unit tests run
+        run: npm run test:unit
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
@@ -27,7 +25,5 @@ jobs:
           command: npm run test:e2e
       - name: Install Playwright
         run: npx playwright install --with-deps
-      - name: Install http-server
-        run: npx install http-server
       - name: Run Storybook tests
         run: npm run test:visual
