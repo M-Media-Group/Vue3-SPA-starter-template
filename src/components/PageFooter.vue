@@ -27,6 +27,7 @@ const setDarkMode = (value: string) => {
         <select
           name="dark-mode"
           @change="setDarkMode(($event.target as HTMLSelectElement).value)"
+          aria-label="Dark Mode toggle"
         >
           <option value="auto">{{ $t("Auto") }}</option>
           <option value="light">{{ $t("Light") }}</option>
@@ -40,6 +41,7 @@ const setDarkMode = (value: string) => {
           @change="
             handleLocaleChange(($event.target as HTMLSelectElement).value)
           "
+          aria-label="locale"
         >
           <option
             v-for="locale in SUPPORT_LOCALES"
