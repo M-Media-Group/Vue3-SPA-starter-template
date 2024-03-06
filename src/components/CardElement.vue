@@ -34,7 +34,11 @@ defineProps({
 </script>
 
 <template>
-  <component :is="to ? 'router-link' : 'vue:template'" :to="to">
+  <!-- @todo the animation breaks with component, need to fix. It works when article is direct child or when <template> (from Vue) is used, but not with <component>, even with an :is to a Vue template -->
+  <component
+    :is="to ? 'router-link' : 'vue:template'"
+    :to="to ? to : undefined"
+  >
     <article>
       <div class="images" v-if="images">
         <img
