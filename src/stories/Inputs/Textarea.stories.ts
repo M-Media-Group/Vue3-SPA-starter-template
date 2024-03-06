@@ -22,7 +22,6 @@ const meta: Meta<HTMLTextAreaElementCustom> = {
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
   argTypes: {
-    // @ts-ignore
     value: {
       control: "text",
       description: "The value of the input",
