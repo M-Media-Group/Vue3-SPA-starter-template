@@ -158,3 +158,24 @@ export const NotClickable: Story = {
     to: undefined,
   },
 };
+
+export const MultipleCards: Story = {
+  decorators: [
+    () => ({
+      template: `
+        <div>
+          <story />
+          <story />
+          <story />
+          <story />
+          <story />
+          <story />
+          <story />
+        </div>
+      `,
+    }),
+  ],
+  args: {
+    ...NotClickable.args,
+  },
+};
