@@ -125,8 +125,9 @@ defineExpose({
         >
         </a>
       </template>
-      <slot></slot>
-
+      <div>
+        <slot></slot>
+      </div>
       <template #footer v-if="showFooter || $slots.footer">
         <slot name="footer">
           <BaseButton
