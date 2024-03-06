@@ -414,6 +414,17 @@ export const useUserStore = defineStore("user", () => {
         if (!user.value) {
           return [] as PersonalAccessToken[];
         }
+        // If the response is not one containing an array of personal access tokens, return an empty array. For example, the endpoint might return HTML instead of JSON.
+        if (
+          !Array.isArray(response.data) ||
+          response.data.length === 0 ||
+          !response.data[0].id
+        ) {
+          throw new Error(
+            "Invalid response while fetching personal access tokens."
+          );
+        }
+
         user.value.personal_access_tokens = response.data;
         return response.data as PersonalAccessToken[];
       })
