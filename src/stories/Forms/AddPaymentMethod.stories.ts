@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 import AddPaymentMethod from "@/forms/AddPaymentMethod.vue";
 import { useUserStore } from "@/stores/user";
 
-import userFixture from "../../cypress/fixtures/user.json";
+import userFixture from "../../../cypress/fixtures/user.json";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta: Meta<typeof AddPaymentMethod> = {
