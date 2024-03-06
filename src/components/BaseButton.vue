@@ -35,7 +35,7 @@ defineProps({
     </button>
   </router-link>
 
-  <button v-else>
+  <button v-else :disabled="disabled ? disabled : undefined">
     <slot />
   </button>
 </template>

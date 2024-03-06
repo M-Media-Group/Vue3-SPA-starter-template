@@ -53,3 +53,16 @@ export const UsingToProp: Story = {
     to: "/",
   },
 };
+
+export const Disabled: Story = {
+  args: {
+    disabled: true,
+  },
+};
+
+export const Busy: Story = {
+  args: {
+    // @ts-ignore
+    ariaBusy: true,
+  },
+};
