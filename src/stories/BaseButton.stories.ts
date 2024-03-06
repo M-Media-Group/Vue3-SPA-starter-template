@@ -17,6 +17,17 @@ const meta: Meta<typeof BaseButton> = {
         "The URL to link to. Use this if you are linking to external sites. Otherwise, you should use the `to` prop instead.",
       type: { required: false },
     },
+    ariaBusy: {
+      control: "boolean",
+      table: { category: "Accessibility" },
+      description: "If the button is busy",
+      type: { required: false },
+    },
+    disabled: {
+      control: "boolean",
+      table: { category: "Accessibility" },
+      description: "If the button is disabled",
+    },
   },
   args: {
     default: "Button",
@@ -40,5 +51,18 @@ export const UsingHref: Story = {
 export const UsingToProp: Story = {
   args: {
     to: "/",
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    disabled: true,
+  },
+};
+
+export const Busy: Story = {
+  args: {
+    // @ts-ignore
+    ariaBusy: true,
   },
 };

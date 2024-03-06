@@ -18,37 +18,57 @@ defineProps({
     type: Array as PropType<{ src: string; alt: string }[]>,
     required: false,
   },
+  /** Where the card should navigate to. If not set, the card is not clickable */
+  to: {
+    type: String,
+    required: false,
+  },
+  /** The heading level to use, between 1 and 6. This has no effect if the title is not set or the header slot is used. */
+  titleHeadingLevel: {
+    type: Number,
+    required: false,
+    default: 3,
+    validator: (value: number) => value >= 1 && value <= 6,
+  },
 });
 </script>
 
 <template>
-  <article>
-    <div class="images" v-if="images">
-      <img
-        v-for="image in images"
-        :src="image.src"
-        :alt="image.alt"
-        :key="image.alt"
-      />
-    </div>
+  <!-- @todo the animation breaks with component, need to fix. It works when article is direct child or when <template> (from Vue) is used, but not with <component>, even with an :is to a Vue template -->
+  <component
+    :is="to ? 'router-link' : 'vue:template'"
+    :to="to ? to : undefined"
+  >
+    <article>
+      <div class="images" v-if="images">
+        <img
+          v-for="image in images"
+          :src="image.src"
+          :alt="image.alt"
+          :key="image.alt"
+        />
+      </div>
 
-    <header v-if="title || subtitle || $slots.headerActions || $slots.header">
-      <slot name="header">
-        <div>
-          <h3 v-if="title">{{ title }}</h3>
-          <p v-if="subtitle">{{ subtitle }}</p>
-        </div>
-        <div class="actions" v-if="$slots.headerActions">
-          <!-- @slot This is the slot for the header actions - which is on the right side of the card in the header. -->
-          <slot name="headerActions" />
-        </div>
-      </slot>
-    </header>
-    <div>
+      <header v-if="title || subtitle || $slots.headerActions || $slots.header">
+        <slot name="header">
+          <div>
+            <component :is="`h${titleHeadingLevel}`" v-if="title">{{
+              title
+            }}</component>
+            <p v-if="subtitle">{{ subtitle }}</p>
+          </div>
+          <div class="actions" v-if="$slots.headerActions">
+            <!-- @slot This is the slot for the header actions - which is on the right side of the card in the header. -->
+            <slot name="headerActions" />
+          </div>
+        </slot>
+      </header>
+
       <slot />
-    </div>
-    <footer v-if="$slots.footer">
-      <slot name="footer" />
-    </footer>
-  </article>
+
+      <footer v-if="$slots.footer">
+        <slot name="footer" />
+      </footer>
+    </article>
+  </component>
 </template>

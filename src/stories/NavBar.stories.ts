@@ -31,6 +31,18 @@ export const LoggedIn: Story = {
   }),
 };
 
+export const Loading: Story = {
+  render: () => ({
+    components: { NavBar },
+    setup() {
+      const user = useUserStore();
+      user.isAuthenticated = true;
+      user.isLoading = true;
+    },
+    template: "<NavBar />",
+  }),
+};
+
 export const LoggedOut: Story = {
   args: {
     // @ts-ignore

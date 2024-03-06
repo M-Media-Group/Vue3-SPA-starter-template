@@ -23,8 +23,12 @@ const blur = () => {
     </ul>
     <ul>
       <template v-if="user.isAuthenticated">
-        <li>
-          <details class="dropdown" ref="detailsElement">
+        <li :aria-busy="user.isLoading">
+          <details
+            class="dropdown"
+            ref="detailsElement"
+            v-show="!user.isLoading"
+          >
             <summary :aria-busy="user.isLoading">
               {{ $t("My Account") }}
             </summary>

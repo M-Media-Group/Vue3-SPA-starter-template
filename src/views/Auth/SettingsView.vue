@@ -39,10 +39,10 @@ const handleDeleteToken = (id: string) => {
 </script>
 <template>
   <h1>{{ $t("My Account") }}</h1>
-  <CardElement :title="$t('Settings')">
+  <CardElement :titleHeadingLevel="2" :title="$t('Settings')">
     <AccountSettings @updated="handleUpdate"></AccountSettings>
   </CardElement>
-  <CardElement :title="$t('Payment methods')">
+  <CardElement :titleHeadingLevel="2" :title="$t('Payment methods')">
     <div v-if="userStore.user?.pm_type">
       <p>
         {{ $t("Default payment method") }}:
@@ -68,7 +68,7 @@ const handleDeleteToken = (id: string) => {
       {{ $t("Add a payment method") }}
     </button>
   </CardElement>
-  <CardElement title="API">
+  <CardElement :titleHeadingLevel="2" title="API">
     <template v-if="accessTokens.length > 0">
       <ul>
         <li v-for="token in accessTokens" :key="'token-' + token.id">

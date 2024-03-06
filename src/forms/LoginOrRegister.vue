@@ -91,9 +91,16 @@ const register = async () => {
     // If the response has a body with json
     if (response.data) {
       const data = await response.data;
+      // If there are no errors, we need to throw a generic error
+      if (!data.errors) {
+        checkedEmail.value = false;
+        await nextTick();
+        alert("Something went wrong on our side, please try again");
+        return;
+      }
 
       // If in the data there is errors.email, return to the first screen by setting checkedEmail to false
-      if (data.errors.email) {
+      if (data.errors?.email) {
         checkedEmail.value = false;
       }
       await nextTick();

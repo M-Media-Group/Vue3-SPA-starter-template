@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 
 import CardElement from "@/components/CardElement.vue";
+import { h } from "vue";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta: Meta<typeof CardElement> = {
@@ -21,14 +22,13 @@ type Story = StoryObj<typeof CardElement>;
 
 export const Default: Story = {
   args: {
-    // @ts-ignore
-    href: "/",
     title: "Hello World",
     subtitle: "Hello World",
 
     headerActions: "Hello World",
     footer: "Hello World",
     default: "Hello World",
+    to: "/somewhere",
   },
 };
 export const TitleOnly: Story = {
@@ -72,9 +72,27 @@ export const ImagesOnly: Story = {
   },
 };
 
+export const BodyOnly: Story = {
+  args: {
+    default: "Hello World",
+  },
+};
+
+export const BodyOnlyWithBold: Story = {
+  args: {
+    default: () => [h("b", "Hello World"), h("p", "Hello World")],
+  },
+};
+
 export const HeaderOverwrite: Story = {
   args: {
     header: "Hello World",
+  },
+};
+
+export const FooterOnly: Story = {
+  args: {
+    footer: "Hello World",
   },
 };
 
@@ -95,5 +113,48 @@ export const Everything: Story = {
     headerActions: "Hello World",
     footer: "Hello World",
     default: "Hello World",
+    to: "/somewhere",
+  },
+};
+
+export const LinkingToCurrentPage: Story = {
+  args: {
+    title: "Hello World",
+    subtitle: "Hello World",
+    images: [
+      {
+        src: "https://picsum.photos/536/354",
+        alt: "Placeholder Image",
+      },
+      {
+        src: "https://via.placeholder.com/150",
+        alt: "Placeholder Image",
+      },
+    ],
+    headerActions: "Hello World",
+    footer: "Hello World",
+    default: "Hello World",
+    to: "/",
+  },
+};
+
+export const NotClickable: Story = {
+  args: {
+    title: "Hello World",
+    subtitle: "Hello World",
+    images: [
+      {
+        src: "https://picsum.photos/536/354",
+        alt: "Placeholder Image",
+      },
+      {
+        src: "https://via.placeholder.com/150",
+        alt: "Placeholder Image",
+      },
+    ],
+    headerActions: "Hello World",
+    footer: "Hello World",
+    default: "Hello World",
+    to: undefined,
   },
 };
