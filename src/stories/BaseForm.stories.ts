@@ -18,8 +18,12 @@ type Story = StoryObj<typeof BaseForm>;
  * to learn how to use render functions.
  */
 export const Default: Story = {
-  render: () => ({
+  render: (args) => ({
     components: { BaseForm },
-    template: "<BaseForm ><input type='email' required /></BaseForm>",
+    setup() {
+      return { args };
+    },
+    template:
+      "<BaseForm v-bind='args'><input type='email' name='email' required placeholder='Email' /><input type='password' name='password' required placeholder='Password' /></BaseForm>",
   }),
 };
