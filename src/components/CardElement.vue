@@ -18,37 +18,44 @@ defineProps({
     type: Array as PropType<{ src: string; alt: string }[]>,
     required: false,
   },
+  /** Where the card should navigate to. If not set, the card is not clickable */
+  to: {
+    type: String,
+    required: false,
+  },
 });
 </script>
 
 <template>
-  <article>
-    <div class="images" v-if="images">
-      <img
-        v-for="image in images"
-        :src="image.src"
-        :alt="image.alt"
-        :key="image.alt"
-      />
-    </div>
+  <component :is="to ? 'router-link' : 'vue:template'" :to="to">
+    <article>
+      <div class="images" v-if="images">
+        <img
+          v-for="image in images"
+          :src="image.src"
+          :alt="image.alt"
+          :key="image.alt"
+        />
+      </div>
 
-    <header v-if="title || subtitle || $slots.headerActions || $slots.header">
-      <slot name="header">
-        <div>
-          <h3 v-if="title">{{ title }}</h3>
-          <p v-if="subtitle">{{ subtitle }}</p>
-        </div>
-        <div class="actions" v-if="$slots.headerActions">
-          <!-- @slot This is the slot for the header actions - which is on the right side of the card in the header. -->
-          <slot name="headerActions" />
-        </div>
-      </slot>
-    </header>
+      <header v-if="title || subtitle || $slots.headerActions || $slots.header">
+        <slot name="header">
+          <div>
+            <h3 v-if="title">{{ title }}</h3>
+            <p v-if="subtitle">{{ subtitle }}</p>
+          </div>
+          <div class="actions" v-if="$slots.headerActions">
+            <!-- @slot This is the slot for the header actions - which is on the right side of the card in the header. -->
+            <slot name="headerActions" />
+          </div>
+        </slot>
+      </header>
 
-    <slot />
+      <slot />
 
-    <footer v-if="$slots.footer">
-      <slot name="footer" />
-    </footer>
-  </article>
+      <footer v-if="$slots.footer">
+        <slot name="footer" />
+      </footer>
+    </article>
+  </component>
 </template>

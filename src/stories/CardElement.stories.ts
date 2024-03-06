@@ -22,14 +22,13 @@ type Story = StoryObj<typeof CardElement>;
 
 export const Default: Story = {
   args: {
-    // @ts-ignore
-    href: "/",
     title: "Hello World",
     subtitle: "Hello World",
 
     headerActions: "Hello World",
     footer: "Hello World",
     default: "Hello World",
+    to: "/somewhere",
   },
 };
 export const TitleOnly: Story = {
@@ -114,5 +113,6 @@ export const Everything: Story = {
     headerActions: "Hello World",
     footer: "Hello World",
     default: "Hello World",
+    to: "/",
   },
 };

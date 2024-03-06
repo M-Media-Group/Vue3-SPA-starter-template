@@ -92,6 +92,19 @@ article>:first-child:is(footer) {
   flex-shrink: 0;
 }
 
+a:has(>article) {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  --color: var(--text-color);
+}
+
+a:has(>article):hover {
+  text-decoration: none;
+  color: inherit;
+  --color: var(--text-color);
+}
+
 main~footer ul {
   display: flex;
   align-items: center;

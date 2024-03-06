@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { mount } from "@vue/test-utils";
+import { RouterLinkStub, mount } from "@vue/test-utils";
 import CardElement from "../CardElement.vue";
 
 describe("Card element", () => {
@@ -143,5 +143,18 @@ describe("Card element", () => {
     // There should be a headerActions since we pass it into the
     // headerActions slot. Find the text inside the wrapper
     expect(wrapper.text()).toContain("Header actions");
+  });
+
+  it("Is clickable when a `to` prop is passed", () => {
+    const wrapper = mount(CardElement, {
+      props: {
+        title: "Hello",
+        subtitle: "subtitle",
+        to: "/",
+      },
+    });
+
+    // Now, instead of an `article`, we will have an `router-link` element
+    expect(wrapper.findComponent(RouterLinkStub).props().to).toBe("/");
   });
 });
