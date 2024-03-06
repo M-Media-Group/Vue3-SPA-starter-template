@@ -199,7 +199,7 @@ npm run translation-key-check
 
 Note, if you expand the supported languages, make sure to update the `.vue-translation.js` file to include the new language.
 
-### Storybook
+### Storybook Components
 
 ```sh
 npm run storybook
@@ -208,6 +208,12 @@ npm run storybook
 This will start the Storybook server and open a new tab in your browser.
 
 You can read more about Storybook [here](https://storybook.js.org/).
+
+### Run Visual Tests with [Storybook](https://storybook.js.org/)
+
+```sh
+npm run test:visual
+```
 
 ## Backend setup
 
