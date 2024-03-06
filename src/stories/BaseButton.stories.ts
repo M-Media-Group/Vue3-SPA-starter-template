@@ -2,8 +2,6 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 
 import BaseButton from "@/components/BaseButton.vue";
 
-import { vueRouter } from "storybook-vue3-router";
-
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta: Meta<typeof BaseButton> = {
   title: "Components/BaseButton",
@@ -44,9 +42,3 @@ export const UsingToProp: Story = {
     to: "/",
   },
 };
-
-/* adding storybook-vue3-router decorator */
-UsingToProp.decorators = [
-  /* this is the basic setup with no params passed to the decorator */
-  vueRouter(),
-];

@@ -7,6 +7,7 @@ import { type App } from "vue";
 import { EventsPlugin } from "../src/eventBus/events";
 import { createPinia } from "pinia";
 import { navIsLoading } from "../src/router";
+import { vueRouter } from "storybook-vue3-router";
 
 setup((app: App) => {
   app.use(createPinia());
@@ -28,5 +29,11 @@ const preview: Preview = {
     },
   },
 };
+
+preview.decorators = [
+  /* this is the basic setup with no params passed to the decorator */
+  vueRouter(),
+];
+
 
 export default preview;

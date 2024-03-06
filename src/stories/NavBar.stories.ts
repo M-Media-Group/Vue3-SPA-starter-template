@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 
 import NavBar from "@/components/NavBar.vue";
 
-import { vueRouter } from "storybook-vue3-router";
 import { useUserStore } from "@/stores/user";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
@@ -38,16 +37,3 @@ export const LoggedOut: Story = {
     href: "/",
   },
 };
-
-/* adding storybook-vue3-router decorator */
-LoggedIn.decorators = [
-  /* this is the basic setup with no params passed to the decorator */
-  /* this is the basic setup with no params passed to the decorator */
-  vueRouter(),
-];
-
-/* adding storybook-vue3-router decorator */
-LoggedOut.decorators = [
-  /* this is the basic setup with no params passed to the decorator */
-  vueRouter(),
-];
