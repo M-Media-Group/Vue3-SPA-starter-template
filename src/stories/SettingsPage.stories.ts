@@ -31,6 +31,7 @@ export const WithUserData: Story = {
     components: { SettingsView },
     setup() {
       const user = useUserStore();
+      user.isAuthenticated = true;
       user.user = {
         ...userFixture,
         seen_at: new Date(),
