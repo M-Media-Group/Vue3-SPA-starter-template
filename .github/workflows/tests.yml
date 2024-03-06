@@ -26,4 +26,4 @@ jobs:
       - name: Install Playwright
         run: npx playwright install --with-deps
       - name: Run Storybook tests
-        run: npm run test:visual
+        run: npm run test:visual:ci

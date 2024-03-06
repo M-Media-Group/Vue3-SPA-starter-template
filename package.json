@@ -13,7 +13,7 @@
     "test:unit": "vitest --environment jsdom --root src/",
     "test:e2e": "START_SERVER_AND_TEST_INSECURE=1 start-server-and-test preview https://localhost:4173/ 'cypress run --e2e --config video=false,screenshotOnRunFailure=false'",
     "test:e2e:dev": "START_SERVER_AND_TEST_INSECURE=1 start-server-and-test 'vite dev --port 4173 --host' https://localhost:4173/ 'cypress open --e2e'",
-    "test:visual": "START_SERVER_AND_TEST_INSECURE=1 start-server-and-test 'npm run storybook' http://localhost:3001 'test-storybook --url http://localhost:3001'",
+    "test:visual:ci": "START_SERVER_AND_TEST_INSECURE=1 start-server-and-test 'npm run test:visual:dev' http://localhost:3001 'test:visual'",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
@@ -22,7 +22,7 @@
     "test:all": "run-p coverage test:e2e test:visual",
     "test:visual:dev": "storybook dev -p 3001",
     "build-storybook": "storybook build",
-    "test-storybook": "test-storybook --url http://localhost:3001"
+    "test:visual": "test-storybook --url http://localhost:3001"
   },
   "dependencies": {
     "@m-media/vue3-gate-keeper": "^0.1.5",

@@ -212,6 +212,12 @@ You can read more about Storybook [here](https://storybook.js.org/).
 ### Run Visual Tests with [Storybook](https://storybook.js.org/)
 
 ```sh
+npm run test:visual:ci
+```
+
+If you already have torybook running, you can run the visual tests with:
+
+```sh
 npm run test:visual
 ```
 
