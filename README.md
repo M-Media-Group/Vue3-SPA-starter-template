@@ -5,7 +5,9 @@ Arguably the most important parts of an app (authentication and handling payment
 ![Screenshot](screenshot.png)
 
 ## Demo
-https://vue3-starter-demo.netlify.app
+https://vue3-starter-demo.netlify.app **(Note: this is a pure clien-side demo so there is no backend - you won't be able to login)**
+
+See the components below for a more detailed preview.
 
 ## Preview components in Storybook
 https://vue3-starter-storybook.netlify.app/index.html
