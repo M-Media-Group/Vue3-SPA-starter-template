@@ -4,6 +4,12 @@ Arguably the most important parts of an app (authentication and handling payment
 
 ![Screenshot](screenshot.png)
 
+## Demo
+https://vue3-starter-demo.netlify.app
+
+## Preview components in Storybook
+https://vue3-starter-storybook.netlify.app/index.html
+
 ## Comes with
 
 - [Vue Router](https://router.vuejs.org) for routing
