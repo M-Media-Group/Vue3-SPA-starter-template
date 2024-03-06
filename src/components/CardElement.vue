@@ -2,17 +2,17 @@
 import type { PropType } from "vue";
 
 defineProps({
-  // The title of the card
+  /** The title of the card */
   title: {
     type: String,
     required: false,
   },
-  // The subtitle of the card
+  /** The subtitle of the card */
   subtitle: {
     type: String,
     required: false,
   },
-  // The image of the card
+  /** The images to display in the card */
   images: {
     // Images is an array of images, each image contains src and alt
     type: Array as PropType<{ src: string; alt: string }[]>,
@@ -39,6 +39,7 @@ defineProps({
           <p v-if="subtitle">{{ subtitle }}</p>
         </div>
         <div class="actions" v-if="$slots.headerActions">
+          <!-- @slot This is the slot for the header actions - which is on the right side of the card in the header. -->
           <slot name="headerActions" />
         </div>
       </slot>
