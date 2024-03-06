@@ -113,6 +113,48 @@ export const Everything: Story = {
     headerActions: "Hello World",
     footer: "Hello World",
     default: "Hello World",
+    to: "/somewhere",
+  },
+};
+
+export const LinkingToCurrentPage: Story = {
+  args: {
+    title: "Hello World",
+    subtitle: "Hello World",
+    images: [
+      {
+        src: "https://picsum.photos/536/354",
+        alt: "Placeholder Image",
+      },
+      {
+        src: "https://via.placeholder.com/150",
+        alt: "Placeholder Image",
+      },
+    ],
+    headerActions: "Hello World",
+    footer: "Hello World",
+    default: "Hello World",
     to: "/",
+  },
+};
+
+export const NotClickable: Story = {
+  args: {
+    title: "Hello World",
+    subtitle: "Hello World",
+    images: [
+      {
+        src: "https://picsum.photos/536/354",
+        alt: "Placeholder Image",
+      },
+      {
+        src: "https://via.placeholder.com/150",
+        alt: "Placeholder Image",
+      },
+    ],
+    headerActions: "Hello World",
+    footer: "Hello World",
+    default: "Hello World",
+    to: undefined,
   },
 };

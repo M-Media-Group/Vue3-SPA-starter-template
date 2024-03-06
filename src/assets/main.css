@@ -92,7 +92,8 @@ article>:first-child:is(footer) {
   flex-shrink: 0;
 }
 
-a:has(>article) {
+a:has(>article),
+a:has(>article):is([aria-current]) {
   display: block;
   text-decoration: none;
   color: inherit;
