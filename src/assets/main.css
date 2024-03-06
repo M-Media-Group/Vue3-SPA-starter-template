@@ -40,6 +40,58 @@ article>footer>* {
   margin-bottom: 0px;
 }
 
+/* If the articles last child is not a footer, remove margin-bottom */
+article>:last-child:not(footer) {
+  margin-bottom: 0;
+}
+
+/* If the last child is the header,  */
+article>:last-child:is(header) {
+  margin-bottom: calc(var(--block-spacing-vertical)* -2);
+}
+
+/* If the .images are the first child, remove margin-top and add a margin-bottom */
+article>:first-child:is(.images) {
+  margin-top: calc(var(--block-spacing-vertical)* -1);
+  margin-bottom: var(--block-spacing-vertical);
+  margin-left: calc(var(--block-spacing-horizontal)* -1);
+  margin-right: calc(var(--block-spacing-horizontal)* -1);
+
+  width: calc(100% + var(--block-spacing-horizontal)* 2);
+}
+
+/* If the last child is images, remove margin-bottom */
+article>:last-child:is(.images) {
+  margin-bottom: calc(var(--block-spacing-vertical)* -1);
+}
+
+/* If the last child is the footer, remove the margin-top */
+article>:first-child:is(footer) {
+  margin-top: calc(var(--block-spacing-vertical)* -1);
+}
+
+/* make a simple slider with flex */
+.images {
+  width: 100%;
+  overflow-y: scroll;
+  display: flex;
+  max-height: 400px;
+
+  /* Scroll snap */
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  scroll-padding: 0 10px;
+
+}
+
+.images>img {
+  width: 90%;
+  height: auto;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
 main~footer ul {
   display: flex;
   align-items: center;

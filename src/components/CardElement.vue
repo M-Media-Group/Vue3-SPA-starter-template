@@ -44,9 +44,9 @@ defineProps({
         </div>
       </slot>
     </header>
-    <div>
-      <slot />
-    </div>
+
+    <slot />
+
     <footer v-if="$slots.footer">
       <slot name="footer" />
     </footer>

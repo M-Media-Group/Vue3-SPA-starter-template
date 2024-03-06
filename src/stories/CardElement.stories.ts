@@ -91,6 +91,12 @@ export const HeaderOverwrite: Story = {
   },
 };
 
+export const FooterOnly: Story = {
+  args: {
+    footer: "Hello World",
+  },
+};
+
 export const Everything: Story = {
   args: {
     title: "Hello World",
