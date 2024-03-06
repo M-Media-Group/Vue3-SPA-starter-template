@@ -21,3 +21,7 @@ jobs:
         run: npm run test:unit
       - name: Translation validation
         run: npm run translation-key-check
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+      - name: Run Storybook tests
+        run: npm run test:visual
