@@ -23,8 +23,13 @@ const blur = () => {
     </ul>
     <ul>
       <template v-if="user.isAuthenticated">
-        <li>
-          <details role="list" dir="rtl" ref="detailsElement">
+        <li :aria-busy="user.isLoading">
+          <details
+            role="list"
+            dir="rtl"
+            ref="detailsElement"
+            v-show="!user.isLoading"
+          >
             <summary
               aria-haspopup="listbox"
               role="link"
