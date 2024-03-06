@@ -24,15 +24,11 @@ const blur = () => {
     <ul>
       <template v-if="user.isAuthenticated">
         <li>
-          <details role="list" dir="rtl" ref="detailsElement">
-            <summary
-              aria-haspopup="listbox"
-              role="link"
-              :aria-busy="user.isLoading"
-            >
+          <details class="dropdown" ref="detailsElement">
+            <summary :aria-busy="user.isLoading">
               {{ $t("My Account") }}
             </summary>
-            <ul role="listbox" @click="blur()">
+            <ul @click="blur()">
               <li>
                 <router-link to="/settings">{{ $t("Settings") }}</router-link>
               </li>
