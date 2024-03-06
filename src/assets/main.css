@@ -82,3 +82,15 @@ nav form {
 .v-leave-to {
   opacity: 0;
 }
+
+/* If there's an label and the next element is a required input/select, add a star to the label */
+label:has(+input:required)::after,
+label:has(+textarea:required)::after,
+label:has(+select:required)::after,
+/* If label has child checkbox, the text will be after the child input */
+label:has(>input[type="checkbox"]:required)::after,
+label:has(>input[type="radio"]:required)::after {
+  content: "*";
+  color: var(--del-color);
+  margin-left: calc(var(--nav-link-spacing-vertical) / 2);
+}

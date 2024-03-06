@@ -1,10 +1,23 @@
-import type { Meta, StoryObj } from "@storybook/web-components";
+import type { Meta, StoryObj } from "@storybook/vue3";
+
+// Custom HTMLSelectElement type to add options
+type HTMLTextAreaElementCustom = Omit<HTMLTextAreaElement, "options"> & {
+  options: string[];
+  ariaInvalid: boolean | undefined;
+};
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
-const meta: Meta = {
-  title: "Components/Inputs/Input",
+const meta: Meta<HTMLTextAreaElementCustom> = {
+  title: "Components/Inputs/Textarea",
   // We will just show a simple input
-  component: "input",
+  render: (args) => ({
+    setup() {
+      return { args };
+    },
+    // We need to render the textarea with options from args
+    template:
+      "<label for='textarea'>{{args.name}}</label><textarea id='textarea' v-bind='args'></textarea>",
+  }),
 
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
@@ -18,14 +31,6 @@ const meta: Meta = {
       control: "text",
       description: "The placeholder of the input",
     },
-    // Type is an enum
-    type: {
-      options: ["text", "password", "email", "number", "tel", "url"],
-      control: { type: "select" },
-      // Default to text
-      defaultValue: "text",
-      description: "The type of the input",
-    },
     disabled: {
       control: "boolean",
       description: "If the input is disabled",
@@ -33,58 +38,24 @@ const meta: Meta = {
     // aria-invalid can be true, false, or undefined
     ariaInvalid: {
       // We need 3 options, true, false, and undefined
-      options: [true, false, undefined],
+      options: ["true", "false", undefined],
       control: { type: "select" },
       description:
         "If the input is invalid. If false, the input is valid. If undefined, the input is neither valid nor invalid",
     },
   },
   args: {
+    name: "Textarea",
     value: "Hello World",
     placeholder: "Hello World",
-    type: "text",
     required: true,
     disabled: false,
-    readonly: false,
+    readOnly: false,
+    ariaInvalid: undefined,
   }, // default value
 };
 
 export default meta;
-type Story = StoryObj<HTMLInputElement>;
+type Story = StoryObj<HTMLTextAreaElementCustom>;
 
 export const Default: Story = {};
-
-export const Password: Story = {
-  args: {
-    value: "Hello World",
-    type: "password",
-  },
-};
-
-export const Email: Story = {
-  args: {
-    value: "Hello@World.com",
-    type: "email",
-  },
-};
-
-export const Number: Story = {
-  args: {
-    value: "131",
-    type: "number",
-  },
-};
-
-export const Tel: Story = {
-  args: {
-    value: "+0123456789",
-    type: "tel",
-  },
-};
-
-export const Url: Story = {
-  args: {
-    value: "https://example.com",
-    type: "url",
-  },
-};
