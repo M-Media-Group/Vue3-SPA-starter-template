@@ -30,10 +30,10 @@
   --border-color: var(--pico-form-element-border-color);
   --color: var(--pico-form-element-color);
   --box-shadow: none;
-  border: var(--pico-border-width) solid var(--pico-border-color);
+  border: var(--pico-border-width) solid var(--pico-form-element-border-color);
   border-radius: var(--pico-border-radius);
   outline: 0;
-  background-color: var(--pico-background-color);
+  background-color: var(--pico-form-element-background-color);
   box-shadow: var(--pico-box-shadow);
   color: var(--pico-color);
   font-weight: var(--pico-font-weight);
