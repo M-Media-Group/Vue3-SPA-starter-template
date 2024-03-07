@@ -3,6 +3,8 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 import CardElement from "@/components/CardElement.vue";
 import { h } from "vue";
 
+import overflowFixture from "../../cypress/fixtures/overflowingData.json";
+
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta: Meta<typeof CardElement> = {
   title: "Components/CardElement",
@@ -113,6 +115,27 @@ export const Everything: Story = {
     headerActions: "Hello World",
     footer: "Hello World",
     default: "Hello World",
+    to: "/somewhere",
+  },
+};
+
+export const EverythingOverflowing: Story = {
+  args: {
+    title: overflowFixture.text,
+    subtitle: overflowFixture.text,
+    images: [
+      {
+        src: "https://picsum.photos/536/354",
+        alt: "Placeholder Image",
+      },
+      {
+        src: "https://via.placeholder.com/150",
+        alt: "Placeholder Image",
+      },
+    ],
+    headerActions: overflowFixture.text,
+    footer: overflowFixture.text,
+    default: overflowFixture.text,
     to: "/somewhere",
   },
 };

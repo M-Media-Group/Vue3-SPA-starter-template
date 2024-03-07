@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 
 import BaseButton from "@/components/BaseButton.vue";
 
+import overflowFixture from "../../cypress/fixtures/overflowingData.json";
+
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta: Meta<typeof BaseButton> = {
   title: "Components/BaseButton",
@@ -64,5 +66,11 @@ export const Busy: Story = {
   args: {
     // @ts-ignore
     ariaBusy: true,
+  },
+};
+
+export const WithOverflowingText: Story = {
+  args: {
+    default: overflowFixture.text,
   },
 };
