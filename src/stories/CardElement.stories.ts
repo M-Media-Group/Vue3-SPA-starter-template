@@ -71,7 +71,32 @@ export const ImagesOnly: Story = {
         src: "https://via.placeholder.com/150",
         alt: "Placeholder Image",
       },
+      {
+        src: "http://placekitten.com/200/300",
+        alt: "Placeholder Image",
+      },
     ],
+  },
+
+  play: async ({ canvasElement }: any) => {
+    const canvas = canvasElement;
+    // Get the card, which is an `article` tag
+    const article = canvas.querySelector("article");
+    const imagesSelector = canvas.querySelector(".images");
+
+    // Wait for each image to load
+    await new Promise((resolve) => {
+      canvas.querySelectorAll("img").forEach((img: HTMLImageElement) => {
+        img.onload = resolve;
+      });
+    });
+
+    // Ensure that it is possible to scroll left and right in the article
+    expect(getComputedStyle(imagesSelector).overflowX).not.toBe("hidden");
+    expect(imagesSelector.scrollWidth).toBeGreaterThan(article.clientWidth);
+
+    // Ensure it is not possible to scroll up and down in the article
+    expect(imagesSelector.scrollHeight).toBe(article.clientHeight);
   },
 };
 
