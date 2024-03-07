@@ -4,6 +4,7 @@ import BaseButton from "@/components/BaseButton.vue";
 
 import overflowFixture from "../../cypress/fixtures/overflowingData.json";
 import { expect, within } from "@storybook/test";
+import { checkElementForTextOverflow } from "./utils";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta: Meta<typeof BaseButton> = {
@@ -101,6 +102,8 @@ export const WithOverflowingText: Story = {
 
     expect(buttonRect.width).toBeLessThanOrEqual(canvasRect.width);
     expect(buttonRect.height).toBeLessThanOrEqual(canvasRect.height);
+
+    checkElementForTextOverflow(button);
   },
 };
 
@@ -117,6 +120,28 @@ export const WithOverflowingNoSpacesText: Story = {
 
     expect(buttonRect.width).toBeLessThanOrEqual(canvasRect.width);
     expect(buttonRect.height).toBeLessThanOrEqual(canvasRect.height);
+
+    checkElementForTextOverflow(button);
+  },
+};
+
+export const LoadingWithOverflowingNoSpacesText: Story = {
+  args: {
+    default: overflowFixture.text_without_spaces,
+    // @ts-ignore
+    ariaBusy: true,
+  },
+  // The text in the button should not be overflowing the button, and the button should not be overflowing the screen
+  play: async ({ canvasElement }: any) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole("button");
+    const buttonRect = button.getBoundingClientRect();
+    const canvasRect = canvasElement.getBoundingClientRect();
+
+    expect(buttonRect.width).toBeLessThanOrEqual(canvasRect.width);
+    expect(buttonRect.height).toBeLessThanOrEqual(canvasRect.height);
+
+    checkElementForTextOverflow(button);
   },
 };
 

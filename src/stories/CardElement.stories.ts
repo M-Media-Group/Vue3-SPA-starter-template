@@ -5,7 +5,7 @@ import CardElement from "@/components/CardElement.vue";
 import { h } from "vue";
 
 import overflowFixture from "../../cypress/fixtures/overflowingData.json";
-import { checkChildrenForOverflow } from "./utils";
+import { checkChildrenForOverflow, checkElementForTextOverflow } from "./utils";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta: Meta<typeof CardElement> = {
@@ -215,6 +215,9 @@ export const EverythingOverflowingNoSpaces: Story = {
     const children = article.children;
 
     checkChildrenForOverflow(children, article);
+
+    // We check that any text directly in the article is not overflowing
+    checkElementForTextOverflow(article);
   },
 };
 

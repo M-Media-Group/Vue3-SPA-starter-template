@@ -175,3 +175,7 @@ label:has(>input[type="radio"]:required)::after {
 button {
   max-width: 100%;
 }
+
+[aria-busy="true"]:not(input, select, textarea, html) {
+  white-space: unset;
+}

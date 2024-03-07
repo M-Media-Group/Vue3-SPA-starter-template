@@ -7,11 +7,17 @@ export const checkChildrenForOverflow = (
 ) => {
   for (const child of children) {
     const childRect = child.getBoundingClientRect();
-    const articleRect = parent.getBoundingClientRect();
-    expect(childRect.width).toBeLessThanOrEqual(articleRect.width);
-    expect(childRect.height).toBeLessThanOrEqual(articleRect.height);
+    const elementRect = parent.getBoundingClientRect();
+    expect(childRect.width).toBeLessThanOrEqual(elementRect.width);
+    expect(childRect.height).toBeLessThanOrEqual(elementRect.height);
     if (child.children.length > 0) {
       checkChildrenForOverflow(child.children, parent);
     }
   }
+};
+
+export const checkElementForTextOverflow = (element: Element) => {
+  const elementRect = element.getBoundingClientRect();
+  expect(element.scrollWidth).toBeLessThanOrEqual(elementRect.width);
+  expect(element.scrollHeight).toBeLessThanOrEqual(elementRect.height);
 };
