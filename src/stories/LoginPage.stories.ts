@@ -46,7 +46,7 @@ export const WithUserAlreadyAuthenticated: Story = {
   }),
 };
 
-export const OnRegisterScreem: Story = {
+export const OnRegisterScreen: Story = {
   play: async ({ canvasElement }: any) => {
     const canvas = within(canvasElement);
     // First we fill the field with the user email
