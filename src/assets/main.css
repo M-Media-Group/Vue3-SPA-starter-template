@@ -179,3 +179,8 @@ button {
 [aria-busy="true"]:not(input, select, textarea, html) {
   white-space: unset;
 }
+
+[role=group],
+[role=search] {
+  overflow-wrap: anywhere;
+}

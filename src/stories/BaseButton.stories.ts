@@ -4,7 +4,7 @@ import BaseButton from "@/components/BaseButton.vue";
 
 import overflowFixture from "../../cypress/fixtures/overflowingData.json";
 import { expect, within } from "@storybook/test";
-import { checkElementForTextOverflow } from "./utils";
+import { checkChildrenForOverflow, checkElementForTextOverflow } from "./utils";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta: Meta<typeof BaseButton> = {
@@ -182,4 +182,28 @@ export const Grouped: Story = {
       template: `<div role=group><story /><story /><story /></div>`,
     }),
   ],
+};
+
+export const GroupedWithOverflowingText: Story = {
+  args: {
+    default: overflowFixture.text_without_spaces,
+  },
+  decorators: [
+    (story: any) => ({
+      template: `<div role=group><story /><story /><story /></div>`,
+    }),
+  ],
+
+  play: async ({ canvasElement }: any) => {
+    const canvas = within(canvasElement);
+    const buttonGroup = canvas.getByRole("group");
+    const buttonGroupRect = buttonGroup.getBoundingClientRect();
+    const canvasRect = canvasElement.getBoundingClientRect();
+
+    expect(buttonGroupRect.width).toBeLessThanOrEqual(canvasRect.width);
+    expect(buttonGroupRect.height).toBeLessThanOrEqual(canvasRect.height);
+
+    checkChildrenForOverflow(buttonGroup.children, buttonGroup);
+    checkElementForTextOverflow(buttonGroup);
+  },
 };
