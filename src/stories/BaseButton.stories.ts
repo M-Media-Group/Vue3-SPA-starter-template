@@ -17,7 +17,12 @@ const meta: Meta<typeof BaseButton> = {
       table: { category: "Links" },
       description:
         "The URL to link to. Use this if you are linking to external sites. Otherwise, you should use the `to` prop instead.",
-      type: { required: false },
+    },
+    to: {
+      control: "text",
+      table: { category: "Links" },
+      description:
+        "The path to link to. Use this if you are linking to internal sites. Otherwise, you should use the `href` prop instead.",
     },
     ariaBusy: {
       control: "boolean",
@@ -29,6 +34,19 @@ const meta: Meta<typeof BaseButton> = {
       control: "boolean",
       table: { category: "Accessibility" },
       description: "If the button is disabled",
+    },
+    class: {
+      // Is an enum of undefined, primary, or secondary
+      options: [
+        undefined,
+        "secondary",
+        "contrast",
+        "outline",
+        "outline secondary",
+        "outline contrast",
+      ],
+      control: { type: "select" },
+      table: { category: "Styles" },
     },
   },
   args: {
@@ -73,4 +91,43 @@ export const WithOverflowingText: Story = {
   args: {
     default: overflowFixture.text,
   },
+};
+
+export const Secondary: Story = {
+  args: {
+    class: "secondary",
+  },
+};
+
+export const Contrast: Story = {
+  args: {
+    class: "contrast",
+  },
+};
+
+export const Outline: Story = {
+  args: {
+    class: "outline",
+  },
+};
+
+export const OutlineSecondary: Story = {
+  args: {
+    class: "outline secondary",
+  },
+};
+
+export const OutlineContrast: Story = {
+  args: {
+    class: "outline contrast",
+  },
+};
+
+// Use a decorator to show a grouped
+export const Grouped: Story = {
+  decorators: [
+    (story: any) => ({
+      template: `<div role=group><story /><story /><story /></div>`,
+    }),
+  ],
 };
