@@ -51,12 +51,12 @@ defineProps({
 
       <header v-if="title || subtitle || $slots.headerActions || $slots.header">
         <slot name="header">
-          <div>
+          <hgroup>
             <component :is="`h${titleHeadingLevel}`" v-if="title">{{
               title
             }}</component>
             <p v-if="subtitle">{{ subtitle }}</p>
-          </div>
+          </hgroup>
           <div class="actions" v-if="$slots.headerActions">
             <!-- @slot This is the slot for the header actions - which is on the right side of the card in the header. -->
             <slot name="headerActions" />

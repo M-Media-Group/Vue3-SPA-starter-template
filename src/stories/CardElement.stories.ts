@@ -1,10 +1,11 @@
-import { expect } from "@storybook/test";
+import { expect, within } from "@storybook/test";
 import type { Meta, StoryObj } from "@storybook/vue3";
 
 import CardElement from "@/components/CardElement.vue";
 import { h } from "vue";
 
 import overflowFixture from "../../cypress/fixtures/overflowingData.json";
+import { checkChildrenForOverflow } from "./utils";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta: Meta<typeof CardElement> = {
@@ -170,6 +171,50 @@ export const EverythingOverflowing: Story = {
     footer: overflowFixture.text,
     default: overflowFixture.text,
     to: "/somewhere",
+  },
+  play: async ({ canvasElement }: any) => {
+    const canvas = within(canvasElement);
+    const article = canvas.getByRole("article");
+    const articleRect = article.getBoundingClientRect();
+    const canvasRect = canvasElement.getBoundingClientRect();
+
+    expect(articleRect.width).toBeLessThanOrEqual(canvasRect.width);
+    expect(articleRect.height).toBeLessThanOrEqual(canvasRect.height);
+  },
+};
+
+export const EverythingOverflowingNoSpaces: Story = {
+  args: {
+    title: overflowFixture.text_without_spaces,
+    subtitle: overflowFixture.text_without_spaces,
+    images: [
+      {
+        src: "https://picsum.photos/536/354",
+        alt: "Placeholder Image",
+      },
+      {
+        src: "https://via.placeholder.com/150",
+        alt: "Placeholder Image",
+      },
+    ],
+    headerActions: overflowFixture.text_without_spaces,
+    footer: overflowFixture.text_without_spaces,
+    default: overflowFixture.text_without_spaces,
+    to: "/somewhere",
+  },
+  play: async ({ canvasElement }: any) => {
+    const canvas = within(canvasElement);
+    const article = canvas.getByRole("article");
+    const articleRect = article.getBoundingClientRect();
+    const canvasRect = canvasElement.getBoundingClientRect();
+
+    expect(articleRect.width).toBeLessThanOrEqual(canvasRect.width);
+    expect(articleRect.height).toBeLessThanOrEqual(canvasRect.height);
+
+    // Expect that none of the children and grandchildren of the article are overflowing past the article
+    const children = article.children;
+
+    checkChildrenForOverflow(children, article);
   },
 };
 

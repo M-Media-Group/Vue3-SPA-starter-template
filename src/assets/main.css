@@ -36,10 +36,12 @@ article>header {
   align-items: center;
   justify-content: space-between;
   gap: 32px;
+  overflow-wrap: anywhere;
 }
 
 /* Article/cards header and footer children should not have a margin-bottom */
 article>header>div>*,
+article>header>hgroup,
 article>footer>* {
   margin-bottom: 0px;
 }
@@ -162,4 +164,13 @@ label:has(>input[type="radio"]:required)::after {
   content: "*";
   color: var(--pico-del-color);
   margin-left: calc(var(--pico-nav-link-spacing-vertical) / 2);
+}
+
+[role=button],
+[type=button],
+[type=file]::file-selector-button,
+[type=reset],
+[type=submit],
+button {
+  max-width: 100%;
 }
