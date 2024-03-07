@@ -207,3 +207,30 @@ export const GroupedWithOverflowingText: Story = {
     checkElementForTextOverflow(buttonGroup);
   },
 };
+
+export const InputAndButton: Story = {
+  args: {
+    default: "Submit",
+  },
+  decorators: [
+    (story: any) => ({
+      template: `
+      <form>
+        <fieldset role="group">
+          <input name="email" type="email" placeholder="Email" autocomplete="email" />
+          <story />
+        </fieldset>
+      </form>`,
+    }),
+  ],
+  play: async ({ canvasElement }: any) => {
+    const canvas = within(canvasElement);
+
+    // The input and button should be the same height. We cannot guarantee the exact height if the text is long (something has to stretch so we don't overflow), but in this test, we have a very short text
+    const input = canvas.getByPlaceholderText("Email");
+    const button = canvas.getByRole("button");
+    const inputRect = input.getBoundingClientRect();
+    const buttonRect = button.getBoundingClientRect();
+    expect(inputRect.height).toBeCloseTo(buttonRect.height, 0);
+  },
+};

@@ -184,3 +184,7 @@ button {
 [role=search] {
   overflow-wrap: anywhere;
 }
+
+[role=group] input+button {
+  overflow-wrap: normal;
+}
