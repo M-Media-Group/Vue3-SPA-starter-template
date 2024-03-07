@@ -27,6 +27,10 @@ main~footer {
   margin-top: 40px;
 }
 
+dialog>*>article {
+  width: unset;
+}
+
 article>header {
   display: flex;
   align-items: center;
