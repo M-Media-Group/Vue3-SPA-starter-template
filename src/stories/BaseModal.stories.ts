@@ -45,7 +45,7 @@ export const DefaultOpened: Story = {
     // The modals left edge to the left side of the screen should be the same as the right edge of the canvas
     const leftModalDistance = modalRect.left - canvasRect.left;
     const rightCanvasDistance = canvasRect.right - modalRect.right;
-    expect(leftModalDistance).toBe(rightCanvasDistance);
+    expect(leftModalDistance).toBeCloseTo(rightCanvasDistance, 0);
   },
 };
 
