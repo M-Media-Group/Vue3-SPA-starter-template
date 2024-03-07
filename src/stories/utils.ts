@@ -18,6 +18,15 @@ export const checkChildrenForOverflow = (
 
 export const checkElementForTextOverflow = (element: Element) => {
   const elementRect = element.getBoundingClientRect();
+
+  //   If the element handles overflow, we can't check for overflow. It might handle it by setting overflow: hidden and nowrap
+  if (
+    window.getComputedStyle(element).overflow === "hidden" &&
+    window.getComputedStyle(element).whiteSpace === "nowrap"
+  ) {
+    return;
+  }
+
   expect(element.scrollWidth).toBeLessThanOrEqual(elementRect.width);
   expect(element.scrollHeight).toBeLessThanOrEqual(elementRect.height);
 };

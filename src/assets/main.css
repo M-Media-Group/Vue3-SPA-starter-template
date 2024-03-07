@@ -167,6 +167,10 @@ label:has(>input[type="radio"]:required)::after {
   margin-left: calc(var(--pico-nav-link-spacing-vertical) / 2);
 }
 
+/**
+* Fix for overflow
+* @see https://github.com/picocss/pico/issues/485
+*/
 [role=button],
 [type=button],
 [type=file]::file-selector-button,
@@ -187,4 +191,23 @@ button {
 
 [role=group] input+button {
   overflow-wrap: normal;
+}
+
+/**
+* Limit dropwdown height of each item by limiting lines
+* @see https://github.com/picocss/pico/issues/486
+*/
+details.dropdown summary+ul li,
+details.dropdown summary+ul li>a {
+  white-space: break-spaces;
+
+  /* Below is not needed, but its a nicety */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 9;
+  overflow: hidden;
+}
+
+details.dropdown summary:not([role]) {
+  height: auto;
 }

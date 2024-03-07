@@ -1,5 +1,3 @@
-// This story tests the body, h1-h6
-// We will use just the native h1-h6 tags for this story
 import type { Meta, StoryObj } from "@storybook/vue3";
 
 type HTMLInputElementCustom = HTMLTableElement & {

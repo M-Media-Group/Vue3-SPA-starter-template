@@ -178,7 +178,7 @@ export const OutlineContrast: Story = {
 // Use a decorator to show a grouped
 export const Grouped: Story = {
   decorators: [
-    (story: any) => ({
+    () => ({
       template: `<div role=group><story /><story /><story /></div>`,
     }),
   ],
@@ -189,7 +189,7 @@ export const GroupedWithOverflowingText: Story = {
     default: overflowFixture.text_without_spaces,
   },
   decorators: [
-    (story: any) => ({
+    () => ({
       template: `<div role=group><story /><story /><story /></div>`,
     }),
   ],
@@ -213,7 +213,7 @@ export const InputAndButton: Story = {
     default: "Submit",
   },
   decorators: [
-    (story: any) => ({
+    () => ({
       template: `
       <form>
         <fieldset role="group">
