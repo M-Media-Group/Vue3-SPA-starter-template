@@ -57,6 +57,13 @@ const meta: Meta<typeof BaseButton> = {
   args: {
     default: "Button",
   }, // default value
+
+  // Make sure the button is visible in the canvas
+  play: async ({ canvasElement }: any) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getAllByRole("button")[0];
+    expect(button).toBeVisible();
+  },
 };
 
 export default meta;

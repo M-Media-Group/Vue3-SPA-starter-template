@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
+import { expect, within } from "@storybook/test";
 
 // Custom HTMLSelectElement type to add options
 type HTMLInputElementCustom = HTMLInputElement & {
@@ -16,17 +17,23 @@ const meta: Meta<HTMLInputElementCustom> = {
       return { args };
     },
     // We need to render the textarea with options from args
-    template: "<input id='input' v-bind='args'></input>",
+    template: `<input v-bind="args" data-testid="input" />`,
   }),
 
   decorators: [
     (story, { args }) => ({
       template: `${
         args.name ? `<label for="input">${args.name}</label>` : ""
-      }${story()}
+      }<story />
       ${args.helpText ? `<small>${args.helpText}</small>` : ""}`,
     }),
   ],
+  // Make sure the input is visible in the canvas
+  play: async ({ canvasElement }: any) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getAllByTestId("input")[0];
+    expect(input).toBeVisible();
+  },
 
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
