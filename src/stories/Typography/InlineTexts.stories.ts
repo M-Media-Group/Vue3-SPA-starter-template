@@ -71,13 +71,13 @@ export const Ins: Story = {
 
 export const Sub: Story = {
   render: ({ title }) => ({
-    template: `<sub>${title}</sub>`,
+    template: `Default<sub>${title}</sub>`,
   }),
 };
 
 export const Sup: Story = {
   render: ({ title }) => ({
-    template: `<sup>${title}</sup>`,
+    template: `Default<sup>${title}</sup>`,
   }),
 };
 

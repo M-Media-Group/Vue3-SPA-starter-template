@@ -3,7 +3,7 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 
 const meta: Meta<HTMLElement> = {
-  title: "Typography/Link",
+  title: "Typography/Links",
 
   tags: ["autodocs"],
 

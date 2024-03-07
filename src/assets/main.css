@@ -37,6 +37,7 @@ article>header {
   justify-content: space-between;
   gap: 32px;
   overflow-wrap: anywhere;
+  align-items: flex-start;
 }
 
 /* Article/cards header and footer children should not have a margin-bottom */

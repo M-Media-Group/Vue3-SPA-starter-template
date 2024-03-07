@@ -97,7 +97,6 @@ defineExpose({
     <!-- Button to trigger the modal -->
     <button
       v-if="showTrigger"
-      class="contrast"
       :data-target="modalId"
       @click="openModal()"
       :aria-busy="isModalOpen"
