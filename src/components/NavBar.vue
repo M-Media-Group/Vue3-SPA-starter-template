@@ -16,7 +16,10 @@ const blur = () => {
   <nav>
     <ul>
       <li>
-        <router-link to="/" aria-roledescription="logo"
+        <router-link
+          to="/"
+          aria-roledescription="logo"
+          aria-label="Click the logo to go home"
           ><strong>{{ appName }}</strong></router-link
         >
       </li>
