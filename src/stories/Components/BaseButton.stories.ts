@@ -2,9 +2,12 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 
 import BaseButton from "@/components/BaseButton.vue";
 
-import overflowFixture from "../../cypress/fixtures/overflowingData.json";
+import overflowFixture from "../../../cypress/fixtures/overflowingData.json";
 import { expect, within } from "@storybook/test";
-import { checkChildrenForOverflow, checkElementForTextOverflow } from "./utils";
+import {
+  checkChildrenForOverflow,
+  checkElementForTextOverflow,
+} from "../utils";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta: Meta<typeof BaseButton> = {

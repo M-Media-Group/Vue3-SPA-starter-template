@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import overflowFixture from "../../cypress/fixtures/overflowingData.json";
+import overflowFixture from "../../../cypress/fixtures/overflowingData.json";
 import { expect, within } from "@storybook/test";
 
 // Note this type is re-used in the Dropdown.stories.ts file

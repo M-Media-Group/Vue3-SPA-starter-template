@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import overflowFixture from "../../cypress/fixtures/overflowingData.json";
-import { expect, within } from "@storybook/test";
-import { checkElementForTextOverflow } from "./utils";
+import overflowFixture from "../../../cypress/fixtures/overflowingData.json";
+import { expect, userEvent, within } from "@storybook/test";
+import { checkElementForTextOverflow } from "../utils";
 import type { HTMLDetailsElementCustom } from "./Accordion.stories";
 
 const meta: Meta<HTMLDetailsElementCustom> = {
@@ -116,10 +116,13 @@ export const WithRadioButtons: Story = {
 };
 
 export const WithCheckboxes: Story = {
-  render: ({ optionText }) => ({
+  args: {
+    open: true,
+  },
+  render: ({ optionText, title }) => ({
     template: `
   <summary>
-    Select phases of matter...
+    ${title}
   </summary>
   <ul>
     <li>
@@ -148,4 +151,21 @@ export const WithCheckboxes: Story = {
     </li>
   </ul>`,
   }),
+
+  play: async ({ canvasElement, args }: any) => {
+    const canvas = within(canvasElement);
+    const checkboxes = canvas.getAllByRole("checkbox");
+
+    expect(checkboxes).toHaveLength(4);
+
+    // Clicking the first checkbox should check it and not hide the dropdown
+    await userEvent.click(checkboxes[0]);
+    expect(checkboxes[0]).toBeChecked();
+    expect(checkboxes[0]).toBeVisible();
+
+    // Clickling on the summary should hide the dropdown
+    const summary = canvas.getByText(args.title);
+    await userEvent.click(summary);
+    expect(checkboxes[0]).not.toBeVisible();
+  },
 };

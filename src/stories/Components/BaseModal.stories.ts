@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 import BaseModal from "@/components/modals/BaseModal.vue";
 import { expect, within } from "@storybook/test";
 
-import overflowFixture from "../../cypress/fixtures/overflowingData.json";
+import overflowFixture from "../../../cypress/fixtures/overflowingData.json";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta: Meta<typeof BaseModal> = {

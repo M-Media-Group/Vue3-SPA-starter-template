@@ -4,8 +4,11 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 import CardElement from "@/components/CardElement.vue";
 import { h } from "vue";
 
-import overflowFixture from "../../cypress/fixtures/overflowingData.json";
-import { checkChildrenForOverflow, checkElementForTextOverflow } from "./utils";
+import overflowFixture from "../../../cypress/fixtures/overflowingData.json";
+import {
+  checkChildrenForOverflow,
+  checkElementForTextOverflow,
+} from "../utils";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta: Meta<typeof CardElement> = {
