@@ -28,6 +28,9 @@ describe("Base Modal", () => {
       },
     });
 
+    // Expect the modal to first be closed
+    expect(wrapper.find("dialog").attributes("open")).toBe(undefined);
+
     // Click the modal to open it
     await wrapper.find("button").trigger("click");
 

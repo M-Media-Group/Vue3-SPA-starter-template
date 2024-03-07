@@ -247,3 +247,11 @@ If you find a bug, first write a test that will fail because of the bug. Then fi
 If you want to add a new feature, write a test that will fail because of the missing feature. Then add the feature and make sure the test passes. New tests do not require approval.
 
 <!-- Show image https://res.cloudinary.com/practicaldev/image/fetch/s--2bUj5oX1--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/26tdj40bmlnmw09fb27h.png -->
+
+#### Using the right tests for the job
+
+1. For functionality, use unit tests (e.g. if I give this value to this function, will it return the correct result?)
+2. For user interactions, use end-to-end tests (e.g. if I click this button, will it show the correct modal?)
+3. For visual changes, use visual tests with Storybook (e.g. if I change this CSS, will I still see the element in the correct place? Will it still be centered?)
+
+Be careful not to over-test. If you find yourself testing the same thing in multiple places, you should ask yourself if you are testing the right things in the right places. Over-tested code can be hard to update and grow.
