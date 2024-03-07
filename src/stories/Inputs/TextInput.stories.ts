@@ -2,7 +2,9 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 
 // Custom HTMLSelectElement type to add options
 type HTMLInputElementCustom = HTMLInputElement & {
-  ariaInvalid: boolean | undefined;
+  helpText?: string;
+  role: string;
+  ariaInvalid: string;
 };
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
@@ -14,9 +16,17 @@ const meta: Meta<HTMLInputElementCustom> = {
       return { args };
     },
     // We need to render the textarea with options from args
-    template:
-      "<label for='input'>{{args.name}}</label><input id='input' v-bind='args'></input>",
+    template: "<input id='input' v-bind='args'></input>",
   }),
+
+  decorators: [
+    (story, { args }) => ({
+      template: `${
+        args.name ? `<label for="input">${args.name}</label>` : ""
+      }${story()}
+      ${args.helpText ? `<small>${args.helpText}</small>` : ""}`,
+    }),
+  ],
 
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
@@ -28,6 +38,10 @@ const meta: Meta<HTMLInputElementCustom> = {
     placeholder: {
       control: "text",
       description: "The placeholder of the input",
+    },
+    helpText: {
+      control: "text",
+      description: "The help text of the input",
     },
     // Type is an enum
     type: {
@@ -69,6 +83,7 @@ const meta: Meta<HTMLInputElementCustom> = {
     required: true,
     disabled: false,
     readOnly: false,
+    ariaInvalid: undefined,
   }, // default value
 };
 

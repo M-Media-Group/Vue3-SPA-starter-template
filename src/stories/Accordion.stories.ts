@@ -56,7 +56,7 @@ export const OpenWithOverflow: Story = {
   args: {
     ...Open.args,
     title: overflowFixture.text_without_spaces,
-    optionText: overflowFixture.text_without_spaces,
+    optionText: overflowFixture.text,
   },
   play: async ({ canvasElement }: any) => {
     const canvas = within(canvasElement);
