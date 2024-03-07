@@ -45,6 +45,7 @@ export const DefaultOpened: Story = {
     // The modals left edge to the left side of the screen should be the same as the right edge of the canvas
     const leftModalDistance = modalRect.left - canvasRect.left;
     const rightCanvasDistance = canvasRect.right - modalRect.right;
+    // We round to the nearest pixel so we don't fail on overly precise measurements
     expect(leftModalDistance).toBeCloseTo(rightCanvasDistance, 0);
   },
 };
