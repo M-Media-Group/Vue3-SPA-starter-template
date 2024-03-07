@@ -87,10 +87,7 @@ class PushNotification {
       if (this.hasPushPermission) {
         this.showPush();
       } else {
-        console.log("requesting2222 notification permission");
         this.requestPushPermission().then(() => {
-          console.log("got12222 notification permission");
-
           this.showPush();
         });
       }
