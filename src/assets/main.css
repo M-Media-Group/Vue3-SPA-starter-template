@@ -1,43 +1,6 @@
 @import "@picocss/pico";
 @import "./form.css";
 
-:root,
-:root:not([data-theme]),
-/* or data-theme is light */
-:root:not([data-theme=dark]),
-[data-theme=light] {
-  --primary: hsl(195 85% 35%);
-  --primary-hover: hsl(195 85% 45%);
-  --muted-color: hsl(205, 10%, 45%);
-}
-
-:root,
-:root:not([data-theme]),
-[data-theme=dark],
-:root:not([data-theme=light]) {
-  --muted-color: hsl(205, 10%, 60%);
-}
-
-a {
-  --color: hsl(195 85% 41%);
-}
-
-:root a,
-:root:not([data-theme]) a,
-/* or data-theme is light */
-:root:not([data-theme=dark]) a,
-[data-theme=light] a {
-  --color: hsl(195 85% 35%);
-}
-
-:root p,
-:root:not([data-theme]) p,
-/* or data-theme is light */
-:root:not([data-theme=dark]) p,
-[data-theme=light] p {
-  --color: var(--text-color);
-}
-
 body {
   min-height: 100vh;
   text-rendering: optimizeLegibility;
@@ -134,13 +97,13 @@ a:has(>article):is([aria-current]) {
   display: block;
   text-decoration: none;
   color: inherit;
-  --color: var(--pico-text-color);
+  --pico-color: var(--pico-text-color);
 }
 
 a:has(>article):hover {
   text-decoration: none;
   color: inherit;
-  --color: var(--pico-text-color);
+  --pico-color: var(--pico-text-color);
 }
 
 main~footer ul {
