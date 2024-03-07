@@ -250,8 +250,22 @@ If you want to add a new feature, write a test that will fail because of the mis
 
 #### Using the right tests for the job
 
+Generally you go from the smallest component (e.g. testing a button) to the largest, while in E2E tests you go from the largest (e.g. testing a whole page) to the smallest. Unit tests test your logic in between.
+
 1. For functionality, use unit tests (e.g. if I give this value to this function, will it return the correct result?)
 2. For user interactions, use end-to-end tests (e.g. if I click this button, will it show the correct modal?)
 3. For visual changes, use visual tests with Storybook (e.g. if I change this CSS, will I still see the element in the correct place? Will it still be centered?)
 
 Be careful not to over-test. If you find yourself testing the same thing in multiple places, you should ask yourself if you are testing the right things in the right places. Over-tested code can be hard to update and grow.
+
+##### Test questions - example of a card
+
+- Visual test: does this card show a pointer cursor when I hover over it?
+- Unit test: does this card have a correct `href` when I pass a link to it?
+- End-to-end test: Is this card linking to the right place for the given page it is currently on?
+
+##### Test questions - example of a modal
+
+- Visual test: Is this modal centered on the screen?
+- Unit test: Does this modal have the correct title when I pass a title to it?
+- End-to-end test: Does this modal show the correct content when I open it on a specific page?

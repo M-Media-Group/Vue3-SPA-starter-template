@@ -1,3 +1,4 @@
+import { expect } from "@storybook/test";
 import type { Meta, StoryObj } from "@storybook/vue3";
 
 import CardElement from "@/components/CardElement.vue";
@@ -117,6 +118,13 @@ export const Everything: Story = {
     default: "Hello World",
     to: "/somewhere",
   },
+  play: async ({ canvasElement }: any) => {
+    const canvas = canvasElement;
+    // Get the card, which is an `article` tag
+    const card = canvas.querySelector("article");
+    // Ensure that the card does shows a pointer cursor
+    expect(getComputedStyle(card).cursor).toBe("pointer");
+  },
 };
 
 export const EverythingOverflowing: Story = {
@@ -179,6 +187,13 @@ export const NotClickable: Story = {
     footer: "Hello World",
     default: "Hello World",
     to: undefined,
+  },
+  play: async ({ canvasElement }: any) => {
+    const canvas = canvasElement;
+    // Get the card, which is an `article` tag
+    const card = canvas.querySelector("article");
+    // Ensure that the card does not show a pointer cursor
+    expect(getComputedStyle(card).cursor).toBe("auto");
   },
 };
 
