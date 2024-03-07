@@ -9,13 +9,11 @@ const meta: Meta<typeof PageFooter> = {
    */
   title: "Components/Footer",
   component: PageFooter,
-  render: (args: any) => ({
-    components: { PageFooter },
-    setup() {
-      return { args };
-    },
-    template: "<main></main><PageFooter />",
-  }),
+  decorators: [
+    () => ({
+      template: "<main></main><story />",
+    }),
+  ],
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: "fullscreen",
