@@ -1,5 +1,5 @@
-import { waitForPageReady, type TestRunnerConfig } from '@storybook/test-runner';
-import { injectAxe, checkA11y } from 'axe-playwright';
+import { waitForPageReady, type TestRunnerConfig, getStoryContext } from '@storybook/test-runner';
+import { injectAxe, checkA11y, configureAxe } from 'axe-playwright';
 import { toMatchImageSnapshot } from 'jest-image-snapshot';
 
 const customSnapshotsDir = `${process.cwd()}/__snapshots__`;
@@ -19,6 +19,12 @@ const config: TestRunnerConfig = {
     await waitForPageReady(page);
     await page.waitForLoadState('domcontentloaded'); // Wait for the 'DOMContentLoaded' event.
 
+    const storyContext = await getStoryContext(page, context);
+
+    await configureAxe(page, {
+      rules: storyContext.parameters?.a11y?.config?.rules,
+    });
+
     await checkA11y(page, '#storybook-root', {
       detailedReport: true,
       detailedReportOptions: {
@@ -27,7 +33,10 @@ const config: TestRunnerConfig = {
     });
 
     // Take a screenshot of the page
-    const screenshot = await page.screenshot();
+    const screenshot = await page.screenshot({
+      // We disable the animations because they can cause flakiness in the screenshots, and we aren't waiting for them to finish after each relevant action
+      animations: "disabled",
+    });
     // Compare the screenshot to a reference image
      expect(screenshot).toMatchImageSnapshot({
       customSnapshotsDir,
