@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 import overflowFixture from "../../../cypress/fixtures/overflowingData.json";
 import { expect, userEvent, within } from "@storybook/test";
-import { checkElementForTextOverflow } from "../utils";
+import { expectTextNotOverflowing } from "../utils";
 import type { HTMLDetailsElementCustom } from "./Accordion.stories";
 
 const meta: Meta<HTMLDetailsElementCustom> = {
@@ -76,7 +76,7 @@ export const OpenWithOverflow: Story = {
 
     expect(summary).toBeVisible();
 
-    checkElementForTextOverflow(summary);
+    expectTextNotOverflowing(summary);
   },
 };
 

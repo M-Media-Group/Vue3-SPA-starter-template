@@ -180,6 +180,38 @@ button {
   max-width: 100%;
 }
 
+/** Fix SVG color */
+:where([role=button],
+  [type=button],
+  [type=file]::file-selector-button,
+  [type=reset],
+  [type=submit],
+  button) svg {
+  fill: var(--pico-color);
+  height: 1rem;
+  width: 1rem;
+  vertical-align: -0.125em;
+  margin-inline-end: calc(var(--pico-spacing)* .5);
+}
+
+/** hide any icon and replace by spinner if loading */
+:where([aria-busy="true"]:not(input, select, textarea, html)) svg {
+  display: none;
+}
+
+/* If the last element of the child is an SVG, remove the margin-right to keep the size consistent */
+[aria-busy=true]:not(input, select, textarea, html):has(:last-child:is(svg))::before,
+:where([role=button],
+  [type=button],
+  [type=file]::file-selector-button,
+  [type=reset],
+  [type=submit],
+  button):has(:last-child:is(svg)) svg {
+  margin-inline-end: 2px;
+  margin-inline-start: 2px;
+
+}
+
 [aria-busy="true"]:not(input, select, textarea, html) {
   white-space: unset;
 }
@@ -200,12 +232,6 @@ button {
 details.dropdown summary+ul li,
 details.dropdown summary+ul li>a {
   white-space: break-spaces;
-
-  /* Below is not needed, but its a nicety */
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 9;
-  overflow: hidden;
 }
 
 details.dropdown summary:not([role]) {

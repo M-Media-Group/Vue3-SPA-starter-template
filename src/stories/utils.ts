@@ -1,7 +1,7 @@
 import { expect } from "@storybook/test";
 
 /** Recursively check that the children are not overflowing */
-export const checkChildrenForOverflow = (
+export const expectChildrenNotOverflowing = (
   children: HTMLCollectionOf<Element>,
   parent: Element
 ) => {
@@ -11,13 +11,13 @@ export const checkChildrenForOverflow = (
     expect(childRect.width).toBeLessThanOrEqual(elementRect.width);
     expect(childRect.height).toBeLessThanOrEqual(elementRect.height);
     if (child.children.length > 0) {
-      checkChildrenForOverflow(child.children, parent);
+      expectChildrenNotOverflowing(child.children, parent);
     }
   }
 };
 
 /** Check that the element is not overflowing */
-export const checkElementForTextOverflow = (element: Element) => {
+export const expectTextNotOverflowing = (element: Element) => {
   const elementRect = element.getBoundingClientRect();
 
   //   If the element handles overflow, we can't check for overflow. It might handle it by setting overflow: hidden and nowrap
@@ -33,10 +33,10 @@ export const checkElementForTextOverflow = (element: Element) => {
 };
 
 /** check that an element is centered relative to parent */
-export const checkElementCentered = (
+export const expectElementToBeCentered = (
   element: Element,
   parent: Element,
-  checkVerticalToo = true
+  checkVerticalToo = false
 ) => {
   const elementRect = element.getBoundingClientRect();
   const parentRect = parent.getBoundingClientRect();

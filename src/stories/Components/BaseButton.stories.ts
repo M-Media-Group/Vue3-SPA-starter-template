@@ -5,9 +5,11 @@ import BaseButton from "@/components/BaseButton.vue";
 import overflowFixture from "../../../cypress/fixtures/overflowingData.json";
 import { expect, within } from "@storybook/test";
 import {
-  checkChildrenForOverflow,
-  checkElementForTextOverflow,
+  expectChildrenNotOverflowing,
+  expectElementToBeCentered,
+  expectTextNotOverflowing,
 } from "../utils";
+import { h } from "vue";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta: Meta<typeof BaseButton> = {
@@ -52,6 +54,7 @@ const meta: Meta<typeof BaseButton> = {
       ],
       control: { type: "select" },
       table: { category: "Props" },
+      description: "The class(es) of the button to apply",
     },
   },
   args: {
@@ -113,7 +116,7 @@ export const WithOverflowingText: Story = {
     expect(buttonRect.width).toBeLessThanOrEqual(canvasRect.width);
     expect(buttonRect.height).toBeLessThanOrEqual(canvasRect.height);
 
-    checkElementForTextOverflow(button);
+    expectTextNotOverflowing(button);
   },
 };
 
@@ -131,7 +134,7 @@ export const WithOverflowingNoSpacesText: Story = {
     expect(buttonRect.width).toBeLessThanOrEqual(canvasRect.width);
     expect(buttonRect.height).toBeLessThanOrEqual(canvasRect.height);
 
-    checkElementForTextOverflow(button);
+    expectTextNotOverflowing(button);
   },
 };
 
@@ -151,7 +154,7 @@ export const LoadingWithOverflowingNoSpacesText: Story = {
     expect(buttonRect.width).toBeLessThanOrEqual(canvasRect.width);
     expect(buttonRect.height).toBeLessThanOrEqual(canvasRect.height);
 
-    checkElementForTextOverflow(button);
+    expectTextNotOverflowing(button);
   },
 };
 
@@ -213,8 +216,8 @@ export const GroupedWithOverflowingText: Story = {
     expect(buttonGroupRect.width).toBeLessThanOrEqual(canvasRect.width);
     expect(buttonGroupRect.height).toBeLessThanOrEqual(canvasRect.height);
 
-    checkChildrenForOverflow(buttonGroup.children, buttonGroup);
-    checkElementForTextOverflow(buttonGroup);
+    expectChildrenNotOverflowing(buttonGroup.children, buttonGroup);
+    expectTextNotOverflowing(buttonGroup);
   },
 };
 
@@ -242,5 +245,88 @@ export const InputAndButton: Story = {
     const inputRect = input.getBoundingClientRect();
     const buttonRect = button.getBoundingClientRect();
     expect(inputRect.height).toBeCloseTo(buttonRect.height, 0);
+  },
+};
+
+export const ButtonWithSVG: Story = {
+  args: {
+    // @ts-ignore
+    ariaLabel: "Heart",
+    default: () => [
+      h(
+        "svg",
+        {
+          width: "24",
+          height: "24",
+          viewBox: "0 0 24 24",
+          fill: "none",
+          xmlns: "http://www.w3.org/2000/svg",
+        },
+        h("path", {
+          d: "M12 21.35L10.55 20.03C5.4 15.36 2 12.27 2 8.5C2 5.41 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.08C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.41 22 8.5C22 12.27 18.6 15.36 13.45 20.03L12 21.35Z",
+        })
+      ),
+    ],
+  },
+
+  play: async ({ canvasElement }: any) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole("button");
+
+    // Get the SVG in the button
+    const svg = button.querySelector("svg");
+    expect(svg).toBeVisible();
+
+    if (!svg) {
+      return;
+    }
+
+    expectElementToBeCentered(svg, button);
+  },
+};
+
+export const ButtonWithSVGLoading: Story = {
+  args: {
+    // @ts-ignore
+    ariaLabel: "Heart",
+    ariaBusy: true,
+    default: () => [
+      h(
+        "svg",
+        {
+          width: "24",
+          height: "24",
+          viewBox: "0 0 24 24",
+          fill: "none",
+          xmlns: "http://www.w3.org/2000/svg",
+        },
+        h("path", {
+          d: "M12 21.35L10.55 20.03C5.4 15.36 2 12.27 2 8.5C2 5.41 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.08C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.41 22 8.5C22 12.27 18.6 15.36 13.45 20.03L12 21.35Z",
+        })
+      ),
+    ],
+  },
+};
+
+export const ButtonWithSVGAndText: Story = {
+  args: {
+    // @ts-ignore
+    ariaLabel: "Heart",
+    default: () => [
+      h(
+        "svg",
+        {
+          width: "24",
+          height: "24",
+          viewBox: "0 0 24 24",
+          fill: "none",
+          xmlns: "http://www.w3.org/2000/svg",
+        },
+        h("path", {
+          d: "M12 21.35L10.55 20.03C5.4 15.36 2 12.27 2 8.5C2 5.41 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.08C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.41 22 8.5C22 12.27 18.6 15.36 13.45 20.03L12 21.35Z",
+        })
+      ),
+      "Like",
+    ],
   },
 };

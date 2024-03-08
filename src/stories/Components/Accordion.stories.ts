@@ -66,6 +66,6 @@ export const OpenWithOverflow: Story = {
 
     // Weird issue caused by font line-height changing size of contents within div means the following fails for now, although no user-impact seems to be visible
     // eslint-disable-next-line no-secrets/no-secrets
-    // checkElementForTextOverflow(summary);
+    // expectTextNotOverflowing(summary);
   },
 };

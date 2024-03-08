@@ -6,8 +6,8 @@ import { h } from "vue";
 
 import overflowFixture from "../../../cypress/fixtures/overflowingData.json";
 import {
-  checkChildrenForOverflow,
-  checkElementForTextOverflow,
+  expectChildrenNotOverflowing,
+  expectTextNotOverflowing,
 } from "../utils";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
@@ -217,10 +217,10 @@ export const EverythingOverflowingNoSpaces: Story = {
     // Expect that none of the children and grandchildren of the article are overflowing past the article
     const children = article.children;
 
-    checkChildrenForOverflow(children, article);
+    expectChildrenNotOverflowing(children, article);
 
     // We check that any text directly in the article is not overflowing
-    checkElementForTextOverflow(article);
+    expectTextNotOverflowing(article);
   },
 };
 
