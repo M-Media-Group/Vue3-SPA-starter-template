@@ -148,15 +148,10 @@ import TheWelcome from "../components/TheWelcome.vue";
 
       <!-- Medias-->
       <figure>
-        <img
-          src="img/aleksandar-jason-a562ZEFKW8I-unsplash-2000x1000.jpg"
-          alt="Minimal landscape"
-        />
+        <img src="https://picsum.photos/536/354" alt="Minimal landscape" />
         <figcaption>
           Image from
-          <a href="https://unsplash.com/photos/a562ZEFKW8I" target="_blank"
-            >unsplash.com</a
-          >
+          <a href="https://picsum.photos/536/354" target="_blank">Picsum</a>
         </figcaption>
       </figure>
     </section>
