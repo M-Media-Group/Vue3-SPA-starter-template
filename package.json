@@ -94,6 +94,7 @@
   ],
   "pre-push": [
     "translation-key-check",
-    "test:unit:coverage"
+    "test:unit:coverage",
+    "test:visual:ci"
   ]
 }
