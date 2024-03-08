@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 import {
   sharedDecorators,
+  sharedInputArgTypes,
   sharedInputArgs,
   sharedTests,
 } from "./SharedInputArgs";
@@ -31,12 +32,7 @@ const meta: Meta<HTMLInputElementCustom> = {
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
   argTypes: {
-    value: {
-      control: "text",
-      description: "The value of the input",
-      // table props
-      table: { category: "Props" },
-    },
+    ...sharedInputArgTypes,
     placeholder: {
       control: "text",
       description: "The placeholder of the input",

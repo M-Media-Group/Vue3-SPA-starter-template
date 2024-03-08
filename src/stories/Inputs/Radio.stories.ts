@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 import {
+  sharedDecorators,
   sharedInputArgTypes,
   sharedInputArgs,
   sharedTests,
@@ -37,6 +38,7 @@ const meta: Meta<HTMLInputElementCustom> = {
   play: async ({ canvasElement }) => {
     sharedTests(canvasElement);
   },
+  decorators: [sharedDecorators],
 };
 
 export default meta;
