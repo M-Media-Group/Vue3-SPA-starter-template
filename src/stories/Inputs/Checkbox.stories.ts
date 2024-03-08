@@ -22,7 +22,7 @@ const meta: Meta<HTMLInputElementCustom> = {
     template: `
       <label for='checkbox'>
         <input id='checkbox' type='checkbox' v-bind='args' data-testid="input"></input>
-        {{args.name}}
+        {{args.value}}
       </label>
       `,
   }),
@@ -57,7 +57,7 @@ export const Default: Story = {};
 
 export const Switch: Story = {
   args: {
-    name: "Switch",
+    value: "Switch",
     role: "switch",
   },
 };

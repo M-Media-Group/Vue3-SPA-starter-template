@@ -21,7 +21,7 @@ const meta: Meta<HTMLInputElementCustom> = {
     template: `
       <label for='radio'>
         <input id='radio' type='radio' v-bind='args' data-testid="input"></input>
-        {{args.name}}
+        {{args.value}}
       </label>
       `,
   }),

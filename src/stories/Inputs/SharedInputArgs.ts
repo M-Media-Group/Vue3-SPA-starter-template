@@ -5,11 +5,6 @@ export const sharedInputArgTypes = {
     control: "text",
     description: "The label text of the input",
   },
-  name: {
-    control: "text",
-    description: "The name of the input",
-    table: { category: "Props" },
-  },
   value: {
     control: "text",
     description: "The value of the input",
@@ -48,7 +43,6 @@ export const sharedInputArgTypes = {
 
 export const sharedInputArgs = {
   labelText: "Input element label",
-  name: "Input element",
   required: true,
   disabled: false,
   readOnly: false,
