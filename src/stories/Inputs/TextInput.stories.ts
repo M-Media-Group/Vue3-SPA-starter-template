@@ -143,6 +143,7 @@ export const File: Story = {
   args: {
     value: "",
     type: "file",
+    helpText: undefined,
   },
 };
 
