@@ -44,8 +44,8 @@ const meta: Meta<HTMLInputElementCustom> = {
     checked: true,
   }, // default value
   // Make sure the input is visible in the canvas
-  play: async ({ canvasElement }) => {
-    sharedTests(canvasElement);
+  play: async ({ canvasElement, args }) => {
+    sharedTests(canvasElement, args);
   },
   decorators: [sharedDecorators],
 };

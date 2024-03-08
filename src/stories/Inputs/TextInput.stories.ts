@@ -25,8 +25,8 @@ const meta: Meta<HTMLInputElementCustom> = {
 
   decorators: [sharedDecorators],
   // Make sure the input is visible in the canvas
-  play: async ({ canvasElement }) => {
-    sharedTests(canvasElement);
+  play: async ({ canvasElement, args }) => {
+    sharedTests(canvasElement, args);
   },
 
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs

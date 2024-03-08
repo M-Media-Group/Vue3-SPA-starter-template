@@ -41,8 +41,8 @@ const meta: Meta<HTMLSelectElementCustom> = {
     size: undefined,
   }, // default value
   decorators: [sharedDecorators],
-  play: async ({ canvasElement }) => {
-    sharedTests(canvasElement);
+  play: async ({ canvasElement, args }) => {
+    sharedTests(canvasElement, args);
   },
 };
 

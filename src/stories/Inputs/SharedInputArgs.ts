@@ -1,6 +1,10 @@
 import { expect, within } from "@storybook/test";
 
 export const sharedInputArgTypes = {
+  labelText: {
+    control: "text",
+    description: "The label text of the input",
+  },
   name: {
     control: "text",
     description: "The name of the input",
@@ -43,6 +47,7 @@ export const sharedInputArgTypes = {
 };
 
 export const sharedInputArgs = {
+  labelText: "Input element label",
   name: "Input element",
   required: true,
   disabled: false,
@@ -55,13 +60,34 @@ export const sharedDecorators = (
   { args }: { args: typeof sharedInputArgs }
 ) => ({
   template: `${
-    args.name ? `<label for="input">${args.name}</label>` : ""
+    args.labelText ? `<label for="input">${args.labelText}</label>` : ""
   }<story />
       ${args.helpText ? `<small>${args.helpText}</small>` : ""}`,
 });
 
-export const sharedTests = (canvasElement: HTMLElement) => {
+export const sharedTests = (
+  canvasElement: HTMLElement,
+  args?: typeof sharedInputArgs
+) => {
   const canvas = within(canvasElement);
   const input = canvas.getAllByTestId("input")[0];
   expect(input).toBeVisible();
+
+  // Generally we shouldn't use IF statements here, we want the tests to be "assertive" and not conditional. Since this logic here is shared though, we can make an exception.
+
+  // Assert that a label is above the input
+  if (args?.labelText) {
+    expect(canvas.getByText(args.labelText)).toBeVisible();
+  }
+
+  // Assert the input is required
+  expect(input).toHaveAttribute("required");
+
+  // Assert the input is not disabled
+  expect(input).not.toHaveAttribute("disabled");
+
+  // Assert that a helpText is below the input
+  if (args?.helpText) {
+    expect(canvas.getByText(args.helpText)).toBeVisible();
+  }
 };

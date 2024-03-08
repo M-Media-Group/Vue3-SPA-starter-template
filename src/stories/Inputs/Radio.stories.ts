@@ -35,8 +35,8 @@ const meta: Meta<HTMLInputElementCustom> = {
     ...sharedInputArgs,
     checked: true,
   },
-  play: async ({ canvasElement }) => {
-    sharedTests(canvasElement);
+  play: async ({ canvasElement, args }) => {
+    sharedTests(canvasElement, args);
   },
   decorators: [sharedDecorators],
 };
