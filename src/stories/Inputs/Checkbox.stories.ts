@@ -1,9 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
+import {
+  sharedDecorators,
+  sharedInputArgTypes,
+  sharedInputArgs,
+  sharedTests,
+} from "./SharedInputArgs";
 
 type HTMLInputElementCustom = Omit<HTMLInputElement, "type"> & {
   role?: "switch";
-  ariaInvalid: boolean | undefined;
-};
+} & typeof sharedInputArgs;
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta: Meta<HTMLInputElementCustom> = {
@@ -16,7 +21,7 @@ const meta: Meta<HTMLInputElementCustom> = {
     // We need to render the checkbox with options from args
     template: `
       <label for='checkbox'>
-        <input id='checkbox' type='checkbox' v-bind='args'></input>
+        <input id='checkbox' type='checkbox' v-bind='args' data-testid="input"></input>
         {{args.name}}
       </label>
       `,
@@ -25,32 +30,24 @@ const meta: Meta<HTMLInputElementCustom> = {
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
   argTypes: {
-    disabled: {
-      control: "boolean",
-      description: "If the input is disabled",
-    },
-    // aria-invalid can be true, false, or undefined
-    ariaInvalid: {
-      // We need 3 options, true, false, and undefined
-      options: [true, false, undefined],
-      control: { type: "select" },
-      description:
-        "If the input is invalid. If false, the input is valid. If undefined, the input is neither valid nor invalid",
-    },
+    ...sharedInputArgTypes,
     role: {
       options: [undefined, "switch"],
       control: { type: "select" },
       description: "The role of the input",
+      table: { category: "Props" },
     },
   },
   args: {
-    checked: true,
-    name: "Checkbox",
-    required: true,
-    disabled: false,
-    readOnly: false,
+    ...sharedInputArgs,
     role: undefined,
+    checked: true,
   }, // default value
+  // Make sure the input is visible in the canvas
+  play: async ({ canvasElement }) => {
+    sharedTests(canvasElement);
+  },
+  decorators: [sharedDecorators],
 };
 
 export default meta;

@@ -1,12 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import { expect, within } from "@storybook/test";
+import {
+  sharedDecorators,
+  sharedInputArgs,
+  sharedTests,
+} from "./SharedInputArgs";
 
 // Custom HTMLSelectElement type to add options
 type HTMLInputElementCustom = HTMLInputElement & {
-  helpText?: string;
   role: string;
-  ariaInvalid: string;
-};
+} & typeof sharedInputArgs;
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta: Meta<HTMLInputElementCustom> = {
@@ -17,22 +19,13 @@ const meta: Meta<HTMLInputElementCustom> = {
       return { args };
     },
     // We need to render the textarea with options from args
-    template: `<input v-bind="args" data-testid="input" />`,
+    template: `<input id="input" v-bind="args" data-testid="input" />`,
   }),
 
-  decorators: [
-    (story, { args }) => ({
-      template: `${
-        args.name ? `<label for="input">${args.name}</label>` : ""
-      }<story />
-      ${args.helpText ? `<small>${args.helpText}</small>` : ""}`,
-    }),
-  ],
+  decorators: [sharedDecorators],
   // Make sure the input is visible in the canvas
-  play: async ({ canvasElement }: any) => {
-    const canvas = within(canvasElement);
-    const input = canvas.getAllByTestId("input")[0];
-    expect(input).toBeVisible();
+  play: async ({ canvasElement }) => {
+    sharedTests(canvasElement);
   },
 
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
@@ -41,14 +34,13 @@ const meta: Meta<HTMLInputElementCustom> = {
     value: {
       control: "text",
       description: "The value of the input",
+      // table props
+      table: { category: "Props" },
     },
     placeholder: {
       control: "text",
       description: "The placeholder of the input",
-    },
-    helpText: {
-      control: "text",
-      description: "The help text of the input",
+      table: { category: "Props" },
     },
     // Type is an enum
     type: {
@@ -68,30 +60,15 @@ const meta: Meta<HTMLInputElementCustom> = {
       ],
       control: { type: "select" },
       description: "The type of the input",
-    },
-    disabled: {
-      control: "boolean",
-      description: "If the input is disabled",
-    },
-    // aria-invalid can be true, false, or undefined
-    ariaInvalid: {
-      // We need 3 options, true, false, and undefined
-      options: [true, false, undefined],
-      control: { type: "select" },
-      description:
-        "If the input is invalid. If false, the input is valid. If undefined, the input is neither valid nor invalid",
+      table: { category: "Props" },
     },
   },
   args: {
-    name: "Input",
+    ...sharedInputArgs,
     value: "Hello World",
     placeholder: "Hello World",
     type: "text",
-    required: true,
-    disabled: false,
-    readOnly: false,
-    ariaInvalid: undefined,
-  }, // default value
+  },
 };
 
 export default meta;
