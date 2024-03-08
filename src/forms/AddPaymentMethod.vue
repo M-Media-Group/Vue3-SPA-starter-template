@@ -201,6 +201,8 @@ const focusOnInput = () => {
         }"
       />
     </StripeElements>
+    <!-- this v-else input prevents layout shift while the above Stripe Elements are loading-->
+    <input v-else type="text" disabled placeholder="Card number" />
   </BaseForm>
   <div v-else>{{ $t("Login or sign up to continue") }}</div>
 </template>

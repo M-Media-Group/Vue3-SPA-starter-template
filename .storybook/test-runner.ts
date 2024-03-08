@@ -17,6 +17,7 @@ const config: TestRunnerConfig = {
   },
   async postVisit(page, context) {
     await waitForPageReady(page);
+    await page.waitForLoadState('domcontentloaded'); // Wait for the 'DOMContentLoaded' event.
 
     await checkA11y(page, '#storybook-root', {
       detailedReport: true,
