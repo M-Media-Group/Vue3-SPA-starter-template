@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 import NavBar from "@/components/NavBar.vue";
 
 import { useUserStore } from "@/stores/user";
-import { expect, userEvent, within } from "@storybook/test";
+import { expect, userEvent, waitFor, within } from "@storybook/test";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta: Meta<typeof NavBar> = {
@@ -52,8 +52,9 @@ export const DropdownOpen: Story = {
     // Click on the "My Account" text
     await userEvent.click(myAccount);
     // There should be a visible "Logout"
-    /** @todo check why this assertion fails when it visually looks to be open */
-    // expect(canvas.getByText("Logout")).toBeVisible();
+    await waitFor(() => {
+      expect(canvas.getByText("Logout")).toBeVisible();
+    });
   },
 };
 

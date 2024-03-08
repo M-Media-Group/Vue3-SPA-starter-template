@@ -237,3 +237,8 @@ details.dropdown summary+ul li>a {
 details.dropdown summary:not([role]) {
   height: auto;
 }
+
+/** Fix for contrast issue on open dropdown in nav */
+details[open]>summary:not([role]):not(:focus) {
+  --pico-accordion-open-summary-color: var(--pico-form-element-placeholder-color);
+}

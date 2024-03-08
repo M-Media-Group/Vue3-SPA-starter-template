@@ -10,6 +10,10 @@ import {
   expectTextNotOverflowing,
 } from "../utils";
 
+import image1 from "../assets/beach.jpg";
+import image2 from "../assets/placeholder.png";
+import image3 from "../assets/cat.jpeg";
+
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta: Meta<typeof CardElement> = {
   title: "Components/CardElement",
@@ -68,15 +72,15 @@ export const ImagesOnly: Story = {
   args: {
     images: [
       {
-        src: "https://picsum.photos/536/354",
+        src: image1,
         alt: "Placeholder Image",
       },
       {
-        src: "https://via.placeholder.com/150",
+        src: image2,
         alt: "Placeholder Image",
       },
       {
-        src: "http://placekitten.com/200/300",
+        src: image3,
         alt: "Placeholder Image",
       },
     ],
@@ -134,11 +138,11 @@ export const Everything: Story = {
     subtitle: "Hello World",
     images: [
       {
-        src: "https://picsum.photos/536/354",
+        src: image1,
         alt: "Placeholder Image",
       },
       {
-        src: "https://via.placeholder.com/150",
+        src: image2,
         alt: "Placeholder Image",
       },
     ],
@@ -162,11 +166,11 @@ export const EverythingOverflowing: Story = {
     subtitle: overflowFixture.text,
     images: [
       {
-        src: "https://picsum.photos/536/354",
+        src: image1,
         alt: "Placeholder Image",
       },
       {
-        src: "https://via.placeholder.com/150",
+        src: image2,
         alt: "Placeholder Image",
       },
     ],
@@ -192,11 +196,11 @@ export const EverythingOverflowingNoSpaces: Story = {
     subtitle: overflowFixture.text_without_spaces,
     images: [
       {
-        src: "https://picsum.photos/536/354",
+        src: image1,
         alt: "Placeholder Image",
       },
       {
-        src: "https://via.placeholder.com/150",
+        src: image2,
         alt: "Placeholder Image",
       },
     ],
@@ -230,11 +234,11 @@ export const LinkingToCurrentPage: Story = {
     subtitle: "Hello World",
     images: [
       {
-        src: "https://picsum.photos/536/354",
+        src: image1,
         alt: "Placeholder Image",
       },
       {
-        src: "https://via.placeholder.com/150",
+        src: image2,
         alt: "Placeholder Image",
       },
     ],
@@ -251,11 +255,11 @@ export const NotClickable: Story = {
     subtitle: "Hello World",
     images: [
       {
-        src: "https://picsum.photos/536/354",
+        src: image1,
         alt: "Placeholder Image",
       },
       {
-        src: "https://via.placeholder.com/150",
+        src: image2,
         alt: "Placeholder Image",
       },
     ],

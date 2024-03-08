@@ -221,6 +221,12 @@ If you already have torybook running, you can run the visual tests with:
 npm run test:visual
 ```
 
+When something changes (intentionally) in the components visually, you can regenrate the baseline images with:
+
+```sh
+npm run test:visual:update
+```
+
 ## Backend setup
 
 This starter kit was designed to work with a Laravel based backend, but any backend that implements the required functionality would work.
