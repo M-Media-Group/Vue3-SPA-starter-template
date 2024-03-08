@@ -53,6 +53,7 @@ const meta: Meta<HTMLInputElementCustom> = {
         "color",
         "file",
         "range",
+        "submit",
       ],
       control: { type: "select" },
       description: "The type of the input",
@@ -147,5 +148,12 @@ export const Range: Story = {
   args: {
     value: "50",
     type: "range",
+  },
+};
+
+export const Submit: Story = {
+  args: {
+    value: "Submit",
+    type: "submit",
   },
 };
