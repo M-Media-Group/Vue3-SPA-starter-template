@@ -7,6 +7,9 @@ defineProps({
     type: String,
     required: false,
   },
+  /**
+   * Whether the button is disabled or not. If true, a disabled attribute will be added to the element, otherwise it will not be added.
+   */
   disabled: {
     type: Boolean,
     required: false,

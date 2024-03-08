@@ -1,6 +1,6 @@
 import { expect } from "@storybook/test";
 
-// Recursively check that the children are not overflowing
+/** Recursively check that the children are not overflowing */
 export const checkChildrenForOverflow = (
   children: HTMLCollectionOf<Element>,
   parent: Element
@@ -16,6 +16,7 @@ export const checkChildrenForOverflow = (
   }
 };
 
+/** Check that the element is not overflowing */
 export const checkElementForTextOverflow = (element: Element) => {
   const elementRect = element.getBoundingClientRect();
 

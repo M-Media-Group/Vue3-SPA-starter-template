@@ -11,10 +11,12 @@ import type { Gate } from "@m-media/vue3-gate-keeper/src/gateKeeper";
 import { useGateKeeper } from "@m-media/vue3-gate-keeper";
 
 const props = defineProps({
+  /** The title of the modal. It will be in the header of the opened modal. */
   title: {
     type: String,
     required: true,
   },
+  /** The gate or gates to check before confirming. */
   gate: {
     type: [Array, String] as PropType<string | Gate | (Gate | string)[]>,
     required: true,
@@ -85,6 +87,7 @@ const setElement = () => {
 <template>
   <span>
     <span @click.prevent="startConfirming">
+      <!-- @slot This is the slot for the trigger of the confirmation. You can use this to create a button or any other element to trigger the confirmation. It will be wrapped in a click handler that will trigger the confirmation modal. -->
       <slot :isConfirming="isConfirming" />
     </span>
 
@@ -95,6 +98,7 @@ const setElement = () => {
       :showFooter="false"
       @closed="isConfirming = false"
     >
+      <!-- @slot This is the slot for the confirmation element. This is the form or element that will be shown in the modal. -->
       <slot
         :name="'confirmationElement:' + interceptedByGate"
         :success="startConfirming"

@@ -23,18 +23,24 @@ export enum eventTypes {
 
 type EventsObject = { [P in eventTypes]?: any };
 
+/**
+ * A simple event bus.
+ */
 class Events {
+  /** The events object which contains all the events and their listeners */
   events: EventsObject;
 
   constructor(events = {}) {
     this.events = events;
   }
 
+  /** Add an event listener on the given event */
   $on(eventName: eventTypes, fn: Function) {
     this.events[eventName] = this.events[eventName] || [];
     this.events[eventName].push(fn);
   }
 
+  /** Remove an event listener from the given event. The function must be the same reference as the one passed to $on */
   $off(eventName: eventTypes, fn: Function) {
     if (this.events[eventName]) {
       for (let i = 0; i < this.events[eventName].length; i++) {
@@ -46,6 +52,7 @@ class Events {
     }
   }
 
+  /** Emit an event with the given data */
   $emit(eventName: eventTypes, data = null as any) {
     if (this.events[eventName]) {
       this.events[eventName].forEach(function (fn: (arg0: any) => void) {
@@ -55,6 +62,7 @@ class Events {
   }
 }
 
+/** The global event bus instance */
 const eventsInstance = new Events();
 
 export class Listeners {

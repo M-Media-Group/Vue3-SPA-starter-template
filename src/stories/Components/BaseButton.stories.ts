@@ -19,25 +19,25 @@ const meta: Meta<typeof BaseButton> = {
     // @ts-ignore
     href: {
       control: "text",
-      table: { category: "Links" },
+      table: { category: "Props" },
       description:
         "The URL to link to. Use this if you are linking to external sites. Otherwise, you should use the `to` prop instead.",
     },
     to: {
       control: "text",
-      table: { category: "Links" },
+      table: { category: "Props" },
       description:
         "The path to link to. Use this if you are linking to internal sites. Otherwise, you should use the `href` prop instead.",
     },
     ariaBusy: {
       control: "boolean",
-      table: { category: "Accessibility" },
+      table: { category: "Props" },
       description: "If the button is busy",
       type: { required: false },
     },
     disabled: {
       control: "boolean",
-      table: { category: "Accessibility" },
+      table: { category: "Props" },
       description: "If the button is disabled",
     },
     class: {
@@ -51,7 +51,7 @@ const meta: Meta<typeof BaseButton> = {
         "outline contrast",
       ],
       control: { type: "select" },
-      table: { category: "Styles" },
+      table: { category: "Props" },
     },
   },
   args: {

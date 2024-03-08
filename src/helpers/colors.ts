@@ -1,3 +1,6 @@
+/**
+ * Converts an HSL color value to RGB. Conversion formula
+ */
 export const hsl2rgb = (h: number, s: number, l: number) => {
   const a = s * Math.min(l, 1 - l);
   const f = (n: number, k = (n + h / 30) % 12) =>

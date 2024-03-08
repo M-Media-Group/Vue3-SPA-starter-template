@@ -4,31 +4,36 @@ import CardElement from "@/components/CardElement.vue";
 import BaseButton from "../BaseButton.vue";
 
 const props = defineProps({
-  // The title of the card
+  /** The title of the modal. It will be in the header of the opened modal. */
   title: {
     type: String,
     required: true,
   },
+  /** Set to false to prevent the modal from closing when the background is clicked. */
   allowBackgroundClickToClose: {
     type: Boolean,
     required: false,
     default: true,
   },
+  /** Set to false to hide the footer. */
   showFooter: {
     type: Boolean,
     required: false,
     default: true,
   },
+  /** Set to false to hide the close button in the header. */
   showCloseInHeader: {
     type: Boolean,
     required: false,
     default: true,
   },
+  /** Boolean to show or hide the trigger button. */
   showTrigger: {
     type: Boolean,
     required: false,
     default: true,
   },
+  /** The text to display on the trigger button. If not set, the title will be used. This prop has no effect if showTrigger is false. */
   triggerText: {
     type: String,
     required: false,

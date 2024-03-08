@@ -5,30 +5,37 @@ import { navIsLoading } from "@/router";
 
 // Prop of submit text
 const props = defineProps({
+  /** The text to display on the submit button. */
   submitText: {
     type: String,
     default: "Submit",
   },
+  /** The endpoint to submit the form to. */
   endpoint: {
     type: String,
     required: false,
   },
+  /** The types of fields that should be cleared if the request fails. By default, these are all inputs of type password. */
   clearInputTypesOnFailure: {
     type: Array as PropType<string[]>,
     default: () => ["password"],
   },
+  /** Whether the form is disabled or not. If true, the form will not submit. */
   disabled: {
     type: Boolean,
     default: false,
   },
+  /** Whether the form is loading or not. If true, the form will not submit. */
   isLoading: {
     type: Boolean,
     default: false,
   },
+  /** Whether the submit button should be shown or not. */
   showSubmitButton: {
     type: Boolean,
     default: true,
   },
+  /** Whether the form should autofocus on the first input or not. */
   autoFocus: {
     type: Boolean,
     default: true,
@@ -224,8 +231,10 @@ defineExpose({
     @keydown.enter.prevent="submit"
     @submit.prevent="submit"
   >
+    <!-- @slot This is the default slot for the form. You can use this to add any input or button you want. -->
     <slot></slot>
 
+    <!-- @slot This is the slot for the submit button. You can use this to add a custom submit button or action. -->
     <slot
       name="submit"
       :submitText="submitText"

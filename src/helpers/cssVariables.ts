@@ -1,14 +1,13 @@
 import { hsl2rgb } from "@/helpers/colors";
 
-export const getCssVarForStripe = (cssVariable: string) => {
+/** Get the value of a CSS variable. Apply some extra logic useful for Stripe, like coverting > 100% to pixels, and converting hsl to rgb. */
+export const getCssVarForStripe = (cssVariable: string): string => {
   const computedValue = getComputedStyle(document.documentElement)
     .getPropertyValue(`--${cssVariable}`)
     .trim()
     .replace("deg", "");
 
-  // There's a bug with pico-css-font-size, so
-
-  // if the cssVariable is a percent, convert it to a number. If its higher than 100, we need to convert it into px units
+  // There's a bug with pico-css-font-size, so if the cssVariable is a percent, convert it to a number. If its higher than 100, we need to convert it into px units
   if (computedValue.endsWith("%")) {
     const percent = parseFloat(computedValue.replace("%", ""));
     if (percent > 100) {
@@ -32,7 +31,12 @@ export const getCssVarForStripe = (cssVariable: string) => {
   return computedValue;
 };
 
-export const convertRemToPixels = (rem: number) => {
+/**
+ * Based on the base fontSize, convert a rem value to pixels
+ * @param rem - The rem value to convert to pixels
+ * @returns The pixel value
+ */
+export const convertRemToPixels = (rem: number): number => {
   return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
 };
 
@@ -41,7 +45,7 @@ export const convertRemToPixels = (rem: number) => {
  * @param percent - The percent value to convert to pixels
  * @returns The pixel value
  */
-export const convertPercentToPixels = (percent: number) => {
+export const convertPercentToPixels = (percent: number): number => {
   return (
     (percent / 100) *
     parseFloat(getComputedStyle(document.documentElement).fontSize)
