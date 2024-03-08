@@ -57,7 +57,7 @@ export const Default: Story = {};
 
 export const Switch: Story = {
   args: {
-    value: "Switch",
+    value: "Checkbox as switch",
     role: "switch",
   },
 };

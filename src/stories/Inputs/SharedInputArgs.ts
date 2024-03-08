@@ -42,6 +42,7 @@ export const sharedInputArgTypes = {
 };
 
 export const sharedInputArgs = {
+  value: "Hello World",
   labelText: "Input element label",
   required: true,
   disabled: false,
