@@ -1,6 +1,11 @@
 import { expect, within } from "@storybook/test";
 
 export const sharedInputArgTypes = {
+  name: {
+    control: "text",
+    description: "The name of the input",
+    table: { category: "Props" },
+  },
   value: {
     control: "text",
     description: "The value of the input",
@@ -24,6 +29,16 @@ export const sharedInputArgTypes = {
     control: "text",
     description:
       "The help text of the input. To include this in your code, you need to add a <small> tag right after the input",
+  },
+  required: {
+    control: "boolean",
+    description: "If the input is required",
+    table: { category: "Props" },
+  },
+  readOnly: {
+    control: "boolean",
+    description: "If the input is read only",
+    table: { category: "Props" },
   },
 };
 
