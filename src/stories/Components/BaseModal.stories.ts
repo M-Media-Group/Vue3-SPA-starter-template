@@ -4,6 +4,7 @@ import BaseModal from "@/components/modals/BaseModal.vue";
 import { expect, within } from "@storybook/test";
 
 import overflowFixture from "../../../cypress/fixtures/overflowingData.json";
+import { checkElementCentered } from "../utils";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta: Meta<typeof BaseModal> = {
@@ -39,14 +40,8 @@ export const DefaultOpened: Story = {
 
     // The modal, which is in `article` tag, should be in the middle of the screen
     const modal = canvas.getByRole("article");
-    const modalRect = modal.getBoundingClientRect();
-    const canvasRect = canvasElement.getBoundingClientRect();
 
-    // The modals left edge to the left side of the screen should be the same as the right edge of the canvas
-    const leftModalDistance = modalRect.left - canvasRect.left;
-    const rightCanvasDistance = canvasRect.right - modalRect.right;
-    // We round to the nearest pixel so we don't fail on overly precise measurements
-    expect(leftModalDistance).toBeCloseTo(rightCanvasDistance, 0);
+    checkElementCentered(modal, canvasElement);
   },
 };
 

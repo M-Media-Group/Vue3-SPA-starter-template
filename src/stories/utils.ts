@@ -31,3 +31,26 @@ export const checkElementForTextOverflow = (element: Element) => {
   expect(element.scrollWidth).toBeLessThanOrEqual(elementRect.width);
   expect(element.scrollHeight).toBeLessThanOrEqual(elementRect.height);
 };
+
+/** check that an element is centered relative to parent */
+export const checkElementCentered = (
+  element: Element,
+  parent: Element,
+  checkVerticalToo = true
+) => {
+  const elementRect = element.getBoundingClientRect();
+  const parentRect = parent.getBoundingClientRect();
+
+  const leftDistance = elementRect.left - parentRect.left;
+  const rightDistance = parentRect.right - elementRect.right;
+
+  expect(leftDistance).toBeCloseTo(rightDistance, 0);
+
+  if (!checkVerticalToo) {
+    return;
+  }
+
+  const topDistance = elementRect.top - parentRect.top;
+  const bottomDistance = parentRect.bottom - elementRect.bottom;
+  expect(topDistance).toBeCloseTo(bottomDistance, 0);
+};
