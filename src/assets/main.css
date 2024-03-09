@@ -265,3 +265,7 @@ details[open]>summary:not([role]):not(:focus) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
+
+input[type="search"][aria-busy="true"] {
+  background-image: var(--pico-icon-loading);
+}

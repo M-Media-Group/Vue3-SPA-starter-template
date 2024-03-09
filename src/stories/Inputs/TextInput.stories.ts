@@ -59,12 +59,18 @@ const meta: Meta<HTMLInputElementCustom> = {
       description: "The type of the input",
       table: { category: "Props" },
     },
+    ariaBusy: {
+      control: "boolean",
+      description: "The aria-busy of the input",
+      table: { category: "Props" },
+    },
   },
   args: {
     ...sharedInputArgs,
     value: "Hello World",
     placeholder: "Hello World",
     type: "text",
+    ariaBusy: "false",
   },
 };
 
@@ -112,6 +118,15 @@ export const Search: Story = {
   args: {
     value: "Hello World",
     type: "search",
+    ariaBusy: "false",
+  },
+};
+
+export const SearchBusy: Story = {
+  args: {
+    value: "Hello World",
+    type: "search",
+    ariaBusy: "true",
   },
 };
 
