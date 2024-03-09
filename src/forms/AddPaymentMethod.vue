@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { useUserStore } from "@/stores/user";
-import { nextTick, onBeforeMount, reactive, ref } from "vue";
+import { nextTick, onBeforeMount, onMounted, reactive, ref } from "vue";
 import BaseForm from "./BaseForm.vue";
 import { loadStripe } from "@stripe/stripe-js";
 import { StripeElement, StripeElements } from "vue-stripe-js";
 import { getCssVarForStripe } from "@/helpers/cssVariables";
+import { useI18n } from "vue-i18n";
 
 const success = ref(false);
 
@@ -43,12 +44,16 @@ const clientSecret = ref();
 
 const stripeKey = import.meta.env.VITE_STRIPE_KEY;
 
+const { t } = useI18n();
+
 onBeforeMount(() => {
-  getClientSecret();
-  const stripePromise = loadStripe(stripeKey);
-  stripePromise.then(() => {
+  loadStripe(stripeKey).then(() => {
     stripeLoaded.value = true;
   });
+});
+
+onMounted(() => {
+  getClientSecret();
 });
 
 const getClientSecret = async () => {
@@ -62,6 +67,16 @@ const addPaymentMethod = async () => {
   form.processing = true;
   // Access instance methods, e.g. createToken()
   // Get stripe element
+
+  if (!clientSecret.value) {
+    form.error = t(
+      "There was an error with the payment intent. Please try again"
+    );
+    form.processing = false;
+    alert(form.error);
+    return;
+  }
+
   const cardElement = card.value.stripeElement;
 
   elms.value.instance
@@ -163,11 +178,7 @@ const focusOnInput = () => {
     ref="baseForm"
     @submit="addPaymentMethod"
     :disabled="
-      success ||
-      !stripeLoaded ||
-      !elementReady ||
-      !paymentInfoComplete ||
-      !clientSecret
+      success || !stripeLoaded || !elementReady || !paymentInfoComplete
     "
     :is-loading="form.processing || !stripeLoaded"
     data-cy="add-payment-form"
