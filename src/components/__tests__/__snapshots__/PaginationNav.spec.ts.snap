@@ -1,11 +1,5 @@
 // Vitest Snapshot v1
 
-exports[`Live Search > renders correctly by default 1`] = `
-"<nav aria-label=\\"Pagination\\"><button disabled=\\"\\" aria-label=\\"Previous page\\" class=\\"prev\\"><span aria-hidden=\\"true\\">«</span></button><button disabled=\\"\\" aria-label=\\"Go to page 1\\" class=\\"outline contrast\\">1</button><button aria-label=\\"Go to page 2\\" class=\\"outline contrast\\">2</button><button aria-label=\\"Go to page 3\\" class=\\"outline contrast\\">3</button><button disabled=\\"\\" class=\\"outline secondary\\">...</button><button aria-label=\\"Go to page 10\\" class=\\"outline contrast\\">10</button>
-  <!--v-if--><button aria-label=\\"Next page\\" class=\\"next\\"><span aria-hidden=\\"true\\">»</span></button>
-</nav>"
-`;
-
 exports[`Pagination > renders correctly by default 1`] = `
 "<nav aria-label=\\"Pagination\\"><button disabled=\\"\\" aria-label=\\"Previous page\\" class=\\"prev\\"><span aria-hidden=\\"true\\">«</span></button><button disabled=\\"\\" aria-label=\\"Go to page 1\\" class=\\"outline contrast\\">1</button><button aria-label=\\"Go to page 2\\" class=\\"outline contrast\\">2</button><button aria-label=\\"Go to page 3\\" class=\\"outline contrast\\">3</button><button disabled=\\"\\" class=\\"outline secondary\\">...</button><button aria-label=\\"Go to page 10\\" class=\\"outline contrast\\">10</button>
   <!--v-if--><button aria-label=\\"Next page\\" class=\\"next\\"><span aria-hidden=\\"true\\">»</span></button>

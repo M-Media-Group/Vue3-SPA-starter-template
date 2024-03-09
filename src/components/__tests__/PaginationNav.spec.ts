@@ -115,6 +115,75 @@ describe("Pagination", () => {
     expect(textsSize).toBe(texts.length);
   });
 
+  it("does not show useless separators towards the end", () => {
+    const wrapper = mount(PaginationNav, {
+      props: {
+        totalItems: 40,
+        resultsPerPage: 10,
+        currentPage: 1,
+      },
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub,
+        },
+      },
+    });
+
+    // There should be 7 buttons
+    const buttons = wrapper.findAll("button");
+    expect(buttons.length).toBe(6);
+
+    // There should be no "..." in the buttons
+    const texts = buttons.map((button) => button.text());
+    expect(texts).not.toContain("...");
+  });
+
+  it("does not show useless separators towards the end", () => {
+    const wrapper = mount(PaginationNav, {
+      props: {
+        totalItems: 50,
+        resultsPerPage: 10,
+        currentPage: 4,
+      },
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub,
+        },
+      },
+    });
+
+    // There should be 7 buttons
+    const buttons = wrapper.findAll("button");
+    expect(buttons.length).toBe(7);
+
+    // There should be no "..." in the buttons
+    const texts = buttons.map((button) => button.text());
+    expect(texts).not.toContain("...");
+  });
+
+  it("does not show useless separators towards the start", () => {
+    const wrapper = mount(PaginationNav, {
+      props: {
+        totalItems: 40,
+        resultsPerPage: 10,
+        currentPage: 4,
+      },
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub,
+        },
+      },
+    });
+
+    // There should be 7 buttons
+    const buttons = wrapper.findAll("button");
+    expect(buttons.length).toBe(6);
+
+    // There should be no "..." in the buttons
+    const texts = buttons.map((button) => button.text());
+    expect(texts).not.toContain("...");
+  });
+
   it("correctly renders really large page numbers", () => {
     const wrapper = mount(PaginationNav, {
       props: {

@@ -27,12 +27,12 @@ const props = defineProps({
     required: false,
     default: 5,
   },
-  /** The maximum amount of pages to show before truncating */
+  /** The maximum amount of pages to show before truncating. Basically, it will be: [min-page] ... [x amount of pages around and including the current page, determined by this prop] ... [max-page] */
   maxPages: {
     type: Number,
     required: false,
     default: 5,
-    validator: (value: number) => value >= 5,
+    validator: (value: number) => value >= 3,
   },
   /** Show the previous and next buttons */
   showPrevNext: {
@@ -84,13 +84,25 @@ const pages = computed(() => {
   const currentPage = props.currentPage;
   const newTotalPages = totalPages.value;
   const halfMaxPages = Math.floor(maxPages / 2);
+
+  // If the maxPages + 2 (the first and last page) is greater than the total pages, then we just show all the pages
+  if (newTotalPages <= maxPages + 2) {
+    for (let i = 1; i <= newTotalPages; i++) {
+      pages.push({ pageNumber: i, text: formatNumer(i), clickable: true });
+    }
+    return pages;
+  }
+
   const showFirstSeparator =
     currentPage > halfMaxPages &&
-    // We also have to make sure its not redundant, for example, if we have 3 pages and we are on the third one, we don't need to show the separator
-    currentPage &&
     // Or if we already will show the page in the second part, (e.g. to prevent 1 ... 1 2 3 4 5 ... 10)
-    currentPage > halfMaxPages + 1;
-  const showLastSeparator = currentPage < newTotalPages - halfMaxPages;
+    currentPage > halfMaxPages + 1 &&
+    newTotalPages > maxPages;
+  const showLastSeparator =
+    currentPage < newTotalPages - halfMaxPages &&
+    // Or if we already will show the page in the second part, (e.g. to prevent 1 ... 1 2 3 4 5 ... 10)
+    currentPage < newTotalPages - halfMaxPages - 1 &&
+    newTotalPages > maxPages;
 
   const firstPageToShow = showFirstSeparator ? currentPage - halfMaxPages : 1;
   const lastPageToShow = showLastSeparator
