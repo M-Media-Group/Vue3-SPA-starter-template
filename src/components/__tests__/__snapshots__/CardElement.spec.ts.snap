@@ -1,0 +1,18 @@
+// Vitest Snapshot v1
+
+exports[`Card element > renders properly without footer 1`] = `
+"<!-- @todo the animation breaks with component, need to fix. It works when article is direct child or when <template> (from Vue) is used, but not with <component>, even with an :is to a Vue template -->
+<vue:template>
+  <article>
+    <div class=\\"images overflow-auto\\" tabindex=\\"0\\"><img src=\\"https://picsum.photos/200/300\\" alt=\\"alt\\"></div>
+    <header>
+      <hgroup>
+        <h3>Hello</h3>
+        <p>subtitle</p>
+      </hgroup>
+      <!--v-if-->
+    </header>
+    <!--v-if-->
+  </article>
+</vue:template>"
+`;

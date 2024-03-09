@@ -23,6 +23,9 @@ describe("Base Button", () => {
 
     // Expect the anchor element to have the correct text
     expect(wrapper.find("a").text()).toBe("Click me");
+
+    // Expect the snapshot to match
+    expect(wrapper.html()).toMatchSnapshot();
   });
 
   it("renders as a router-link when to attribute is set", () => {
@@ -41,6 +44,9 @@ describe("Base Button", () => {
 
     // Expect the element to have the correct text
     expect(wrapper.findComponent(RouterLinkStub).text()).toBe("Click me");
+
+    // Expect the snapshot to match
+    expect(wrapper.html()).toMatchSnapshot();
   });
 
   it("renders as a button when no href or to attribute is set", () => {
@@ -55,6 +61,9 @@ describe("Base Button", () => {
 
     // Expect the element to have the correct text
     expect(wrapper.find("button").text()).toBe("Click me");
+
+    // Expect the snapshot to match
+    expect(wrapper.html()).toMatchSnapshot();
   });
 
   it("renders as a button and passes type attribute", () => {
@@ -73,5 +82,8 @@ describe("Base Button", () => {
 
     // Expect the element to have the correct text
     expect(wrapper.find("button").attributes("type")).toBe("submit");
+
+    // Expect the snapshot to match
+    expect(wrapper.html()).toMatchSnapshot();
   });
 });

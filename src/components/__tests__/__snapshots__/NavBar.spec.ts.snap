@@ -1,0 +1,33 @@
+// Vitest Snapshot v1
+
+exports[`NavBar > renders properly when logged in 1`] = `
+"<nav>
+  <ul>
+    <li><a aria-roledescription=\\"logo\\" aria-label=\\"Click the logo to go home\\"><strong></strong></a></li>
+  </ul>
+  <ul>
+    <li aria-busy=\\"false\\">
+      <details class=\\"dropdown\\">
+        <summary aria-busy=\\"false\\">My Account</summary>
+        <ul>
+          <li><a>Settings</a></li>
+          <li><a>Logout</a></li>
+        </ul>
+      </details>
+    </li>
+  </ul>
+</nav>"
+`;
+
+exports[`NavBar > renders properly when logged out 1`] = `
+"<nav>
+  <ul>
+    <li><a aria-roledescription=\\"logo\\" aria-label=\\"Click the logo to go home\\"><strong></strong></a></li>
+  </ul>
+  <ul>
+    <li><a>Home</a></li>
+    <li><a>Login</a></li>
+    <li><a>Sign up</a></li>
+  </ul>
+</nav>"
+`;

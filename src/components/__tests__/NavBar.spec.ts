@@ -22,6 +22,9 @@ describe("NavBar", () => {
     expect(wrapper.find("[aria-roledescription='logo']").exists()).toBe(true);
     expect(wrapper.text()).toContain("Login");
     expect(wrapper.text()).toContain("Sign up");
+
+    // Expect the snapshot to match
+    expect(wrapper.html()).toMatchSnapshot();
   });
   it("renders properly when logged in", async () => {
     const wrapper = mount(NavBar, {
@@ -43,5 +46,8 @@ describe("NavBar", () => {
     expect(wrapper.text()).toContain("My Account");
     expect(wrapper.text()).toContain("Logout");
     expect(wrapper.text()).toContain("Settings");
+
+    // Expect the snapshot to match
+    expect(wrapper.html()).toMatchSnapshot();
   });
 });

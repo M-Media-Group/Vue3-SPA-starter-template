@@ -1,0 +1,7 @@
+// Vitest Snapshot v1
+
+exports[`Base Button > renders as a link when an href attribute is set 1`] = `
+"<a role=\\"button\\" href=\\"https://google.com\\">
+  <!-- @slot This is the text or content that is clickable and navigates. This is the slot inside the \`<a>\` tag if href is present. This component automatically sets the href or to attributes for navigation for you. It renders as an \`<a>\` tag with a \`role=button\` if its \`href\`, otherwise its a button if \`to\` is passed. -->Click me
+</a>"
+`;

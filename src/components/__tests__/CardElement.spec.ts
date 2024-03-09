@@ -44,6 +44,9 @@ describe("Card element", () => {
 
     // The header should have an h3 by default
     expect(wrapper.find("header h3").exists()).toBe(true);
+
+    // Expect the snapshot to match
+    expect(wrapper.html()).toMatchSnapshot();
   });
 
   it("shows a footer when one is passed", () => {
