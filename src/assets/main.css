@@ -269,3 +269,19 @@ details[open]>summary:not([role]):not(:focus) {
 input[type="search"][aria-busy="true"] {
   background-image: var(--pico-icon-loading);
 }
+
+/** Fix for inputs like checkboxes in dropdown */
+details.dropdown summary+ul li label {
+  display: block;
+  margin: calc(var(--pico-form-element-spacing-vertical) * -.5) calc(var(--pico-form-element-spacing-horizontal) * -1);
+  padding: calc(var(--pico-form-element-spacing-vertical) * .5) var(--pico-form-element-spacing-horizontal);
+  overflow: hidden;
+  border-radius: 0;
+  color: var(--pico-dropdown-color);
+  text-decoration: none;
+  text-overflow: ellipsis;
+}
+
+details.dropdown summary {
+  text-overflow: ellipsis;
+}

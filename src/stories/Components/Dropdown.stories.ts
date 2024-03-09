@@ -58,6 +58,18 @@ export const Open: Story = {
   },
 };
 
+export const AriaInvalidTrue: Story = {
+  args: {
+    ariaInvalid: "true",
+  },
+};
+
+export const AriaInvalidFalse: Story = {
+  args: {
+    ariaInvalid: "false",
+  },
+};
+
 export const ButtonRole: Story = {
   args: {
     role: "button",
