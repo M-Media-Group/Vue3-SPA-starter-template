@@ -242,3 +242,26 @@ details.dropdown summary:not([role]) {
 details[open]>summary:not([role]):not(:focus) {
   --pico-accordion-open-summary-color: var(--pico-form-element-placeholder-color);
 }
+
+[aria-label="Pagination"] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Not the first and last buttons in a [aria-label="Pagination"] */
+[aria-label="Pagination"] button:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+
+/* The first button should have no border-radius on the right */
+[aria-label="Pagination"] button:first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* The  last button should have no border-radius on the left */
+[aria-label="Pagination"] button:last-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
