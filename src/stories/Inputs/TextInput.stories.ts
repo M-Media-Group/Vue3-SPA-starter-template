@@ -9,6 +9,7 @@ import {
 // Custom HTMLSelectElement type to add options
 type HTMLInputElementCustom = HTMLInputElement & {
   role: string;
+  ariaInvalid: string | undefined;
 } & typeof sharedInputArgs;
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
@@ -79,6 +80,22 @@ type Story = StoryObj<HTMLInputElementCustom>;
 
 export const Default: Story = {};
 
+export const DefaultInvalid: Story = {
+  args: {
+    value: "Hello World",
+    type: "text",
+    ariaInvalid: "true",
+  },
+};
+
+export const DefaultValid: Story = {
+  args: {
+    value: "Hello World",
+    type: "text",
+    ariaInvalid: "false",
+  },
+};
+
 export const Password: Story = {
   args: {
     value: "Hello World",
@@ -89,6 +106,13 @@ export const Password: Story = {
 export const Email: Story = {
   args: {
     value: "Hello@World.com",
+    type: "email",
+  },
+};
+
+export const InvalidEmail: Story = {
+  args: {
+    value: "hello@",
     type: "email",
   },
 };

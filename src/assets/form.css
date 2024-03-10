@@ -15,11 +15,11 @@
 }
 
 :where(input, select, textarea, .input):not(:placeholder-shown, :focus):invalid {
-  --border-color: var(--pico-form-element-invalid-border-color);
+  --pico-border-color: var(--pico-form-element-invalid-border-color);
 }
 
 :where(input, select, textarea, .input):not(:placeholder-shown, :focus):invalid+small {
-  color: var(--pico-form-element-invalid-border-color);
+  color: var(--pico-del-color);
 }
 
 .input {
@@ -27,7 +27,7 @@
   margin-bottom: var(--pico-spacing);
   width: 100%;
   --background-color: var(--pico-form-element-background-color);
-  --border-color: var(--pico-form-element-border-color);
+  --pico-border-color: var(--pico-form-element-border-color);
   --color: var(--pico-form-element-color);
   --box-shadow: none;
   border: var(--pico-border-width) solid var(--pico-form-element-border-color);
