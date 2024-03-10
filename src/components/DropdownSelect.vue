@@ -46,7 +46,7 @@ const props = defineProps({
   /** allow multiple selections */
   multiple: {
     type: Boolean,
-    default: true,
+    default: false,
   },
 
   /** The placeholder text to show */
@@ -127,6 +127,11 @@ const props = defineProps({
     type: String,
     default: "Loading...",
   },
+  /** If the search should autofocus on open */
+  autofocus: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits([
@@ -139,7 +144,7 @@ const updateModelValue = (event: Event) => {
   const target = event.target as HTMLInputElement;
   const value = target.value;
 
-  if (!props.modelValue || !props.multiple) {
+  if ((!props.modelValue || !props.multiple) && target.checked) {
     emit("update:modelValue", [value]);
     return;
   }
@@ -229,12 +234,23 @@ const setupDropdownList = () => {
   });
 };
 
+const searchInput = ref<HTMLInputElement | null>(null);
+
+/** A dunction to handle the opening of the results. If the search is present, we autofocus the search input */
+const openResults = () => {
+  if (!props.isOpen) return;
+  if (!props.searchable) return;
+  if (!searchInput.value) return;
+  if (!props.autofocus) return;
+  searchInput.value.focus();
+};
+
 onMounted(() => {
   setupDropdownList();
 });
 </script>
 <template>
-  <details class="dropdown" :open="props.isOpen">
+  <details class="dropdown" :open="props.isOpen" @toggle="openResults">
     <summary
       :role="props.role"
       :aria-invalid="props.ariaInvalid"
@@ -264,6 +280,9 @@ onMounted(() => {
             $emit('update:search', ($event.target as HTMLInputElement).value)
           "
           :aria-busy="props.ariaBusy"
+          aria-label="Search for an option"
+          autofocus
+          ref="searchInput"
         />
       </li>
       <li v-if="showSelectAll">

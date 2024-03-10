@@ -75,7 +75,7 @@ export const WithSingleSelect: Story = {
       },
       {
         id: 4,
-        render: () => "Object 4",
+        render: "Object 4",
       },
     ],
   },
@@ -96,7 +96,7 @@ export const WithMultiSelect: Story = {
       },
       {
         id: 4,
-        render: () => "Object 4",
+        render: "Object 4",
       },
     ],
   },
@@ -122,7 +122,7 @@ export const WithCheckboxesAndThousandOptions: Story = {
     multiple: true,
     searchable: true,
     showSelectedFirst: true,
-    options: Array.from({ length: 100000 }, (_, i) => ({
+    options: Array.from({ length: 10000 }, (_, i) => ({
       id: i,
       render: `Option ${i}`,
     })),

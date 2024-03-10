@@ -17,8 +17,7 @@ export const normaliseOptions = (options?: selectOption[]) => {
       normalisedOptions.push({
         ...option,
         id: option.id.toString(),
-        render:
-          typeof option.render === "function" ? option.render() : option.render,
+        render: option.render,
       });
     }
   }
@@ -37,6 +36,9 @@ export const filterOptions = (
 
   // Use a for loop for performance
   const filteredOptions = [];
+
+  const lowercaseValue = value.toLowerCase();
+
   for (let i = 0; i < options.length; i++) {
     const option = options[i];
     let optionValue = option[key];
@@ -48,26 +50,11 @@ export const filterOptions = (
       optionValue = optionValue.toString();
     }
 
-    if (optionValue.toLowerCase().includes(value.toLowerCase())) {
+    if (optionValue.toLowerCase().includes(lowercaseValue)) {
       filteredOptions.push(option);
     }
   }
   return filteredOptions;
-};
-
-export const orderOptions = (
-  options: ReturnType<typeof normaliseOptions>,
-  value: string
-) => {
-  return options.sort((a, b) => {
-    // If the value is empty, return all options
-    if (value === "") {
-      return 0;
-    }
-
-    // Current v-model value
-    return a.render.toLowerCase().includes(value.toLowerCase()) ? -1 : 1;
-  });
 };
 
 export const orderOptionsBySelectedFirst = (

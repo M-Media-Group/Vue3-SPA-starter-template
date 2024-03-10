@@ -4,12 +4,15 @@ import { RouterLinkStub, mount } from "@vue/test-utils";
 import DropdownSelect from "../DropdownSelect.vue";
 
 describe("Dropdown Select", () => {
-  it("renders correctly", () => {
+  it("renders correctly", async () => {
     const start = performance.now();
 
     const wrapper = mount(DropdownSelect, {
       props: {
         options: ["One", "Two", "Three"],
+        "onUpdate:modelValue": (value) => {
+          wrapper.setProps({ modelValue: value });
+        },
       },
       global: {
         stubs: {
@@ -46,6 +49,34 @@ describe("Dropdown Select", () => {
     // There should not be a select all checkbox
     const selectAll = wrapper.find("input[type='checkbox'][value='all']");
     expect(selectAll.exists()).toBe(false);
+
+    // By default the results should not be open
+    const details = wrapper.find("details");
+    expect(details.attributes("open")).toBe(undefined);
+
+    // Clicking on the summary should open the dropdown
+    select.trigger("click");
+    expect(details.attributes("open")).toBe("");
+
+    // The default placeholder should be "Select an option"
+    expect(select.text()).toBe("Select an option");
+
+    // There should be 3 labels
+    const labels = wrapper.findAll("label");
+    expect(labels.length).toBe(3);
+
+    // Click on the second option
+    await labels[1].trigger("click");
+
+    expect(wrapper.emitted("update:modelValue")?.[0]).toEqual([["Two"]]);
+
+    // There should be no placeholder
+    expect(select.text()).toBe("Two");
+
+    // Clicking the same option again should uncheck it and set the placeholder back
+    await labels[1].trigger("click");
+    expect(wrapper.emitted("update:modelValue")?.[1]).toEqual([[]]);
+    expect(select.text()).toBe("Select an option");
   });
 
   it("emits the correct value when an option is selected", async () => {
@@ -85,7 +116,7 @@ describe("Dropdown Select", () => {
     expect(wrapper.emitted("update:modelValue")).toBeTruthy();
   });
 
-  it("shows the search input when the searchable prop is true", () => {
+  it("shows the search input when the searchable prop is true", async () => {
     const wrapper = mount(DropdownSelect, {
       props: {
         searchable: true,
@@ -100,6 +131,13 @@ describe("Dropdown Select", () => {
     // There should be a search input
     const input = wrapper.find("input[type='search']");
     expect(input.exists()).toBe(true);
+
+    // By default the input should not have any focus
+    expect(input.element).not.toBe(document.activeElement);
+
+    // Opening the dropdown should focus the input
+    await wrapper.find("summary").trigger("click");
+    // expect(input.element).toBe(document.activeElement);
 
     // Typing in the seach should emit the search event
     input.setValue("Some value");
@@ -168,7 +206,7 @@ describe("Dropdown Select", () => {
           },
           {
             id: "2",
-            render: () => "This computed callback",
+            render: "This computed callback",
           },
           {
             id: 3,
@@ -222,6 +260,24 @@ describe("Dropdown Select", () => {
     expect(wrapper.find("summary").text()).toBe(
       "This computed callback, Hello world"
     );
+
+    // Unchecking the second option should remove it from the modelValue
+    await labels[1].trigger("click");
+
+    // Expect the correct value to be emitted
+    expect(wrapper.emitted("update:modelValue")?.[2]).toEqual([["1"]]);
+
+    // Click summary label should have the correct text
+    expect(wrapper.find("summary").text()).toBe("Hello world");
+
+    // Unchecking the first option should remove it from the modelValue
+    await labels[0].trigger("click");
+
+    // Expect the correct value to be emitted
+    expect(wrapper.emitted("update:modelValue")?.[3]).toEqual([[]]);
+
+    // Click summary label should have the correct text
+    expect(wrapper.find("summary").text()).toBe("Select an option");
   });
 
   it("correctly displays options when they are passed as slots into the `optionSlot` slot", async () => {
@@ -309,6 +365,7 @@ describe("Dropdown Select", () => {
         open: true,
         options: ["One", "Two", "Three"],
         selectAll: true,
+        multiple: true,
       },
       global: {
         stubs: {

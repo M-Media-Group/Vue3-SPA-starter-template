@@ -1,7 +1,7 @@
 export type selectOptionObject = {
   id: string | number;
   //   The render is either a string or a function that returns a string
-  render: string | (() => string);
+  render: string;
   selected?: boolean;
   disabled?: boolean;
 };
