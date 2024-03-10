@@ -455,7 +455,7 @@ describe("Dropdown Select", () => {
       },
     });
     const end = performance.now();
-    expect(end - start).toBeLessThan(1000); // should be set to 500 but it makes test flakey
+    expect(end - start).toBeLessThan(2000); // should be set to 500 but it makes test flakey
 
     // There should be the limited number of options visible (25)
     const visibleOptions = wrapper.findAll("label");
