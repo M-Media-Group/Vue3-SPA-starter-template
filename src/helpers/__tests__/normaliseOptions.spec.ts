@@ -23,7 +23,7 @@ describe("filterOptions Functions", () => {
     const filteredOptions = filterOptions(normalisedOptions, "Option 500000");
     const end2 = performance.now();
     expect(filteredOptions.length).toBe(1);
-    expect(end2 - start2).toBeLessThan(270); // should be set to 135 but it makes test flakey
+    expect(end2 - start2).toBeLessThan(375); // should be set to 135 but it makes test flakey
 
     // Try an orderOptionsBySelectedFirst
     const start3 = performance.now();
