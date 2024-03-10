@@ -272,6 +272,7 @@ onMounted(() => {
             type="checkbox"
             :checked="props.modelValue.length === props.options?.length"
             @click="handleSelectAll"
+            :disabled="props.disabled"
             value="all"
           />
           {{ props.selectAllText }}
@@ -296,6 +297,7 @@ onMounted(() => {
           <label>
             <input
               type="checkbox"
+              :disabled="props.disabled"
               :value="typeof option === 'string' ? option : option.id"
               :checked="
                 props.modelValue.includes(
