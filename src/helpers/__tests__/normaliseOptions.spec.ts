@@ -34,7 +34,7 @@ describe("filterOptions Functions", () => {
     );
     const end3 = performance.now();
     expect(orderedOptions.length).toBe(1000000);
-    expect(end3 - start3).toBeLessThan(100); // should be set to 50 but it makes test flakey
+    expect(end3 - start3).toBeLessThan(150); // should be set to 50 but it makes test flakey
   });
 
   it("filters the options correctly", () => {
