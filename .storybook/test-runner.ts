@@ -42,7 +42,8 @@ const config: TestRunnerConfig = {
       customSnapshotsDir,
       customSnapshotIdentifier: context.id,
       // Allow a small amount of pixels (up to 1%) to be different. This is for spinner animations and other dynamic content
-      failureThreshold: 0.015,
+      failureThreshold:
+      storyContext.parameters.imageSnapshot?.failureThreshold ?? 0.015,
       failureThresholdType: 'percent',
      });
   },

@@ -122,12 +122,18 @@ const debounceGetGeolocationData = debounce(getGeolocationData);
           v-model:isOpen="isOpen"
           :searchLocally="false"
         >
-          <!-- <template #optionSlot="{ option }">
-          <div>
-            <p>{{ option.render }}</p>
-            <small>{{ option.raw.addresstype }}</small>
-          </div>
-        </template> -->
+          <template #optionSlot="{ option, updateModelValue }">
+            <label>
+              <input
+                type="checkbox"
+                :value="option.id"
+                :checked="selectedGeoResultId.includes(option.id)"
+                @click="updateModelValue"
+              />
+              <span>{{ option.render }}</span>
+              <small> - {{ option.raw.addresstype }}</small>
+            </label>
+          </template>
         </DropdownSelect>
       </BaseForm>
       <details>

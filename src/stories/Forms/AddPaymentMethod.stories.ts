@@ -12,6 +12,11 @@ const meta: Meta<typeof AddPaymentMethod> = {
   component: AddPaymentMethod,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
+  parameters: {
+    imageSnapshot: {
+      failureThreshold: 0.05, // 5 percent is high but this test is flakey because it doesnt wait for the stripe iframe to fully load
+    },
+  },
 };
 
 export default meta;
