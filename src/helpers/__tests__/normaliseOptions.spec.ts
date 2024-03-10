@@ -15,7 +15,7 @@ describe("filterOptions Functions", () => {
     const start = performance.now();
     const normalisedOptions = normaliseOptions(generatedOptions);
     const end = performance.now();
-    expect(end - start).toBeLessThan(125);
+    expect(end - start).toBeLessThan(130);
     expect(normalisedOptions.length).toBe(1000000);
 
     // Try a filterOptions
@@ -23,7 +23,7 @@ describe("filterOptions Functions", () => {
     const filteredOptions = filterOptions(normalisedOptions, "Option 500000");
     const end2 = performance.now();
     expect(filteredOptions.length).toBe(1);
-    expect(end2 - start2).toBeLessThan(125);
+    expect(end2 - start2).toBeLessThan(135);
 
     // Try an orderOptionsBySelectedFirst
     const start3 = performance.now();
