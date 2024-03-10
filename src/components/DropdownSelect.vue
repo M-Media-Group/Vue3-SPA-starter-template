@@ -4,7 +4,7 @@ import {
   normaliseOptions,
   orderOptionsBySelectedFirst,
 } from "@/helpers/normaliseOptions";
-import type { selectOption, selectOptionObject } from "@/types/listItem";
+import type { selectOption } from "@/types/listItem";
 import { type PropType, computed, onMounted, ref, watch } from "vue";
 
 const props = defineProps({
@@ -16,13 +16,13 @@ const props = defineProps({
 
   /** The key to use to determine what value to return in the model */
   modelKey: {
-    type: String as PropType<keyof selectOptionObject>,
+    type: String as PropType<"id" | "render">,
     default: "id",
   },
 
   /** The key to use to determine the value to display */
   displayKey: {
-    type: String as PropType<keyof selectOptionObject>,
+    type: String as PropType<"id" | "render">,
     default: "render",
   },
 

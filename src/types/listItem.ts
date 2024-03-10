@@ -4,6 +4,7 @@ export type selectOptionObject = {
   render: string;
   selected?: boolean;
   disabled?: boolean;
+  raw?: any;
 };
 
 // Normalised select is the same as above, except the render which is always a string
