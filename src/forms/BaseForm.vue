@@ -3,6 +3,13 @@ import BaseButton from "@/components/BaseButton.vue";
 import { type PropType, nextTick, onMounted, onUpdated, ref } from "vue";
 import { navIsLoading } from "@/router";
 
+type HTMLSupportedInputElement =
+  | HTMLInputElement
+  | HTMLSelectElement
+  | HTMLTextAreaElement
+  | HTMLFormElement
+  | HTMLFieldSetElement;
+
 // Prop of submit text
 const props = defineProps({
   /** The text to display on the submit button. */
@@ -66,7 +73,7 @@ const checkValidity = () => {
   formIsValid.value = formElement.value?.checkValidity() ?? false;
 };
 
-const setErrorMessageOnElement = (element: HTMLInputElement) => {
+const setErrorMessageOnElement = (element: HTMLSupportedInputElement) => {
   //  Update or create a sibling element with the error message
   let errorElement = element.nextElementSibling as HTMLElement;
   if (!errorElement || !errorElement.classList.contains("error")) {
@@ -79,7 +86,7 @@ const setErrorMessageOnElement = (element: HTMLInputElement) => {
   element.insertAdjacentElement("afterend", errorElement);
 };
 
-const clearErrorMessageOnElement = (element: HTMLInputElement) => {
+const clearErrorMessageOnElement = (element: HTMLSupportedInputElement) => {
   // If the element is valid, remove the invalid class
   const errorElement = element.nextElementSibling as HTMLElement;
   if (errorElement && errorElement.classList.contains("error")) {
@@ -100,7 +107,7 @@ const submit = async () => {
 };
 
 const callActionsOnAllInputs = (
-  callback: (element: HTMLInputElement) => void
+  callback: (element: HTMLSupportedInputElement) => void
 ) => {
   if (!formElement.value?.elements) {
     return;
@@ -108,7 +115,13 @@ const callActionsOnAllInputs = (
   const elements = formElement.value.elements;
   for (let i = 0; i < elements.length; i++) {
     const element = elements[i];
-    if (element instanceof HTMLInputElement) {
+    if (
+      element instanceof HTMLInputElement ||
+      element instanceof HTMLSelectElement ||
+      element instanceof HTMLTextAreaElement ||
+      element instanceof HTMLFormElement ||
+      element instanceof HTMLFieldSetElement
+    ) {
       callback(element);
     }
   }
@@ -119,7 +132,7 @@ const setInputErrors = (errors: Record<string, string | string[]>) => {
   for (const [key, value] of Object.entries(errors)) {
     const input = formElement.value?.elements.namedItem(
       key
-    ) as HTMLInputElement;
+    ) as HTMLSupportedInputElement;
     if (input) {
       // If the value is an array, join it with a space
       let valueToPass = value as string | string[];
@@ -135,7 +148,7 @@ const setInputErrors = (errors: Record<string, string | string[]>) => {
 };
 
 const setErrorOnInput = (
-  input: HTMLInputElement,
+  input: HTMLSupportedInputElement,
   error: string,
   report = true
 ) => {
@@ -158,7 +171,7 @@ const setSuccessOnInputs = () => {
   }, 5000);
 };
 
-const setSuccessOnInput = (input: HTMLInputElement) => {
+const setSuccessOnInput = (input: HTMLSupportedInputElement) => {
   input.setAttribute("aria-invalid", "false");
 };
 
@@ -168,13 +181,13 @@ const removeSuccessOnInputs = () => {
   });
 };
 
-const removeSuccessOnInput = (input: HTMLInputElement) => {
+const removeSuccessOnInput = (input: HTMLSupportedInputElement) => {
   if (input.validity.valid) {
     input.removeAttribute("aria-invalid");
   }
 };
 
-const resetCustomValidityOnInput = (input: HTMLInputElement) => {
+const resetCustomValidityOnInput = (input: HTMLSupportedInputElement) => {
   input.setCustomValidity("");
   clearErrorMessageOnElement(input);
 };
@@ -186,7 +199,7 @@ const resetCustomValidityOnInputs = () => {
   });
 };
 
-const isElementInFocus = (element: HTMLInputElement) => {
+const isElementInFocus = (element: HTMLSupportedInputElement) => {
   return document.activeElement === element;
 };
 
