@@ -135,6 +135,7 @@ describe("Dropdown Select", () => {
     const wrapper = mount(DropdownSelect, {
       props: {
         searchable: true,
+        searchPlaceholder: "Search for something",
       },
       global: {
         stubs: {
@@ -157,6 +158,9 @@ describe("Dropdown Select", () => {
     // Typing in the seach should emit the search event
     input.setValue("Some value");
     expect(wrapper.emitted("update:search")).toBeTruthy();
+
+    // The search should have a placeholder of "Search for something"
+    expect(input.attributes("placeholder")).toBe("Search for something");
   });
 
   it("correctly filters results when the search prop is used", () => {

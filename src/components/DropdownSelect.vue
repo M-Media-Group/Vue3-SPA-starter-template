@@ -127,10 +127,17 @@ const props = defineProps({
     type: String,
     default: "Loading...",
   },
+
   /** If the search should autofocus on open */
   autofocus: {
     type: Boolean,
     default: false,
+  },
+
+  /** The placeholder for the search */
+  searchPlaceholder: {
+    type: String,
+    default: "Search for an option",
   },
 });
 
@@ -287,7 +294,8 @@ const getSummaryText = () => {
             $emit('update:search', ($event.target as HTMLInputElement).value)
           "
           :aria-busy="props.ariaBusy"
-          aria-label="Search for an option"
+          :placeholder="props.searchPlaceholder"
+          :aria-label="props.searchPlaceholder"
           autofocus
           ref="searchInput"
         />
