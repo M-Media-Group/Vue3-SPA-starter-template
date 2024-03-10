@@ -338,16 +338,12 @@ watch(
 
       <li
         v-for="option in orderedOptions?.slice(0, props.visibleLimit)"
-        :key="typeof option === 'string' ? option : option.id"
+        :key="option.id"
       >
         <slot
           name="optionSlot"
           :option="option"
-          :checked="
-            props.modelValue?.includes(
-              typeof option === 'string' ? option : option.id.toString()
-            )
-          "
+          :checked="props.modelValue?.includes(option.id.toString())"
           :updateModelValue="updateModelValue"
           :modelValue="props.modelValue"
         >
@@ -355,15 +351,11 @@ watch(
             <input
               type="checkbox"
               :disabled="props.disabled"
-              :value="typeof option === 'string' ? option : option.id"
-              :checked="
-                props.modelValue.includes(
-                  typeof option === 'string' ? option : option.id.toString()
-                )
-              "
+              :value="option.id"
+              :checked="props.modelValue.includes(option.id.toString())"
               @click="updateModelValue"
             />
-            {{ typeof option === "string" ? option : option[displayKey] }}
+            {{ option[displayKey] }}
           </label>
         </slot>
       </li>

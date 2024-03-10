@@ -18,7 +18,7 @@ export const normaliseOptions = (options?: selectOption[]) => {
     normalisedOptions.push({
       id: option.id.toString(),
       render: option.render,
-      raw: option,
+      raw: option.raw,
     });
   }
   return normalisedOptions;
