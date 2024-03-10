@@ -67,6 +67,12 @@ const props = defineProps({
     default: "",
   },
 
+  /** By default, the search will filter the options passed to it. If you are handling the search externally and don't want to filter the results locally, you can set this to false */
+  searchLocally: {
+    type: Boolean,
+    default: true,
+  },
+
   /** Limit visible elements. Its recommended to use this at a fairly low number and encourage the user to use the search. This limits how many HTML elements are rendered, but not how many are in the options array. */
   visibleLimit: {
     type: Number,
@@ -145,6 +151,7 @@ const emit = defineEmits([
   "update:modelValue",
   "update:search",
   "reachedEndOfList",
+  "update:isOpen",
 ]);
 
 const updateModelValue = (event: Event) => {
@@ -192,6 +199,8 @@ watch(
 
 const filteredOptions = computed(() => {
   if (!props.options) return [];
+
+  if (!props.searchLocally) return normalisedOptions;
 
   return filterOptions(normalisedOptions, props.search);
 });
@@ -243,14 +252,16 @@ const setupDropdownList = () => {
 
 const searchInput = ref<HTMLInputElement | null>(null);
 
-/** A dunction to handle the opening of the results. If the search is present, we autofocus the search input */
-const openResults = async () => {
-  if (!props.isOpen) return;
-  if (!props.searchable) return;
-  if (!searchInput.value) return;
-  if (!props.autofocus) return;
-  // Wait for the next tick to focus the input
-  searchInput.value?.focus();
+/** A dunction to handle the opening of the results. If the search is present, we autofocus the search input. Note, there is a `ToggleEvent` type that should work but doesnt pass the TS linting with `TS2304: Cannot find name 'ToggleEvent'.`. */
+const openResults = async (value: { newState: string }) => {
+  if (!value) return;
+
+  // If the value is not the same as the current value, emit the event
+  const valueCompare = value.newState === "open";
+
+  if (valueCompare !== props.isOpen) {
+    emit("update:isOpen", valueCompare);
+  }
 };
 
 onMounted(() => {
@@ -275,6 +286,18 @@ const getSummaryText = () => {
 
   return props.placeholder;
 };
+
+watch(
+  () => props.isOpen,
+  () => {
+    if (!props.isOpen) return;
+    if (!props.searchable) return;
+    if (!searchInput.value) return;
+    if (!props.autofocus) return;
+    // Wait for the next tick to focus the input
+    searchInput.value?.focus();
+  }
+);
 </script>
 <template>
   <details class="dropdown" :open="props.isOpen" @toggle="openResults">

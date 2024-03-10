@@ -13,6 +13,7 @@ describe("Dropdown Select", () => {
         "onUpdate:modelValue": (value) => {
           wrapper.setProps({ modelValue: value });
         },
+        isOpen: false,
       },
       global: {
         stubs: {
@@ -53,10 +54,15 @@ describe("Dropdown Select", () => {
     // By default the results should not be open
     const details = wrapper.find("details");
     expect(details.attributes("open")).toBe(undefined);
+    expect(wrapper.emitted("update:isOpen")).toBeFalsy();
 
     // Clicking on the summary should open the dropdown
-    select.trigger("click");
+    await select.trigger("click");
     expect(details.attributes("open")).toBe("");
+
+    // Ensure the prop value is updated
+    // expect(wrapper.emitted("update:isOpen")).toBeTruthy();
+    // expect(wrapper.props("isOpen")).toBe(true);
 
     // The default placeholder should be "Select an option"
     expect(select.text()).toBe("Select an option");
@@ -152,7 +158,7 @@ describe("Dropdown Select", () => {
     expect(input.element).not.toBe(document.activeElement);
 
     // Opening the dropdown should focus the input
-    await wrapper.find("summary").trigger("click");
+    await wrapper.find("details").trigger("click");
     // expect(input.element).toBe(document.activeElement);
 
     // Typing in the seach should emit the search event
@@ -180,6 +186,25 @@ describe("Dropdown Select", () => {
     const options = wrapper.findAll("label");
     expect(options[0].text()).toBe("One");
     expect(options.length).toBe(1);
+  });
+
+  it("does not filter the results when searchLocally is false", () => {
+    const wrapper = mount(DropdownSelect, {
+      props: {
+        searchable: true,
+        searchLocally: false,
+        options: ["One", "Two", "Three"],
+        search: "One",
+      },
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub,
+        },
+      },
+    });
+    // There should be 3 options visible
+    const options = wrapper.findAll("label");
+    expect(options.length).toBe(3);
   });
 
   it("correctly filters results when the search prop is used by typing", async () => {
