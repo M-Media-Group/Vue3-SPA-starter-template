@@ -237,17 +237,37 @@ const setupDropdownList = () => {
 const searchInput = ref<HTMLInputElement | null>(null);
 
 /** A dunction to handle the opening of the results. If the search is present, we autofocus the search input */
-const openResults = () => {
+const openResults = async () => {
   if (!props.isOpen) return;
   if (!props.searchable) return;
   if (!searchInput.value) return;
   if (!props.autofocus) return;
-  searchInput.value.focus();
+  // Wait for the next tick to focus the input
+  searchInput.value?.focus();
 };
 
 onMounted(() => {
   setupDropdownList();
 });
+
+const getSummaryText = () => {
+  if (props.modelValue.length > 0) {
+    return props.modelValue
+      .map((value) => {
+        const option = normalisedOptions.find((option) =>
+          typeof option === "string" ? option === value : option.id === value
+        );
+        return option
+          ? getLabel(option)
+          : value.trim() !== ""
+          ? value
+          : props.placeholder;
+      })
+      .join(", ");
+  }
+
+  return props.placeholder;
+};
 </script>
 <template>
   <details class="dropdown" :open="props.isOpen" @toggle="openResults">
@@ -256,20 +276,7 @@ onMounted(() => {
       :aria-invalid="props.ariaInvalid"
       :aria-busy="props.ariaBusy"
     >
-      {{
-        props.modelValue.length > 0
-          ? props.modelValue
-              .map((value) => {
-                const option = normalisedOptions.find((option) =>
-                  typeof option === "string"
-                    ? option === value
-                    : option.id === value
-                );
-                return option ? getLabel(option) : "";
-              })
-              .join(", ")
-          : props.placeholder
-      }}
+      {{ props.modelValue.length > 0 ? getSummaryText() : props.placeholder }}
     </summary>
     <ul ref="dropdownList">
       <li v-if="props.searchable">

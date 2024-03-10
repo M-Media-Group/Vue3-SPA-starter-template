@@ -77,6 +77,21 @@ describe("Dropdown Select", () => {
     await labels[1].trigger("click");
     expect(wrapper.emitted("update:modelValue")?.[1]).toEqual([[]]);
     expect(select.text()).toBe("Select an option");
+
+    // When we add more options, the dropdown should still render
+    await wrapper.setProps({ options: ["One", "Two", "Three", "Four"] });
+
+    // There should be 4 options
+    const newOptions = wrapper.findAll("li");
+    expect(newOptions.length).toBe(4);
+
+    // When the value is set to something that is not in the options, the placeholder should show the value
+    await wrapper.setProps({ modelValue: ["Five"] });
+    expect(select.text()).toBe("Five");
+
+    // If no options are passed and the value is an empty string, the placeholder should be "Select an option"
+    await wrapper.setProps({ options: [], modelValue: [""] });
+    expect(select.text()).toBe("Select an option");
   });
 
   it("emits the correct value when an option is selected", async () => {
@@ -356,7 +371,7 @@ describe("Dropdown Select", () => {
     await wrapper.find("ul").trigger("scroll");
 
     // Expect the event to be emitted
-    expect(wrapper.emitted("reachedEndOfList")).toBeTruthy();
+    expect(wrapper.emitted("reachedEndOfList")?.length).toBe(1);
   });
 
   it("allows select all and deselect all when the `selectAll` prop is true", async () => {

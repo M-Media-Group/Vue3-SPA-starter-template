@@ -13,13 +13,13 @@ export const normaliseOptions = (options?: selectOption[]) => {
         id: option,
         render: option,
       });
-    } else {
-      normalisedOptions.push({
-        ...option,
-        id: option.id.toString(),
-        render: option.render,
-      });
+      continue;
     }
+    normalisedOptions.push({
+      ...option,
+      id: option.id.toString(),
+      render: option.render,
+    });
   }
   return normalisedOptions;
 };
