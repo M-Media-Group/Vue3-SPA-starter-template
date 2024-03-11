@@ -32,14 +32,17 @@ const AddPaymentMethod = defineAsyncComponent(
       <slot :isConfirming="isConfirming" />
     </span>
 
-    <BaseModal
+    <base-modal
       ref="modal"
       :title="$t('Add a payment method')"
       :showTrigger="false"
       :showFooter="false"
       @closed="isConfirming = false"
     >
-      <AddPaymentMethod v-if="modal?.isModalOpen" @success="handleConfirmed" />
-    </BaseModal>
+      <add-payment-method
+        v-if="modal?.isModalOpen"
+        @success="handleConfirmed"
+      />
+    </base-modal>
   </span>
 </template>

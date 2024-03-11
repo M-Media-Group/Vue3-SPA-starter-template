@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import BaseButton from "@/components/BaseButton.vue";
+import BaseForm from "@/forms/BaseForm.vue";
+
 import { useUserStore } from "@/stores/user";
 import { nextTick, reactive, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import BaseForm from "./BaseForm.vue";
 
 const userStore = useUserStore();
 
@@ -26,7 +27,7 @@ const isRegistering = ref(false);
 // The error message
 const errorMessage = ref("");
 
-const baseForm = ref();
+const baseFormRef = ref();
 
 const emit = defineEmits(["success"]);
 
@@ -61,7 +62,7 @@ const login = async () => {
   );
 
   if (response === false) {
-    baseForm.value.setInputErrors({
+    baseFormRef.value.setInputErrors({
       password: t("Invalid email or password"),
     });
     // const data = await response.json();
@@ -104,12 +105,12 @@ const register = async () => {
         checkedEmail.value = false;
       }
       await nextTick();
-      baseForm.value.setInputErrors(data.errors);
+      baseFormRef.value.setInputErrors(data.errors);
     } else {
       checkedEmail.value = false;
       await nextTick();
 
-      baseForm.value.setInputErrors({
+      baseFormRef.value.setInputErrors({
         email: "Something went wrong",
       });
     }
@@ -123,7 +124,7 @@ const register = async () => {
 const submitForm = async () => {
   if (userStore.userEmail && !checkedEmail.value) {
     await checkEmail();
-    baseForm.value.focusOnFirstInput();
+    baseFormRef.value.focusOnFirstInput();
   } else if (isRegistering.value) {
     await register();
   } else {
@@ -134,13 +135,13 @@ const submitForm = async () => {
 const goBack = async () => {
   checkedEmail.value = false;
   await nextTick();
-  baseForm.value.focusOnFirstInput();
+  baseFormRef.value.focusOnFirstInput();
 };
 </script>
 
 <template>
-  <BaseForm
-    ref="baseForm"
+  <base-form
+    ref="baseFormRef"
     @submit="submitForm"
     :isLoading="userStore.isLoading"
   >
@@ -201,7 +202,7 @@ const goBack = async () => {
       />
 
       <!-- An accept TOC checkbox -->
-      <label for="acceptToc">
+      <label>
         <input type="checkbox" id="acceptToc" name="acceptToc" required />
         {{ $t("I accept the") }}
         <a href="/terms-of-service" target="_blank">
@@ -229,16 +230,16 @@ const goBack = async () => {
         required
       />
       <!-- Forgot password link -->
-      <RouterLink to="/forgot-password">{{
+      <router-link to="/forgot-password">{{
         $t("Forgot password?")
-      }}</RouterLink>
+      }}</router-link>
     </fieldset>
     <template v-if="checkedEmail">
       <!-- Show a back button -->
-      <BaseButton class="secondary" data-cy="back" @click="goBack()">
+      <base-button class="secondary" data-cy="back" @click="goBack()">
         {{ $t("Go back") }}
-      </BaseButton>
+      </base-button>
     </template>
     <!-- </TransitionGroup> -->
-  </BaseForm>
+  </base-form>
 </template>

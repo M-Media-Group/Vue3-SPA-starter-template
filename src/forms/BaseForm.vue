@@ -255,14 +255,14 @@ defineExpose({
       :disabled="!formIsValid || disabled || isLoading || navIsLoading"
       :isLoading="isLoading"
     >
-      <BaseButton
+      <base-button
         v-if="showSubmitButton"
         type="submit"
         :disabled="!formIsValid || disabled || isLoading || navIsLoading"
         :aria-busy="isLoading"
       >
         {{ $t(submitText) }}
-      </BaseButton>
+      </base-button>
     </slot>
   </form>
 </template>

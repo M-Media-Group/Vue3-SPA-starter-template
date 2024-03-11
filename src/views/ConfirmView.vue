@@ -15,7 +15,7 @@ const redirect = () => {
 };
 </script>
 <template>
-  <CardElement title="Continue">
+  <card-element title="Continue">
     <component :is="element" @success="redirect"></component>
-  </CardElement>
+  </card-element>
 </template>

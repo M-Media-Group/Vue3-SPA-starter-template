@@ -9,7 +9,7 @@ const added = () => {
 </script>
 <template>
   <h1>{{ $t("Add a payment method") }}</h1>
-  <CardElement :title="$t('Payment methods')">
-    <AddPaymentMethod @success="added" />
-  </CardElement>
+  <card-element :title="$t('Payment methods')">
+    <add-payment-method @success="added" />
+  </card-element>
 </template>

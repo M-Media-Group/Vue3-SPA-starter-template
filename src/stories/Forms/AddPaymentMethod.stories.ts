@@ -40,7 +40,7 @@ export const Default: Story = {
       };
       return { args };
     },
-    template: "<AddPaymentMethod v-bind='args' />",
+    template: "<add-payment-method v-bind='args' />",
   }),
   play: async ({ canvasElement }: any) => {
     const canvas = within(canvasElement);

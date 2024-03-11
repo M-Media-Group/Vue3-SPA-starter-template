@@ -24,6 +24,6 @@ export const Default: Story = {
       return { args };
     },
     template:
-      "<BaseForm v-bind='args'><input type='email' name='email' required placeholder='Email' /><input type='password' name='password' required placeholder='Password' /></BaseForm>",
+      "<base-form v-bind='args'><input type='email' name='email' required placeholder='Email' /><input type='password' name='password' required placeholder='Password' /></base-form>",
   }),
 };

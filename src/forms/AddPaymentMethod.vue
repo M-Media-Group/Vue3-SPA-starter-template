@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useUserStore } from "@/stores/user";
 import { nextTick, onBeforeMount, onMounted, reactive, ref } from "vue";
-import BaseForm from "./BaseForm.vue";
 import { loadStripe } from "@stripe/stripe-js";
 import { StripeElement, StripeElements } from "vue-stripe-js";
 import { getCssVarForStripe } from "@/helpers/cssVariables";
 import { useI18n } from "vue-i18n";
+import BaseForm from "@/forms/BaseForm.vue";
 
 const success = ref(false);
 
@@ -13,7 +13,7 @@ const elementReady = ref(false);
 
 const paymentInfoComplete = ref(false);
 
-const baseForm = ref();
+const baseFormRef = ref();
 
 const userStore = useUserStore();
 
@@ -31,7 +31,7 @@ const handleStripeInput = async (event: { complete: any }) => {
     // Scroll to bottom
     // Wait for next tick
     nextTick(() => {
-      // Focus on the submit button in the baseForm
+      // Focus on the submit button in the baseFormRef
     });
   }
 };
@@ -173,9 +173,9 @@ const focusOnInput = () => {
 </script>
 
 <template>
-  <BaseForm
+  <base-form
     v-if="userStore.isAuthenticated"
-    ref="baseForm"
+    ref="baseFormRef"
     @submit="addPaymentMethod"
     :disabled="
       success || !stripeLoaded || !elementReady || !paymentInfoComplete
@@ -184,10 +184,9 @@ const focusOnInput = () => {
     data-cy="add-payment-form"
   >
     <label @click="focusOnInput()">{{ $t("Add a payment method") }}</label>
-    <StripeElements
+    <stripe-elements
       @click="focusOnInput()"
       class="input"
-      style="min-width: 280px"
       v-if="stripeLoaded"
       v-slot="{ elements }"
       ref="elms"
@@ -201,7 +200,7 @@ const focusOnInput = () => {
         },
       }"
     >
-      <StripeElement
+      <stripe-element
         v-show="elementReady"
         ref="card"
         :elements="elements"
@@ -211,7 +210,7 @@ const focusOnInput = () => {
           style: elementStyle,
         }"
       />
-    </StripeElements>
+    </stripe-elements>
     <!-- this v-else input prevents layout shift while the above Stripe Elements are loading-->
     <input
       v-else
@@ -220,6 +219,6 @@ const focusOnInput = () => {
       placeholder="Card number"
       :aria-busy="true"
     />
-  </BaseForm>
+  </base-form>
   <div v-else>{{ $t("Login or sign up to continue") }}</div>
 </template>

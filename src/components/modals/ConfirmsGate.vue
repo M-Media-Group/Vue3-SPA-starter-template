@@ -91,7 +91,7 @@ const setElement = () => {
       <slot :isConfirming="isConfirming" />
     </span>
 
-    <BaseModal
+    <base-modal
       ref="modal"
       :title="title"
       :showTrigger="false"
@@ -110,6 +110,6 @@ const setElement = () => {
           @success="startConfirming"
         />
       </slot>
-    </BaseModal>
+    </base-modal>
   </span>
 </template>

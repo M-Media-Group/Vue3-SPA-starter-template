@@ -12,7 +12,7 @@ const email = ref(userStore.user?.email);
 const name = ref(userStore.user?.name);
 const surname = ref(userStore.user?.surname);
 
-const baseForm = ref();
+const baseFormRef = ref();
 
 const emit = defineEmits(["updated"]);
 
@@ -36,7 +36,7 @@ const submitForm = async () => {
 
   // If there are no changed values, return
   if (Object.keys(changedValues).length === 0) {
-    baseForm.value.setSuccessOnInputs();
+    baseFormRef.value.setSuccessOnInputs();
     return;
   }
 
@@ -49,20 +49,20 @@ const submitForm = async () => {
   if (response === true) {
     // Emit the updated event with the changed fields
     emit("updated", changedValues);
-    baseForm.value.setSuccessOnInputs();
+    baseFormRef.value.setSuccessOnInputs();
   } else if (typeof response === "object") {
     // We want to show the user the correct fields to the user so they feel better
-    baseForm.value.setSuccessOnInputs();
+    baseFormRef.value.setSuccessOnInputs();
 
     // Show the fields with errors
-    baseForm.value.setInputErrors(response.data.errors);
+    baseFormRef.value.setInputErrors(response.data.errors);
   }
 };
 </script>
 
 <template>
-  <BaseForm
-    ref="baseForm"
+  <base-form
+    ref="baseFormRef"
     @submit="submitForm"
     :isLoading="userStore.isLoading"
     submitText="Save"
@@ -109,5 +109,5 @@ const submitForm = async () => {
       $t("If you change your email address you will have to confirm it again.")
     }}</small>
     <!-- </TransitionGroup> -->
-  </BaseForm>
+  </base-form>
 </template>

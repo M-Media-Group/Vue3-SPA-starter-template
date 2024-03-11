@@ -105,6 +105,7 @@ defineExpose({
       :data-target="modalId"
       @click="openModal()"
       :aria-busy="isModalOpen"
+      type="button"
     >
       {{ triggerText ?? title }}
     </button>
@@ -117,7 +118,7 @@ defineExpose({
     @click="closeModalIfBackgroundClicked"
     @keydown.esc="closeModal"
   >
-    <CardElement :title="title">
+    <card-element :title="title">
       <template #headerActions>
         <a
           href="#close"
@@ -134,18 +135,18 @@ defineExpose({
       </div>
       <template #footer v-if="showFooter || $slots.footer">
         <slot name="footer">
-          <BaseButton
+          <base-button
             class="secondary"
             :data-target="modalId"
             @click.prevent="closeModal()"
           >
             {{ $t("Cancel") }}
-          </BaseButton>
-          <BaseButton :data-target="modalId" @click.prevent="closeModal()">
+          </base-button>
+          <base-button :data-target="modalId" @click.prevent="closeModal()">
             {{ $t("Confirm") }}
-          </BaseButton>
+          </base-button>
         </slot>
       </template>
-    </CardElement>
+    </card-element>
   </dialog>
 </template>

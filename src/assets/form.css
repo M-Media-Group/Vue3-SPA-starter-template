@@ -26,6 +26,7 @@
   padding: var(--pico-form-element-spacing-vertical) var(--pico-form-element-spacing-horizontal);
   margin-bottom: var(--pico-spacing);
   width: 100%;
+  min-width: 280px;
   --background-color: var(--pico-form-element-background-color);
   --pico-border-color: var(--pico-form-element-border-color);
   --color: var(--pico-form-element-color);

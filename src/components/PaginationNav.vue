@@ -136,17 +136,17 @@ const handleInput = (value: string) => {
 <template>
   <nav aria-label="Pagination">
     <template v-if="showPrevNext">
-      <BaseButton
+      <base-button
         @click="emit('update:currentPage', currentPage - 1)"
         aria-label="Previous page"
         class="prev"
         :disabled="currentPage <= 1"
       >
         <span aria-hidden="true">&laquo;</span>
-      </BaseButton>
+      </base-button>
     </template>
     <template v-for="page in pages" :key="page.pageNumber">
-      <BaseButton
+      <base-button
         v-if="page.clickable"
         @click="emit('update:currentPage', page.pageNumber)"
         :aria-label="`Go to page ${page.pageNumber}`"
@@ -154,7 +154,7 @@ const handleInput = (value: string) => {
         class="outline contrast"
       >
         {{ page.text }}
-      </BaseButton>
+      </base-button>
       <button v-else disabled class="outline secondary" type="button">
         {{ page.text }}
       </button>
@@ -166,19 +166,19 @@ const handleInput = (value: string) => {
         :max="totalPages"
         :value="currentPage"
         @input="handleInput(($event.target as HTMLInputElement).value)"
-        style="width: 3rem"
         aria-label="Go to page"
+        class="go-to-page"
       />
     </template>
     <template v-if="showPrevNext">
-      <BaseButton
+      <base-button
         @click="emit('update:currentPage', currentPage + 1)"
         aria-label="Next page"
         class="next"
         :disabled="currentPage >= totalPages"
       >
         <span aria-hidden="true">&raquo;</span>
-      </BaseButton>
+      </base-button>
     </template>
   </nav>
 </template>

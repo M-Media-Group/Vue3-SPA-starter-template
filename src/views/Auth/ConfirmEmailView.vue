@@ -21,7 +21,7 @@ const resendEmail = async () => {
 </script>
 <template>
   <h1>{{ $t("Confirm your email") }}</h1>
-  <CardElement :title="$t('Confirm your email')">
+  <card-element :title="$t('Confirm your email')">
     <p>
       {{
         $t(
@@ -32,10 +32,10 @@ const resendEmail = async () => {
     <p class="success" v-if="emailSent">
       {{ $t("A new email has been sent to you.") }}
     </p>
-    <BaseForm
+    <base-form
       v-else
       :submit-text="$t('Resend email')"
       @submit="resendEmail"
-    ></BaseForm>
-  </CardElement>
+    ></base-form>
+  </card-element>
 </template>

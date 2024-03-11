@@ -5,7 +5,7 @@ import BaseForm from "./BaseForm.vue";
 
 const success = ref(false);
 
-const baseForm = ref();
+const baseFormRef = ref();
 
 const emit = defineEmits(["success"]);
 
@@ -20,15 +20,15 @@ const submitForm = async () => {
     success.value = response;
     emit("success");
   } else if (typeof response === "object") {
-    baseForm.value.setInputErrors(response.data.errors);
+    baseFormRef.value.setInputErrors(response.data.errors);
   }
   return success.value;
 };
 </script>
 
 <template>
-  <BaseForm
-    ref="baseForm"
+  <base-form
+    ref="baseFormRef"
     @submit="submitForm"
     :disabled="success"
     :submit-text="$t('Send a new password')"
@@ -47,5 +47,5 @@ const submitForm = async () => {
     <small v-if="success" class="success">{{
       $t("If the account exists an email has been sent!")
     }}</small>
-  </BaseForm>
+  </base-form>
 </template>

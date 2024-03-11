@@ -20,7 +20,7 @@ const attemptOk = (success: () => any, fail: () => any, shouldPass: any) => {
 <template>
   <section>
     <h1>Home</h1>
-    <ConfirmsGate
+    <confirms-gate
       :title="$t('Confirm your email')"
       :gate="[
         {
@@ -33,7 +33,7 @@ const attemptOk = (success: () => any, fail: () => any, shouldPass: any) => {
       ]"
       @confirmed="handleAuthenticated"
     >
-      <BaseButton>Force unconfirmed email</BaseButton>
+      <base-button>Force unconfirmed email</base-button>
 
       <template
         #confirmationElement:hasGivenCameraPermission="{ success, fail }"
@@ -45,45 +45,45 @@ const attemptOk = (success: () => any, fail: () => any, shouldPass: any) => {
             )
           }}
         </p>
-        <BaseButton @click="attemptOk(success, fail, false)">Fail</BaseButton>
-        <BaseButton @click="attemptOk(success, fail, true)">Ok</BaseButton>
+        <base-button @click="attemptOk(success, fail, false)">Fail</base-button>
+        <base-button @click="attemptOk(success, fail, true)">Ok</base-button>
       </template>
-    </ConfirmsGate>
+    </confirms-gate>
 
-    <ConfirmsGate
+    <confirms-gate
       :title="$t('Connect')"
       :gate="['auth', 'confirmedPassword', 'hasPaymentMethod']"
       @confirmed="handleAuthenticated"
     >
-      <BaseButton
+      <base-button
         >Do action when authed, confirmedPassword, and
-        hasPaymentMethod</BaseButton
+        hasPaymentMethod</base-button
       >
-    </ConfirmsGate>
+    </confirms-gate>
 
-    <ConfirmsPaymentMethod @confirmed="handlePaymentOk">
+    <confirms-payment-method @confirmed="handlePaymentOk">
       <template v-slot="{ isConfirming }">
-        <BaseButton :aria-busy="isConfirming"
+        <base-button :aria-busy="isConfirming"
           >Do action when payment method confirmed
-        </BaseButton>
+        </base-button>
       </template>
-    </ConfirmsPaymentMethod>
+    </confirms-payment-method>
 
-    <ConfirmsGate
+    <confirms-gate
       :title="$t('Confirm your password')"
       gate="auth"
       @confirmed="handleAuthenticated"
     >
-      <BaseButton>Do action when password confirmed</BaseButton>
-    </ConfirmsGate>
+      <base-button>Do action when password confirmed</base-button>
+    </confirms-gate>
 
     <!-- Nesting these modals doesnt "really" work -->
     <!-- <ConfirmsAuthenticated @confirmed="handleAuthenticated">
-    <ConfirmsPaymentMethod @confirmed="handlePaymentOk">
-      <BaseButton>
-        Do action when payment method confirmed and authed</BaseButton
+    <confirms-payment-method @confirmed="handlePaymentOk">
+      <base-button>
+        Do action when payment method confirmed and authed</base-button
       >
-    </ConfirmsPaymentMethod>
+    </confirms-payment-method>
   </ConfirmsAuthenticated> -->
   </section>
 </template>

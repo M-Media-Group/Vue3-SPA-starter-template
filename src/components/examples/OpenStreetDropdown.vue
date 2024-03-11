@@ -108,8 +108,8 @@ const debounceGetGeolocationData = debounce(getGeolocationData);
         populated with geolocation names from the API. The search is debounced
         and triggers a new API call.
       </p>
-      <BaseForm :disabled="selectedGeoResultId.length === 0">
-        <DropdownSelect
+      <base-form :disabled="selectedGeoResultId.length === 0">
+        <dropdown-select
           :ariaBusy="isLoadingGeoResults"
           @update:modelValue="selectResult"
           :modelValue="selectedGeoResultId"
@@ -134,8 +134,8 @@ const debounceGetGeolocationData = debounce(getGeolocationData);
               <small> - {{ option.raw.addresstype }}</small>
             </label>
           </template>
-        </DropdownSelect>
-      </BaseForm>
+        </dropdown-select>
+      </base-form>
       <details>
         <summary>Selected result</summary>
         <pre>{{ selectedGeoResult }}</pre>

@@ -9,7 +9,7 @@ const password = ref("");
 
 const success = ref(false);
 
-const baseForm = ref();
+const baseFormRef = ref();
 
 const token = router.currentRoute.value.query.token as string;
 const email = router.currentRoute.value.query.email as string;
@@ -29,14 +29,14 @@ const submitForm = async () => {
       response.data.errors.password = response.data.errors.email;
       delete response.data.errors.email;
     }
-    baseForm.value.setInputErrors(response.data.errors);
+    baseFormRef.value.setInputErrors(response.data.errors);
   }
   return success.value;
 };
 </script>
 
 <template>
-  <BaseForm ref="baseForm" @submit="submitForm" :disabled="success">
+  <base-form ref="baseFormRef" @submit="submitForm" :disabled="success">
     <label for="password">{{ $t("New password") }}</label>
     <input
       type="password"
@@ -51,5 +51,5 @@ const submitForm = async () => {
     <small v-if="success" class="success">{{
       $t("You can now log in with your new password!")
     }}</small>
-  </BaseForm>
+  </base-form>
 </template>

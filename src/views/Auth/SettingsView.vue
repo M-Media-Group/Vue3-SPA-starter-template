@@ -39,10 +39,10 @@ const handleDeleteToken = (id: string) => {
 </script>
 <template>
   <h1>{{ $t("My Account") }}</h1>
-  <CardElement :titleHeadingLevel="2" :title="$t('Settings')">
-    <AccountSettings @updated="handleUpdate"></AccountSettings>
-  </CardElement>
-  <CardElement :titleHeadingLevel="2" :title="$t('Payment methods')">
+  <card-element :titleHeadingLevel="2" :title="$t('Settings')">
+    <account-settings @updated="handleUpdate"></account-settings>
+  </card-element>
+  <card-element :titleHeadingLevel="2" :title="$t('Payment methods')">
     <div v-if="userStore.user?.pm_type">
       <p>
         {{ $t("Default payment method") }}:
@@ -53,7 +53,7 @@ const handleDeleteToken = (id: string) => {
     <div v-else>
       <p>{{ $t("You do not have a default payment method set") }}</p>
     </div>
-    <AddPaymentMethod
+    <add-payment-method
       v-if="addingNewPaymentMethod"
       @success="
         addingNewPaymentMethod = false;
@@ -64,21 +64,24 @@ const handleDeleteToken = (id: string) => {
       data-cy="add-payment-button"
       v-else
       @click="addingNewPaymentMethod = true"
+      type="button"
     >
       {{ $t("Add a payment method") }}
     </button>
-  </CardElement>
-  <CardElement :titleHeadingLevel="2" title="API">
+  </card-element>
+  <card-element :titleHeadingLevel="2" title="API">
     <template v-if="accessTokens.length > 0">
       <ul>
         <li v-for="token in accessTokens" :key="'token-' + token.id">
           <strong>{{ token.name ?? "Untitled token" }}: </strong>
           <span>created {{ token.created_at }}</span>
-          <button @click="handleDeleteToken(token.id)">Delete</button>
+          <button @click="handleDeleteToken(token.id)" type="button">
+            Delete
+          </button>
         </li>
       </ul>
     </template>
     <p v-else>{{ $t("You have no API access tokens.") }}</p>
-    <PersonalAccessTokens @created="handleCreatedToken" />
-  </CardElement>
+    <personal-access-tokens @created="handleCreatedToken" />
+  </card-element>
 </template>

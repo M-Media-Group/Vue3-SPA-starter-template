@@ -326,3 +326,7 @@ details.dropdown[open] summary+ul {
     max-height: 400px;
   }
 }
+
+.go-to-page {
+  width: 3rem;
+}

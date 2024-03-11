@@ -11,7 +11,7 @@ const { t } = useI18n();
 // Email, password, and remember me
 const tokenName = ref("");
 
-const baseForm = ref();
+const baseFormRef = ref();
 
 const emit = defineEmits(["created"]);
 
@@ -31,16 +31,16 @@ const submitForm = async () => {
     alert(text + "\n\n" + response.token);
   } else if (typeof response === "object") {
     // We want to show the user the correct fields to the user so they feel better
-    baseForm.value.setSuccessOnInputs();
+    baseFormRef.value.setSuccessOnInputs();
     // Show the fields with errors
-    baseForm.value.setInputErrors(response.data.errors);
+    baseFormRef.value.setInputErrors(response.data.errors);
   }
 };
 </script>
 
 <template>
-  <BaseForm
-    ref="baseForm"
+  <base-form
+    ref="baseFormRef"
     @submit="submitForm"
     :isLoading="userStore.isLoading"
     submitText="Create a new API token"
@@ -53,5 +53,5 @@ const submitForm = async () => {
       required
       v-model="tokenName"
     />
-  </BaseForm>
+  </base-form>
 </template>

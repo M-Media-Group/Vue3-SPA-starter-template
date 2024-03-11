@@ -21,7 +21,7 @@ const meta: Meta<typeof PaginationNav> = {
       return { args };
     },
     template:
-      "<PaginationNav v-bind='args' v-model:currentPage='args.currentPage' />",
+      "<pagination-nav v-bind='args' v-model:currentPage='args.currentPage' />",
   }),
   //  Set the router "user.isAuthenticated" to true. We will useUserStore to set the user to authenticated
 };

@@ -4,6 +4,6 @@ import BaseButton from "@/components/BaseButton.vue";
 <template>
   <div>
     <h1>404</h1>
-    <BaseButton to="/">{{ $t("Home") }}</BaseButton>
+    <base-button to="/">{{ $t("Home") }}</base-button>
   </div>
 </template>

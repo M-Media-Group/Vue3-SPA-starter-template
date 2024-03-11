@@ -19,7 +19,7 @@ const meta: Meta<typeof DropdownSelect> = {
       return { args };
     },
     template:
-      "<DropdownSelect v-bind='args' v-model='args.modelValue' v-model:search=args.search ><template v-if=args.optionSlot #optionSlot>{{args.optionSlot}}</template></DropdownSelect>",
+      "<dropdown-select v-bind='args' v-model='args.modelValue' v-model:search=args.search ><template v-if=args.optionSlot #optionSlot>{{args.optionSlot}}</template></dropdown-select>",
   }),
 
   argTypes: {

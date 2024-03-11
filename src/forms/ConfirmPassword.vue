@@ -8,7 +8,7 @@ const password = ref("");
 
 const success = ref(false);
 
-const baseForm = ref();
+const baseFormRef = ref();
 
 const emit = defineEmits(["success"]);
 
@@ -20,16 +20,16 @@ const submitForm = async () => {
     success.value = response;
     emit("success");
   } else if (typeof response === "object") {
-    baseForm.value.setInputErrors(response.data.errors);
+    baseFormRef.value.setInputErrors(response.data.errors);
   }
   return success.value;
 };
 </script>
 
 <template>
-  <BaseForm
+  <base-form
     v-if="userStore.isAuthenticated"
-    ref="baseForm"
+    ref="baseFormRef"
     @submit="submitForm"
     :disabled="success"
   >
@@ -47,6 +47,6 @@ const submitForm = async () => {
     <small v-if="success" class="success">{{
       $t("You can now log in with your new password!")
     }}</small>
-  </BaseForm>
+  </base-form>
   <div v-else>{{ $t("Login or sign up to continue") }}</div>
 </template>
