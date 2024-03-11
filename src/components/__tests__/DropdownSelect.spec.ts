@@ -33,6 +33,10 @@ describe("Dropdown Select", () => {
     // There should be 3 options
     const options = wrapper.findAll("li");
     expect(options.length).toBe(3);
+    // The should all not be visible
+    expect(options[0].isVisible()).toBe(false);
+    expect(options[1].isVisible()).toBe(false);
+    expect(options[2].isVisible()).toBe(false);
 
     // The options should have the correct text
     expect(options[0].text()).toBe("One");
@@ -152,14 +156,16 @@ describe("Dropdown Select", () => {
 
     // There should be a search input
     const input = wrapper.find("input[type='search']");
-    expect(input.exists()).toBe(true);
+
+    // It should be not visible at first
+    expect(input.isVisible()).toBe(false);
 
     // By default the input should not have any focus
     expect(input.element).not.toBe(document.activeElement);
 
     // Opening the dropdown should focus the input
-    await wrapper.find("details").trigger("click");
-    // expect(input.element).toBe(document.activeElement);
+    await wrapper.find("summary").trigger("click");
+    expect(input.isVisible()).toBe(true);
 
     // Typing in the seach should emit the search event
     input.setValue("Some value");
@@ -406,7 +412,7 @@ describe("Dropdown Select", () => {
   it("allows select all and deselect all when the `selectAll` prop is true", async () => {
     const wrapper = mount(DropdownSelect, {
       props: {
-        open: true,
+        open: false,
         options: ["One", "Two", "Three"],
         selectAll: true,
         multiple: true,
@@ -417,13 +423,15 @@ describe("Dropdown Select", () => {
         },
       },
     });
-
-    // Click on the summary to open the dropdown
-    await wrapper.find("details").trigger("click");
-
-    // Assert there's a Select all checkbox. It will have a value of all
     const selectAll = wrapper.find("input[type='checkbox'][value='all']");
     expect(selectAll.exists()).toBe(true);
+    expect(selectAll.isVisible()).toBe(false);
+
+    // Click on the summary to open the dropdown
+    await wrapper.find("summary").trigger("click");
+
+    // Assert there's a Select all checkbox. It will have a value of all
+    expect(selectAll.isVisible()).toBe(true);
 
     // Click on the select all checkbox which will be the first one in the list
     await wrapper.find("input[type='checkbox']").trigger("click");
