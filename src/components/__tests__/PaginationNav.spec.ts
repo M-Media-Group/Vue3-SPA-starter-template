@@ -35,6 +35,8 @@ describe("Pagination", () => {
     // With the default of maxPages: 5, we should have 7 buttons (5 pages + prev + next)
     expect(buttons.length).toBe(7);
 
+    // @ts-ignore
+    // @ts-ignore an ambient declaration file doesnt seem to work to add toHTMLValidate @todo and check
     expect(wrapper.html()).toHTMLValidate();
 
     expect(wrapper.html()).toMatchSnapshot();

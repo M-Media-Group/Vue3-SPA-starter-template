@@ -1,9 +1,6 @@
 {
   "extends": "./tsconfig.app.json",
   "exclude": [],
-  "include": [
-    "global.d.ts"
-  ],
   "compilerOptions": {
     "ignoreDeprecations": "5.0",
     "composite": true,

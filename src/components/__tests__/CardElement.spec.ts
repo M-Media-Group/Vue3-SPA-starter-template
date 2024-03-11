@@ -49,6 +49,7 @@ describe("Card element", () => {
     // Expect the snapshot to match
     expect(wrapper.html()).toMatchSnapshot();
 
+    // @ts-ignore an ambient declaration file doesnt seem to work to add toHTMLValidate @todo and check
     expect(wrapper.html()).toHTMLValidate();
   });
 
