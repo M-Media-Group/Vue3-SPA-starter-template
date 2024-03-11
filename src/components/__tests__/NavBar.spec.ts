@@ -7,6 +7,8 @@ import { createTestingPinia } from "@pinia/testing";
 import NavBar from "../NavBar.vue";
 import { useUserStore } from "@/stores/user";
 
+import "html-validate/vitest";
+
 describe("NavBar", () => {
   it("renders properly when logged out", () => {
     const wrapper = mount(NavBar, {
@@ -22,6 +24,8 @@ describe("NavBar", () => {
     expect(wrapper.find("[aria-roledescription='logo']").exists()).toBe(true);
     expect(wrapper.text()).toContain("Login");
     expect(wrapper.text()).toContain("Sign up");
+
+    expect(wrapper.html()).toHTMLValidate();
 
     // Expect the snapshot to match
     expect(wrapper.html()).toMatchSnapshot();
@@ -46,6 +50,8 @@ describe("NavBar", () => {
     expect(wrapper.text()).toContain("My Account");
     expect(wrapper.text()).toContain("Logout");
     expect(wrapper.text()).toContain("Settings");
+
+    expect(wrapper.html()).toHTMLValidate();
 
     // Expect the snapshot to match
     expect(wrapper.html()).toMatchSnapshot();

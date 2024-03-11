@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { RouterLinkStub, mount } from "@vue/test-utils";
 import BaseButton from "../BaseButton.vue";
+import "html-validate/vitest";
 
 describe("Base Button", () => {
   it("renders as a link when an href attribute is set", () => {
@@ -26,6 +27,8 @@ describe("Base Button", () => {
 
     // Expect the snapshot to match
     expect(wrapper.html()).toMatchSnapshot();
+
+    expect(wrapper.html()).toHTMLValidate();
   });
 
   it("renders as a router-link when to attribute is set", () => {
@@ -47,6 +50,8 @@ describe("Base Button", () => {
 
     // Expect the snapshot to match
     expect(wrapper.html()).toMatchSnapshot();
+
+    expect(wrapper.html()).toHTMLValidate();
   });
 
   it("renders as a button when no href or to attribute is set", () => {
@@ -64,6 +69,8 @@ describe("Base Button", () => {
 
     // Expect the snapshot to match
     expect(wrapper.html()).toMatchSnapshot();
+
+    expect(wrapper.html()).toHTMLValidate();
   });
 
   it("renders as a button and passes type attribute", () => {
@@ -85,5 +92,7 @@ describe("Base Button", () => {
 
     // Expect the snapshot to match
     expect(wrapper.html()).toMatchSnapshot();
+
+    expect(wrapper.html()).toHTMLValidate();
   });
 });

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { RouterLinkStub, mount } from "@vue/test-utils";
 import PaginationNav from "../PaginationNav.vue";
+import "html-validate/vitest";
 
 describe("Pagination", () => {
   it("renders correctly by default", () => {
@@ -19,7 +20,7 @@ describe("Pagination", () => {
 
     const pagination = wrapper.find("nav");
     expect(pagination.exists()).toBe(true);
-    expect(wrapper.html()).toMatchSnapshot();
+
     // The first button is the "prev" page and it should be disabled
     const prevButton = wrapper.find("button");
     expect(prevButton.attributes("disabled")).toBe("");
@@ -33,6 +34,10 @@ describe("Pagination", () => {
     const buttons = wrapper.findAll("button");
     // With the default of maxPages: 5, we should have 7 buttons (5 pages + prev + next)
     expect(buttons.length).toBe(7);
+
+    expect(wrapper.html()).toHTMLValidate();
+
+    expect(wrapper.html()).toMatchSnapshot();
   });
 
   it("does not show duplicate pages", () => {

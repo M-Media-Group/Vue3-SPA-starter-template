@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { RouterLinkStub, mount } from "@vue/test-utils";
 import CardElement from "../CardElement.vue";
+import "html-validate/vitest";
 
 describe("Card element", () => {
   it("renders properly without footer", () => {
@@ -47,6 +48,8 @@ describe("Card element", () => {
 
     // Expect the snapshot to match
     expect(wrapper.html()).toMatchSnapshot();
+
+    expect(wrapper.html()).toHTMLValidate();
   });
 
   it("shows a footer when one is passed", () => {

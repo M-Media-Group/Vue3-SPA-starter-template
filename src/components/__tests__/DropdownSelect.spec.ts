@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { RouterLinkStub, mount } from "@vue/test-utils";
 import DropdownSelect from "../DropdownSelect.vue";
+import "html-validate/vitest";
 
 describe("Dropdown Select", () => {
   it("renders correctly", async () => {
@@ -45,6 +46,7 @@ describe("Dropdown Select", () => {
 
     // Expect the snapshot to match
     expect(wrapper.html()).toMatchSnapshot();
+    expect(wrapper.html()).toHTMLValidate();
 
     // There should not be a search input
     const input = wrapper.find("input[type='search']");

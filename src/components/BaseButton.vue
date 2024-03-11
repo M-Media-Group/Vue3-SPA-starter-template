@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { PropType } from "vue";
+
 defineProps({
   /**
    * Where to navigate to. If not set, this component will render a link with the role button. The slot content will be responsible for the actual linking.
@@ -14,6 +16,14 @@ defineProps({
     type: Boolean,
     required: false,
     default: false,
+  },
+  /**
+   * The type of the button. If not set, it will default to `button`.
+   */
+  type: {
+    type: String as PropType<"button" | "submit" | "reset">,
+    required: false,
+    default: "button",
   },
 });
 </script>
@@ -32,13 +42,14 @@ defineProps({
       v-bind="$attrs"
       @click="navigate"
       :disabled="disabled ? disabled : undefined"
+      type="button"
     >
       <!-- @slot This is the default slot which contains the text.  -->
       <slot />
     </button>
   </router-link>
 
-  <button v-else :disabled="disabled ? disabled : undefined">
+  <button v-else :disabled="disabled ? disabled : undefined" :type="type">
     <slot />
   </button>
 </template>

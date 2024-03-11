@@ -155,7 +155,7 @@ const handleInput = (value: string) => {
       >
         {{ page.text }}
       </BaseButton>
-      <button v-else disabled class="outline secondary">
+      <button v-else disabled class="outline secondary" type="button">
         {{ page.text }}
       </button>
     </template>

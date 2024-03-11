@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { mount } from "@vue/test-utils";
 import BaseForm from "../BaseForm.vue";
+import "html-validate/vitest";
 
 describe("Base Form", () => {
   it("renders a form element", () => {
@@ -18,6 +19,10 @@ describe("Base Form", () => {
 
     // The submit button should have a type set to submit
     expect(wrapper.find("button").attributes("type")).toBe("submit");
+
+    expect(wrapper.html()).toMatchSnapshot();
+
+    expect(wrapper.html()).toHTMLValidate();
   });
 
   it("renders the submit text correctly", () => {
@@ -43,6 +48,10 @@ describe("Base Form", () => {
 
     // Expect the form element to have two inputs
     expect(wrapper.findAll("input").length).toBe(2);
+
+    expect(wrapper.html()).toMatchSnapshot();
+
+    expect(wrapper.html()).toHTMLValidate();
   });
 
   it("emits a submit event when submitted", () => {
