@@ -88,7 +88,6 @@ article>:first-child:is(footer) {
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
   scroll-padding: 0 10px;
-
 }
 
 .images>img {
@@ -96,6 +95,12 @@ article>:first-child:is(footer) {
   height: auto;
   object-fit: cover;
   flex-shrink: 0;
+  scroll-snap-align: start;
+}
+
+/* If there is only one image, it should be 100% */
+.images>img:only-child {
+  width: 100%;
 }
 
 a:has(>article),
@@ -329,4 +334,39 @@ details.dropdown[open] summary+ul {
 
 .go-to-page {
   width: 3rem;
+}
+
+.tab-nav li {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.tab-nav button {
+  background: transparent;
+  color: var(--pico-muted-color);
+  border-top: none;
+  border-left: none;
+  border-right: none;
+
+  /* We keep the bottom border so we don't get layout shifts on active and non-active tabs */
+  border-color: transparent;
+  border-radius: 0;
+
+}
+
+.tab-nav button:focus {
+  outline: var(--pico-border-width) solid var(--pico-muted-border-color);
+}
+
+.tab-nav button:active {
+  color: var(--pico-text-color);
+  border-color: var(--pico-border-color);
+  /* Hide the browser */
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tab-nav button.active {
+  color: var(--pico-text-color);
+  border-color: var(--pico-border-color);
+  border-bottom: var(--pico-border-width) solid var(--pico-border-color);
 }
