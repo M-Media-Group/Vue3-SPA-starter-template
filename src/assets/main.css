@@ -95,7 +95,8 @@ article>:first-child:is(footer) {
   height: auto;
   object-fit: cover;
   flex-shrink: 0;
-  scroll-snap-align: start;
+  /* Scroll snap seems to sometimes cause the container to scroll all the way to the right on load - @todo investigate */
+  /* scroll-snap-align: center; */
 }
 
 /* If there is only one image, it should be 100% */
