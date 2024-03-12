@@ -5,6 +5,7 @@ import {
   sharedInputArgTypes,
   sharedInputArgs,
 } from "../Inputs/SharedInputArgs";
+import { expect, userEvent, within } from "@storybook/test";
 
 const meta: Meta<typeof DropdownSelect> = {
   title: "Components/DropdownSelect",
@@ -19,7 +20,7 @@ const meta: Meta<typeof DropdownSelect> = {
       return { args };
     },
     template:
-      "<dropdown-select v-bind='args' v-model='args.modelValue' v-model:search=args.search ><template v-if=args.optionSlot #optionSlot>{{args.optionSlot}}</template></dropdown-select>",
+      "<dropdown-select v-bind='args' v-model='args.modelValue' v-model:search=args.search v-model:isOpen=args.isOpen><template v-if=args.optionSlot #optionSlot>{{args.optionSlot}}</template></dropdown-select>",
   }),
 
   argTypes: {
@@ -109,10 +110,42 @@ export const WithCheckboxesAndHundredOptions: Story = {
     searchable: true,
     showSelectedFirst: true,
     selectAll: true,
+    autofocus: true,
     options: Array.from({ length: 100 }, (_, i) => ({
       id: i,
       render: `Option ${i}`,
     })),
+  },
+  play: async ({ canvasElement }: any) => {
+    const canvas = within(canvasElement);
+
+    // Click on the summary to open the dropdown
+    const firstOption = canvas.getByDisplayValue("0");
+    expect(firstOption).not.toHaveFocus();
+
+    // Pressing tab should focus on the summary
+    await userEvent.tab();
+
+    // The input element should be focused. The input element has a "search" role
+    const input = canvas.getByPlaceholderText("Search for an option");
+    // await expect(input).toHaveFocus();
+
+    // Input some text
+    await userEvent.type(input, "Option");
+
+    // When pressing tab, the focus should move to the first option
+    await userEvent.tab();
+    expect(firstOption).toHaveFocus();
+
+    // Pressing tab again should go to the next option
+    await userEvent.tab();
+    const secondOption = canvas.getByDisplayValue("1");
+    expect(secondOption).toHaveFocus();
+
+    // It should be possible to check it with the space key
+    expect(secondOption).not.toBeChecked();
+    await userEvent.type(secondOption, " ");
+    expect(secondOption).toBeChecked();
   },
 };
 

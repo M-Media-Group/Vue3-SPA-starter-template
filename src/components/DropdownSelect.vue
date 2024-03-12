@@ -294,8 +294,21 @@ watch(
     if (!props.searchable) return;
     if (!searchInput.value) return;
     if (!props.autofocus) return;
-    // Wait for the next tick to focus the input
     searchInput.value?.focus();
+    // Scroll the dropdown to the top - this is needed because the CSS height animation seems to leave us a little bit scrolled down
+    if (dropdownList.value) {
+      dropdownList.value.scrollTop = 0;
+    }
+  }
+);
+
+// Watch the search for changes and scroll up if needed
+watch(
+  () => props.search,
+  () => {
+    if (dropdownList.value) {
+      dropdownList.value.scrollTop = 0;
+    }
   }
 );
 </script>
@@ -331,6 +344,7 @@ watch(
             @click="handleSelectAll"
             :disabled="props.disabled"
             value="all"
+            tabindex="0"
           />
           {{ props.selectAllText }}
         </label>
@@ -354,6 +368,7 @@ watch(
               :value="option.id"
               :checked="props.modelValue.includes(option.id.toString())"
               @click="updateModelValue"
+              tabindex="0"
             />
             {{ option[displayKey] }}
           </label>
