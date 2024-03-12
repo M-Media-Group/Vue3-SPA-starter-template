@@ -31,13 +31,6 @@ const props = defineProps({
   },
 });
 
-type Page = {
-  pageNumber: number;
-  text: string;
-  clickable: boolean;
-  selected?: boolean;
-};
-
 const showablePages = computed(() => {
   return normaliseOptions(props.pages);
 });
