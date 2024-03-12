@@ -297,3 +297,25 @@ export const MultipleCards: Story = {
     ...NotClickable.args,
   },
 };
+
+export const Loading: Story = {
+  args: {
+    title: "Hello World",
+    subtitle: "Hello World",
+    images: [
+      {
+        src: image1,
+        alt: "Placeholder Image",
+      },
+      {
+        src: image2,
+        alt: "Placeholder Image",
+      },
+    ],
+    headerActions: "Hello World",
+    footer: "Hello World",
+    default: "Hello World",
+    to: "/",
+    loading: true,
+  },
+};

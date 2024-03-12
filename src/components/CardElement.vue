@@ -30,12 +30,19 @@ defineProps({
     default: 3,
     validator: (value: number) => value >= 1 && value <= 6,
   },
+  /** If the card should render as a skeleton loader */
+  loading: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 });
 </script>
 
 <template>
   <!-- @todo the animation breaks with component, need to fix. It works when article is direct child or when <template> (from Vue) is used, but not with <component>, even with an :is to a Vue template -->
   <component
+    v-if="!loading"
     :is="to ? 'router-link' : 'vue:template'"
     :to="to ? to : undefined"
   >
@@ -71,4 +78,35 @@ defineProps({
       </footer>
     </article>
   </component>
+  <article v-else>
+    <div class="images" v-if="images?.length">
+      <div class="gl-animate-skeleton-loader" style="height: 100%"></div>
+    </div>
+    <header v-if="title || subtitle || $slots.headerActions || $slots.header">
+      <div style="width: 100%">
+        <div
+          class="gl-animate-skeleton-loader"
+          v-if="title"
+          style="height: 25px"
+        ></div>
+        <div
+          class="gl-animate-skeleton-loader"
+          v-if="subtitle"
+          style="width: 40%"
+        ></div>
+      </div>
+      <div
+        class="gl-animate-skeleton-loader actions"
+        v-if="$slots.headerActions"
+        style="width: 10%"
+      ></div>
+    </header>
+    <template v-if="$slots.default">
+      <div class="gl-animate-skeleton-loader"></div>
+      <div class="gl-animate-skeleton-loader" style="width: 95%"></div>
+    </template>
+    <footer v-if="$slots.footer">
+      <div class="gl-animate-skeleton-loader" style="width: 10%"></div>
+    </footer>
+  </article>
 </template>
