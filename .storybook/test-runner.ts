@@ -18,6 +18,7 @@ const config: TestRunnerConfig = {
   async postVisit(page, context) {
     await waitForPageReady(page);
     await page.waitForLoadState('domcontentloaded'); // Wait for the 'DOMContentLoaded' event.
+    await page.waitForLoadState('networkidle'); // Wait for the idle network
 
     const storyContext = await getStoryContext(page, context);
 
