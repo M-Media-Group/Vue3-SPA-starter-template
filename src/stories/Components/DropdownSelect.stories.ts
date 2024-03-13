@@ -51,6 +51,18 @@ type Story = StoryObj<typeof DropdownSelect>;
 
 export const Default: Story = {};
 
+export const Valid: Story = {
+  args: {
+    ariaInvalid: false,
+  },
+};
+
+export const Invalid: Story = {
+  args: {
+    ariaInvalid: true,
+  },
+};
+
 export const Open: Story = {
   args: {
     isOpen: true,

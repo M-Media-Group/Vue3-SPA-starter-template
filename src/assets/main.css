@@ -54,7 +54,7 @@ article>:last-child:not(footer) {
 
 /* If the last child is the header,  */
 article>:last-child:is(header) {
-  margin-bottom: calc(var(--pico-block-spacing-vertical)* -2);
+  margin-bottom: calc(var(--pico-block-spacing-vertical)* -1);
 }
 
 /* If the .images are the first child, remove margin-top and add a margin-bottom */
@@ -298,7 +298,7 @@ ul>li>input[type="search"] {
   margin-bottom: 0;
   margin-left: -1rem;
   width: calc(100% + 2rem);
-  background-color: transparent;
+  background-color: unset;
   /* background-position: left calc(var(--pico-form-element-spacing-horizontal) + .125rem); */
   border-radius: 0;
 }
@@ -376,7 +376,7 @@ article {
 }
 
 .tab-nav button {
-  background: transparent;
+  background: unset;
   color: var(--pico-muted-color);
   border-top: none;
   border-left: none;
@@ -395,12 +395,26 @@ article {
 .tab-nav button:active {
   color: var(--pico-text-color);
   border-color: var(--pico-border-color);
-  /* Hide the browser */
-  -webkit-tap-highlight-color: transparent;
 }
 
 .tab-nav button.active {
   color: var(--pico-text-color);
   border-color: var(--pico-border-color);
   border-bottom: var(--pico-border-width) solid var(--pico-border-color);
+}
+
+.dropdown+small {
+  display: block;
+  width: 100%;
+  margin-top: calc(var(--pico-spacing)* -.75);
+  margin-bottom: var(--pico-spacing);
+  color: var(--pico-muted-color);
+}
+
+.dropdown:has(summary[aria-invalid=true])+small {
+  color: var(--pico-del-color);
+}
+
+.dropdown:has(summary[aria-invalid=false])+small {
+  color: var(--pico-ins-color);
 }
