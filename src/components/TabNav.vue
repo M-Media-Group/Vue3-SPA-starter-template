@@ -35,10 +35,7 @@ const showablePages = computed(() => {
   return normaliseOptions(props.pages);
 });
 
-const handleClick = (page: MouseEvent) => {
-  // Get the ID from the data-id attribute
-  const pageId = (page.target as HTMLElement).getAttribute("data-id");
-
+const handleClick = (pageId: string) => {
   if (!pageId) {
     return;
   }
@@ -53,8 +50,6 @@ const handleClick = (page: MouseEvent) => {
     ? props.modelValue.filter((id) => id !== pageId)
     : [...props.modelValue, pageId];
 
-  console.log("handleClick", newPages);
-
   emit("update:modelValue", newPages);
 };
 </script>
@@ -63,7 +58,7 @@ const handleClick = (page: MouseEvent) => {
     <ul>
       <li v-for="page in showablePages" :key="page.id">
         <base-button
-          @click="handleClick"
+          @click="handleClick(page.id)"
           aria-label="Go to page {{ page.id }}"
           :data-id="page.id"
           :class="{ active: modelValue?.includes(page.id) }"
