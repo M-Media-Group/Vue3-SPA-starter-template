@@ -8,7 +8,7 @@ describe("Tab navigation", () => {
   it("renders correctly by default", () => {
     const wrapper = mount(TabNav, {
       props: {
-        pages: [
+        options: [
           { render: "Page 1", id: "1" },
           { render: "Page 2", id: "2" },
           { render: "Page 3", id: "3" },

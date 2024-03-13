@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { type PropType, computed } from "vue";
+import type { PropType } from "vue";
 import BaseButton from "./BaseButton.vue";
 import type { selectOption } from "@/types/listItem";
-import { normaliseOptions } from "@/helpers/normaliseOptions";
+import { useMultiselect } from "@/stories/Composables/multiselect";
 
 const emit = defineEmits([
   /** The page the user has navigated to, either by clicking directly on a page or by using the previous and next buttons */
@@ -18,7 +18,7 @@ const props = defineProps({
   },
 
   /** The pages to show in the tab nav */
-  pages: {
+  options: {
     type: Array as PropType<selectOption[]>,
     required: true,
   },
@@ -29,11 +29,15 @@ const props = defineProps({
     required: false,
     default: false,
   },
+
+  /** The key to use for what to display */
+  displayKey: {
+    type: String as PropType<"id" | "render">,
+    default: "render",
+  },
 });
 
-const showablePages = computed(() => {
-  return normaliseOptions(props.pages);
-});
+const { normalisedOptions, getLabel } = useMultiselect(props);
 
 const handleClick = (pageId: string) => {
   if (!pageId) {
@@ -56,14 +60,14 @@ const handleClick = (pageId: string) => {
 <template>
   <nav aria-label="Tab Navigation" class="tab-nav">
     <ul>
-      <li v-for="page in showablePages" :key="page.id">
+      <li v-for="page in normalisedOptions" :key="page.id">
         <base-button
           @click="handleClick(page.id)"
           aria-label="Go to page {{ page.id }}"
           :data-id="page.id"
           :class="{ active: modelValue?.includes(page.id) }"
         >
-          {{ page.render }}
+          {{ getLabel(page) }}
         </base-button>
       </li>
     </ul>

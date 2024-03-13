@@ -1,7 +1,9 @@
-import type { selectOption } from "@/types/listItem";
+import type { normalisedOptionObject, selectOption } from "@/types/listItem";
 
 /** Since we support either a callback or a string, we need to normalize the options to always have a render function */
-export const normaliseOptions = (options?: selectOption[]) => {
+export const normaliseOptions = (
+  options?: selectOption[]
+): normalisedOptionObject[] => {
   if (!options) return [];
 
   // We will use a straight for loop for performance

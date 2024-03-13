@@ -11,9 +11,9 @@ const meta: Meta<typeof TabNav> = {
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
 
-  // pass a pages prop to the component
+  // pass a options prop to the component
   args: {
-    pages: [
+    options: [
       { render: "Page 1", id: "1" },
       { render: "Page 2", id: "2" },
       { render: "Page 3", id: "3" },

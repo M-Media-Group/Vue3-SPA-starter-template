@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import {
   filterOptions,
-  normaliseOptions,
   orderOptionsBySelectedFirst,
 } from "@/helpers/normaliseOptions";
+import { useMultiselect } from "@/stories/Composables/multiselect";
 import type { selectOption } from "@/types/listItem";
 import { type PropType, computed, onMounted, ref, watch } from "vue";
 
@@ -29,6 +29,7 @@ const props = defineProps({
   /** The passed options */
   options: {
     type: Array as PropType<selectOption[]>,
+    default: () => [],
   },
 
   /** Whether the select is open or not */
@@ -154,6 +155,8 @@ const emit = defineEmits([
   "update:isOpen",
 ]);
 
+const { normalisedOptions, getLabel } = useMultiselect(props);
+
 const updateModelValue = (event: Event) => {
   const target = event.target as HTMLInputElement;
   const value = target.value;
@@ -188,21 +191,12 @@ const handleSelectAll = (event: Event) => {
   }
 };
 
-let normalisedOptions = normaliseOptions(props.options);
-
-watch(
-  () => props.options,
-  () => {
-    normalisedOptions = normaliseOptions(props.options);
-  }
-);
-
 const filteredOptions = computed(() => {
   if (!props.options) return [];
 
-  if (!props.searchLocally) return normalisedOptions;
+  if (!props.searchLocally) return normalisedOptions.value;
 
-  return filterOptions(normalisedOptions, props.search);
+  return filterOptions(normalisedOptions.value, props.search);
 });
 
 const orderedOptions = computed(() => {
@@ -227,11 +221,6 @@ const showSelectAll = computed(() => {
   if (props.search) return false;
   return true;
 });
-
-const getLabel = (option: selectOption) => {
-  if (typeof option === "string") return option;
-  return option[props.displayKey];
-};
 
 /** Logic to setup the listening of when the user reached teh nottom of the dropdown list */
 const dropdownList = ref<HTMLUListElement | null>(null);
@@ -272,7 +261,7 @@ const getSummaryText = () => {
   if (props.modelValue.length > 0) {
     return props.modelValue
       .map((value) => {
-        const option = normalisedOptions.find((option) =>
+        const option = normalisedOptions.value.find((option) =>
           typeof option === "string" ? option === value : option.id === value
         );
         return option
@@ -370,7 +359,7 @@ watch(
               @click="updateModelValue"
               tabindex="0"
             />
-            {{ option[displayKey] }}
+            {{ getLabel(option) }}
           </label>
         </slot>
       </li>
