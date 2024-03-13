@@ -243,7 +243,7 @@ const setupDropdownList = () => {
     if (!dropdownList.value) return;
     if (
       dropdownList.value.scrollTop + dropdownList.value.clientHeight >=
-      dropdownList.value.scrollHeight
+      dropdownList.value.scrollHeight - 10
     ) {
       emit("reachedEndOfList");
     }
