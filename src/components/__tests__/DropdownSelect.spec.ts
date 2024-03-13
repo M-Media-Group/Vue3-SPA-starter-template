@@ -419,6 +419,9 @@ describe("Dropdown Select", () => {
         options: ["One", "Two", "Three"],
         selectAll: true,
         multiple: true,
+        "onUpdate:modelValue": (value) => {
+          wrapper.setProps({ modelValue: value });
+        },
       },
       global: {
         stubs: {
@@ -437,7 +440,7 @@ describe("Dropdown Select", () => {
     expect(selectAll.isVisible()).toBe(true);
 
     // Click on the select all checkbox which will be the first one in the list
-    await wrapper.find("input[type='checkbox']").trigger("click");
+    await selectAll.trigger("click");
 
     // Expect all options to be selected
     expect(wrapper.emitted("update:modelValue")?.[0]).toEqual([
@@ -445,7 +448,7 @@ describe("Dropdown Select", () => {
     ]);
 
     // Click on the select all checkbox again
-    await wrapper.find("input[type='checkbox']").trigger("click");
+    await selectAll.trigger("click");
 
     // Expect all options to be deselected
     expect(wrapper.emitted("update:modelValue")?.[1]).toEqual([[]]);

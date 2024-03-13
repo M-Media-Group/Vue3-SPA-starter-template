@@ -3,11 +3,11 @@
 exports[`Tab navigation > renders correctly by default 1`] = `
 "<nav aria-label="Tab Navigation" class="tab-nav">
   <ul>
-    <li><button type="button" aria-label="Go to page {{ page.id }}" data-id="1" class="">Page 1</button></li>
-    <li><button type="button" aria-label="Go to page {{ page.id }}" data-id="2" class="">Page 2</button></li>
-    <li><button type="button" aria-label="Go to page {{ page.id }}" data-id="3" class="">Page 3</button></li>
-    <li><button type="button" aria-label="Go to page {{ page.id }}" data-id="4" class="">Page 4</button></li>
-    <li><button type="button" aria-label="Go to page {{ page.id }}" data-id="5" class="">Page 5</button></li>
+    <li><button type="button" aria-label="Go to page 1" data-id="1" class="">Page 1</button></li>
+    <li><button type="button" aria-label="Go to page 2" data-id="2" class="">Page 2</button></li>
+    <li><button type="button" aria-label="Go to page 3" data-id="3" class="">Page 3</button></li>
+    <li><button type="button" aria-label="Go to page 4" data-id="4" class="">Page 4</button></li>
+    <li><button type="button" aria-label="Go to page 5" data-id="5" class="">Page 5</button></li>
   </ul>
 </nav>"
 `;

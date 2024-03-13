@@ -148,51 +148,31 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits([
-  "update:modelValue",
-  "update:search",
-  "reachedEndOfList",
-  "update:isOpen",
-]);
+// Above rewritten in type declaration
+const emit = defineEmits<{
+  "update:modelValue": [string[]];
+  "update:search": [string];
+  reachedEndOfList: [];
+  "update:isOpen": [boolean];
+}>();
 
-const { normalisedOptions, getLabel } = useMultiselect(props);
+const {
+  normalisedOptions,
+  getLabel,
+  isOptionSelected,
+  toggleAllOptions,
+  updateModelValue,
+} = useMultiselect(props, emit);
 
-const updateModelValue = (event: Event) => {
+const setModelValue = (event: Event) => {
   const target = event.target as HTMLInputElement;
   const value = target.value;
 
-  if ((!props.modelValue || !props.multiple) && target.checked) {
-    emit("update:modelValue", [value]);
-    return;
-  }
-
-  if (target.checked) {
-    emit("update:modelValue", [...props.modelValue, value]);
-    return;
-  }
-
-  emit(
-    "update:modelValue",
-    props.modelValue.filter((v) => v !== value)
-  );
-};
-
-const handleSelectAll = (event: Event) => {
-  const target = event.target as HTMLInputElement;
-  if (target.checked) {
-    emit(
-      "update:modelValue",
-      props.options?.map((option) => {
-        return typeof option === "string" ? option : option.id.toString();
-      }) ?? []
-    );
-  } else {
-    emit("update:modelValue", []);
-  }
+  updateModelValue(value, target.checked);
 };
 
 const filteredOptions = computed(() => {
-  if (!props.options) return [];
+  if (!normalisedOptions.value) return [];
 
   if (!props.searchLocally) return normalisedOptions.value;
 
@@ -200,7 +180,7 @@ const filteredOptions = computed(() => {
 });
 
 const orderedOptions = computed(() => {
-  if (!props.options) return [];
+  if (!filteredOptions.value) return [];
 
   if (!props.showSelectedFirst) {
     return filteredOptions.value;
@@ -215,10 +195,10 @@ const orderedOptions = computed(() => {
 
 const showSelectAll = computed(() => {
   if (!props.selectAll) return false;
-  if (!props.options) return false;
   if (!props.multiple) return false;
   // If we are in search, we don't show it because we don't want to confuse the user user about what is being selected
   if (props.search) return false;
+  if (!normalisedOptions.value) return false;
   return true;
 });
 
@@ -262,7 +242,9 @@ const getSummaryText = () => {
     return props.modelValue
       .map((value) => {
         const option = normalisedOptions.value.find((option) =>
-          typeof option === "string" ? option === value : option.id === value
+          typeof option === "string"
+            ? option === value
+            : option[props.modelKey] === value
         );
         return option
           ? getLabel(option)
@@ -329,8 +311,8 @@ watch(
         <label>
           <input
             type="checkbox"
-            :checked="props.modelValue.length === props.options?.length"
-            @click="handleSelectAll"
+            :checked="props.modelValue.length === normalisedOptions?.length"
+            @click="toggleAllOptions"
             :disabled="props.disabled"
             value="all"
             tabindex="0"
@@ -341,22 +323,22 @@ watch(
 
       <li
         v-for="option in orderedOptions?.slice(0, props.visibleLimit)"
-        :key="option.id"
+        :key="option[modelKey]"
       >
         <slot
           name="optionSlot"
           :option="option"
-          :checked="props.modelValue?.includes(option.id.toString())"
-          :updateModelValue="updateModelValue"
+          :checked="isOptionSelected(option)"
+          :updateModelValue="setModelValue"
           :modelValue="props.modelValue"
         >
           <label>
             <input
               type="checkbox"
               :disabled="props.disabled"
-              :value="option.id"
-              :checked="props.modelValue.includes(option.id.toString())"
-              @click="updateModelValue"
+              :value="option[modelKey]"
+              :checked="isOptionSelected(option)"
+              @click="setModelValue"
               tabindex="0"
             />
             {{ getLabel(option) }}

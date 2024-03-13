@@ -17,6 +17,12 @@ const props = defineProps({
     default: () => [],
   },
 
+  /** The key to use to determine what value to return in the model */
+  modelKey: {
+    type: String as PropType<"id" | "render">,
+    default: "id",
+  },
+
   /** The pages to show in the tab nav */
   options: {
     type: Array as PropType<selectOption[]>,
@@ -37,35 +43,18 @@ const props = defineProps({
   },
 });
 
-const { normalisedOptions, getLabel } = useMultiselect(props);
-
-const handleClick = (pageId: string) => {
-  if (!pageId) {
-    return;
-  }
-
-  if (!props.multiple) {
-    emit("update:modelValue", [pageId]);
-    return;
-  }
-
-  // Always emit the full array of selected page IDs
-  const newPages = props.modelValue.includes(pageId)
-    ? props.modelValue.filter((id) => id !== pageId)
-    : [...props.modelValue, pageId];
-
-  emit("update:modelValue", newPages);
-};
+const { normalisedOptions, getLabel, isOptionSelected, updateModelValue } =
+  useMultiselect(props, emit);
 </script>
 <template>
   <nav aria-label="Tab Navigation" class="tab-nav">
     <ul>
-      <li v-for="page in normalisedOptions" :key="page.id">
+      <li v-for="page in normalisedOptions" :key="page[modelKey]">
         <base-button
-          @click="handleClick(page.id)"
-          aria-label="Go to page {{ page.id }}"
-          :data-id="page.id"
-          :class="{ active: modelValue?.includes(page.id) }"
+          @click="updateModelValue(page[modelKey])"
+          :aria-label="`Go to page ${page[modelKey]}`"
+          :data-id="page[modelKey]"
+          :class="{ active: isOptionSelected(page) }"
         >
           {{ getLabel(page) }}
         </base-button>
