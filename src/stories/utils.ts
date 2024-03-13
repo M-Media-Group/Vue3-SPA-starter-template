@@ -5,9 +5,9 @@ export const expectChildrenNotOverflowing = (
   children: HTMLCollectionOf<Element>,
   parent: Element
 ) => {
+  const elementRect = parent.getBoundingClientRect();
   for (const child of children) {
     const childRect = child.getBoundingClientRect();
-    const elementRect = parent.getBoundingClientRect();
     expect(childRect.width).toBeLessThanOrEqual(elementRect.width);
     expect(childRect.height).toBeLessThanOrEqual(elementRect.height);
     if (child.children.length > 0) {
