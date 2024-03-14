@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import { debounce } from "@/helpers/debounce";
 import {
   filterOptions,
   orderOptionsBySelectedFirst,
 } from "@/helpers/normaliseOptions";
-import { useMultiselect } from "@/stories/Composables/multiselect";
+import { useMultiselect } from "@/stories/Composables/useMultiselect";
 import type { selectOption } from "@/types/listItem";
 import { type PropType, computed, onMounted, ref, watch } from "vue";
 
@@ -205,6 +206,16 @@ const showSelectAll = computed(() => {
 /** Logic to setup the listening of when the user reached teh nottom of the dropdown list */
 const dropdownList = ref<HTMLUListElement | null>(null);
 
+const handleReachedEndOfList = () => {
+  emit("reachedEndOfList");
+};
+
+const reachedEndOfListDebounced = debounce(
+  handleReachedEndOfList,
+  undefined,
+  true
+);
+
 const setupDropdownList = () => {
   if (!dropdownList.value) return;
 
@@ -212,9 +223,9 @@ const setupDropdownList = () => {
     if (!dropdownList.value) return;
     if (
       dropdownList.value.scrollTop + dropdownList.value.clientHeight >=
-      dropdownList.value.scrollHeight - 10
+      dropdownList.value.scrollHeight - 5
     ) {
-      emit("reachedEndOfList");
+      reachedEndOfListDebounced();
     }
   });
 };
