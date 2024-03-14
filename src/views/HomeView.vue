@@ -22,7 +22,7 @@ import TheWelcome from "../components/TheWelcome.vue";
         Sed ultricies dolor non ante vulputate hendrerit. Vivamus sit amet
         suscipit sapien. Nulla iaculis eros a elit pharetra egestas.
       </p>
-      <form>
+      <base-form>
         <div class="grid">
           <input
             type="text"
@@ -48,7 +48,7 @@ import TheWelcome from "../components/TheWelcome.vue";
             <a href="#" onclick="event.preventDefault()">Privacy Policy</a>
           </label>
         </fieldset>
-      </form>
+      </base-form>
     </section>
     <!-- ./ Preview -->
 
@@ -161,21 +161,23 @@ import TheWelcome from "../components/TheWelcome.vue";
     <section id="buttons">
       <h2>Buttons</h2>
       <p class="grid">
-        <button>Primary</button>
-        <button class="secondary">Secondary</button>
-        <button class="contrast">Contrast</button>
+        <button type="button">Primary</button>
+        <button class="secondary" type="button">Secondary</button>
+        <button class="contrast" type="button">Contrast</button>
       </p>
       <p class="grid">
-        <button class="outline">Primary outline</button>
-        <button class="outline secondary">Secondary outline</button>
-        <button class="outline contrast">Contrast outline</button>
+        <button class="outline" type="button">Primary outline</button>
+        <button class="outline secondary" type="button">
+          Secondary outline
+        </button>
+        <button class="outline contrast" type="button">Contrast outline</button>
       </p>
     </section>
     <!-- ./ Buttons -->
 
     <!-- Form elements-->
     <section id="form">
-      <form>
+      <base-form>
         <h2>Form elements</h2>
 
         <!-- Search -->
@@ -333,7 +335,7 @@ import TheWelcome from "../components/TheWelcome.vue";
         <!-- Buttons -->
         <input type="reset" value="Reset" onclick="event.preventDefault()" />
         <input type="submit" value="Submit" onclick="event.preventDefault()" />
-      </form>
+      </base-form>
     </section>
     <!-- ./ Form elements-->
 
@@ -394,7 +396,7 @@ import TheWelcome from "../components/TheWelcome.vue";
     <!-- Modal -->
     <section id="modal">
       <h2>Modal</h2>
-      <TheWelcome />
+      <the-welcome />
     </section>
     <!-- ./ Modal -->
 
@@ -471,7 +473,7 @@ import TheWelcome from "../components/TheWelcome.vue";
     <section id="loading">
       <h2>Loading</h2>
       <article aria-busy="true"></article>
-      <button aria-busy="true">Please wait…</button>
+      <button aria-busy="true" type="button">Please wait…</button>
     </section>
   </main>
 </template>
