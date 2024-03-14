@@ -40,5 +40,13 @@ describe("Debounce Function", () => {
 
     expect(fn).toHaveBeenCalledTimes(1);
     expect(fn).toHaveBeenLastCalledWith(1);
+
+    // It should be possible to call the function again
+    debounced(4);
+
+    vi.runAllTimers();
+
+    expect(fn).toHaveBeenCalledTimes(2);
+    expect(fn).toHaveBeenLastCalledWith(4);
   });
 });

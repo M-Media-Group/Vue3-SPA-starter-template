@@ -10,7 +10,7 @@
  * @param leading - If the function should be called on the leading edge or the trailing edge (first-in triggers the function vs last-in triggers the function)
  */
 export const debounce = (fn: Function, delay = 300, leading = false) => {
-  let timeoutId: ReturnType<typeof setTimeout>;
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
   return (...args: any[]) => {
     if (leading && !timeoutId) {
@@ -22,6 +22,7 @@ export const debounce = (fn: Function, delay = 300, leading = false) => {
       if (!leading) {
         fn(...args);
       }
+      timeoutId = undefined; // Reset timeoutId after function execution
     }, delay);
   };
 };
