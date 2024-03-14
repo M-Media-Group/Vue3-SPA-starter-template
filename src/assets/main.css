@@ -321,6 +321,7 @@ details.dropdown summary+ul li:where(:has(input[type="search"])) {
 details.dropdown[open] summary+ul {
   max-height: 0;
   animation: dropdownHeight 0.2s ease forwards;
+  overflow-y: auto;
 }
 
 @keyframes dropdownHeight {
