@@ -26,7 +26,7 @@ https://vue3-starter-storybook.netlify.app/index.html
 ## Features
 
 - Highly performant and flexible
-- Widely tested with Unit and E2E tests
+- Widely tested with Unit, Visual, and E2E tests
   - Includes Github Actions for CI running both types of tests
   - Includes all fixtures and mocks needed for testing
   - Includes unit-test coverage reports
