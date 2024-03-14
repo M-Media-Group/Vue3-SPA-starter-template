@@ -2,7 +2,7 @@
 import type { PropType } from "vue";
 import BaseButton from "./BaseButton.vue";
 import type { selectOption } from "@/types/listItem";
-import { useMultiselect } from "@/stories/Composables/multiselect";
+import { useMultiselect } from "@/stories/Composables/useMultiselect";
 
 const emit = defineEmits([
   /** The page the user has navigated to, either by clicking directly on a page or by using the previous and next buttons */
@@ -62,3 +62,4 @@ const { normalisedOptions, getLabel, isOptionSelected, updateModelValue } =
     </ul>
   </nav>
 </template>
+@/stories/Composables/useMultiselect
