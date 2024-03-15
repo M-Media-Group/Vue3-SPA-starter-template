@@ -20,7 +20,7 @@ main>* {
 }
 
 nav~main {
-  margin-top: 40px;
+  margin-top: var(--pico-spacing);
 }
 
 main~footer {
@@ -153,7 +153,7 @@ nav form {
 /* we will explain what these classes do next! */
 .v-enter-active,
 .v-leave-active {
-  transition: opacity 0.5s ease;
+  transition: opacity 0.1s ease;
 }
 
 .v-enter-from,
@@ -366,7 +366,12 @@ details.dropdown[open] summary+ul {
   }
 }
 
-/* Animation to fade-reveal in the article from top left to bottom right */
+nav[aria-label=Pagination],
+nav.tab-nav {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 article {
   position: relative;
 }
@@ -404,6 +409,7 @@ article {
   border-bottom: var(--pico-border-width) solid var(--pico-border-color);
 }
 
+/** Fix for dropdown input helptext inconsistent with other inputs */
 .dropdown+small {
   display: block;
   width: 100%;
