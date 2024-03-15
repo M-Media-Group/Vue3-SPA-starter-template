@@ -134,7 +134,7 @@ const handleInput = (value: string) => {
 };
 </script>
 <template>
-  <nav aria-label="Pagination">
+  <nav role="navigation" aria-label="Pagination">
     <template v-if="showPrevNext">
       <base-button
         @click="emit('update:currentPage', currentPage - 1)"

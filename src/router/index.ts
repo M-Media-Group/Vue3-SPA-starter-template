@@ -41,6 +41,17 @@ const router = createRouter({
       },
       component: () => import("../views/AboutView.vue"),
     },
+    // Example routes
+    {
+      path: "/examples/cartesio",
+      name: "Examples",
+      component: () => import("../views/Examples/CartesIoView.vue"),
+    },
+    {
+      path: "/examples/deals",
+      name: "Examples",
+      component: () => import("../views/Examples/DealsView.vue"),
+    },
     // Add a catch-all 404 page
     {
       path: "/:pathMatch(.*)*",
