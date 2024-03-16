@@ -163,6 +163,7 @@ const {
   isOptionSelected,
   toggleAllOptions,
   updateModelValue,
+  recomputeOptions,
 } = useMultiselect(props, emit);
 
 const setModelValue = (event: Event) => {
@@ -297,6 +298,14 @@ watch(
     if (dropdownList.value) {
       dropdownList.value.scrollTop = 0;
     }
+  }
+);
+
+// Using the pattern below rather than a computed value gives us a 2x performance improvement
+watch(
+  () => props.options,
+  () => {
+    recomputeOptions();
   }
 );
 </script>
