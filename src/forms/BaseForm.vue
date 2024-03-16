@@ -43,7 +43,7 @@ const props = defineProps({
     default: true,
   },
   /** Whether the form should autofocus on the first input or not. */
-  autoFocus: {
+  autofocus: {
     type: Boolean,
     default: true,
   },
@@ -212,7 +212,7 @@ onUpdated(async () => {
 onMounted(() => {
   checkValidity();
   // Focus on the first input if the document is not already focused on something
-  if (!document.querySelector(":focus") && props.autoFocus) {
+  if (!document.querySelector(":focus") && props.autofocus) {
     focusOnFirstInput();
   }
 });
