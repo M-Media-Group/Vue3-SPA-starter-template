@@ -269,13 +269,19 @@ const getSummaryText = () => {
   return props.placeholder;
 };
 
+const canBeFocusedOn = computed(
+  () =>
+    (props.isOpen &&
+      searchInput.value &&
+      props.searchable &&
+      props.autofocus) ??
+    false
+);
+
 watch(
   () => props.isOpen,
   () => {
-    if (!props.isOpen) return;
-    if (!props.searchable) return;
-    if (!searchInput.value) return;
-    if (!props.autofocus) return;
+    if (!canBeFocusedOn.value) return;
     searchInput.value?.focus();
     // Scroll the dropdown to the top - this is needed because the CSS height animation seems to leave us a little bit scrolled down
     if (dropdownList.value) {
@@ -314,7 +320,7 @@ watch(
           :aria-busy="props.ariaBusy"
           :placeholder="props.searchPlaceholder"
           :aria-label="props.searchPlaceholder"
-          autofocus
+          :autofocus="canBeFocusedOn"
           ref="searchInput"
         />
       </li>
