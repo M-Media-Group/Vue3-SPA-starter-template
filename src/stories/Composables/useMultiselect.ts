@@ -1,6 +1,6 @@
 import { normaliseOptions } from "@/helpers/normaliseOptions";
 import type { normalisedOptionObject, selectOption } from "@/types/listItem";
-import { ref, watch } from "vue";
+import { computed, toRaw } from "vue";
 
 type requiredProps = {
   options: selectOption[];
@@ -15,16 +15,12 @@ type requiredEmits = (evt: "update:modelValue", args_0: string[]) => void;
 // A composable for a multiselect component
 export function useMultiselect(props: requiredProps, emit: requiredEmits) {
   // Using the pattern below rather than a computed value gives us a 2x performance improvement
-  const normalisedOptions = ref(normaliseOptions(props.options));
-  const recomputeOptions = () => {
-    normalisedOptions.value = normaliseOptions(props.options);
-  };
-  watch(
-    () => props.options,
-    () => {
-      recomputeOptions();
-    }
-  );
+
+  // eslint-disable-next-line no-secrets/no-secrets
+  // Using toRaw so that its not so deeply reactive, this gives us a 10x performance boost. @see and thank https://www.reddit.com/r/vuejs/comments/1bg4266/comment/kv6yece/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+  const normalisedOptions = computed(() => {
+    return normaliseOptions(toRaw(props.options));
+  });
 
   const getLabel = (option: selectOption) => {
     if (typeof option === "string") return option;
@@ -85,6 +81,5 @@ export function useMultiselect(props: requiredProps, emit: requiredEmits) {
     selectAllOptions,
     unselectAllOptions,
     toggleAllOptions,
-    recomputeOptions,
   };
 }

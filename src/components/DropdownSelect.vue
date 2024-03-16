@@ -163,7 +163,6 @@ const {
   isOptionSelected,
   toggleAllOptions,
   updateModelValue,
-  recomputeOptions,
 } = useMultiselect(props, emit);
 
 const setModelValue = (event: Event) => {
