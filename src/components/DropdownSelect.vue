@@ -300,14 +300,6 @@ watch(
     }
   }
 );
-
-// Using the pattern below rather than a computed value gives us a 2x performance improvement
-watch(
-  () => props.options,
-  () => {
-    recomputeOptions();
-  }
-);
 </script>
 <template>
   <details class="dropdown" :open="props.isOpen" @toggle="openResults">

@@ -1,6 +1,6 @@
 import { normaliseOptions } from "@/helpers/normaliseOptions";
 import type { normalisedOptionObject, selectOption } from "@/types/listItem";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 type requiredProps = {
   options: selectOption[];
@@ -19,6 +19,12 @@ export function useMultiselect(props: requiredProps, emit: requiredEmits) {
   const recomputeOptions = () => {
     normalisedOptions.value = normaliseOptions(props.options);
   };
+  watch(
+    () => props.options,
+    () => {
+      recomputeOptions();
+    }
+  );
 
   const getLabel = (option: selectOption) => {
     if (typeof option === "string") return option;
