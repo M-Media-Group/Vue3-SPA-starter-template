@@ -44,7 +44,7 @@ const router = createRouter({
     // Example routes
     {
       path: "/examples/cartesio",
-      name: "Examples",
+      name: "CartesIo",
       component: () => import("../views/Examples/CartesIoView.vue"),
     },
     {
