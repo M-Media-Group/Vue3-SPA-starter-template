@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { RouterLinkStub, mount } from "@vue/test-utils";
+import { mount } from "@vue/test-utils";
 import DropdownSelect from "../DropdownSelect.vue";
 import "html-validate/vitest";
 
@@ -15,11 +15,6 @@ describe("Dropdown Select", () => {
           wrapper.setProps({ modelValue: value });
         },
         isOpen: false,
-      },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
       },
     });
 
@@ -114,11 +109,6 @@ describe("Dropdown Select", () => {
         options: ["One", "Two", "Three"],
         modelValue: ["One"],
       },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
-      },
     });
 
     // Click on the summary to open the dropdown
@@ -150,11 +140,6 @@ describe("Dropdown Select", () => {
         searchable: true,
         searchPlaceholder: "Search for something",
       },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
-      },
     });
 
     // There should be a search input
@@ -185,11 +170,6 @@ describe("Dropdown Select", () => {
         options: ["One", "Two", "Three"],
         search: "One",
       },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
-      },
     });
     // There should be 1 option visible
     const options = wrapper.findAll("label");
@@ -205,11 +185,6 @@ describe("Dropdown Select", () => {
         options: ["One", "Two", "Three"],
         search: "One",
       },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
-      },
     });
     // There should be 3 options visible
     const options = wrapper.findAll("label");
@@ -224,11 +199,6 @@ describe("Dropdown Select", () => {
         search: "",
         "onUpdate:search": (value) => {
           wrapper.setProps({ search: value });
-        },
-      },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
         },
       },
     });
@@ -269,11 +239,6 @@ describe("Dropdown Select", () => {
         modelValue: [],
         "onUpdate:modelValue": (value) => {
           wrapper.setProps({ modelValue: value });
-        },
-      },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
         },
       },
     });
@@ -351,11 +316,6 @@ describe("Dropdown Select", () => {
           </template>
         `,
       },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
-      },
     });
 
     // Click on the summary to open the dropdown
@@ -392,11 +352,6 @@ describe("Dropdown Select", () => {
         options: Array.from({ length: 50 }, (_, i) => `Option ${i}`),
         modelValue: ["One"],
       },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
-      },
     });
 
     // Initially, the event should not be emitted
@@ -421,11 +376,6 @@ describe("Dropdown Select", () => {
         multiple: true,
         "onUpdate:modelValue": (value) => {
           wrapper.setProps({ modelValue: value });
-        },
-      },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
         },
       },
     });
@@ -462,11 +412,6 @@ describe("Dropdown Select", () => {
         options,
         visibleLimit: 25,
       },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
-        },
-      },
     });
     const end = performance.now();
     expect(end - start).toBeLessThan(200); // should be set to 500 but it makes test flakey
@@ -474,5 +419,40 @@ describe("Dropdown Select", () => {
     // There should be the limited number of options visible (25)
     const visibleOptions = wrapper.findAll("label");
     expect(visibleOptions.length).toBe(25);
+  });
+
+  it("should render a disabled option if one is passed", () => {
+    const wrapper = mount(DropdownSelect, {
+      props: {
+        selectAll: true,
+        multiple: true,
+        "onUpdate:modelValue": (value) => {
+          wrapper.setProps({ modelValue: value });
+        },
+        options: [
+          "One",
+          "Two",
+          "Three",
+          { id: "disabledTest", render: "Disabled", disabled: true },
+        ],
+      },
+    });
+
+    const options = wrapper.findAll("label");
+    expect(options.length).toBe(5);
+    expect(options[4].find("input").attributes("disabled")).toBe("");
+    // It should not be checked
+    expect(options[4].find("input").attributes("checked")).toBeFalsy();
+    // Expect the others to not be disabled
+    for (let i = 0; i < 4; i++) {
+      expect(options[i].find("input").attributes("disabled")).toBeFalsy();
+    }
+
+    // Checking selectAll should not check the disabled option
+    const selectAll = wrapper.find("input[type='checkbox'][value='all']");
+    selectAll.trigger("click");
+    expect(wrapper.emitted("update:modelValue")?.[0]).toEqual([
+      ["One", "Two", "Three"],
+    ]);
   });
 });

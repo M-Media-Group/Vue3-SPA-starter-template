@@ -17,7 +17,7 @@ const meta: Meta<typeof TabNav> = {
       { render: "Page 1", id: "1" },
       { render: "Page 2", id: "2" },
       { render: "Page 3", id: "3" },
-      { render: "Page 4", id: "4" },
+      { render: "Page 4", id: "4", disabled: true },
       { render: "Page 5", id: "5" },
     ],
     modelValue: [],

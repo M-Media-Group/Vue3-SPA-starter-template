@@ -20,6 +20,7 @@ export const normaliseOptions = (
     normalisedOptions.push({
       id: option.id.toString(),
       render: option.render,
+      disabled: option.disabled || false,
       raw: option.raw,
     });
   }
@@ -40,6 +41,12 @@ export const filterOptions = (
 
   return options.filter((option) => {
     const optionValue = option[key];
+
+    // If the option value is a boolean, return all options
+    if (typeof optionValue === "boolean") {
+      return optionValue.toString() === lowercaseValue;
+    }
+
     return optionValue && optionValue.toLowerCase().includes(lowercaseValue);
   });
 };

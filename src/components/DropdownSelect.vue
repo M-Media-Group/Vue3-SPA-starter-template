@@ -352,7 +352,7 @@ watch(
           <label>
             <input
               type="checkbox"
-              :disabled="props.disabled"
+              :disabled="option.disabled || props.disabled"
               :value="option[modelKey]"
               :checked="isOptionSelected(option)"
               @click="setModelValue"

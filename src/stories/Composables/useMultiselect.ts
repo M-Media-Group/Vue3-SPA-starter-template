@@ -56,9 +56,10 @@ export function useMultiselect(props: requiredProps, emit: requiredEmits) {
   };
 
   const selectAllOptions = () => {
-    const allIds = normalisedOptions.value.map(
-      (option) => option[props.modelKey]
-    );
+    const allIds = normalisedOptions.value
+      // First skip the disabled options
+      .filter((option) => !option.disabled)
+      .map((option) => option[props.modelKey]);
     emit("update:modelValue", allIds);
   };
 

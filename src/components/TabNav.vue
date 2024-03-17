@@ -55,6 +55,7 @@ const { normalisedOptions, getLabel, isOptionSelected, updateModelValue } =
           :aria-label="`Go to page ${page[modelKey]}`"
           :data-id="page[modelKey]"
           :class="{ active: isOptionSelected(page) }"
+          :disabled="page.disabled"
         >
           {{ getLabel(page) }}
         </base-button>

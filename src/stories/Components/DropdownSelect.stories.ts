@@ -106,6 +106,7 @@ export const WithMultiSelect: Story = {
       {
         id: "id1",
         render: "Object 3",
+        disabled: true,
       },
       {
         id: 4,
