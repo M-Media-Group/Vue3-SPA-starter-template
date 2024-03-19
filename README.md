@@ -150,6 +150,9 @@ After installing everything - you should run the E2E tests to make sure everythi
 ### Your first changes
 This starter kit is designed to provide a strong test foundation. When you'll change something in the code that will modify the element itself (changing the text for example), your snapshot and visual tests will fail. You can easily update snapshots with the commands provided in the starter kit (read below). This kind of workflow is very useful because it ensures that changes are intentional and that you are aware of them.
 
+#### Other significant changes to make
+- index.html: change the Content Security Policy (CSP) to match your needs, and remove the noindex meta tag
+
 ### Compile and Hot-Reload for Development
 
 ```sh

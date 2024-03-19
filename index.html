@@ -9,7 +9,14 @@
   <meta name="description" content="Vite App">
 
   <meta http-equiv="Content-Security-Policy"
-    content="default-src 'self'; connect-src 'self' https://api.stripe.com *; frame-src 'self' https://js.stripe.com https://hooks.stripe.com; script-src 'self' https://js.stripe.com https://www.googletagmanager.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:;">
+    content=" connect-src 'self' https://api.stripe.com *;  script-src 'self' https://js.stripe.com https://www.googletagmanager.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src https://cartes.io https://*.picsum.photos https://picsum.photos 'self' data:;">
+
+  <!-- The CSP below is what is best to start with, it is more restrictive than the one above. This starter-kit uses the one above just so the example pages render the images correctly. -->
+  <!-- <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; connect-src 'self' https://api.stripe.com *; frame-src 'self' https://js.stripe.com https://hooks.stripe.com; script-src 'self' https://js.stripe.com https://www.googletagmanager.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:;"> -->
+
+  <!-- No index our demo pages -->
+  <meta name="robots" content="noindex">
 </head>
 
 <body>
