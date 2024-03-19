@@ -17,6 +17,7 @@ import { metaTagPlugin } from "@m-media/vue3-meta-tags";
 import { EventsPlugin } from "./eventBus/events";
 import { ViteSSG } from "vite-ssg";
 import { allRoutes } from "./router";
+
 // `export const createApp` is required instead of the original `createApp(App).mount('#app')`
 export const createApp = ViteSSG(
   // the root component
@@ -25,7 +26,12 @@ export const createApp = ViteSSG(
   { routes: allRoutes },
   // function to have custom setups
   ({ app, router, routes, isClient, initialState }) => {
-    app.use(createPinia());
+    const pinia = createPinia();
+    app.use(pinia);
+
+    if (import.meta.env.SSR) initialState.pinia = pinia.state.value;
+    else pinia.state.value = initialState.pinia || {};
+
     app.use(i18n);
 
     app.use(

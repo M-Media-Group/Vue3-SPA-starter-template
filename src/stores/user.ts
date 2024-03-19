@@ -33,6 +33,7 @@ export const useUserStore = defineStore("user", () => {
    */
   async function getUser() {
     if (typeof window === "undefined") {
+      attemptedToFetchUser.value = true;
       return;
     }
     isLoading.value = true;
