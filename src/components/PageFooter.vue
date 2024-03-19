@@ -11,6 +11,10 @@ const handleLocaleChange = (locale: string) => {
 };
 
 const setDarkMode = (value: string) => {
+  if (typeof window === "undefined") {
+    $bus.$emit(eventTypes.changed_theme, value);
+    return;
+  }
   if (value === "dark" || value === "light") {
     document.documentElement.setAttribute("data-theme", value);
   } else {

@@ -14,9 +14,11 @@ export const SUPPORT_LOCALES = ["en", "fr"];
  * The best guess locale. Will first try to get it from the localStorage, then from the navigator, and if those fail, will use the first supported locale
  */
 export const bestGuessLocale =
-  localStorage.getItem("locale") ??
-  navigator.language.split("-")[0] ??
-  SUPPORT_LOCALES[0];
+  typeof window !== "undefined"
+    ? localStorage?.getItem("locale") ??
+      navigator.language.split("-")[0] ??
+      SUPPORT_LOCALES[0]
+    : SUPPORT_LOCALES[0];
 
 /**
  * Set the current app locale to the best-guessed locale
@@ -47,10 +49,12 @@ export function setupI18n() {
   // Set the best guess locale
   setBestGuessLocale(i18n);
 
-  window.onlanguagechange = () => {
-    const newLanguage = navigator.language.split("-")[0];
-    setI18nLanguage(i18n, newLanguage);
-  };
+  if (typeof window !== "undefined") {
+    window.onlanguagechange = () => {
+      const newLanguage = navigator.language.split("-")[0];
+      setI18nLanguage(i18n, newLanguage);
+    };
+  }
 
   return i18n;
 }
@@ -68,7 +72,9 @@ export async function setI18nLanguage(
 
   i18n.global.locale.value = locale;
   // Set a local storage item
-  localStorage.setItem("locale", locale);
+  if (typeof window !== "undefined") {
+    localStorage?.setItem("locale", locale);
+  }
   // Set the axios locale
   axios.defaults.headers.common["Accept-Language"] = locale;
   // Load the locale messages

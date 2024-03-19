@@ -32,6 +32,9 @@ export const useUserStore = defineStore("user", () => {
    *
    */
   async function getUser() {
+    if (typeof window === "undefined") {
+      return;
+    }
     isLoading.value = true;
     try {
       const response = await axios.get("api/user");
@@ -296,6 +299,9 @@ export const useUserStore = defineStore("user", () => {
    * @return {*}
    */
   async function shouldConfirmPassword() {
+    if (typeof window === "undefined") {
+      return;
+    }
     isLoading.value = true;
     try {
       const response = await axios.get("user/confirmed-password-status");
@@ -312,6 +318,9 @@ export const useUserStore = defineStore("user", () => {
    *
    */
   async function getCsrfToken() {
+    if (typeof window === "undefined") {
+      return;
+    }
     await axios.get("sanctum/csrf-cookie");
   }
 
@@ -334,6 +343,9 @@ export const useUserStore = defineStore("user", () => {
    * @return {*}
    */
   async function getPaymentIntent() {
+    if (typeof window === "undefined") {
+      return;
+    }
     try {
       const response = await axios.get("user/payment-intent");
       return response.data;
@@ -368,6 +380,9 @@ export const useUserStore = defineStore("user", () => {
    * @return {*}
    */
   async function getPaymentMethods() {
+    if (typeof window === "undefined") {
+      return;
+    }
     try {
       const response = await axios.get("/user/payment-methods");
       return response.data;
