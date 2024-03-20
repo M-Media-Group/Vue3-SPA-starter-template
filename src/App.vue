@@ -5,7 +5,7 @@ import { RouterView, useRouter } from "vue-router";
 import { ref } from "vue";
 import { navIsLoading } from "./router";
 
-const isReady = ref(false);
+const isReady = ref(import.meta.env.SSR ?? false);
 
 const router = useRouter();
 
