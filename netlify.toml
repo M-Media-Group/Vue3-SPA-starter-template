@@ -17,6 +17,7 @@
   from = "/examples/*"
   to = "/examples/:splat"
   status = 200
+  headers = {X-From = "Netlify SSG Redirects"}
 
 [[redirects]]
   from = "/*"
