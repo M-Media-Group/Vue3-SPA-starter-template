@@ -14,8 +14,8 @@ export default defineConfig({
   },
   ssgOptions: {
     mock: true,
-    // find all routes in the src/pages directory
-    script: "async",
+
+    dirStyle: "nested",
   },
   resolve: {
     alias: {

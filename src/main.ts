@@ -17,6 +17,7 @@ import { metaTagPlugin } from "@m-media/vue3-meta-tags";
 import { EventsPlugin } from "./eventBus/events";
 import { ViteSSG } from "vite-ssg";
 import { allRoutes, navIsLoading } from "./router";
+import { useUserStore } from "./stores/user";
 
 // `export const createApp` is required instead of the original `createApp(App).mount('#app')`
 export const createApp = ViteSSG(
@@ -75,6 +76,12 @@ export const createApp = ViteSSG(
     );
 
     app.use(EventsPlugin);
+
+    const user = useUserStore(pinia);
+
+    if (!user.attemptedToFetchUser) {
+      user.getUser();
+    }
   }
 );
 
