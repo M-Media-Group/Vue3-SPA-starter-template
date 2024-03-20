@@ -4,6 +4,21 @@
   status = 200
 
 [[redirects]]
+  from = "/login"
+  to = "/login"
+  status = 200
+
+[[redirects]]
+  from = "/sign-up"
+  to = "/sign-up"
+  status = 200
+
+[[redirects]]
+  from = "/examples/*"
+  to = "/examples/:splat"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to = "/"
   status = 200
