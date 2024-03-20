@@ -5,6 +5,7 @@ export default class extends baseGate {
   form = "ConfirmPassword";
 
   async handle() {
+    if (import.meta.env.SSR) return;
     const store = useUserStore();
     await store.isReady;
     if (store.isAuthenticated) {
