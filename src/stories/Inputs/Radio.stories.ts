@@ -45,3 +45,22 @@ export default meta;
 type Story = StoryObj<HTMLInputElementCustom>;
 
 export const Default: Story = {};
+
+export const MultiOptions: Story = {
+  render: (args) => ({
+    setup() {
+      return { args };
+    },
+    // We need to render the radio with options from args - here we show 2 radios
+    template: `
+      <label for='radio'>
+        <input id='radio' type='radio' data-testid="input" v-bind='args' name='{{args.name}}'></input>
+        {{args.value}}
+      </label>
+      <label for='radio2'>
+        <input id='radio2' type='radio' data-testid="input" v-bind='args' name='{{args.name}}'></input>
+        {{args.value}}
+      </label>
+      `,
+  }),
+};
