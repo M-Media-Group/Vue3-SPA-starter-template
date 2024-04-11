@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { mount } from "@vue/test-utils";
+import { DOMWrapper, mount } from "@vue/test-utils";
 import DropdownSelect from "../DropdownSelect.vue";
 import "html-validate/vitest";
 
@@ -402,6 +402,55 @@ describe("Dropdown Select", () => {
 
     // Expect all options to be deselected
     expect(wrapper.emitted("update:modelValue")?.[1]).toEqual([[]]);
+  });
+
+  it("allows to toggle select all on and off when one of the options is disabled", async () => {
+    const wrapper = mount(DropdownSelect, {
+      props: {
+        selectAll: true,
+        multiple: true,
+        "onUpdate:modelValue": (value) => {
+          wrapper.setProps({ modelValue: value });
+        },
+        options: [
+          "One",
+          "Two",
+          "Three",
+          { id: "disabledTest", render: "Disabled", disabled: true },
+        ],
+      },
+    });
+
+    // There should be 5 options, the 4 passed and the selectAll
+    const options = wrapper.findAll("label");
+    expect(options.length).toBe(5);
+
+    // Clicking selectAll should check all options except the disabled one
+    const selectAll = wrapper.find(
+      "input[type='checkbox'][value='all']"
+    ) as DOMWrapper<HTMLInputElement>;
+    await selectAll.trigger("click");
+    expect(wrapper.emitted("update:modelValue")?.[0]).toEqual([
+      ["One", "Two", "Three"],
+    ]);
+
+    // Clicking selectAll again should uncheck all options
+    await selectAll.trigger("click");
+    expect(wrapper.emitted("update:modelValue")?.[1]).toEqual([[]]);
+
+    // Clicking on the first option should check it, but keep the selectAll unchecked
+    await options[1].trigger("click");
+    expect(wrapper.emitted("update:modelValue")?.[2]).toEqual([["One"]]);
+    expect(selectAll.element.checked).toBeFalsy();
+
+    // Checking the rest of the options should make the selectAll checked
+    await options[2].trigger("click");
+    await options[3].trigger("click");
+    expect(wrapper.emitted("update:modelValue")?.[4]).toEqual([
+      ["One", "Two", "Three"],
+    ]);
+
+    expect(selectAll.element.checked).toBe(true);
   });
 
   it("should render a large number of options, 1000000, in less than 400ms", () => {

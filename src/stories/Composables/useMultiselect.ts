@@ -22,6 +22,11 @@ export function useMultiselect(props: requiredProps, emit: requiredEmits) {
     return normaliseOptions(toRaw(props.options));
   });
 
+  // The selecteable options, which are the ones that are not disabled
+  const selecteableOptions = computed(() => {
+    return normalisedOptions.value.filter((option) => !option.disabled);
+  });
+
   const getLabel = (option: selectOption) => {
     if (typeof option === "string") return option;
     return option[props.displayKey];
@@ -56,10 +61,9 @@ export function useMultiselect(props: requiredProps, emit: requiredEmits) {
   };
 
   const selectAllOptions = () => {
-    const allIds = normalisedOptions.value
-      // First skip the disabled options
-      .filter((option) => !option.disabled)
-      .map((option) => option[props.modelKey]);
+    const allIds = selecteableOptions.value.map(
+      (option) => option[props.modelKey]
+    );
     emit("update:modelValue", allIds);
   };
 
@@ -68,7 +72,7 @@ export function useMultiselect(props: requiredProps, emit: requiredEmits) {
   };
 
   const toggleAllOptions = () => {
-    if (props.modelValue.length === normalisedOptions.value.length) {
+    if (props.modelValue.length === selecteableOptions.value.length) {
       return unselectAllOptions();
     }
     return selectAllOptions();
@@ -76,6 +80,7 @@ export function useMultiselect(props: requiredProps, emit: requiredEmits) {
 
   return {
     normalisedOptions,
+    selecteableOptions,
     getLabel,
     updateModelValue,
     isOptionSelected,

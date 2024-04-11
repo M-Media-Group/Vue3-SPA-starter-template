@@ -159,6 +159,7 @@ const emit = defineEmits<{
 
 const {
   normalisedOptions,
+  selecteableOptions,
   getLabel,
   isOptionSelected,
   toggleAllOptions,
@@ -199,7 +200,7 @@ const showSelectAll = computed(() => {
   if (!props.multiple) return false;
   // If we are in search, we don't show it because we don't want to confuse the user user about what is being selected
   if (props.search) return false;
-  if (!normalisedOptions.value) return false;
+  if (!selecteableOptions.value) return false;
   return true;
 });
 
@@ -328,7 +329,7 @@ watch(
         <label>
           <input
             type="checkbox"
-            :checked="props.modelValue.length === normalisedOptions?.length"
+            :checked="props.modelValue.length === selecteableOptions?.length"
             @click="toggleAllOptions"
             :disabled="props.disabled"
             value="all"
