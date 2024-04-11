@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import TheWelcome from "../components/TheWelcome.vue";
+import BaseForm from "@/forms/BaseForm.vue";
 </script>
 
 <template>
