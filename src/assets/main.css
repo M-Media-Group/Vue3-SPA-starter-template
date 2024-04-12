@@ -276,6 +276,13 @@ input[type="search"][aria-busy="true"] {
   background-image: var(--pico-icon-loading);
 }
 
+/* Fix for input margin in table cell */
+td>input:not([type=checkbox], [type=radio]),
+td>select,
+td>textarea {
+  margin-bottom: 0;
+}
+
 /** Fix for inputs like checkboxes in dropdown */
 details.dropdown summary+ul li label {
   display: block;
