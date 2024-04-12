@@ -283,6 +283,13 @@ td>textarea {
   margin-bottom: 0;
 }
 
+/* Fix min-width causing input not to be visible */
+input:not([type=checkbox], [type=radio]),
+select,
+textarea {
+  min-width: calc(var(--pico-spacing)* 4);
+}
+
 /** Fix for inputs like checkboxes in dropdown */
 details.dropdown summary+ul li label {
   display: block;
