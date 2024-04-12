@@ -86,11 +86,11 @@ export const AdvancedTable: Story = {
               .map(
                 () => `
                         <tr>
-                            <td><input type="checkbox"></td>
-                            <td><img src="https://via.placeholder.com/150"></td>
-                            <td><input type="text" value="${cellText}"></td>
+                            <td><input type="checkbox" aria-label="checkbox"></td>
+                            <td><img src="https://via.placeholder.com/150" alt="placeholder"></td>
+                            <td><input type="text" value="${cellText}" aria-label="text-input"></td>
                             <td>
-                                <select>
+                                <select name="select" aria-label="select">
                                     <option>Option 1</option>
                                     <option>Option 2</option>
                                     <option>Option 3</option>
@@ -98,7 +98,7 @@ export const AdvancedTable: Story = {
                             </td>
                             <td><button>Click me</button></td>
                             <td>153,000</td>
-                            <td><input type="checkbox" role="switch"></td>
+                            <td><input type="checkbox" role="switch" aria-label="switch"></td>
                         </tr>
                     `
               )
