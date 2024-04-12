@@ -87,7 +87,7 @@ export const AdvancedTable: Story = {
                 () => `
                         <tr>
                             <td><input type="checkbox" aria-label="checkbox"></td>
-                            <td><img src="https://via.placeholder.com/150" alt="placeholder"></td>
+                            <td><img src="https://via.placeholder.com/150" alt="placeholder" height="150" width="150"></td>
                             <td><input type="text" value="${cellText}" aria-label="text-input"></td>
                             <td>
                                 <select name="select" aria-label="select">
