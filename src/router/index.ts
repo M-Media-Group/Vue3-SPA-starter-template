@@ -52,11 +52,6 @@ const router = createRouter({
       name: "Examples",
       component: () => import("../views/Examples/DealsView.vue"),
     },
-    {
-      path: "/examples/single-product",
-      name: "Examples",
-      component: () => import("../views/Examples/SingleProductView.vue"),
-    },
     // Add a catch-all 404 page
     {
       path: "/:pathMatch(.*)*",
