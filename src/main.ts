@@ -12,6 +12,7 @@ import "./eventBus/listeners/index";
 import VueGtagPlugin from "vue-gtag";
 import "./assets/main.css";
 import i18n, { SUPPORT_LOCALES } from "./locales/i18n";
+import { ThemePlugin } from "./themes/useTheme";
 import { gatePlugin } from "@m-media/vue3-gate-keeper";
 
 import gates from "./router/gates";
@@ -70,5 +71,7 @@ app.use(
 );
 
 app.use(EventsPlugin);
+
+app.use(ThemePlugin);
 
 app.mount("#app");

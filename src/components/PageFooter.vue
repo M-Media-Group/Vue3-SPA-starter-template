@@ -1,22 +1,11 @@
 <script setup lang="ts">
 import i18n, { SUPPORT_LOCALES, setI18nLanguage } from "@/locales/i18n";
-import { eventTypes, useEventsBus } from "@/eventBus/events";
+import theme, { setTheme } from "@/themes/useTheme";
 
 const appName = import.meta.env.VITE_APP_NAME;
 
-const $bus = useEventsBus();
-
 const handleLocaleChange = (locale: string) => {
   setI18nLanguage(i18n, locale);
-};
-
-const setDarkMode = (value: string) => {
-  if (value === "dark" || value === "light") {
-    document.documentElement.setAttribute("data-theme", value);
-  } else {
-    document.documentElement.removeAttribute("data-theme");
-  }
-  $bus.$emit(eventTypes.changed_theme, value);
 };
 </script>
 <template>
@@ -26,10 +15,11 @@ const setDarkMode = (value: string) => {
       <li>
         <select
           name="dark-mode"
-          @change="setDarkMode(($event.target as HTMLSelectElement).value)"
+          @change="setTheme(($event.target as HTMLSelectElement).value)"
           aria-label="Dark Mode toggle"
+          :value="theme"
         >
-          <option value="auto">{{ $t("Auto") }}</option>
+          <option value="system">{{ $t("Auto") }}</option>
           <option value="light">{{ $t("Light") }}</option>
           <option value="dark">{{ $t("Dark") }}</option>
         </select>

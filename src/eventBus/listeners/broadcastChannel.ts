@@ -1,6 +1,7 @@
 import i18n, { setI18nLanguage } from "@/locales/i18n";
 import router from "@/router";
 import { eventTypes } from "../events";
+import { setTheme } from "@/themes/useTheme";
 
 /**
  * Be careful here - its quite easy to accidentally set up an infinite loop
@@ -24,6 +25,10 @@ bc.onmessage = (event) => {
   if (event.data.type === eventTypes.changed_locale) {
     setI18nLanguage(i18n, event.data.data, false);
   }
+
+  if (event.data.type === eventTypes.changed_theme) {
+    setTheme(event.data.data, false);
+  }
 };
 
 export default {
@@ -42,6 +47,12 @@ export default {
   changed_locale: (e: string) => {
     bc.postMessage({
       type: eventTypes.changed_locale,
+      data: e,
+    });
+  },
+  changed_theme: (e: string) => {
+    bc.postMessage({
+      type: eventTypes.changed_theme,
       data: e,
     });
   },
