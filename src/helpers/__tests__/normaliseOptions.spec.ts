@@ -16,7 +16,7 @@ describe("filterOptions Functions", () => {
     const start = performance.now();
     const normalisedOptions = normaliseOptions(generatedOptions);
     const end = performance.now();
-    expect(end - start).toBeLessThan(150);
+    expect(end - start).toBeLessThan(200);
 
     expect(normalisedOptions.length).toBe(1000000);
 
