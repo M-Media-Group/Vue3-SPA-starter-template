@@ -64,3 +64,37 @@ export const MultiOptions: Story = {
       `,
   }),
 };
+
+// Multi options that show the radio buttons like when picking the size of a t-shirt
+export const Containered: Story = {
+  args: {
+    name: "tshirt-size",
+    value: "Small",
+  },
+  render: (args) => ({
+    setup() {
+      return { args };
+    },
+    // We need to render the radio with options from args - here we show 2 radios
+    template: `
+      <label class="radio-checkbox-container">
+        <input type='radio' data-testid="input" v-bind='args' name='{{args.name}}'></input>
+        {{args.value}}
+      </label>
+      <label class="radio-checkbox-container">
+        <input type='radio' data-testid="input" v-bind='args' name='{{args.name}}' disabled></input>
+        {{args.value}}
+      </label>
+      <label class="radio-checkbox-container">
+        <input type='radio' data-testid="input" v-bind='args' name='{{args.name}}' disabled></input>
+        {{args.value}}
+        <small>(Out of stock)</small>
+      </label>
+      <label class="radio-checkbox-container">
+        {{args.value}}
+        <small>(Great text here)</small>
+        <input type='radio' data-testid="input" v-bind='args' name='{{args.name}}'></input>
+      </label>
+      `,
+  }),
+};

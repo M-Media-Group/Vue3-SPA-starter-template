@@ -53,3 +53,70 @@
 .input::placeholder {
   color: var(--pico-form-element-placeholder-color);
 }
+
+/* Custom radio/checkbox box */
+.radio-checkbox-container {
+  display: block;
+  position: relative;
+
+  --pico-background-color: var(--pico-form-element-background-color);
+  --pico-border-color: var(--pico-form-element-border-color);
+  --pico-color: var(--pico-form-element-color);
+  --pico-box-shadow: none;
+  border: var(--pico-border-width) solid var(--pico-border-color);
+  border-radius: var(--pico-border-radius);
+  background-color: var(--pico-background-color);
+  box-shadow: var(--pico-box-shadow);
+  color: var(--pico-color);
+  font-weight: var(--pico-font-weight);
+  transition: background-color var(--pico-transition), border-color var(--pico-transition), color var(--pico-transition), box-shadow var(--pico-transition);
+
+
+  padding: var(--pico-form-element-spacing-vertical) var(--pico-form-element-spacing-horizontal);
+
+  min-width: calc(var(--pico-spacing)* 4);
+
+  padding-right: calc(var(--pico-form-element-spacing-horizontal) * 2);
+
+  &:focus {
+    --pico-box-shadow: 0 0 0 var(--pico-outline-width) var(--pico-form-element-focus-color);
+  }
+
+  &:hover {
+    --pico-background-color: var(--pico-form-element-active-background-color);
+  }
+
+  &:has(input:checked) {
+    --pico-border-color: var(--pico-form-element-active-border-color);
+    --pico-background-color: var(--pico-form-element-active-background-color);
+  }
+
+  &:has(input:disabled) {
+    opacity: 0.5;
+  }
+
+  >small {
+    display: block;
+    color: var(--pico-muted-color);
+  }
+
+  /* Style for the radio button */
+  input[type="radio"],
+  input[type="checkbox"] {
+    vertical-align: middle;
+    position: absolute;
+    right: 0;
+    top: var(--pico-form-element-spacing-vertical);
+
+    +small {
+      margin: unset;
+    }
+  }
+
+  &:has(>input[type="checkbox"]:required)::after,
+  &:has(>input[type="radio"]:required)::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
