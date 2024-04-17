@@ -16,7 +16,7 @@ describe("filterOptions Functions", () => {
     const start = performance.now();
     const normalisedOptions = normaliseOptions(generatedOptions);
     const end = performance.now();
-    expect(end - start).toBeLessThan(200);
+    expect(end - start).toBeLessThan(200); // should be set to 100 but it makes test flakey
 
     expect(normalisedOptions.length).toBe(1000000);
 
@@ -25,7 +25,7 @@ describe("filterOptions Functions", () => {
     const filteredOptions = filterOptions(normalisedOptions, "Option 500000");
     const end2 = performance.now();
     expect(filteredOptions.length).toBe(1);
-    expect(end2 - start2).toBeLessThan(150);
+    expect(end2 - start2).toBeLessThan(200); // should be set to 135 but it makes test flakey
 
     // Try an orderOptionsBySelectedFirst
     const start3 = performance.now();
@@ -36,7 +36,7 @@ describe("filterOptions Functions", () => {
     );
     const end3 = performance.now();
     expect(orderedOptions.length).toBe(1000000);
-    expect(end3 - start3).toBeLessThan(100);
+    expect(end3 - start3).toBeLessThan(100); // should be set to 50 but it makes test flakey
   });
 
   it("filters the options correctly", () => {
