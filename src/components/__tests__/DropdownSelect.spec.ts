@@ -5,7 +5,8 @@ import DropdownSelect from "../DropdownSelect.vue";
 import "html-validate/vitest";
 
 describe("Dropdown Select", () => {
-  it("renders correctly", async () => {
+  // We need a retry here because the performance.now can be flakey
+  it("renders correctly", { retry: 3 }, async () => {
     const start = performance.now();
 
     const wrapper = mount(DropdownSelect, {
@@ -20,7 +21,7 @@ describe("Dropdown Select", () => {
 
     const end = performance.now();
 
-    expect(end - start).toBeLessThan(50); // should be set to 25 but it makes test flakey
+    expect(end - start).toBeLessThan(25);
 
     // There should be a select element
     const select = wrapper.find("summary");
@@ -453,22 +454,27 @@ describe("Dropdown Select", () => {
     expect(selectAll.element.checked).toBe(true);
   });
 
-  it("should render a large number of options, 1000000, in less than 400ms", () => {
-    const options = Array.from({ length: 1000000 }, (_, i) => `Option ${i}`);
-    const start = performance.now();
-    const wrapper = mount(DropdownSelect, {
-      props: {
-        options,
-        visibleLimit: 25,
-      },
-    });
-    const end = performance.now();
-    expect(end - start).toBeLessThan(200); // should be set to 500 but it makes test flakey
+  // We need a retry here because the performance.now can be flakey
+  it(
+    "should render a large number of options, 1000000, in less than 200ms",
+    { retry: 3 },
+    () => {
+      const options = Array.from({ length: 1000000 }, (_, i) => `Option ${i}`);
+      const start = performance.now();
+      const wrapper = mount(DropdownSelect, {
+        props: {
+          options,
+          visibleLimit: 25,
+        },
+      });
+      const end = performance.now();
+      expect(end - start).toBeLessThan(200);
 
-    // There should be the limited number of options visible (25)
-    const visibleOptions = wrapper.findAll("label");
-    expect(visibleOptions.length).toBe(25);
-  });
+      // There should be the limited number of options visible (25)
+      const visibleOptions = wrapper.findAll("label");
+      expect(visibleOptions.length).toBe(25);
+    }
+  );
 
   it("should render a disabled option if one is passed", () => {
     const wrapper = mount(DropdownSelect, {
