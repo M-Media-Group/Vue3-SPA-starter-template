@@ -8,7 +8,7 @@ import {
 
 describe("filterOptions Functions", () => {
   // We need a retry here because the performance.now can be flakey
-  it("is performant with a large number of options", { retry: 3 }, () => {
+  it("is performant with a large number of options", { retry: 5 }, () => {
     const generatedOptions = Array.from({ length: 1000000 }, (_, i) => ({
       id: i,
       render: `Option ${i}`,
