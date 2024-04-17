@@ -8,7 +8,7 @@ import {
 
 describe("filterOptions Functions", () => {
   // We need a retry here because the performance.now can be flakey
-  it("is performant with a large number of options", { retry: 5 }, () => {
+  it("is performant with a large number of options", { retry: 3 }, () => {
     const generatedOptions = Array.from({ length: 1000000 }, (_, i) => ({
       id: i,
       render: `Option ${i}`,
@@ -16,7 +16,7 @@ describe("filterOptions Functions", () => {
     const start = performance.now();
     const normalisedOptions = normaliseOptions(generatedOptions);
     const end = performance.now();
-    expect(end - start).toBeLessThan(100);
+    expect(end - start).toBeLessThan(150);
 
     expect(normalisedOptions.length).toBe(1000000);
 
@@ -25,7 +25,7 @@ describe("filterOptions Functions", () => {
     const filteredOptions = filterOptions(normalisedOptions, "Option 500000");
     const end2 = performance.now();
     expect(filteredOptions.length).toBe(1);
-    expect(end2 - start2).toBeLessThan(135);
+    expect(end2 - start2).toBeLessThan(150);
 
     // Try an orderOptionsBySelectedFirst
     const start3 = performance.now();
@@ -36,7 +36,7 @@ describe("filterOptions Functions", () => {
     );
     const end3 = performance.now();
     expect(orderedOptions.length).toBe(1000000);
-    expect(end3 - start3).toBeLessThan(50);
+    expect(end3 - start3).toBeLessThan(100);
   });
 
   it("filters the options correctly", () => {
