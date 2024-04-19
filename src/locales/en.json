@@ -51,5 +51,10 @@
     "Create a new API token": "Create a new API token",
     "New token name": "New token name",
     "Cancel": "Cancel",
-    "Confirm": "Confirm"
+    "Confirm": "Confirm",
+    "Search for an option": "Search for an option",
+    "Select an option": "Select an option",
+    "Search to see more results": "Search to see more results",
+    "Select all": "Select all",
+    "Loading...": "Loading..."
 }

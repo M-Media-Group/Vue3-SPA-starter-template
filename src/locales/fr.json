@@ -51,5 +51,10 @@
     "Create a new API token": "Créer un nouveau jeton d'API",
     "New token name": "Nouveau nom de jeton",
     "Cancel": "Annuler",
-    "Confirm": "Confirmer"
+    "Confirm": "Confirmer",
+    "Search for an option": "Rechercher une option",
+    "Select an option": "Sélectionnez une option",
+    "Search to see more results": "Recherchez pour voir plus de résultats",
+    "Select all": "Tout sélectionner",
+    "Loading...": "Chargement..."
 }

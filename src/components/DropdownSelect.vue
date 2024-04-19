@@ -1,3 +1,8 @@
+<script lang="ts">
+import i18n from "@/locales/i18n";
+const t = i18n.global.t;
+</script>
+
 <script setup lang="ts">
 import { debounce } from "@/helpers/debounce";
 import {
@@ -54,7 +59,7 @@ const props = defineProps({
   /** The placeholder text to show */
   placeholder: {
     type: String,
-    default: "Select an option",
+    default: t("Select an option"),
   },
 
   /** Show search */
@@ -84,7 +89,7 @@ const props = defineProps({
   /** Search encouragement text */
   searchEncouragement: {
     type: String,
-    default: "Search to see more results",
+    default: t("Search to see more results"),
   },
 
   /** Show the selected options first in the list */
@@ -127,13 +132,13 @@ const props = defineProps({
   /** The select-all text */
   selectAllText: {
     type: String,
-    default: "Select all",
+    default: t("Select all"),
   },
 
   /** The text to show when loading results */
   loadingText: {
     type: String,
-    default: "Loading...",
+    default: t("Loading..."),
   },
 
   /** If the search should autofocus on open */
@@ -145,7 +150,7 @@ const props = defineProps({
   /** The placeholder for the search */
   searchPlaceholder: {
     type: String,
-    default: "Search for an option",
+    default: t("Search for an option"),
   },
 });
 
