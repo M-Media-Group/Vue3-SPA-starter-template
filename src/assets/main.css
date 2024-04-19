@@ -306,6 +306,11 @@ details.dropdown summary {
   text-overflow: ellipsis;
 }
 
+/* If the summary data-has-value is true, color the text */
+details.dropdown summary[data-has-value=true] {
+  color: var(--pico-color);
+}
+
 ul>li>input[type="search"] {
   border: none;
   /* padding-left: 2rem; */

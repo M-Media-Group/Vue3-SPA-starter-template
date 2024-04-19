@@ -300,6 +300,17 @@ watch(
     }
   }
 );
+
+// Define a focus function that can be called when we use the ref on this component
+const focus = () => {
+  // If the dropdown is not open, open it
+  if (!props.isOpen) {
+    emit("update:isOpen", true);
+  }
+};
+
+// Expose the focus function to the parent component
+defineExpose({ focus });
 </script>
 <template>
   <details class="dropdown" :open="props.isOpen" @toggle="openResults">
@@ -307,6 +318,7 @@ watch(
       :role="props.role"
       :aria-invalid="props.ariaInvalid"
       :aria-busy="props.ariaBusy"
+      :data-has-value="props.modelValue.length > 0"
     >
       {{ props.modelValue.length > 0 ? getSummaryText() : props.placeholder }}
     </summary>
