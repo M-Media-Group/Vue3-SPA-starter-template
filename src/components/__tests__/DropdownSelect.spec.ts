@@ -82,10 +82,10 @@ describe("Dropdown Select", () => {
     // There should be no placeholder
     expect(select.text()).toBe("Two");
 
-    // Clicking the same option again should uncheck it and set the placeholder back
+    // Clicking the same option again should do nothing since its a radio
     await labels[1].trigger("click");
-    expect(wrapper.emitted("update:modelValue")?.[1]).toEqual([[]]);
-    expect(select.text()).toBe("Select an option");
+    expect(wrapper.emitted("update:modelValue")?.[1]).toEqual([["Two"]]);
+    expect(select.text()).toBe("Two");
 
     // When we add more options, the dropdown should still render
     await wrapper.setProps({ options: ["One", "Two", "Three", "Four"] });

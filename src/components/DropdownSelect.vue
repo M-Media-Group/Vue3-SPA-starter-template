@@ -364,7 +364,7 @@ defineExpose({ focus });
         >
           <label>
             <input
-              type="checkbox"
+              :type="multiple ? 'checkbox' : 'radio'"
               :disabled="option.disabled || props.disabled"
               :value="option[modelKey]"
               :checked="isOptionSelected(option)"
