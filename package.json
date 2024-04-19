@@ -11,6 +11,7 @@
     "preview:new": "npm run build && run-p preview",
     "test:unit:coverage": "vitest  --environment jsdom --root src/ run --coverage",
     "test:unit": "vitest --environment jsdom --root src/",
+    "test:unit:update": "vitest --environment jsdom --root src/ --update",
     "test:e2e": "START_SERVER_AND_TEST_INSECURE=1 start-server-and-test preview https://localhost:4173/ 'cypress run --e2e --config video=false,screenshotOnRunFailure=false'",
     "test:e2e:dev": "START_SERVER_AND_TEST_INSECURE=1 start-server-and-test 'vite dev --port 4173 --host' https://localhost:4173/ 'cypress open --e2e'",
     "test:visual:ci": "START_SERVER_AND_TEST_INSECURE=1 start-server-and-test 'npm run test:visual:dev' http://localhost:3001 'npm run test:visual --ci'",
