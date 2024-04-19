@@ -7,6 +7,16 @@ import { getCssVarForStripe } from "@/helpers/cssVariables";
 import { useI18n } from "vue-i18n";
 import BaseForm from "@/forms/BaseForm.vue";
 
+defineProps({
+  showLabel: {
+    type: Boolean,
+    default: true,
+  },
+  submitText: {
+    type: String,
+  },
+});
+
 const success = ref(false);
 
 const elementReady = ref(false);
@@ -182,8 +192,11 @@ const focusOnInput = () => {
     "
     :is-loading="form.processing || !stripeLoaded"
     data-cy="add-payment-form"
+    :submitText="submitText"
   >
-    <label @click="focusOnInput()">{{ $t("Add a payment method") }}</label>
+    <label v-if="showLabel" @click="focusOnInput()">{{
+      $t("Add a payment method")
+    }}</label>
     <stripe-elements
       @click="focusOnInput()"
       class="input"
