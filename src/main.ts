@@ -21,6 +21,7 @@ import { EventsPlugin } from "./eventBus/events";
 
 const app = createApp(App);
 
+axios.defaults.withXSRFToken = true;
 axios.defaults.withCredentials = true;
 // Set accept header
 axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
