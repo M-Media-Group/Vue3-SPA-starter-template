@@ -2,20 +2,13 @@
 
 exports[`Base Form > accepts inputs in its default slot 1`] = `
 "<form>
-  <!-- @slot This is the default slot for the form. You can use this to add any input or button you want. --><input type="text"><input type="text"><!-- @slot This is the slot for the submit button. You can use this to add a custom submit button or action. --><button disabled="" type="submit" aria-busy="false">Submit</button>
+  <!-- @slot This is the default slot for the form. You can use this to add any input or button you want. --><input type="text"><input type="text"><!-- @slot This is the slot for the submit button. You can use this to add a custom submit button or action. --><button disabled="" type="submit" aria-busy="false">Submit</button><!-- @slot This is the slot for content after the submit. This is useful for back buttons or other actions. -->
 </form>"
 `;
 
 exports[`Base Form > renders a form element 1`] = `
 "<form>
   <!-- @slot This is the default slot for the form. You can use this to add any input or button you want. -->
-  <!-- @slot This is the slot for the submit button. You can use this to add a custom submit button or action. --><button disabled="" type="submit" aria-busy="false">Submit</button>
-</form>"
-`;
-
-exports[`Base Form > shows a custom button is passed in the submit slot 1`] = `
-"<form>
-  <!-- @slot This is the default slot for the form. You can use this to add any input or button you want. -->
-  <!-- @slot This is the slot for the submit button. You can use this to add a custom submit button or action. --><button type="submit" id="customSubmit">Submit</button>
+  <!-- @slot This is the slot for the submit button. You can use this to add a custom submit button or action. --><button disabled="" type="submit" aria-busy="false">Submit</button><!-- @slot This is the slot for content after the submit. This is useful for back buttons or other actions. -->
 </form>"
 `;
