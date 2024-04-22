@@ -234,7 +234,7 @@ const goBack = async () => {
         $t("Forgot password?")
       }}</router-link>
     </fieldset>
-    <template v-if="checkedEmail">
+    <template v-if="checkedEmail" #after-submit>
       <!-- Show a back button -->
       <base-button class="secondary" data-cy="back" @click="goBack()">
         {{ $t("Go back") }}
