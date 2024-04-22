@@ -14,6 +14,7 @@ export const getCssVarForStripe = (cssVariable: string): string => {
       //  Just return the base size in pixels
       return convertPercentToPixels(100) + "px";
     }
+    return convertPercentToPixels(percent) + "px";
   }
 
   // If the computedColor starts with hsl, convert it to rgb
