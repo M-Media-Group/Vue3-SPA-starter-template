@@ -171,11 +171,14 @@ const {
   updateModelValue,
 } = useMultiselect(props, emit);
 
-const setModelValue = (event: Event) => {
+const setModelValue = (
+  event: Event,
+  existingValue = false as number | false
+) => {
   const target = event.target as HTMLInputElement;
   const value = target.value;
 
-  updateModelValue(value, target.checked);
+  updateModelValue(value, target.checked, existingValue);
 };
 
 const filteredOptions = computed(() => {
@@ -357,7 +360,7 @@ defineExpose({ focus });
       </li>
 
       <li
-        v-for="option in orderedOptions?.slice(0, props.visibleLimit)"
+        v-for="(option, index) in orderedOptions?.slice(0, props.visibleLimit)"
         :key="option[modelKey]"
       >
         <slot
@@ -366,6 +369,8 @@ defineExpose({ focus });
           :checked="isOptionSelected(option)"
           :updateModelValue="setModelValue"
           :modelValue="props.modelValue"
+          :index="index"
+          :value="option[modelKey]"
         >
           <label>
             <input

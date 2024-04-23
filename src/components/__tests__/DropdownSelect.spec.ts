@@ -510,4 +510,50 @@ describe("Dropdown Select", () => {
       ["One", "Two", "Three"],
     ]);
   });
+
+  it("correctly updates a value in place when setModelValue is passed with an index in the second", async () => {
+    //  We need to use the slots to test this
+    const wrapper = mount(DropdownSelect, {
+      props: {
+        open: true,
+        options: ["One", "Two", "Three"],
+        modelValue: ["One", "Two", "Three"],
+        multiple: true,
+        "onUpdate:modelValue": (value) => {
+          wrapper.setProps({ modelValue: value });
+        },
+      },
+      slots: {
+        optionSlot: `
+        <template
+            #optionSlot="{ option, updateModelValue, modelValue, index }"
+          >
+          <label>
+            <input type="text"
+              :value="option.id"
+              @input="updateModelValue($event, index)"
+            />
+            {{ option }}
+          </label>
+        </template>
+      `,
+      },
+    });
+
+    // Click on the summary to open the dropdown
+    await wrapper.find("details").trigger("click");
+
+    // Find the input for the second option - it will have the value of Two
+    const input = wrapper.findAll("input").at(1);
+
+    expect(input?.element.value).toBe("Two");
+
+    // Change the value of the input
+    await input?.setValue("New Value");
+
+    // Confirm the value has been updated by checking that the second option is now "New Value"
+    expect(wrapper.emitted("update:modelValue")?.[0]).toEqual([
+      ["One", "New Value", "Three"],
+    ]);
+  });
 });
