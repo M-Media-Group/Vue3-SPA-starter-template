@@ -9,7 +9,7 @@ import {
   filterOptions,
   orderOptionsBySelectedFirst,
 } from "@/helpers/normaliseOptions";
-import { useMultiselect } from "@/stories/Composables/useMultiselect";
+import { useMultiselect } from "@/composables/useMultiselect";
 import type { selectOption } from "@/types/listItem";
 import { type PropType, computed, onMounted, ref, watch } from "vue";
 

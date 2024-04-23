@@ -2,7 +2,7 @@ import { normaliseOptions } from "@/helpers/normaliseOptions";
 import type { normalisedOptionObject, selectOption } from "@/types/listItem";
 import { computed, toRaw } from "vue";
 
-type requiredProps = {
+export type requiredProps = {
   options: selectOption[];
   displayKey: "id" | "render";
   multiple: boolean;
@@ -10,7 +10,10 @@ type requiredProps = {
   modelKey: "id" | "render";
 };
 
-type requiredEmits = (evt: "update:modelValue", args_0: string[]) => void;
+export type requiredEmits = (
+  evt: "update:modelValue",
+  args_0: string[]
+) => void;
 
 // A composable for a multiselect component
 export function useMultiselect(props: requiredProps, emit: requiredEmits) {
@@ -36,9 +39,14 @@ export function useMultiselect(props: requiredProps, emit: requiredEmits) {
    *
    * @param newValue
    * @param valueSelected If the value should be marked as selected or not in the mode value. Of you want the user to be toggle the value on/off with multiple clicks on the same value, set this to false
+   * @param existingValueIndex the value index to update - this is useful if you want to update a specific value in the array
    * @returns
    */
-  const updateModelValue = (newValue: string | null, valueSelected = true) => {
+  const updateModelValue = (
+    newValue: string | null,
+    valueSelected = true,
+    existingValueIndex = false as number | false
+  ) => {
     if (!newValue) {
       return;
     }
@@ -48,10 +56,18 @@ export function useMultiselect(props: requiredProps, emit: requiredEmits) {
       return;
     }
 
-    // Always emit the full array of selected page IDs
-    const newPages = props.modelValue.includes(newValue)
-      ? props.modelValue.filter((id) => id !== newValue)
-      : [...props.modelValue, newValue];
+    let newPages: string[] = [];
+
+    // If we are updating a specific value in the array
+    if (existingValueIndex !== false) {
+      newPages = [...props.modelValue];
+      newPages[existingValueIndex] = newValue;
+    } else {
+      // Always emit the full array of selected page IDs
+      newPages = props.modelValue.includes(newValue)
+        ? props.modelValue.filter((id) => id !== newValue)
+        : [...props.modelValue, newValue];
+    }
 
     emit("update:modelValue", newPages);
   };
