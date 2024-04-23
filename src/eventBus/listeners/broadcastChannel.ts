@@ -22,6 +22,11 @@ bc.onmessage = (event) => {
     router.go(0);
   }
 
+  if (event.data.type === eventTypes.confirmed_email) {
+    // refresh the page
+    router.go(0);
+  }
+
   if (event.data.type === eventTypes.changed_locale) {
     setI18nLanguage(i18n, event.data.data, false);
   }
@@ -53,6 +58,12 @@ export default {
   changed_theme: (e: string) => {
     bc.postMessage({
       type: eventTypes.changed_theme,
+      data: e,
+    });
+  },
+  confirmed_email: (e: any) => {
+    bc.postMessage({
+      type: eventTypes.confirmed_email,
       data: e,
     });
   },
