@@ -11,7 +11,7 @@ exports[`Base Button > renders as a link when an href attribute is set 1`] = `
 `;
 
 exports[`Base Button > renders as a router-link when to attribute is set 1`] = `
-"<button type="button">
+"<a role="button" href="[object Object]">
   <!-- @slot This is the default slot which contains the text.  -->Click me
-</button>"
+</a>"
 `;

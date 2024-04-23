@@ -38,16 +38,17 @@ defineProps({
     <slot />
   </a>
 
-  <router-link v-else-if="to" :to="to" custom v-slot="{ navigate }">
-    <button
+  <router-link v-else-if="to" :to="to" custom v-slot="{ navigate, href }">
+    <a
       v-bind="$attrs"
       @click="navigate"
       :disabled="disabled ? disabled : undefined"
-      type="button"
+      role="button"
+      :href="href"
     >
       <!-- @slot This is the default slot which contains the text.  -->
       <slot />
-    </button>
+    </a>
   </router-link>
 
   <button v-else :disabled="disabled ? disabled : undefined" :type="type">
