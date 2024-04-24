@@ -199,3 +199,60 @@ export const WithCustomDataInOptionSlot: Story = {
     optionSlot: `With slot taken over`,
   },
 };
+
+export const WithInputsInOptionSlot: Story = {
+  args: {
+    isOpen: true,
+    modelValue: ["2021-01-01", "2021-01-02", "string"],
+    multiple: true,
+    options: [
+      {
+        render: "fromDate",
+        id: "fromDate",
+        raw: {
+          label: "From",
+          type: "date",
+        },
+      },
+      {
+        render: "toDate",
+        id: "toDate",
+        raw: {
+          label: "To",
+          type: "date",
+        },
+      },
+      {
+        render: "Name",
+        id: "name",
+        raw: {
+          label: "Name",
+          type: "text",
+        },
+      },
+    ],
+  },
+
+  //  We need to actually render HTML/slots
+  render: ({ optionSlot, ...args }) => ({
+    components: { DropdownSelect },
+    setup() {
+      return { args };
+    },
+    template: `
+      <dropdown-select v-bind='args' v-model='args.modelValue' v-model:search=args.search v-model:isOpen=args.isOpen>
+        <template
+          #optionSlot="{ option, updateModelValue, modelValue, checked, index }"
+        >
+          <label :for="option.id">{{ option.raw.label }}</label>
+          {{ modelValue[index] }}
+          <input
+            :id="option.id"
+            :type="option.raw.type"
+            @input="updateModelValue($event, index)"
+            :value="modelValue[index]"
+          />
+        </template>
+      </dropdown-select>`,
+  }),
+};
