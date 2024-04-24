@@ -45,6 +45,13 @@ export const Default: Story = {
   play: async ({ canvasElement }: any) => {
     const canvas = within(canvasElement);
 
+    // Confirm the submit button is there
+    await waitFor(() => {
+      expect(canvas.getByRole("button")).toBeVisible();
+      // It should be disabled
+      expect(canvas.getByRole("button")).toBeDisabled();
+    });
+
     // We can assert that the iframe is visible "data-cy="add-payment-form""
     waitFor(
       () => {
