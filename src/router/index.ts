@@ -62,6 +62,8 @@ const router = createRouter({
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition;
+    } else if (to.meta.scrollPosition) {
+      return to.meta.scrollPosition as any;
     } else {
       return { top: 0 };
     }
