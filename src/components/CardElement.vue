@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
+import type { RouteLocationRaw } from "vue-router";
 
 defineProps({
   /** The title of the card */
@@ -20,7 +21,7 @@ defineProps({
   },
   /** Where the card should navigate to. If not set, the card is not clickable */
   to: {
-    type: String,
+    type: [String, Object] as PropType<RouteLocationRaw>,
     required: false,
   },
   /** The heading level to use, between 1 and 6. This has no effect if the title is not set or the header slot is used. */
