@@ -124,12 +124,8 @@ class PushNotification {
       tag: this.tag,
       dir: this.dir,
       lang: this.lang,
-      vibrate: this.vibrate,
-      renotify: this.renotify,
       requireInteraction: this.requireInteraction,
       silent: this.silent,
-      timestamp: this.timestamp,
-      actions: this.actions,
     });
   }
 

@@ -1,4 +1,5 @@
 import { expect, within } from "@storybook/test";
+import type { ArgTypes } from "@storybook/vue3";
 
 export const sharedInputArgTypes = {
   labelText: {
@@ -39,7 +40,7 @@ export const sharedInputArgTypes = {
     description: "If the input is read only",
     table: { category: "Props" },
   },
-};
+} as ArgTypes;
 
 export const sharedInputArgs = {
   value: "Hello World",
