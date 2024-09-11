@@ -63,7 +63,7 @@ describe("Locales", () => {
     // The navbar should contain "Connexion"
     cy.get("nav").should("contain", "Connexion");
     // In the header, the og:locale should be "fr"
-    cy.get("head meta[name='og:locale']").should("have.attr", "content", "fr");
+    cy.get("head meta[property='og:locale']").should("have.attr", "content", "fr");
     // Generate an API call to check the Axios is now sending the correct Accept-Language header
     // @todo
   });
