@@ -12,6 +12,7 @@ import {
 import { useMultiselect } from "@/composables/useMultiselect";
 import type { selectOption } from "@/types/listItem";
 import { type PropType, computed, onMounted, ref, watch } from "vue";
+import BaseBadge from "./BaseBadge.vue";
 
 const props = defineProps({
   /** The model value is an array of selected options. This element will always use an array of strings as the values, even if originally they are typed as numbers. This is to stay consistent with native HTML elements "value" behaviour. This may be changed in the future. */
@@ -382,6 +383,9 @@ defineExpose({ focus });
               tabindex="0"
             />
             {{ getLabel(option) }}
+            <base-badge v-if="option.badge !== undefined">{{
+              option.badge === true ? "" : option.badge
+            }}</base-badge>
           </label>
         </slot>
       </li>

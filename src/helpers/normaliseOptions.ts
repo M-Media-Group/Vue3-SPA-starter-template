@@ -22,6 +22,7 @@ export const normaliseOptions = (
       render: option.render,
       disabled: option.disabled || false,
       raw: option.raw,
+      badge: option.badge,
     });
   }
   return normalisedOptions;
@@ -43,7 +44,7 @@ export const filterOptions = (
     const optionValue = option[key];
 
     // If the option value is a boolean, return all options
-    if (typeof optionValue === "boolean") {
+    if (typeof optionValue === "boolean" || typeof optionValue === "number") {
       return optionValue.toString() === lowercaseValue;
     }
 

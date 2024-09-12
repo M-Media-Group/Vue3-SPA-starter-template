@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
 import BaseButton from "./BaseButton.vue";
+import BaseBadge from "./BaseBadge.vue";
 import type { selectOption } from "@/types/listItem";
 import { useMultiselect } from "@/composables/useMultiselect";
 
@@ -58,6 +59,9 @@ const { normalisedOptions, getLabel, isOptionSelected, updateModelValue } =
           :disabled="page.disabled"
         >
           {{ getLabel(page) }}
+          <base-badge v-if="page.badge !== undefined">{{
+            page.badge === true ? "" : page.badge
+          }}</base-badge>
         </base-button>
       </li>
     </ul>

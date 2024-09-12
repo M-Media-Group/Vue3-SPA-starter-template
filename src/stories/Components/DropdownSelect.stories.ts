@@ -256,3 +256,35 @@ export const WithInputsInOptionSlot: Story = {
       </dropdown-select>`,
   }),
 };
+
+export const WithBadges: Story = {
+  args: {
+    required: true,
+    disabled: false,
+    isOpen: true,
+
+    options: [
+      "Text Only 1",
+      {
+        id: "id2",
+        render: "Object 2",
+        badge: "23",
+      },
+      {
+        id: "id1",
+        render: "Object 3",
+        disabled: true,
+        badge: "Pro feature only",
+      },
+      {
+        id: 4,
+        render: "Object 4",
+        badge: true,
+      },
+    ],
+
+    multiple: true,
+    selectAll: true,
+    placeholder: "Select some options",
+  },
+};

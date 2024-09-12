@@ -43,3 +43,36 @@ type Story = StoryObj<typeof TabNav>;
  * to learn how to use render functions.
  */
 export const Default: Story = {};
+
+export const WithBadge: Story = {
+  args: {
+    options: [
+      {
+        render: "Page 1",
+        id: "1",
+        badge: "23",
+      },
+      {
+        render: "Page 2",
+        id: "2",
+      },
+      {
+        render: "Page 3",
+        id: "3",
+        badge: true,
+      },
+      {
+        render: "Page 4",
+        id: "4",
+        disabled: true,
+        badge: "Pro feature only",
+      },
+      {
+        render: "Page 5",
+        id: "5",
+      },
+    ],
+
+    modelValue: [],
+  },
+};
