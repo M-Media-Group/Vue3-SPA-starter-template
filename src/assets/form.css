@@ -120,3 +120,7 @@
     left: 0;
   }
 }
+
+label:has(input[type="checkbox"]:disabled) {
+  opacity: 0.5;
+}
