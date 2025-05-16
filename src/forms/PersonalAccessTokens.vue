@@ -21,19 +21,21 @@ const submitForm = async () => {
     return;
   }
 
-  const response = await userStore.createPersonalAccessToken(tokenName.value);
-
-  if (response) {
+  try {
+    const response = await userStore.createPersonalAccessToken(tokenName.value);
+    if (!response) {
+      throw new Error("Token creation failed");
+    }
     emit("created", response);
     const text = t(
       "Your personal access token has been created. This is the only time you can see it."
     );
     alert(text + "\n\n" + response.token);
-  } else if (typeof response === "object") {
+  } catch (error: any) {
     // We want to show the user the correct fields to the user so they feel better
     baseFormRef.value.setSuccessOnInputs();
     // Show the fields with errors
-    baseFormRef.value.setInputErrors(response.data.errors);
+    baseFormRef.value.setInputErrors(error?.data?.errors);
   }
 };
 </script>
