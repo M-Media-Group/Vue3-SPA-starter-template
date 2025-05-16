@@ -77,6 +77,28 @@ const formatNumer = (number: number) => {
   return new Intl.NumberFormat(i18n.global.locale.value).format(number);
 };
 
+const getSeparators = (
+  currentPage: number,
+  totalPages: number,
+  maxPages: number
+) => {
+  const halfMaxPages = Math.floor((props.maxPages - 1) / 2);
+
+  const showFirstSeparator =
+    currentPage > halfMaxPages &&
+    // Or if we already will show the page in the second part, (e.g. to prevent 1 ... 1 2 3 4 5 ... 10)
+    currentPage > halfMaxPages + 1 &&
+    totalPages > maxPages;
+
+  const showLastSeparator =
+    currentPage < totalPages - halfMaxPages &&
+    // Or if we already will show the page in the second part, (e.g. to prevent 1 ... 1 2 3 4 5 ... 10)
+    currentPage < totalPages - halfMaxPages - 1 &&
+    totalPages > maxPages;
+
+  return [showFirstSeparator, showLastSeparator];
+};
+
 /** An array of pages to show. We show x-1, then a separator, then the last page,. The first part length is the maxPages - 1 */
 const pages = computed(() => {
   const pages: Page[] = [];
@@ -93,16 +115,11 @@ const pages = computed(() => {
     return pages;
   }
 
-  const showFirstSeparator =
-    currentPage > halfMaxPages &&
-    // Or if we already will show the page in the second part, (e.g. to prevent 1 ... 1 2 3 4 5 ... 10)
-    currentPage > halfMaxPages + 1 &&
-    newTotalPages > maxPages;
-  const showLastSeparator =
-    currentPage < newTotalPages - halfMaxPages &&
-    // Or if we already will show the page in the second part, (e.g. to prevent 1 ... 1 2 3 4 5 ... 10)
-    currentPage < newTotalPages - halfMaxPages - 1 &&
-    newTotalPages > maxPages;
+  const [showFirstSeparator, showLastSeparator] = getSeparators(
+    currentPage,
+    newTotalPages,
+    maxPages
+  );
 
   const firstPageToShow = showFirstSeparator ? currentPage - halfMaxPages : 1;
   const lastPageToShow = showLastSeparator
