@@ -1,8 +1,8 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
-import axios from "axios";
 import type { PersonalAccessToken, User } from "@/types/user";
 import { useEventsBus } from "@/eventBus/events";
+import { apiService } from "@/services/apiService";
 
 export const useUserStore = defineStore("user", () => {
   // the state of the user
@@ -34,10 +34,10 @@ export const useUserStore = defineStore("user", () => {
   async function getUser() {
     isLoading.value = true;
     try {
-      const response = await axios.get("api/user");
-      user.value = response.data;
+      const response = await apiService.get<User>("api/user");
+      user.value = response;
       isAuthenticated.value = true;
-      await getCsrfToken();
+      await apiService.getCsrfToken();
     } catch (error) {
       console.log(error);
     } finally {
@@ -60,14 +60,14 @@ export const useUserStore = defineStore("user", () => {
 
     isLoading.value = true;
 
-    await getCsrfToken().catch((e) => {
+    await apiService.getCsrfToken().catch((e) => {
       console.error("CSRF cookie fetching error", e);
     });
 
-    // Check if the email is already in use by calling POST "email-exists/" + email with axios. If it returns 404, the email is not in use.
+    // Check if the email is already in use by calling POST "email-exists/" + email with apiService. If it returns 404, the email is not in use.
     try {
-      const response = await axios.post("email-exists/" + email);
-      return response.status === 200;
+      await apiService.post("email-exists/" + email);
+      return true;
     } catch (error: any) {
       if (error.response.status === 404) {
         return false;
@@ -100,7 +100,7 @@ export const useUserStore = defineStore("user", () => {
 
     // Check if the email is already in use
     try {
-      await axios.post("login", {
+      await apiService.post("login", {
         email: email,
         password: password,
       });
@@ -153,7 +153,7 @@ export const useUserStore = defineStore("user", () => {
 
     try {
       // Check if the email is already in use
-      await axios.post("register", {
+      await apiService.post("register", {
         email: email,
         password: password,
         password_confirmation: password,
@@ -181,7 +181,7 @@ export const useUserStore = defineStore("user", () => {
     }
     isLoading.value = true;
     try {
-      await axios.post("email/verification-notification", {
+      await apiService.post("email/verification-notification", {
         email: user.value.email,
       });
       return true;
@@ -207,7 +207,7 @@ export const useUserStore = defineStore("user", () => {
 
     // Submit a reset password
     try {
-      await axios.post("forgot-password", {
+      await apiService.post("forgot-password", {
         email: email,
       });
       $bus.$emit("sent_reset_password_email");
@@ -248,7 +248,7 @@ export const useUserStore = defineStore("user", () => {
 
     // Submit a reset password
     try {
-      await axios.post("reset-password", {
+      await apiService.post("reset-password", {
         email: email,
         token: token,
         password: password,
@@ -278,7 +278,7 @@ export const useUserStore = defineStore("user", () => {
 
     // Submit a reset password
     try {
-      await axios.post("user/confirm-password", {
+      await apiService.post("user/confirm-password", {
         password: password,
       });
       $bus.$emit("confirmed_password");
@@ -298,8 +298,10 @@ export const useUserStore = defineStore("user", () => {
   async function shouldConfirmPassword() {
     isLoading.value = true;
     try {
-      const response = await axios.get("user/confirmed-password-status");
-      return !response.data.confirmed;
+      const response = await apiService.get<{ confirmed: boolean }>(
+        "user/confirmed-password-status"
+      );
+      return !response.confirmed;
     } catch (error: any) {
       return error.response;
     } finally {
@@ -308,20 +310,12 @@ export const useUserStore = defineStore("user", () => {
   }
 
   /**
-   * Get a CSRF cookie from the server
-   *
-   */
-  async function getCsrfToken() {
-    await axios.get("sanctum/csrf-cookie");
-  }
-
-  /**
    * Logout the user
    *
    */
   async function logout() {
     isLoading.value = true;
-    await axios.post("logout");
+    await apiService.post("logout");
     isAuthenticated.value = false;
     user.value = null;
     isLoading.value = false;
@@ -335,8 +329,10 @@ export const useUserStore = defineStore("user", () => {
    */
   async function getPaymentIntent() {
     try {
-      const response = await axios.get("user/payment-intent");
-      return response.data;
+      const response = await apiService.get<{ client_secret: string }>(
+        "user/payment-intent"
+      );
+      return response;
     } catch (error) {
       console.log(error);
     }
@@ -350,7 +346,7 @@ export const useUserStore = defineStore("user", () => {
    */
   async function addPaymentMethod(paymentMethodId: string) {
     try {
-      await axios.post("/user/payment-methods", {
+      await apiService.post("/user/payment-methods", {
         payment_method: paymentMethodId,
       });
       $bus.$emit("added_payment_method");
@@ -369,8 +365,8 @@ export const useUserStore = defineStore("user", () => {
    */
   async function getPaymentMethods() {
     try {
-      const response = await axios.get("/user/payment-methods");
-      return response.data;
+      const response = await apiService.get("/user/payment-methods");
+      return response;
     } catch (error) {
       console.log(error);
     }
@@ -387,7 +383,7 @@ export const useUserStore = defineStore("user", () => {
   async function update(name: string, surname: string, email: string) {
     isLoading.value = true;
     try {
-      await axios.put("user/profile-information", {
+      await apiService.put("user/profile-information", {
         name: name ?? user.value?.name,
         surname: surname ?? user.value?.surname,
         email: email ?? user.value?.email,
@@ -408,7 +404,7 @@ export const useUserStore = defineStore("user", () => {
    * @return {*}
    */
   async function getPersonalAccessTokens(): Promise<PersonalAccessToken[]> {
-    return axios
+    return apiService
       .get<PersonalAccessToken[]>("/user/personal-access-tokens")
       .then((response) => {
         if (!user.value) {
@@ -416,17 +412,17 @@ export const useUserStore = defineStore("user", () => {
         }
         // If the response is not one containing an array of personal access tokens, return an empty array. For example, the endpoint might return HTML instead of JSON.
         if (
-          !Array.isArray(response.data) ||
-          response.data.length === 0 ||
-          !response.data[0].id
+          !Array.isArray(response) ||
+          response.length === 0 ||
+          !response[0].id
         ) {
           throw new Error(
             "Invalid response while fetching personal access tokens."
           );
         }
 
-        user.value.personal_access_tokens = response.data;
-        return response.data;
+        user.value.personal_access_tokens = response;
+        return response;
       })
       .catch((error) => {
         console.log("Personal access tokens error", error);
@@ -438,16 +434,17 @@ export const useUserStore = defineStore("user", () => {
    * Create a personal access token for the user
    *
    * @param {string} name
-   * @return {*}
    */
-  async function createPersonalAccessToken(name: string) {
-    return axios
-      .post("/user/personal-access-tokens", {
+  async function createPersonalAccessToken(
+    name: string
+  ): Promise<{ token: string } | void> {
+    return apiService
+      .post<{ token: string }>("/user/personal-access-tokens", {
         name: name,
       })
       .then((response) => {
         $bus.$emit("created_personal_access_token");
-        return response.data;
+        return response;
       })
       .catch((error) => {
         console.log("Personal access tokens error", error);
@@ -459,11 +456,11 @@ export const useUserStore = defineStore("user", () => {
   }
 
   async function deletePersonalAccessToken(id: string) {
-    return axios
+    return apiService
       .delete("/user/personal-access-tokens/" + id)
       .then((response) => {
         $bus.$emit("deleted_personal_access_token");
-        return response.data;
+        return response;
       })
       .catch((error) => {
         console.log("Personal access tokens error", error);
