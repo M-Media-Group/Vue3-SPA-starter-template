@@ -1,7 +1,7 @@
 import i18n, { setI18nLanguage } from "@/locales/i18n";
 import router from "@/router";
-import { eventTypes } from "../events";
 import { setTheme } from "@/themes/useTheme";
+import type { ListenersMap } from "type-safe-event-bus";
 
 /**
  * Be careful here - its quite easy to accidentally set up an infinite loop
@@ -14,24 +14,21 @@ bc.onmessage = (event) => {
     return;
   }
 
-  if (
-    event.data.type === eventTypes.logged_in ||
-    event.data.type === eventTypes.logged_out
-  ) {
+  if (event.data.type === "logged_in" || event.data.type === "logged_out") {
     // refresh the page
     router.go(0);
   }
 
-  if (event.data.type === eventTypes.confirmed_email) {
+  if (event.data.type === "confirmed_email") {
     // refresh the page
     router.go(0);
   }
 
-  if (event.data.type === eventTypes.changed_locale) {
+  if (event.data.type === "changed_locale") {
     setI18nLanguage(i18n, event.data.data, false);
   }
 
-  if (event.data.type === eventTypes.changed_theme) {
+  if (event.data.type === "changed_theme") {
     setTheme(event.data.data, false);
   }
 };
@@ -39,32 +36,32 @@ bc.onmessage = (event) => {
 export default {
   logged_in: (e: any) => {
     bc.postMessage({
-      type: eventTypes.logged_in,
+      type: "logged_in",
       data: e,
     });
   },
   logged_out: (e: any) => {
     bc.postMessage({
-      type: eventTypes.logged_out,
+      type: "logged_out",
       data: e,
     });
   },
   changed_locale: (e: string) => {
     bc.postMessage({
-      type: eventTypes.changed_locale,
+      type: "changed_locale",
       data: e,
     });
   },
   changed_theme: (e: string) => {
     bc.postMessage({
-      type: eventTypes.changed_theme,
+      type: "changed_theme",
       data: e,
     });
   },
   confirmed_email: (e: any) => {
     bc.postMessage({
-      type: eventTypes.confirmed_email,
+      type: "confirmed_email",
       data: e,
     });
   },
-} as Record<eventTypes, any>;
+} satisfies ListenersMap;

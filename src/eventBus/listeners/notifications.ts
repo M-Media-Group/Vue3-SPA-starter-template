@@ -1,5 +1,5 @@
 import { SUPPORT_LOCALES } from "@/locales/i18n";
-import { eventTypes } from "../events";
+import type { ListenersMap } from "type-safe-event-bus";
 
 class CustomNotification {
   browserElement!: HTMLElement;
@@ -178,7 +178,7 @@ class BrowserNotification {
 }
 
 export default {
-  [eventTypes.sent_reset_password_email]: () => {
+  sent_reset_password_email: () => {
     new CustomNotification(
       "success",
       "We've sent you an email with a link to reset your password.",
@@ -186,4 +186,4 @@ export default {
       5000
     ).show();
   },
-} as Record<eventTypes, any>;
+} satisfies ListenersMap;

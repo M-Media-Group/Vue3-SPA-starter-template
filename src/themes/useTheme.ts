@@ -1,4 +1,4 @@
-import $bus, { eventTypes } from "@/eventBus/events";
+import $bus from "@/eventBus/events";
 import { ref } from "vue";
 
 /**
@@ -28,7 +28,7 @@ export const setTheme = (value: string, emit = true) => {
   localStorage.setItem("theme", value);
   currentTheme.value = value;
   if (emit) {
-    $bus.$emit(eventTypes.changed_theme, value);
+    $bus.$emit("changed_theme", value);
   }
 };
 

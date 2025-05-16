@@ -32,6 +32,7 @@
     "@picocss/pico": "^2.0.6",
     "@stripe/stripe-js": "^4.4",
     "pinia": "^2.2",
+    "type-safe-event-bus": "^1.0.0",
     "vue": "^3.5",
     "vue-gtag": "^2.0.1",
     "vue-i18n": "^9.2.2",

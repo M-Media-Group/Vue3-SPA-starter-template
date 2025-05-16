@@ -1,4 +1,4 @@
-import { Listeners } from "../events";
+import { Listeners } from "type-safe-event-bus";
 
 // import analytics from "./analytics";
 import console from "./console";
