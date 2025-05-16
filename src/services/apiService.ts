@@ -13,7 +13,7 @@ const apiClient: AxiosInstance = axios.create({
     withXSRFToken: true,
     xsrfCookieName: "XSRF-TOKEN",
     xsrfHeaderName: "X-XSRF-TOKEN",
-    "Accept-Language": i18n.global.locale.value ?? "en",
+    "Accept-Language": i18n?.global?.locale?.value ?? "en",
   },
 });
 
