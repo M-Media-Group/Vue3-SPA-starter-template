@@ -22,6 +22,7 @@ https://vue3-starter-storybook.netlify.app/index.html
 - [i18n](https://github.com/intlify/vue-i18n-next) for internationalization
 - [Google Analytics](https://github.com/MatteoGabriele/vue-gtag) for analytics
 - [PicoCSS](https://picocss.com) for semantic CSS
+- [Axios](http://axios-http.com) in a single, easily replaceable apiService layer
 
 ## Features
 
