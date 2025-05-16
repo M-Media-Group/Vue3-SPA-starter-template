@@ -1,4 +1,4 @@
-import { type Ref, ref } from "vue";
+import { ref } from "vue";
 import { defineStore } from "pinia";
 import axios from "axios";
 import type { PersonalAccessToken, User } from "@/types/user";
@@ -8,7 +8,7 @@ export const useUserStore = defineStore("user", () => {
   // the state of the user
   const isAuthenticated = ref(false);
   const isLoading = ref(false);
-  const user = ref(null) as Ref<User | null>;
+  const user = ref<User | null>(null);
   const attemptedToFetchUser = ref(false);
 
   const $bus = useEventsBus();
@@ -25,7 +25,7 @@ export const useUserStore = defineStore("user", () => {
   });
 
   // The userEmail is meant for keeping email state across auth pages, for example when going from login to forgot-password page
-  const userEmail = ref(null) as Ref<string | null>;
+  const userEmail = ref<string | null>(null);
 
   /**
    * Get the user
@@ -407,12 +407,12 @@ export const useUserStore = defineStore("user", () => {
    *
    * @return {*}
    */
-  async function getPersonalAccessTokens() {
+  async function getPersonalAccessTokens(): Promise<PersonalAccessToken[]> {
     return axios
-      .get("/user/personal-access-tokens")
+      .get<PersonalAccessToken[]>("/user/personal-access-tokens")
       .then((response) => {
         if (!user.value) {
-          return [] as PersonalAccessToken[];
+          return [];
         }
         // If the response is not one containing an array of personal access tokens, return an empty array. For example, the endpoint might return HTML instead of JSON.
         if (
@@ -426,11 +426,11 @@ export const useUserStore = defineStore("user", () => {
         }
 
         user.value.personal_access_tokens = response.data;
-        return response.data as PersonalAccessToken[];
+        return response.data;
       })
       .catch((error) => {
         console.log("Personal access tokens error", error);
-        return [] as PersonalAccessToken[];
+        return [];
       });
   }
 
