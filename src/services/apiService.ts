@@ -13,8 +13,16 @@ const apiClient: AxiosInstance = axios.create({
     withXSRFToken: true,
     xsrfCookieName: "XSRF-TOKEN",
     xsrfHeaderName: "X-XSRF-TOKEN",
-    "Accept-Language": i18n?.global?.locale?.value ?? "en",
   },
+});
+
+// Intercept requests to add the locale header
+apiClient.interceptors.request.use((config) => {
+  const locale = i18n.global.locale.value; // Get the current locale from i18n
+  if (locale) {
+    config.headers["Accept-Language"] = locale; // Set the Accept-Language header
+  }
+  return config;
 });
 
 /**
