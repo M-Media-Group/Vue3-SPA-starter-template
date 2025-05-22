@@ -1,14 +1,18 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends unknown">
 import BaseButton from "@/components/BaseButton.vue";
-import { type PropType, nextTick, onMounted, onUpdated, ref } from "vue";
-import { navIsLoading } from "@/router";
+import {
+  type PropType,
+  computed,
+  nextTick,
+  onMounted,
+  onUpdated,
+  ref,
+  useSlots,
+  useTemplateRef,
+} from "vue";
 
-type HTMLSupportedInputElement =
-  | HTMLInputElement
-  | HTMLSelectElement
-  | HTMLTextAreaElement
-  | HTMLFormElement
-  | HTMLFieldSetElement;
+import { useForm } from "@/composables/useForm";
+import { assertIsUnifiedError } from "@/helpers/errorHandler";
 
 // Prop of submit text
 const props = defineProps({
@@ -17,12 +21,7 @@ const props = defineProps({
     type: String,
     default: "Submit",
   },
-  /** The endpoint to submit the form to. */
-  endpoint: {
-    type: String,
-    required: false,
-  },
-  /** The types of fields that should be cleared if the request fails. By default, these are all inputs of type password. */
+  /** The types of fields that should be cleared if the request fails. By default, these are all inputs of type password. @TODO not yet implemented */
   clearInputTypesOnFailure: {
     type: Array as PropType<string[]>,
     default: () => ["password"],
@@ -47,161 +46,97 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  /** The CSS classes to apply to the submit button. Null should theoretically render no class, but there's a known Vue3 issue @see https://github.com/vuejs/core/issues/3173 */
+  submitButtonClasses: {
+    type: Array as PropType<string[] | null>,
+    default: null,
+  },
+
+  /** IF the form should display inline. Useful for single-input forms */
+  inline: {
+    type: Boolean,
+    default: false,
+  },
+
+  // We can pass an ASYNC function to the submit function. This is useful for when we want to do something before the form is submitted.
+  submitFn: {
+    type: Function as PropType<() => Promise<T>>,
+    required: false,
+    default: null,
+  },
+
+  /** Whether the form should validate the focused element or not. */
+  enableValidateFocusedElement: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(["submit"]);
+const emit = defineEmits<{
+  (e: "success", response: T): void;
+  (e: "submit"): void;
+}>();
 
-const formElement = ref<HTMLFormElement>();
+const formElement = useTemplateRef("formElement");
 
-const formIsValid = ref(false);
+const {
+  formIsValid,
+  checkValidity,
+  setInputErrors,
+  focusOnFirstInput,
+  focusOnFirstEmptyInput,
+  setSuccessOnInputs,
+  handleInput,
+  validateFocusedElement,
+} = useForm(formElement);
 
-const checkValidity = () => {
-  // For each element in the form, check if it's valid
-  callActionsOnAllInputs((element) => {
-    // If the element is invalid, add the invalid class
-    if (
-      !element.validity.valid &&
-      !element.validity.valueMissing &&
-      !isElementInFocus(element)
-    ) {
-      setErrorMessageOnElement(element);
-    } else {
-      clearErrorMessageOnElement(element);
-    }
-  });
+const loading = ref(false);
 
-  formIsValid.value = formElement.value?.checkValidity() ?? false;
-};
-
-const setErrorMessageOnElement = (element: HTMLSupportedInputElement) => {
-  //  Update or create a sibling element with the error message
-  let errorElement = element.nextElementSibling as HTMLElement;
-  if (!errorElement || !errorElement.classList.contains("error")) {
-    errorElement = document.createElement("small");
-    element.after(errorElement);
-  }
-  errorElement.innerText = element.validationMessage;
-  errorElement.classList.add("error");
-
-  element.insertAdjacentElement("afterend", errorElement);
-};
-
-const clearErrorMessageOnElement = (element: HTMLSupportedInputElement) => {
-  // If the element is valid, remove the invalid class
-  const errorElement = element.nextElementSibling as HTMLElement;
-  if (errorElement && errorElement.classList.contains("error")) {
-    errorElement.remove();
-  }
-};
+const slots = useSlots();
 
 const submit = async () => {
   if (
     formIsValid.value &&
     !props.isLoading &&
-    !navIsLoading.value &&
+    !loading.value &&
     !props.disabled
   ) {
-    // setSuccessOnInputs();
-    emit("submit");
-  }
-};
+    if (props.submitFn) {
+      loading.value = true;
+      try {
+        const response = await props.submitFn();
+        emit("success", response);
+        setSuccessOnInputs();
+      } catch (error) {
+        try {
+          assertIsUnifiedError(error);
+        } catch (e) {
+          console.error(
+            "Error is not a UnifiedError",
+            e,
+            "its type is",
+            typeof error
+          );
+          alert("An error occurred");
+          return;
+        }
 
-const callActionsOnAllInputs = (
-  callback: (element: HTMLSupportedInputElement) => void
-) => {
-  if (!formElement.value?.elements) {
-    return;
-  }
-  const elements = formElement.value.elements;
-  for (let i = 0; i < elements.length; i++) {
-    const element = elements[i];
-    if (
-      element instanceof HTMLInputElement ||
-      element instanceof HTMLSelectElement ||
-      element instanceof HTMLTextAreaElement ||
-      element instanceof HTMLFormElement ||
-      element instanceof HTMLFieldSetElement
-    ) {
-      callback(element);
-    }
-  }
-};
-
-const setInputErrors = (errors: Record<string, string | string[]>) => {
-  // For each key in errors, find the input and call setErrorOnInput with the value
-  for (const [key, value] of Object.entries(errors)) {
-    const input = formElement.value?.elements.namedItem(
-      key
-    ) as HTMLSupportedInputElement;
-    if (input) {
-      // If the value is an array, join it with a space
-      let valueToPass = value as string | string[];
-
-      // If the valueToPass is an array, join it with a space
-      if (Array.isArray(valueToPass)) {
-        valueToPass = valueToPass.join(" ");
+        if (error.type === "validation") {
+          setSuccessOnInputs();
+          setInputErrors(error.details);
+        } else {
+          alert(error.message);
+        }
+      } finally {
+        loading.value = false;
       }
-
-      setErrorOnInput(input, valueToPass);
+    } else {
+      emit("submit");
     }
   }
 };
 
-const setErrorOnInput = (
-  input: HTMLSupportedInputElement,
-  error: string,
-  report = true
-) => {
-  //   Use setValidity to set the error message
-  input.setCustomValidity(error);
-  input.setAttribute("aria-invalid", "true");
-  if (report) {
-    input.reportValidity();
-  }
-  setErrorMessageOnElement(input);
-};
-
-const setSuccessOnInputs = () => {
-  callActionsOnAllInputs((element) => {
-    setSuccessOnInput(element);
-  });
-  // After 5 seconds, clear the success state
-  setTimeout(() => {
-    removeSuccessOnInputs();
-  }, 5000);
-};
-
-const setSuccessOnInput = (input: HTMLSupportedInputElement) => {
-  input.setAttribute("aria-invalid", "false");
-};
-
-const removeSuccessOnInputs = () => {
-  callActionsOnAllInputs((element) => {
-    removeSuccessOnInput(element);
-  });
-};
-
-const removeSuccessOnInput = (input: HTMLSupportedInputElement) => {
-  if (input.validity.valid) {
-    input.removeAttribute("aria-invalid");
-  }
-};
-
-const resetCustomValidityOnInput = (input: HTMLSupportedInputElement) => {
-  input.setCustomValidity("");
-  clearErrorMessageOnElement(input);
-};
-
-const resetCustomValidityOnInputs = () => {
-  // For each element in the form, check if it's valid
-  callActionsOnAllInputs((element) => {
-    resetCustomValidityOnInput(element);
-  });
-};
-
-const isElementInFocus = (element: HTMLSupportedInputElement) => {
-  return document.activeElement === element;
-};
+validateFocusedElement.value = props.enableValidateFocusedElement;
 
 // The updated event happens anytime there is input or the slots change
 onUpdated(async () => {
@@ -213,27 +148,25 @@ onMounted(() => {
   checkValidity();
   // Focus on the first input if the document is not already focused on something
   if (!document.querySelector(":focus") && props.autofocus) {
-    focusOnFirstInput();
+    focusOnFirstEmptyInput();
   }
 });
 
-const focusOnFirstInput = () => {
-  const firstInput = formElement.value?.querySelector("input");
-  if (firstInput) {
-    firstInput.focus();
-  }
-};
-
-const handleInput = () => {
-  resetCustomValidityOnInputs();
-  checkValidity();
-};
+const isAnythingLoading = computed(() => {
+  return props.isLoading || loading.value;
+});
 
 defineExpose({
   checkValidity,
   setInputErrors,
   focusOnFirstInput,
+  focusOnFirstEmptyInput,
   setSuccessOnInputs,
+  submit,
+});
+
+const hasSubmitSlot = computed(() => {
+  return !!slots.submit;
 });
 </script>
 
@@ -241,31 +174,37 @@ defineExpose({
   <form
     ref="formElement"
     @input="handleInput"
-    @keydown.enter.prevent="submit"
-    @submit.prevent="submit"
+    @keydown.enter.prevent="hasSubmitSlot ? emit('submit') : submit()"
+    @submit.prevent="hasSubmitSlot ? emit('submit') : submit()"
   >
-    <!-- @slot This is the default slot for the form. You can use this to add any input or button you want. -->
-    <slot></slot>
-
-    <!-- @slot This is the slot for the submit button. You can use this to add a custom submit button or action. -->
-    <slot
-      name="submit"
-      :submitText="submitText"
-      :submit="submit"
-      :disabled="!formIsValid || disabled || isLoading || navIsLoading"
-      :isLoading="isLoading"
+    <component
+      :is="inline ? 'fieldset' : 'div'"
+      :role="inline ? 'group' : null"
     >
-      <base-button
-        v-if="showSubmitButton"
-        type="submit"
-        :disabled="!formIsValid || disabled || isLoading || navIsLoading"
-        :aria-busy="isLoading"
-      >
-        {{ $t(submitText) }}
-      </base-button>
+      <!-- @slot This is the default slot for the form. You can use this to add any input or button you want. -->
+      <slot />
 
-      <!-- @slot This is the slot for content after the submit. This is useful for back buttons or other actions. -->
-      <slot name="after-submit"></slot>
-    </slot>
+      <!-- @slot This is the slot for the submit button. You can use this to add a custom submit button or action. -->
+      <slot
+        name="submit"
+        :submit-text="submitText"
+        :submit="submit"
+        :disabled="!formIsValid || disabled || isAnythingLoading"
+        :is-loading="isAnythingLoading"
+      >
+        <base-button
+          v-if="showSubmitButton"
+          type="submit"
+          :disabled="!formIsValid || disabled || isAnythingLoading"
+          :aria-busy="isAnythingLoading"
+          :class="// We need to merge both { fit: !inline } and submitButtonClasses
+          [{ fit: inline }, submitButtonClasses]"
+        >
+          {{ $t(submitText) }}
+        </base-button>
+      </slot>
+    </component>
+    <!-- @slot This is the slot for after the submit. This is useful for back buttons or other actions. -->
+    <slot name="after-submit" />
   </form>
 </template>
